@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'model/straight_line';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Welcome to your Jupyter Book" href="../intro.html" />
+    <link rel="prev" title="Welcome to the ESS-DMSC Summer School Textbook" href="../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -153,7 +153,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Welcome to your Jupyter Book
+                    Welcome to the ESS-DMSC Summer School Textbook
                 </a>
             </li>
         </ul>
@@ -372,18 +372,6 @@ The first task, is to import the components of <code class="docutils literal not
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">easyCore</span> <span class="kn">import</span> <span class="n">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">easyCore.Objects.Variable</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">easyCore.Objects.ObjectClasses</span> <span class="kn">import</span> <span class="n">BaseObj</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;easyCore&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <p>First, let’s generate some data that we can analyse.
 The <span class="math notranslate nohighlight">\(x\)</span> values that we will investigate will be from 1 to 10.</p>
@@ -421,6 +409,9 @@ The <span class="math notranslate nohighlight">\(x\)</span> values that we will 
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/a4145bf2a9572af8b0eb58012d6f1a28b31a3f0962e25cc8bb9a971cd3b1ffc6.png" src="../_images/a4145bf2a9572af8b0eb58012d6f1a28b31a3f0962e25cc8bb9a971cd3b1ffc6.png" />
+</div>
 </div>
 <p>It is clear that there is a linear trend in this data, however, it is slightly noisy, as we would expect.
 The <em>model</em> that we will use to analyse this linear trend is the equation of a straight line, which has the form</p>
@@ -442,6 +433,11 @@ Therefore, the next step is to create <code class="docutils literal notranslate"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;gradient&#39;: 2.0+/-0, bounds=[-inf:inf]&gt;
 </pre></div>
 </div>
 </div>
@@ -467,6 +463,9 @@ The parameter can be bounded, using the <code class="docutils literal notranslat
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9baae3660c266707ca32996e263e1da8f6053bc3b7d9beb5d9fb4ee047527956.png" src="../_images/9baae3660c266707ca32996e263e1da8f6053bc3b7d9beb5d9fb4ee047527956.png" />
 </div>
 </div>
 <p>It is clear, that the model currently doesn’t agree very well with the data.
@@ -506,6 +505,9 @@ To achieve this, first we combine the two fitting parameters into a single objec
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/18becf76042805595d6bbb102268f99a6798a2806aeacf07872118d8ed4cc856.png" src="../_images/18becf76042805595d6bbb102268f99a6798a2806aeacf07872118d8ed4cc856.png" />
+</div>
 </div>
 <p>Additionally, we may investigate the resulting values for the gradient and intercept.</p>
 <div class="cell docutils container">
@@ -514,10 +516,20 @@ To achieve this, first we combine the two fitting parameters into a single objec
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;gradient&#39;: 2.22+/-0.15, bounds=[-inf:inf]&gt;
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;intercept&#39;: 9.9+/-0.8, bounds=[-inf:inf]&gt;
 </pre></div>
 </div>
 </div>
@@ -561,7 +573,7 @@ To achieve this, first we combine the two fitting parameters into a single objec
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to your Jupyter Book</p>
+        <p class="prev-next-title">Welcome to the ESS-DMSC Summer School Textbook</p>
       </div>
     </a>
 </div></div>
