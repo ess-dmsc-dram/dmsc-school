@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="SciCat" href="../scicat/intro.html" />
-    <link rel="prev" title="Model-dependent analysis" href="intro.html" />
+    <link rel="prev" title="Model-dependent Analysis" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -167,8 +167,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../mcstas/intro.html">McStas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scipp/intro.html">Data reduction</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Model-dependent analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../scipp/intro.html">Data Reduction</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Model-dependent Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Fitting a straight line with EasyCore</a></li>
 </ul>
 </li>
@@ -503,7 +503,7 @@ To achieve this, first we combine the two fitting parameters into a single objec
 <p>Finally, the fitting can be performed.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -520,7 +520,7 @@ To achieve this, first we combine the two fitting parameters into a single objec
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/18becf76042805595d6bbb102268f99a6798a2806aeacf07872118d8ed4cc856.png" src="../_images/18becf76042805595d6bbb102268f99a6798a2806aeacf07872118d8ed4cc856.png" />
+<img alt="../_images/7f2cd833bbba2c7b619e622080f157ef094a4c009f4662931d8202d5a198da2d.png" src="../_images/7f2cd833bbba2c7b619e622080f157ef094a4c009f4662931d8202d5a198da2d.png" />
 </div>
 </div>
 <p>Additionally, we may investigate the resulting values for the gradient and intercept.</p>
@@ -531,7 +531,7 @@ To achieve this, first we combine the two fitting parameters into a single objec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;gradient&#39;: 2.22+/-0.15, bounds=[-inf:inf]&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;gradient&#39;: 2.26+/-0.15, bounds=[-inf:inf]&gt;
 </pre></div>
 </div>
 </div>
@@ -543,7 +543,7 @@ To achieve this, first we combine the two fitting parameters into a single objec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;intercept&#39;: 9.9+/-0.8, bounds=[-inf:inf]&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Parameter &#39;intercept&#39;: 9.7+/-0.9, bounds=[-inf:inf]&gt;
 </pre></div>
 </div>
 </div>
@@ -587,7 +587,7 @@ To achieve this, first we combine the two fitting parameters into a single objec
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Model-dependent analysis</p>
+        <p class="prev-next-title">Model-dependent Analysis</p>
       </div>
     </a>
     <a class="right-next"
