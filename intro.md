@@ -1,11 +1,8 @@
-# Welcome to the ESS-DMSC Summer School Textbook
+# ESS DMSC Summer School Textbook
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+The purpose of this online book is as a point of reference for the material that you have encountered during the ESS DMSC Summer School. 
+This material can also be used in a self guided fashion, where the material can be interactive by selecting the JupyterHub functionality at the top of the page. 
 
-Check out the content pages bundled with this sample book to see more.
+## Contributors
 
-```{tableofcontents}
-```
+- Andrew R. McCluskey

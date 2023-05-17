@@ -4,4 +4,15 @@
 format: jb-book
 root: intro
 chapters:
-- file: model/straight_line
+- file: python/intro
+- file: proposals/intro
+  sections:
+  - file: proposals/proposals
+  - file: proposals/dmps
+  - file: proposals/fair
+- file: mcstas/intro
+- file: scipp/intro
+- file: model/intro
+  sections:
+  - file: model/straight_line
+- file: scicat/intro
