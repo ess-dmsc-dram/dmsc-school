@@ -1,4 +1,4 @@
-# Welcome to your Jupyter Book
+# Welcome to the ESS-DMSC Summer School Textbook
 
 This is a small sample book to give you a feel for how book content is
 structured.
