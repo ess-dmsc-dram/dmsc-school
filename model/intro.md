@@ -1,3 +1,3 @@
-# Model-dependent analysis
+# Model-dependent Analysis
 
 Blah blah.
