@@ -3,16 +3,25 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: python/intro
-- file: proposals/intro
-  sections:
+parts:
+- caption: Python
+  chapters:
+  - file: python/intro
+- caption: Proposals, DMPs and FAIR
+  chapters:
   - file: proposals/proposals
   - file: proposals/dmps
   - file: proposals/fair
-- file: mcstas/intro
-- file: scipp/intro
-- file: model/intro
-  sections:
+- caption: McStas
+  chapters:
+  - file: mcstas/intro
+- caption: Reduction with scipp
+  chapters:
+  - file: scipp/intro
+- caption: Analysis with EasyScience
+  chapters:
+  - file: model/intro
   - file: model/straight_line
-- file: scicat/intro
+- caption: Scicat
+  chapters:
+  - file: scicat/intro
