@@ -17,4 +17,4 @@ Finally, all the data will be stored together within the SciCat metadata catalog
 
 ## Contributors
 
-- Andrew R. McCluskey
+- [Andrew R. McCluskey](https://mccluskey.scot)
