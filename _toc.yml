@@ -22,6 +22,8 @@ parts:
   chapters:
   - file: model/intro
   - file: model/prob_data
+  - file: model/easy_intro
+  - file: model/fitting
 - caption: Scicat
   chapters:
   - file: scicat/intro
