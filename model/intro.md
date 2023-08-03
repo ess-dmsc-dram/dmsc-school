@@ -8,7 +8,7 @@ The use of model-dependent analysis is popular in neutron scattering analysis, h
 flowchart LR;
     a(Propose model);
     b(Set/change model\nparameter values);
-    c{{Calculate model\ndata}};
+    c{{Calculate\nmodel data}};
     d(Compare model data\nto experimental data);
     e(Stop iteration);
     a-->b;
