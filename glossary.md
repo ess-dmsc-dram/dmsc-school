@@ -36,4 +36,10 @@ posterior distribution
 
 prior knowledge
     what we already know about our system before looking at our data, e.g., from other measurements of underlying physics/chemistry
+
+thinning
+    the sub-sampling of MCMC chains to remove correlation between samples
+
+walkers
+    unique samplers in a Markov chain Monte Carlo sampling
 ```
