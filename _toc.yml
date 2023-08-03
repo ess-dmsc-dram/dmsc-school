@@ -26,6 +26,7 @@ parts:
   - file: model/fitting
   - file: model/bayes
   - file: model/mcmc
+  - file: model/nested_sampling
 - caption: Scicat
   chapters:
   - file: scicat/intro
