@@ -25,6 +25,7 @@ parts:
   - file: model/easy_intro
   - file: model/fitting
   - file: model/bayes
+  - file: model/mcmc
 - caption: Scicat
   chapters:
   - file: scicat/intro
