@@ -1,6 +1,9 @@
 # Glossary
 
 ```{glossary}
+Bayesian methods
+    analytical methodology that takes advantage of [Bayesian logic](https://en.wikipedia.org/wiki/Bayesian_statistics)
+
 homoscedastic
     the variance for each data point is the same for all values
 
@@ -21,4 +24,7 @@ optimisation algorithm
 
 parameters
     values within our mathematical model that may be changed
+
+prior knowledge
+    what we already know about our system before looking at our data, e.g., from other measurements of underlying physics/chemistry
 ```

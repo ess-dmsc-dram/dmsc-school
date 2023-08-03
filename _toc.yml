@@ -24,6 +24,7 @@ parts:
   - file: model/prob_data
   - file: model/easy_intro
   - file: model/fitting
+  - file: model/bayes
 - caption: Scicat
   chapters:
   - file: scicat/intro
