@@ -7,6 +7,9 @@ homoscedastic
 likelihood
     the probability distribution of some observed data in terms of model parameters
 
+maximum likelihood estimation
+    the model and parameters that obtain the maximum of the likelihood function for the data
+
 model dataset
     the data that arises from our mathematical model
 
