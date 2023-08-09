@@ -1,8 +1,14 @@
 # Model-dependent analysis
 
-**Model-dependent analysis** is the process where a mathematical model is constructed that provides a {term}`model dataset` that would be observed, if our mathematical model precisely described the system.
-The {term}`parameters` of this model are then optimised, using some {term}`optimisation algorithm` to obtain the best agreement between the model dataset and our measured experimental data. 
-The use of model-dependent analysis is popular in neutron scattering analysis, however, before working with our simulated neutron data, we will look at some toy examples. 
+There are two common approaches for the analysis of data, there are model-dependent and independent. 
+In this summer school, we will focus on the former, however, the latter is worth highlighting. 
+A model-independent approach to analysis is where we make no assumptions about the system that we are studying and draw conclusions only from the data that has been observed. 
+In many applications, it is desirable to include *what we think we know* about the system, hence the use of model-dependent analysis. 
+
+Model-dependent analysis involved the development of a mathematical model that describes the {term}`model dataset` that would be observed from our system. 
+This mathematical model usually has {term}`parameters`, which are linked to the physics/chemistry of our system, that are varied to optimise the model. 
+This optimisation is achieved with an {term}`optimisation algorithm` that tries to obtain the best agreement between the model dataset and the measured experimental data. 
+Model-dependent analysis is a popular approach to the analysis of neutron scattering data, before applying this to your simulated neutron data, we will investigate some of the properties of model-dependent analysis with some toy examples. 
 
 ```{mermaid}
 flowchart LR;
