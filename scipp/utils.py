@@ -38,6 +38,8 @@ def load_nexus(fname: str, factor=1.0) -> sc.DataArray:
     da.coords["source_position"] = sc.vector(
         [0.0, 0.0, -float(params["sample_distance"])], unit="m"
     )
+    for c in ["n", "id"]:
+        del da.coords[c]
     return da
 
 
@@ -48,3 +50,23 @@ def add_variances(*inputs: sc.DataArray):
     """
     for da in inputs:
         da.variances = da.values
+
+def fold_pulses(data, tof_edges, offsets):
+    """
+    Fold the data into a single pulse.
+
+    Parameters
+    ----------
+    data
+        Data to fold.
+    tof_edges
+        Edges of the time-of-flight bins.
+    offsets
+        Time offset to apply to each of the time-of-flight bins.
+    """
+    binned = data.bin(tof=tof_edges)
+    binned.bins.coords['tof'] -= offsets
+    out =  binned.bins.constituents['data']
+    for c in ('sample_position', 'source_position'):
+        out.coords[c] = data.coords[c]
+    return out
