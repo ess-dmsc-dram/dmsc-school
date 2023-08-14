@@ -32,9 +32,9 @@ jobs:
 
     # Make artifact visible in github actions
     - uses: actions/upload-artifact@v3
-        with:
-          name: dmsc-school-book
-          path: ./_build/html
+      with:
+        name: dmsc-school-book
+        path: ./_build/html
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
