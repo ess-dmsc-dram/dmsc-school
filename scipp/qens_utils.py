@@ -18,7 +18,7 @@ def analyzer_info(params: sc.DataGroup) -> sc.DataGroup:
     analyzer_position = sc.spatial.as_vectors(
         sc.sin(angle) * distance,
         sc.scalar(0.0, unit="m"),
-        sc.sin(angle) * distance,
+        sc.cos(angle) * distance,
     )
 
     # The analyzer is tilted by this angle such that neutron are
