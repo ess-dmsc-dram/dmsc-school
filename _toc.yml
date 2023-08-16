@@ -30,7 +30,11 @@ parts:
   - file: model/nested_sampling
 - caption: Scicat
   chapters:
-  - file: scicat/intro
+  - file: scicat/data_curation
+  - file: scicat/fair_data
+  - file: scicat/data_metadata
+  - file: scicat/data_catalogue
+  - file: scicat/example
 - caption: Appendices
   chapters:
   - file: glossary
