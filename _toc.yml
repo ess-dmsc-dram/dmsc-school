@@ -18,6 +18,7 @@ parts:
 - caption: Reduction with scipp
   chapters:
   - file: scipp/intro
+  - file: scipp/sans-reduction
 - caption: Analysis with EasyScience
   chapters:
   - file: model/intro
