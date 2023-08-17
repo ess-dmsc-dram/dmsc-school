@@ -52,6 +52,9 @@ def load_qens(fname: str) -> sc.DataArray:
     weights.unit = "counts"
     da = sc.DataArray(data=weights, coords=events)
 
+    # TODO
+    da *= 100
+
     da = da.rename_dims(dim_0="event")
 
     da.coords["y"].unit = "m"
