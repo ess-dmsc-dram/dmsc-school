@@ -35,7 +35,7 @@ def analyzer_info(params: sc.DataGroup) -> sc.DataGroup:
 
 def load_qens(fname: str) -> sc.DataArray:
     """
-    Load a nexus file for the summer school QENS experiment.
+    Load a QENS nexus file for the summer school QENS experiment.
     """
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
