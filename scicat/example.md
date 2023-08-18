@@ -1,15 +1,28 @@
 # Example
 
-In this page illustrate an example on how to access the selected dataset from a python jupyter.
-The information presented here assumes that you already have selected the dataset and copied its pid, together with save your accee token, using the SciCat frontend. Please see the [SciCat page](scicat/scicat) if you need more details on where to find these info. 
+This page illustrate the main code sections on how to access the selected dataset from a python jupyter.
+The information presented here assumes that you already have performed the following actions:
+- logged in in SciCat
+- selected the dataset
+- copied its pid
+- retrieved your access token, using the SciCat frontend. 
+
+Please review the [SciCat page](scicat/scicat) if you need more details on where to find these info. 
 Also, we are using the [scitacean python library](scicat/python_libraries).
 
-We prepared three jupyter notebooks ready for use which you can adapt to download and upload datasets.
+In addition to he code snippets, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload datasets.
 - [access individual dataset]()
 - [access multiple datasets]()
 - [upload individual dataset]()
 
-Following is snippets of the code contained in the two notebooks and, can also be found in scitacean documentation.
+## Use case
+
+Let's say that you have performed a seach in SciCat frontend and you have identified a specific dataset that you would like to use for your data analysis.
+The two pieces of information that you needs are the dataset pid and the access token, which are the following:
+```
+dataset_pid = ""
+access_token = ""
+```
 
 First of all, you need to import the scitacean library
 ```python
