@@ -6,7 +6,15 @@ root: intro
 parts:
 - caption: Python
   chapters:
-  - file: python/intro
+  - file: python/1_jupyter_basics
+    sections:
+    - file: python/1_jupyter_basics/jupyter-notebook-intro
+  - file: python/2_python_basics
+    sections:
+    - file: python/2_python_basics/1_basic_language_principles
+    - file: python/2_python_basics/2_sequence-data-types
+    - file: python/2_python_basics/3_control_structures
+    - file: python/2_python_basics/4_working-with-functions
 - caption: Proposals, DMPs and FAIR
   chapters:
   - file: proposals/proposals
