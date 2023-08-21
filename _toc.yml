@@ -15,6 +15,10 @@ parts:
     - file: python/2_python_basics/2_sequence-data-types
     - file: python/2_python_basics/3_control_structures
     - file: python/2_python_basics/4_working-with-functions
+  - file: python/3_using_external_libraries
+    sections:
+    - file: python/3_using_external_libraries/numpy
+    - file: python/3_using_external_libraries/matplotlib
 - caption: Proposals, DMPs and FAIR
   chapters:
   - file: proposals/proposals
