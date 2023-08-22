@@ -6,9 +6,8 @@ root: intro
 parts:
 - caption: Python
   chapters:
-  - file: python/1_jupyter_basics
-    sections:
-    - file: python/1_jupyter_basics/jupyter-notebook-intro
+  - url: https://jupyterlab.readthedocs.io/en/stable/user/interface.html
+    title: 1. Introduction to JupyterLab
   - file: python/2_python_basics
     sections:
     - file: python/2_python_basics/1_basic_language_principles
