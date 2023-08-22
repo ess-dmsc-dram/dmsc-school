@@ -21,6 +21,15 @@ jobs:
         python-version: '3.10'
 
     - run: sudo apt install --yes graphviz graphviz-dev
+
+    - name: Install McStas
+      run: |
+        cd /etc/apt/sources.list.d
+        sudo wget https://packages.mccode.org/debian/mccode.list
+        sudo apt update
+        sudo apt install --yes mcstas-suite-python-ng
+        cd ~
+
     - name: Install pip dependencies
       run: |
         pip install -r requirements.txt
