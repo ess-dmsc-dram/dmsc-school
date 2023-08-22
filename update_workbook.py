@@ -197,7 +197,7 @@ class Textbook:
             self.workbook_path.parent.mkdir(parents=True)
 
         with open(self.workbook_path, 'w') as file:
-            json.dump(self.workbook, file)
+            json.dump(self.workbook, file, indent=1)
 
 
 def filter_textbooks(changed_files: dict) -> dict[Path, GitStatus]:
