@@ -16,7 +16,7 @@ Once you update the workbook, you have to commit and push the changes of the sub
 
 
 ```
-git submodule
+git submodule update  # Use --init tag if it is the first time pulling submodule
 python update_workbook.py --all  # Update all workbooks
 
 # or
