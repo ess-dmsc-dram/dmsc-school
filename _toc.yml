@@ -18,6 +18,9 @@ parts:
     sections:
     - file: python/3_using_external_libraries/numpy
     - file: python/3_using_external_libraries/matplotlib
+    - file: python/3_using_external_libraries/ipywidgets
+    - file: python/3_using_external_libraries/pandas
+    - file: python/3_using_external_libraries/unit_testing
 - caption: Proposals, DMPs and FAIR
   chapters:
   - file: proposals/proposals
