@@ -1,9 +1,7 @@
 import json
-from dataclasses import dataclass
 from enum import auto, Enum
 from pathlib import Path
 from types import MappingProxyType
-from typing import Optional
 
 
 # Configuration Variables
@@ -138,21 +136,6 @@ def tags_in(cell: dict[str, dict], *tags: str) -> bool:
 
 def is_solution_cell(cell: dict[str, dict]) -> bool:
     return tags_in(cell, 'solution')
-
-
-def _get_or_make(obj: dict, key: str) -> dict:
-    if key not in obj:
-        obj[key] = dict()
-        return obj[key]
-    return obj[key]
-
-
-def mkdict(obj: dict, key: str, /, *args: str) -> dict:
-    child_obj = _get_or_make(obj, key)
-    if not args:
-        return child_obj
-    else:
-        return mkdict(child_obj, *args)
 
 
 class Textbook:
