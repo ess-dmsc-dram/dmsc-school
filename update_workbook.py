@@ -9,7 +9,7 @@ from typing import Optional
 # Configuration Variables
 SYNC_FILE_SUFFIXES = ('.py', '.ipynb')
 WORKBOOK_ROOT_DIR = Path('workbooks')
-SOURCE_REPLACEMENT_MESSAGE = '# Try it yourself:\n'
+SOURCE_REPLACEMENT_MESSAGE = '# Insert your solution:\n'
 
 class GitStatus(Enum):
     DELETED = auto()
