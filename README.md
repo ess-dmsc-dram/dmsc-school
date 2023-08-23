@@ -4,7 +4,7 @@
 
 There is a python script `update_workbook.py` to create a workbook(jupyter notebook) from the jupyter notebook lecture materials.
 
-If a jupyter notebook cell has a `solution` tag, it deletes the sources of the cell and leave `Try it yourself: ` message instead.
+If a jupyter notebook cell has a `solution` tag, it deletes the sources of the cell and leaves a message instead.
 
 It creates or deletes workbooks from the lecture materials.
 And the name of the workbook files are same as the lecture materials.
