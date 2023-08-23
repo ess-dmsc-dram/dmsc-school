@@ -9,6 +9,7 @@ SYNC_FILE_SUFFIXES = ('.py', '.ipynb')
 WORKBOOK_ROOT_DIR = Path('workbooks')
 SOURCE_REPLACEMENT_MESSAGE = '# Insert your solution:\n'
 
+
 class GitStatus(Enum):
     DELETED = auto()
     MODIFIED = auto()
@@ -16,12 +17,14 @@ class GitStatus(Enum):
     UNTRACKED = auto()
     TOUCHED = auto()
 
+
 git_prefix_to_status = MappingProxyType({
     'D  ': GitStatus.DELETED,
     ' M ': GitStatus.MODIFIED,
     'A  ': GitStatus.ADDED,
     '?? ': GitStatus.UNTRACKED
 })
+
 
 class Lecture(Enum):
     MCSTAS = auto()
@@ -31,6 +34,7 @@ class Lecture(Enum):
     SCICAT = auto()
     SCIPP = auto()
 
+
 lecture_to_directories = MappingProxyType({
     Lecture.MCSTAS: Path('mcstas'),
     Lecture.MODEL: Path('model'),
@@ -39,6 +43,7 @@ lecture_to_directories = MappingProxyType({
     Lecture.SCICAT: Path('scicat'),
     Lecture.SCIPP: Path('scipp'),
 })
+
 
 # Helper Utilities
 # Helper - Git
@@ -117,10 +122,6 @@ def get_all_materials() -> dict:
 
     return materials
 
-def export_requirements() -> None:
-    """Copy requirements.txt to the workbook directory."""
-    import shutil
-    shutil.copy("requirements.txt", WORKBOOK_ROOT_DIR)
 
 def export_python_material(textbook_path: Path) -> None:
     """Copy python materials to the workbook directory."""
@@ -225,7 +226,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     check_current_dir()
-    export_requirements()
 
     if args.scope_all:
         candidates = get_all_materials()
