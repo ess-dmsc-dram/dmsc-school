@@ -1,29 +1,32 @@
 # Data and Metadata
 
 The interesting question which is asked over and over is __what is data and what is metadata?__  
-The answer to such question might be even more confusing and always depends on who is answering.
+IT is not an easy task to answer such question. The answers are multiple and varies depending whos is answering and their backeground.
 
-According to the literature ([1], [2], [3], [4], [5]), we can define data and metadata as follow:
+According to the literature ([1], [2], [3], [4], [5]), data and metadata are often defined as follow:
 
 #### Data
 > Data are raw and unorganized measurements or facts that has been observed at a specirfic point in time.
 
 #### Metadata
 > Metadata is data about data, or data that provides information about the data. Their purpose is to better explain how such data has been acquired, to provide additional information that was not available at experimental time and add key descriptors to make the data easier to find.
+  
 
-We, at ESS and as SciCat users, have decided to modify such definitions in order to adapt them to our unique set-up and to update them to the latest technological advancements where more and more information is produced and acquired digitally.
+We, at ESS and as SciCat users, have decided to adopt a definition a definitions that explain better our set-up and embrace all the latest technological advancements in data acquisition where more and more information is produced, acquired and stored digitally.
+
+These are the new definitions:
 
 #### Data
-> Data are every measurement and piece of information, quantitative and qualitative, including log book entries, that can be acquired and digitally recorded during the experimental time and saved in files generated during the same time.
+> Data are every measurement and piece of information, quantitative and qualitative, including log book entries, that can be digitally acquired and recorded during the experimental time. Such information is saved in one or multiple files which are generated during the experimental data acquiasition.
 
-With this definition, we can cleary infer that data includes what originally was defined as data and also most of what was defined as metadata.
+With this definition, we can cleary infer that we now call data includes what originally was defined as data and also most of what was defined as metadata.
 
 #### Metadata
-> Metadata are any information saved in the data catalogue and available to facilitate search for and find the linked data.  
+> Metadata are any information saved in the data catalogue and available to facilitate search for and find the inidividual dataset or a group of them and the linked data.  
 > Metadata can be:
-> 1) a duplicate of any piece of data contained in the linked data
-> 2) any additional information resulting from data aggregation of any sort (like average, min, max or more complex workflow)
-> 3) any qualitative or quantitative information that has been collected or discovered at a later stage and is relevant for the dataset 
+> 1) a duplicate of any piece of data contained in the linked data files.
+> 2) any derived information that results from data aggregation of any sort (like average, min, max or more complex workflow) performed on information contained in the linked data files
+> 3) any qualitative or quantitative information that has been collected or discovered at a later stage and is relevant to describe and facilitate finding the dataset itself
 
 -------
 [1] <https://en.wikipedia.org/wiki/Data> Data  
