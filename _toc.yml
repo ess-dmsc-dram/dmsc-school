@@ -6,7 +6,21 @@ root: intro
 parts:
 - caption: Python
   chapters:
-  - file: python/intro
+  - url: https://jupyterlab.readthedocs.io/en/stable/user/interface.html
+    title: 1. Introduction to JupyterLab
+  - file: python/2_python_basics
+    sections:
+    - file: python/2_python_basics/1_basic_language_principles
+    - file: python/2_python_basics/2_sequence-data-types
+    - file: python/2_python_basics/3_control_structures
+    - file: python/2_python_basics/4_working-with-functions
+  - file: python/3_using_external_libraries
+    sections:
+    - file: python/3_using_external_libraries/numpy
+    - file: python/3_using_external_libraries/matplotlib
+    - file: python/3_using_external_libraries/ipywidgets
+    - file: python/3_using_external_libraries/pandas
+    - file: python/3_using_external_libraries/unit_testing
 - caption: Proposals, DMPs and FAIR
   chapters:
   - file: proposals/proposals
@@ -32,6 +46,7 @@ parts:
   - file: model/nested_sampling
 - caption: Scicat
   chapters:
+  - file: scicat/dataset
   - file: scicat/data_curation
   - file: scicat/fair_data
   - file: scicat/data_metadata
