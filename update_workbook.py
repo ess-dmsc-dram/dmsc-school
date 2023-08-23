@@ -117,6 +117,10 @@ def get_all_materials() -> dict:
 
     return materials
 
+def export_requirements() -> None:
+    """Copy requirements.txt to the workbook directory."""
+    import shutil
+    shutil.copy("requirements.txt", WORKBOOK_ROOT_DIR)
 
 def export_python_material(textbook_path: Path) -> None:
     """Copy python materials to the workbook directory."""
@@ -219,7 +223,9 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('-a', '--all', dest="scope_all", help="Update all workbooks.", action="store_true")
     args = parser.parse_args()
+    
     check_current_dir()
+    export_requirements()
 
     if args.scope_all:
         candidates = get_all_materials()
