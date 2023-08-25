@@ -2,6 +2,8 @@
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
 from jupyterquiz import display_quiz
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 questions = {
