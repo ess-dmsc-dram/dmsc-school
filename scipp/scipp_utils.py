@@ -54,7 +54,7 @@ def plot(*x):
             ax.imshow(a, origin="lower")
 
 
-def scatter(x, y):
+def scatter(x, y, get_ax=False):
     """
     Simple scatter plot
     """
@@ -63,4 +63,5 @@ def scatter(x, y):
     ax.set_aspect("equal")
     ax.set_xlim(x.min(), x.max())
     ax.set_ylim(y.min(), y.max())
-    return ax
+    if get_ax:
+        return ax
