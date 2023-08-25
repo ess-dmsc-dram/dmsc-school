@@ -33,6 +33,7 @@ def fold_pulses(data, tof_edges, offsets):
     binned = data.bin(tof=tof_edges)
     binned.bins.coords['tof'] -= offsets
     out =  binned.bins.constituents['data']
-    for c in ('sample_position', 'source_position'):
-        out.coords[c] = data.coords[c]
+    for name, coord in data.coords.items():
+        if name not in out.coords:
+            out.coords[name] = coord
     return out
