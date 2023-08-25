@@ -31,7 +31,7 @@ parts:
   - file: mcstas/intro
 - caption: Reduction with scipp
   chapters:
-  - file: scipp/intro
+  - file: scipp/scipp-introduction
   - file: scipp/sans-reduction
   - file: scipp/qens-reduction
 - caption: Analysis with EasyScience
