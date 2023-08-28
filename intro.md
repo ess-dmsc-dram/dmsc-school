@@ -17,4 +17,10 @@ Finally, all the data will be stored together within the SciCat metadata catalog
 
 ## Contributors
 
+- [Mads Bertelsen](https://github.com/mads-bertelsen)
 - [Andrew R. McCluskey](https://mccluskey.scot)
+- [Massimiliano Novelli](https://github.com/nitrosx)
+- [Neil Vaytet](https://github.com/nvaytet)
+- [Peter Willendrup](https://github.com/willend)
+- [Jan-Lukas Wynen](https://github.com/jl-wynen)
+- [Sunyoung Yoo](https://github.com/YooSunYoung)
