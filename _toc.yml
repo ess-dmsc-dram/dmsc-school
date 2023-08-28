@@ -35,6 +35,7 @@ parts:
   - file: scicat/fair_data
   - file: scicat/data_metadata
   - file: scicat/data_catalog
+  - file: scicat/scicat
   - file: scicat/python_libraries
   - file: scicat/example
 - caption: Appendices

@@ -8,7 +8,7 @@ A __data catalog__ is a detailed inventory of all the scientific and experimenta
 
 In simple words, the data catalog is the place to go in order to search and find data, and gain access to the related data files.
 
-There are many data catalogs available in the software space, some of them open source, some with commercial license. At ESS, we have adopted SciCat which was developed as an in-kind contribution and in collaboration with PSI and MaxIV. It is an open source project, and we are both the project managers and an active contributors.  
+There are many data catalogs available in the software space, some of them open source, some under commercial license. At ESS, we have adopted SciCat which was developed as an in-kind contribution and in collaboration with PSI and MaxIV. It is an open source project, and we are both the project managers and an active contributors.  
 The main components of SciCat are:
 - the database, which is an instance of mongodb
 - the backend, which provides all the data management functionalities and sits on top of the database..
