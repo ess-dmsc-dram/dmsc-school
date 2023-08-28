@@ -28,7 +28,8 @@ parts:
   - file: proposals/fair
 - caption: McStas
   chapters:
-  - file: mcstas/intro
+  - file: mcstas/SANS_from_function
+  - file: mcstas/QENS_from_function
 - caption: Reduction with scipp
   chapters:
   - file: scipp/scipp-introduction

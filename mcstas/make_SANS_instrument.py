@@ -1,63 +1,91 @@
 import mcstasscript as ms
 
+
 def make(**kwargs):
     instrument = ms.McStas_instr("SANS", **kwargs)
 
-    instrument.add_component("init", "Union_init") # Necessary for current version of Union in McStas 3.X
-    
+    instrument.add_component(
+        "init", "Union_init"
+    )  # Necessary for current version of Union in McStas 3.X
+
     src = instrument.add_component("source", "ESS_butterfly")
     src.yheight = 0.03
     src.focus_xw = 0.02
     src.focus_yh = 0.02
     src.cold_frac = 0.95
     src.dist = "sample_distance + detector_distance"
-    instrument.add_parameter("double", "wavelength", value=6.0, comment="[AA]  Mean wavelength of neutrons")
-    instrument.add_parameter("double", "d_wavelength", value=3.0, comment="[AA]  Wavelength spread of neutrons")
+    instrument.add_parameter(
+        "double", "wavelength", value=6.0, comment="[AA]  Mean wavelength of neutrons"
+    )
+    instrument.add_parameter(
+        "double",
+        "d_wavelength",
+        value=3.0,
+        comment="[AA]  Wavelength spread of neutrons",
+    )
     src.Lmin = "wavelength - 0.5*d_wavelength"
     src.Lmax = "wavelength + 0.5*d_wavelength"
-    instrument.add_parameter("double", "n_pulses", value=3.0, comment="[1] Number of pulses from source")
+    instrument.add_parameter(
+        "double", "n_pulses", value=3.0, comment="[1] Number of pulses from source"
+    )
     src.n_pulses = "n_pulses"
     src.acc_power = "2*(n_pulses/14)"
     src.append_EXTEND("// Compensate for lack of guide with weight increase")
     src.append_EXTEND("p*=1500;")
 
-    sample_dist = instrument.add_parameter("double", "sample_distance", value=8.0,
-                                    comment="[m] Source Sample distance")
+    sample_dist = instrument.add_parameter(
+        "double", "sample_distance", value=8.0, comment="[m] Source Sample distance"
+    )
     sample_position = instrument.add_component("sample_position", "Arm")
     sample_position.set_AT([0, 0, "sample_distance"], RELATIVE=src)
-    
+
     beam_window = instrument.add_component("beam_window", "Incoherent")
     beam_window.set_AT(-0.05, sample_position)
-    beam_window.set_parameters(xwidth=0.05, yheight=0.05, zdepth=0.008,
-                               target_z="detector_distance", target_y=0.25,
-                               focus_xw=0.06, focus_yh=0.55,
-                               p_interact="0.1 + enable_sample*0.4",
-                               sigma_abs=4*0.231, sigma_inc=11, Vc=66.4)
-                               
+    beam_window.set_parameters(
+        xwidth=0.05,
+        yheight=0.05,
+        zdepth=0.008,
+        target_z="detector_distance",
+        target_y=0.25,
+        focus_xw=0.06,
+        focus_yh=0.55,
+        p_interact="0.1 + enable_sample*0.4",
+        sigma_abs=4 * 0.231,
+        sigma_inc=11,
+        Vc=66.4,
+    )
 
-    enable_sample = instrument.add_parameter("double", "enable_sample", value=0,
-                                             comment="[1] 0 for nothing, 1 for SANS sample")
+    enable_sample = instrument.add_parameter(
+        "double",
+        "enable_sample",
+        value=0,
+        comment="[1] 0 for nothing, 1 for SANS sample",
+    )
     enable_sample.add_option(0, options_are_legal=True)
     enable_sample.add_option(1, options_are_legal=True)
 
-    sample_conventional = instrument.add_component("sample_conventional", "SANS_spheres2")
+    sample_conventional = instrument.add_component(
+        "sample_conventional", "SANS_spheres2"
+    )
     sample_conventional.xwidth = 0.02
     sample_conventional.yheight = 0.02
     sample_conventional.zthick = 0.0015
     sample_conventional.sc_aim = 0.95
     sample_conventional.sans_aim = 0.95
-    sample_conventional.phi=0.004
+    sample_conventional.phi = 0.004
     sample_conventional.dsdw_inc = 0.08
     sample_conventional.Qmaxd = "1.5*2.0*2.0*PI/(wavelength-0.5*d_wavelength)*sin(0.5*atan(0.5/detector_distance))"
-    #sample_conventional.dsdw_inc = 0.0000008
-    R_par = instrument.add_parameter("double", "SANS_R", value=90,
-                                     comment="[AA]  Radius of scattering hard spheres")
+    # sample_conventional.dsdw_inc = 0.0000008
+    R_par = instrument.add_parameter(
+        "double", "SANS_R", value=90, comment="[AA]  Radius of scattering hard spheres"
+    )
     sample_conventional.R = R_par
     sample_conventional.set_WHEN("enable_sample == 1")
     sample_conventional.set_AT(0, RELATIVE="sample_position")
 
-    dist = instrument.add_parameter("double", "detector_distance", value=3.0,
-                                    comment="[m] Sample_detector_distance")
+    dist = instrument.add_parameter(
+        "double", "detector_distance", value=3.0, comment="[m] Sample_detector_distance"
+    )
     detector_position = instrument.add_component("detector_position", "Arm")
     detector_position.set_AT([0, 0, dist], RELATIVE=sample_position)
 
@@ -78,7 +106,6 @@ def make(**kwargs):
                             filename='"tof_wave_pulses.dat"', restore_neutron=1)
     tof_wave_pulses.set_AT(0, RELATIVE=detector_position)
     """
-
 
     """
     enable_beamstop = instrument.add_parameter("double", "enable_beamstop", value=0,
@@ -117,7 +144,7 @@ def make(**kwargs):
     Al_incoherent.unit_cell_volume = 66.4
 
     Al_powder = instrument.add_component("Al_powder", "Powder_process")
-    Al_powder.reflections = "\"Al.laz\""
+    Al_powder.reflections = '"Al.laz"'
 
     Al = instrument.add_component("Al", "Union_make_material")
     Al.process_string = '"Al_incoherent,Al_powder"'
@@ -125,11 +152,11 @@ def make(**kwargs):
 
     # Set up He3 material with incoherent scattering
     def mu_gas(sigma, bars, temperature_C):
-        pressure_Pa = bars*1E5
-        number_density_mol_per_m3 = pressure_Pa/(8.3145*(temperature_C + 273.15))
-        number_density_per_m3 = number_density_mol_per_m3*6.022E23
-        number_density_per_A3 = number_density_per_m3/1E30
-        return sigma*number_density_per_A3*100
+        pressure_Pa = bars * 1e5
+        number_density_mol_per_m3 = pressure_Pa / (8.3145 * (temperature_C + 273.15))
+        number_density_per_m3 = number_density_mol_per_m3 * 6.022e23
+        number_density_per_A3 = number_density_per_m3 / 1e30
+        return sigma * number_density_per_A3 * 100
 
     He3_pressure_bars = 3
     He3_temperature_C = 25
@@ -140,24 +167,29 @@ def make(**kwargs):
 
     He3 = instrument.add_component("He3", "Union_make_material")
     He3.process_string = '"He3_inc"'
-    He3.my_absorption = mu_gas(5333, bars=He3_pressure_bars, temperature_C=He3_temperature_C)
+    He3.my_absorption = mu_gas(
+        5333, bars=He3_pressure_bars, temperature_C=He3_temperature_C
+    )
 
     # Create detector casing with gas volume inside
     casing = instrument.add_component("Al_container", "Union_cylinder")
-    casing.set_parameters(yheight=0.55, radius=0.03, p_interact=0.3,
-                          material_string='"Al"', priority=300)
+    casing.set_parameters(
+        yheight=0.55, radius=0.03, p_interact=0.3, material_string='"Al"', priority=300
+    )
     casing.set_AT([0, 0.25, 0], detector_position)
 
     He3_gas = instrument.add_component("He3_gas", "Union_cylinder")
     He3_gas.set_AT_RELATIVE(casing)
-    He3_gas.set_parameters(yheight=0.47, radius=casing.radius-4E-3,
-                           material_string='"He3"', priority=310)
-                           
+    He3_gas.set_parameters(
+        yheight=0.47, radius=casing.radius - 4e-3, material_string='"He3"', priority=310
+    )
+
     buble = instrument.add_component("gas_buble1", "Union_sphere")
-    buble.set_parameters(radius=0.99*He3_gas.radius,
-                           material_string='"Vacuum"', priority=500)
-    buble.set_AT([0, -0.347*He3_gas.yheight, 0], RELATIVE=He3_gas)
-    
+    buble.set_parameters(
+        radius=0.99 * He3_gas.radius, material_string='"Vacuum"', priority=500
+    )
+    buble.set_AT([0, -0.347 * He3_gas.yheight, 0], RELATIVE=He3_gas)
+
     """
     buble_1 = instrument.add_component("gas_buble1", "Union_sphere")
     buble_1.set_parameters(radius=0.85*He3_gas.radius,
@@ -188,12 +220,22 @@ def make(**kwargs):
     instrument.add_declare_var("double", "t_max")
     instrument.add_declare_var("double", "t_max_pulses")
 
-    instrument.append_initialize("t_min = (wavelength - d_wavelength)*(sample_distance - 0.02 + detector_distance)/(K2V*2*PI);")
-    instrument.append_initialize("t_max = (wavelength + d_wavelength)*(sample_distance + 0.2 + detector_distance)/(K2V*2*PI);")
-    instrument.append_initialize("t_max = t_max + 3.0E-3; // Account for ESS pulse structure")
-    instrument.append_initialize("t_max_pulses = t_max + 3.0E-3 + (n_pulses-1.0)*1.0/14.0; // Account for n_pulses")
+    instrument.append_initialize(
+        "t_min = (wavelength - d_wavelength)*(sample_distance - 0.02 + detector_distance)/(K2V*2*PI);"
+    )
+    instrument.append_initialize(
+        "t_max = (wavelength + d_wavelength)*(sample_distance + 0.2 + detector_distance)/(K2V*2*PI);"
+    )
+    instrument.append_initialize(
+        "t_max = t_max + 3.0E-3; // Account for ESS pulse structure"
+    )
+    instrument.append_initialize(
+        "t_max_pulses = t_max + 3.0E-3 + (n_pulses-1.0)*1.0/14.0; // Account for n_pulses"
+    )
     instrument.add_declare_var("char", "options", array=256)
-    instrument.append_initialize('sprintf(options,"square, y bins=200, t limits=[%g %g] bins=300",t_min,t_max);')
+    instrument.append_initialize(
+        'sprintf(options,"square, y bins=200, t limits=[%g %g] bins=300",t_min,t_max);'
+    )
 
     """
     ref = instrument.add_component("reference_tof", "Monitor_nD", after=beamstop)
@@ -202,15 +244,18 @@ def make(**kwargs):
     ref.options = "options"
     ref.set_AT([0, 0.5*casing.yheight, 0], RELATIVE=detector_position)
     """
-    
-    detector = instrument.add_component("signal", "Union_abs_logger_1D_space", RELATIVE=He3_gas)
+
+    detector = instrument.add_component(
+        "signal", "Union_abs_logger_1D_space", RELATIVE=He3_gas
+    )
     detector.target_geometry = '"He3_gas"'
     detector.yheight = He3_gas.yheight
     detector.n = 300
     detector.filename = '"detector_signal.dat"'
 
-    detector = instrument.add_component("signal_tof", "Union_abs_logger_1D_space_tof",
-                                    RELATIVE=He3_gas)
+    detector = instrument.add_component(
+        "signal_tof", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
+    )
     detector.target_geometry = '"He3_gas"'
     detector.yheight = He3_gas.yheight
     detector.n = 200
@@ -218,8 +263,10 @@ def make(**kwargs):
     detector.time_max = "t_max"
     detector.time_bins = 300
     detector.filename = '"detector_signal_tof.dat"'
-    
-    detector = instrument.add_component("signal_tof_all", "Union_abs_logger_1D_space_tof",RELATIVE=He3_gas)
+
+    detector = instrument.add_component(
+        "signal_tof_all", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
+    )
     detector.target_geometry = '"He3_gas"'
     detector.yheight = He3_gas.yheight
     detector.n = 200
@@ -227,24 +274,31 @@ def make(**kwargs):
     detector.time_max = "t_max_pulses"
     detector.time_bins = 300
     detector.filename = '"detector_signal_tof_all.dat"'
-    
-    detector_event = instrument.add_component("signal_tof_event", "Union_abs_logger_1D_space_event", RELATIVE=He3_gas)
+
+    detector_event = instrument.add_component(
+        "signal_tof_event", "Union_abs_logger_1D_space_event", RELATIVE=He3_gas
+    )
     detector_event.target_geometry = '"He3_gas"'
     detector_event.yheight = He3_gas.yheight
     detector_event.n = 200
     detector_event.filename = '"detector_signal_event.dat"'
-    
-    
-    
-    
-    abs_logger_zy = instrument.add_component("abs_logger_space_zy", "Union_abs_logger_2D_space")
+
+    abs_logger_zy = instrument.add_component(
+        "abs_logger_space_zy", "Union_abs_logger_2D_space"
+    )
     abs_logger_zy.set_AT(0, RELATIVE=He3_gas)
-    abs_logger_zy.set_parameters(D_direction_1='"z"', n1=300,
-                                 D1_min=-0.04, D1_max=0.04,
-                                 D_direction_2='"y"', n2=300,
-                                 D2_min=-0.26, D2_max=0.26,
-                                 filename='"abs_logger_zy.dat"')
-                                 
+    abs_logger_zy.set_parameters(
+        D_direction_1='"z"',
+        n1=300,
+        D1_min=-0.04,
+        D1_max=0.04,
+        D_direction_2='"y"',
+        n2=300,
+        D2_min=-0.26,
+        D2_max=0.26,
+        filename='"abs_logger_zy.dat"',
+    )
+
     master = instrument.add_component("master", "Union_master")
     stop = instrument.add_component("stop", "Union_stop")
 
