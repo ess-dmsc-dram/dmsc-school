@@ -32,6 +32,7 @@ parts:
 - caption: Reduction with scipp
   chapters:
   - file: scipp/scipp-introduction
+  - file: scipp/coord-transforms
   - file: scipp/sans-reduction
   - file: scipp/qens-reduction
 - caption: Analysis with EasyScience
