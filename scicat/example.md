@@ -3,22 +3,22 @@
 This page illustrate the main code sections on how to access the selected dataset from a python jupyter.
 The information presented here assumes that you already have performed the following actions:
 - logged in in SciCat
-- selected the dataset
+- selected the dataset(s)
 - copied its pid
 - retrieved your access token, using the SciCat frontend. 
 
-Please review the [SciCat page](scicat/scicat) if you need more details on where to find these info. 
+Please review the [SciCat page](scicat/scicat) if you need more details on where to find these info.  
 Also, we are using the [scitacean python library](scicat/python_libraries).
 
-In addition to he code snippets, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload datasets.
+In addition to the code snippets contained in this page, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload dataset(s).
 - [access individual dataset]()
 - [access multiple datasets]()
 - [upload individual dataset]()
 
 ## Use case
 
-Let's say that you have performed a seach in SciCat frontend and you have identified a specific dataset that you would like to use for your data analysis.
-The two pieces of information that you needs are the dataset pid and the access token, which are the following:
+Let's say that you have performed a seach in SciCat frontend and you have identified a specific dataset that you would like to use for your data analysis.  
+Two pieces of information that you needs are the dataset pid and the access token, which are the following:
 ```python
 dataset_pid = "20.500.12269/761fd17f-e0a8-4bd4-9e70-67ff8647b3f4"
 access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzliMmE1MWI0MTU0OWY1M2RmOWVjMzYiLCJyZWFsbSI6ImxvY2FsaG9zdCIsInVzZXJuYW1lIjoiaW5nZXN0b3IiLCJlbWFpbCI6InNjaWNhdGluZ2VzdG9yQHlvdXIuc2l0ZSIsImVtYWlsVmVyaWZpZWQiOnRydWUsImF1dGhTdHJhdGVneSI6ImxvY2FsIiwiaWQiOiI2MzliMmE1MWI0MTU0OWY1M2RmOWVjMzYiLCJpYXQiOjE2OTIwODc0ODUsImV4cCI6MTY5MjA5MTA4NX0.Phca4UF7WKY367-10Whgwd5jaFjiPku6WsgiPeDh_-o"
