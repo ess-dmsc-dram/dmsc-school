@@ -1,10 +1,17 @@
 # The `EasyScience` framework
 
-`EasyScience` is a framework of software tool that can be used together to build experimental data analysis packages, for example, it has been used in the development of [EasyDiffraction](https://easydiffraction.org) and [EasyReflectometry](https://easyreflectometry.org)
-The framework consists of both front- and back-end elements, where the front-end provides a shared library of graphical interface elements and the back-end offers a clear toolset for model-dependent analysis. 
-The two parts of the framework are referred to as `EasyApp`, the graphical elements, and `easyCore` the analysis toolset. 
+EasyScience is a framework of software tools that can be used to build experimental data analysis packages. 
+For example, it has been used in the development of [EasyDiffraction](https://easydiffraction.org) and [EasyReflectometry](https://easyreflectometry.org).
+The framework consists of both front- and back-end elements, known as easyApp and easyCore, respectively. 
+The front-end provides a shared library of graphical interface elements that can be used to build at graphical user interface. 
+The back-end offers a toolset to perform model-dependent analysis; including the ability to plug-in existing calculation engines. 
+```{figure} ./images/easyscience.png
+---
+height: 250px
+name: easyscience
+---
+A normal distribution (blue line), centred on 10.4 with a standard deviation of 1.6 with the maximum likelihood value (red circle).
+```
 
-[TODO]: A figure showing the EasyScience framework and how things interact.
-
-In this school, we are looking only at the `easyCore` component, as we want to focus on how we can perform complex model-dependent analysis, from a Python intrerface. 
-`easyCore` allows the user to write a mathematical model that can be used to produce model data and take advantage of a range of optimization algorithms to help find the optimal parameters to provide the best agreement between the model and measured data.
+The focus in this school is on the Python library, `easyCore`, which can be used to perform complex model-dependent analysis. 
+The use of `easyCore` to perform Bayesian sampling, using external libraries, will also be introduced. 

@@ -42,8 +42,12 @@ parts:
   - file: model/easy_intro
   - file: model/fitting
   - file: model/bayes
+  - file: model/sans
+  - file: model/qens
   - file: model/mcmc
   - file: model/nested_sampling
+  - file: model/sans_ns
+  - file: model/qens_ns
 - caption: Scicat
   chapters:
   - file: scicat/dataset
