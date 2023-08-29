@@ -3,9 +3,11 @@ import mcstasscript as ms
 
 def make(**kwargs):
     instrument = ms.McStas_instr("SANS", **kwargs)
-    
+
     # Value used when reading data to multiply all weights in order to units from intensity to counts, set this to the time span of the experiment.
-    instrument.add_parameter("double", "integration_time", value=1, comment="[s] Time span of experiment")
+    instrument.add_parameter(
+        "double", "integration_time", value=1, comment="[s] Time span of experiment"
+    )
 
     instrument.add_component(
         "init", "Union_init"
@@ -34,7 +36,7 @@ def make(**kwargs):
     src.n_pulses = "n_pulses"
     src.acc_power = "2*(n_pulses/14)"
     src.append_EXTEND("// Compensate for lack of guide with weight increase")
-    src.append_EXTEND("p*=1500;")
+    src.append_EXTEND("p*=3;")
 
     sample_dist = instrument.add_parameter(
         "double", "sample_distance", value=8.0, comment="[m] Source Sample distance"
@@ -115,7 +117,7 @@ def make(**kwargs):
                                                comment="[1] 0 for nothing, 1 for beamstop")
     enable_beamstop.add_option(0, options_are_legal=True)
     enable_beamstop.add_option(1, options_are_legal=True)
-    
+
     mon = instrument.add_component("monitor", "PSD_monitor")
     mon.nx = 100
     mon.ny = 100
@@ -124,7 +126,7 @@ def make(**kwargs):
     mon.yheight = 0.08
     mon.restore_neutron = 1
     mon.set_AT(-0.04, detector_position)
-    
+
     beamstop = instrument.add_component("beamstop", "Beamstop")
     beamstop.set_AT(-0.035, detector_position)
     beamstop.set_WHEN("enable_beamstop == 1")
@@ -198,12 +200,12 @@ def make(**kwargs):
     buble_1.set_parameters(radius=0.85*He3_gas.radius,
                            material_string='"Vacuum"', priority=400)
     buble_1.set_AT([0.02*He3_gas.radius, -0.347*He3_gas.yheight, 0.14*He3_gas.radius], RELATIVE=He3_gas)
-    
+
     buble_2 = instrument.add_component("gas_buble2", "Union_sphere")
     buble_2.set_parameters(radius=0.8*He3_gas.radius,
                            material_string='"Vacuum"', priority=401)
     buble_2.set_AT([-0.16*He3_gas.radius, -0.35*He3_gas.yheight, -0.095*He3_gas.radius], RELATIVE=He3_gas)
-    
+
     buble_3 = instrument.add_component("gas_buble3", "Union_sphere")
     buble_3.set_parameters(radius=0.7*He3_gas.radius,
                            material_string='"Vacuum"', priority=402)
