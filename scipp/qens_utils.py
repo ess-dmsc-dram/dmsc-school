@@ -33,6 +33,12 @@ def analyzer_info(params: sc.DataGroup) -> sc.DataGroup:
     })
 
 
+def correct_tof(tof):
+    # The instrument focuses on the center of the pulse at 2.86/2 ms.
+    # Shift the time such that tof is the time since the neutron were emitted.
+    return tof - sc.scalar(0.5 * 2.86, unit="ms")
+
+
 def load_qens(fname: str) -> sc.DataArray:
     """
     Load a QENS nexus file for the summer school QENS experiment.
@@ -66,7 +72,7 @@ def load_qens(fname: str) -> sc.DataArray:
     da.coords["position"] = sc.spatial.as_vectors(da.coords["x"], da.coords["y"], z)
     da.coords["tof"] = da.coords.pop("t")
     da.coords["tof"].unit = "s"
-    da.coords["tof"] = da.coords["tof"].to(unit="ms")
+    da.coords["tof"] = correct_tof(da.coords["tof"].to(unit="ms"))
 
     da.coords["sample_position"] = sc.vector([0.0, 0.0, 0.0], unit="m")
     da.coords["source_position"] = sc.vector(
