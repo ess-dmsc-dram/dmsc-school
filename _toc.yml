@@ -7,20 +7,20 @@ parts:
 - caption: Python
   chapters:
   - url: https://jupyterlab.readthedocs.io/en/stable/user/interface.html
-    title: 1. Introduction to JupyterLab
-  - file: python/2_python_basics
+    title: Introduction to JupyterLab
+  - file: python/python_basics
     sections:
-    - file: python/2_python_basics/1_basic_language_principles
-    - file: python/2_python_basics/2_sequence-data-types
-    - file: python/2_python_basics/3_control_structures
-    - file: python/2_python_basics/4_working-with-functions
-  - file: python/3_using_external_libraries
+    - file: python/python_basics/basic_language_principles
+    - file: python/python_basics/sequence-data-types
+    - file: python/python_basics/control_structures
+    - file: python/python_basics/working-with-functions
+  - file: python/using_external_libraries
     sections:
-    - file: python/3_using_external_libraries/numpy
-    - file: python/3_using_external_libraries/matplotlib
-    - file: python/3_using_external_libraries/ipywidgets
-    - file: python/3_using_external_libraries/pandas
-    - file: python/3_using_external_libraries/unit_testing
+    - file: python/using_external_libraries/numpy
+    - file: python/using_external_libraries/matplotlib
+    - file: python/using_external_libraries/ipywidgets
+    - file: python/using_external_libraries/pandas
+    - file: python/using_external_libraries/unit_testing
 - caption: Proposals, DMPs and FAIR
   chapters:
   - file: proposals/proposals
