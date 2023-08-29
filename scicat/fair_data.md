@@ -3,7 +3,7 @@
 One of the goals of __data curation__ is to make the curated data FAIR.  
 The FAIR principles were first introduced in 2016 in [The FAIR Guiding Principles for scientific data management and stewardship](https://www.nature.com/articles/sdata201618) paper.
 
-![FAIR logo](fair.png)
+![FAIR logo](images/fair.png)
 
 The FAIR principles can be summarized in the following four points:
 - Findable
@@ -17,7 +17,7 @@ The FAIR principles have become very important as they have been embraced by man
 
 In 2020, an new and complementary set of principles, named TRUST, have emerged and formalized in [The TRUST Principles for digital repositories](https://www.nature.com/articles/s41597-020-0486-7) paper. 
 
-![TRUST logo](trust.png)
+![TRUST logo](images/trust.png)
 
 The TRUST principles are geared more towards the repositories holding the data and are:
 - Transparency

@@ -11,8 +11,8 @@ Please review the [SciCat page](scicat/scicat) if you need more details on where
 Also, we are using the [scitacean python library](scicat/python_libraries).
 
 In addition to the code snippets contained in this page, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload dataset(s).
-- [access individual dataset]()
-- [access multiple datasets]()
+- [access individual dataset](notebooks/access_individual_dataset.ipynb)
+- [access multiple datasets](notebooks/access_multiple_datasets.ipynb)
 - [upload individual dataset]()
 
 ## Use case
@@ -50,15 +50,15 @@ You can view the dataset information and metadata
 dset
 ```
 This command present the following view which show the main information about the dataset.  
-![Dataset view in jupyter notebook 1](scitacean_dataset_visualization_collapsed.png)  
+![Dataset view in jupyter notebook 1](images/scitacean_dataset_visualization_collapsed.png)  
   
 You can expand the collapsed sections to view the metadata   
   
-![Dataset view in jupyter notebook 2](scitacean_dataset_visualization_with_metadata.png) 
+![Dataset view in jupyter notebook 2](images/scitacean_dataset_visualization_with_metadata.png) 
   
 or the file associated with the dataset.  
   
-![Dataset view in jupyter notebook 3](scitacean_dataset_visualization_with_files_list.png)
+![Dataset view in jupyter notebook 3](images/scitacean_dataset_visualization_with_files_list.png)
 
 Once you have verified that the dataset is the correct one, you can download the data files
 ```python
@@ -66,7 +66,7 @@ dset = sct_client.download_files(dset, target="../data", select="60395-2022-02-2
 dset
 ```
 If we check the files section of the dataset, we can see that the file has been downloaded:  
-![Dataset view in jupyter notebook 4](scitacean_dataset_visualization_with_downloaded_files.png)
+![Dataset view in jupyter notebook 4](images/scitacean_dataset_visualization_with_downloaded_files.png)
 
 
 The current status of the dataset indicates that the first file is available locally with path:
