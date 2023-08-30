@@ -1,7 +1,7 @@
 # Data and Metadata
 
-The interesting questions which are asked over and over are __what is data and what is metadata?__  
-It is not an easy task to answer such questions. The answers are multiple and varies depending whos is answering and their background.
+The interesting questions asked over and over are __what is data?__ and __what is metadata?__  
+It is not an easy task to answer such questions. The answers are multiple and varies depending whos is answering, their background and domain knowledge.
 
 According to the literature ([1], [2], [3], [4], [5]), data and metadata are often defined as follow:
 
@@ -11,8 +11,8 @@ According to the literature ([1], [2], [3], [4], [5]), data and metadata are oft
 #### Metadata
 > Metadata is data about data, or data that provides information about the data. Their purpose is to better explain how such data has been acquired, to provide additional information that was not available at experimental time and add key descriptors to make the data easier to find.
   
-
-We, at ESS and as SciCat users/adopters, have decided to adopt different definitions that explain better our technical set-up and embrace all the latest technological advancements in data acquisition where more and more information is produced, acquired and stored digitally.
+## Our definition
+We, at ESS and as SciCat users/adopters, have decided to adopt different definitions that better suited to our technical set-up and embrace all the latest technological advancements in data acquisition where more and more information is produced, acquired and stored digitally.
 
 These are our new definitions:
 
@@ -22,11 +22,11 @@ These are our new definitions:
 With this definition, we can cleary infer that what we now call data includes what originally was defined as data and also most of what was defined as metadata.
 
 #### Metadata
-> Metadata are any information saved in the data catalogue and available to facilitate search for and find the individual dataset or a group of them and the linked data.  
+> Metadata are any information saved in the data catalogue and available to the user to facilitate the search and finding the individual dataset or a group of them and their linked data.  
 > Metadata can be:
-> 1) a duplicate of any piece of data contained in the linked data files.
-> 2) any derived information that results from data aggregation of any sort (like average, min, max or more complex workflow) performed on information contained in the linked data files
-> 3) any qualitative or quantitative information that has been collected or discovered at a later stage, it is relevant to describe and facilitate finding the dataset itself.
+> 1) a duplicate of any piece of data contained in the linked data files, as long is of small size.
+> 2) any derived information that results from any type of data aggregation (like average, min, max or more complex workflow) performed on information contained in the linked data files
+> 3) any qualitative or quantitative information that has been collected or discovered at a later stage, which is relevant to describe and facilitate finding the dataset itself.
 
 -------
 [1] <https://en.wikipedia.org/wiki/Data> Data  
