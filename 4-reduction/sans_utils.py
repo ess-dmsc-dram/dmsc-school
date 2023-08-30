@@ -2,72 +2,9 @@
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
 import os
-import pandas as pd
 import scipp as sc
-import scippnexus.v2 as sx
-from typing import Tuple
-import warnings
 
-
-def _load_nexus(fname: str) -> sc.DataArray:
-    """
-    Load a SANS nexus file and return a scipp DataArray with the data.
-    """
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        f = sx.File(fname)
-        dg = f[...]
-        f.close()
-    events = sc.collapse(
-        dg["entry1"]["data"]["detector_signal_event_dat"].data, keep="dim_0"
-    )
-    meta = dg["entry1"]["simulation"]["Param"]
-    columns = ["p", "x", "y", "n", "id", "t"]
-    events = {c: v.rename_dims(dim_0="row") for c, v in zip(columns, events.values())}
-    return events, meta
-
-
-def _load_header(fname: str, comment: str = "#") -> dict:
-    lines = []
-    maxlines = 100
-    with open(fname, "r") as f:
-        for _ in range(maxlines):
-            line = f.readline()
-            if line.startswith(comment):
-                lines.append(line.lstrip(f" {comment}").strip())
-            else:
-                break
-    header = {}
-    for l in lines:
-        if l.startswith("Param"):
-            key, value = l.split(":")[1].split("=")
-            header[key.strip()] = value.strip()
-        else:
-            pieces = l.split(":")
-            if len(pieces) == 2:
-                value = pieces[1].strip()
-            else:
-                value = pieces[1:]
-            header[pieces[0].strip()] = value
-    return header
-
-
-def _load_ascii(
-    filename: str,
-) -> Tuple[sc.DataArray, dict]:
-    meta = _load_header(fname=filename)
-
-    ds = sc.compat.from_pandas(
-        pd.read_csv(
-            filename,
-            delimiter=" ",
-            comment="#",
-            names=["p", "x", "y", "n", "id", "t"],
-            index_col=False,
-        )
-    )
-    events = {key: c.data for key, c in ds.items()}
-    return events, meta
+from load import load_ascii, load_nexus
 
 
 def load_sans(
@@ -80,14 +17,12 @@ def load_sans(
     ----------
     path
         Path to the directory containing the simulation results.
-    events_file
-        Name of the file containing the events.
     """
     ascii_file = os.path.join(path, "detector_signal_event.dat")
     if os.path.exists(ascii_file):
-        events, meta = _load_ascii(filename=ascii_file)
+        events, meta = load_ascii(filename=ascii_file)
     else:
-        events, meta = _load_nexus(path=path)
+        events, meta = load_nexus(path=path)
 
     # coords = {key: c.data for key, c in ds.items()}
     weights = events.pop("p") * float(meta["integration_time"])

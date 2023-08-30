@@ -1,9 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
+import os
 import scipp as sc
 import scippnexus.v2 as snx
 import warnings
+
+from load import load_ascii, load_nexus
 
 
 DETECTOR_OFFSET = 0.25 * sc.units.m
@@ -25,12 +28,14 @@ def analyzer_info(params: sc.DataGroup) -> sc.DataGroup:
     # reflected by `2*analyzer_angle` to the detector.
     analyzer_angle = sc.atan2(y=DETECTOR_OFFSET, x=distance) / 2
 
-    return sc.DataGroup({
-        # Si (111) as Miracles: Q = 2*pi/3.135
-        "analyzer_dspacing": sc.scalar(3.135, unit="angstrom"),
-        "analyzer_position": analyzer_position,
-        "analyzer_angle": analyzer_angle,
-    })
+    return sc.DataGroup(
+        {
+            # Si (111) as Miracles: Q = 2*pi/3.135
+            "analyzer_dspacing": sc.scalar(3.135, unit="angstrom"),
+            "analyzer_position": analyzer_position,
+            "analyzer_angle": analyzer_angle,
+        }
+    )
 
 
 def correct_tof(tof):
@@ -39,29 +44,43 @@ def correct_tof(tof):
     return tof - sc.scalar(0.5 * 2.86, unit="ms")
 
 
-def load_qens(fname: str) -> sc.DataArray:
+def load_qens(path: str) -> sc.DataArray:
     """
     Load a QENS nexus file for the summer school QENS experiment.
-    """
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        with snx.File(fname) as f:
-            dg = f[...]
 
-    params = dg["entry1"]["simulation"]["Param"]
-    events = sc.collapse(
-        dg["entry1"]["data"]["detector_signal_event_dat"].data, keep="dim_0"
-    )
-    columns = ["p", "x", "y", "n", "id", "t"]
-    events = {c: v.copy() for c, v in zip(columns, events.values())}
-    weights = events.pop("p")
+    Parameters
+    ----------
+    path
+        Path to the directory containing the simulation results.
+    """
+    ascii_file = os.path.join(path, "detector_signal_event.dat")
+    if os.path.exists(ascii_file):
+        events, meta = load_ascii(filename=ascii_file)
+    else:
+        events, meta = load_nexus(path=path)
+    # with warnings.catch_warnings():
+    #     warnings.simplefilter("ignore")
+    #     with snx.File(fname) as f:
+    #         dg = f[...]
+
+    # params = dg["entry1"]["simulation"]["Param"]
+    # events = sc.collapse(
+    #     dg["entry1"]["data"]["detector_signal_event_dat"].data, keep="dim_0"
+    # )
+    # columns = ["p", "x", "y", "n", "id", "t"]
+    # events = {c: v.copy() for c, v in zip(columns, events.values())}
+    # weights = events.pop("p")
+    # weights.unit = "counts"
+    # da = sc.DataArray(data=weights, coords=events)
+
+    weights = events.pop("p") * float(meta["integration_time"])
     weights.unit = "counts"
     da = sc.DataArray(data=weights, coords=events)
 
-    # TODO
-    da *= 100
+    # # TODO
+    # da *= 100
 
-    da = da.rename_dims(dim_0="event")
+    # da = da.rename_dims(dim_0="event")
 
     da.coords["y"].unit = "m"
     # The event positions are in the detector coordiante system.
@@ -69,16 +88,18 @@ def load_qens(fname: str) -> sc.DataArray:
     da.coords["y"] += DETECTOR_OFFSET
     da.coords["x"].unit = "m"
     z = sc.zeros_like(da.coords["y"])
-    da.coords["position"] = sc.spatial.as_vectors(da.coords["x"], da.coords["y"], z)
+    da.coords["position"] = sc.spatial.as_vectors(
+        da.coords["x"].to(dtype=float), da.coords["y"], z
+    )
     da.coords["tof"] = da.coords.pop("t")
     da.coords["tof"].unit = "s"
     da.coords["tof"] = correct_tof(da.coords["tof"].to(unit="ms"))
 
     da.coords["sample_position"] = sc.vector([0.0, 0.0, 0.0], unit="m")
     da.coords["source_position"] = sc.vector(
-        [0.0, 0.0, -float(params["sample_distance"])], unit="m"
+        [0.0, 0.0, -float(meta["sample_distance"])], unit="m"
     )
 
-    da.coords.update(analyzer_info(params))
-    
+    da.coords.update(analyzer_info(meta))
+
     return da
