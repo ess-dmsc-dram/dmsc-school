@@ -4,9 +4,11 @@ import mcstasscript as ms
 
 def make(**kwargs):
     instrument = ms.McStas_instr("QENS", **kwargs)
-    
+
     # Value used when reading data to multiply all weights in order to units from intensity to counts, set this to the time span of the experiment.
-    instrument.add_parameter("double", "integration_time", value=1, comment="[s] Time span of experiment")
+    instrument.add_parameter(
+        "double", "integration_time", value=1, comment="[s] Time span of experiment"
+    )
 
     # Calculations
     detector_offset = instrument.add_declare_var(
@@ -73,7 +75,7 @@ def make(**kwargs):
     src.append_EXTEND(
         "// Compensate for lack of guide and analyzer area with weight increase"
     )
-    src.append_EXTEND("p*=1500*1E5;")
+    src.append_EXTEND("p*=7e5;")
 
     """
     enable_chopper = instrument.add_parameter("double", "enable_chopper", value=1,
