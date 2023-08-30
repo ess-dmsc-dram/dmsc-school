@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
+import os
 import pandas as pd
 import scipp as sc
 import scippnexus.v2 as sx
@@ -8,10 +9,11 @@ from typing import Tuple
 import warnings
 
 
-def load_nexus(fname: str) -> sc.DataArray:
+def load_nexus(path: str) -> sc.DataArray:
     """
     Load a SANS nexus file and return a scipp DataArray with the data.
     """
+    fname = os.path.join(path, "mccode.h5")
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         with sx.File(fname) as f:

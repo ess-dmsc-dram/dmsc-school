@@ -24,7 +24,6 @@ def load_sans(
     else:
         events, meta = load_nexus(path=path)
 
-    # coords = {key: c.data for key, c in ds.items()}
     weights = events.pop("p") * float(meta["integration_time"])
     weights.unit = "counts"
     da = sc.DataArray(data=weights, coords=events)
