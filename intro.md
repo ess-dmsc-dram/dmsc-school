@@ -5,13 +5,13 @@ This material can be treated in a self-guided fashion and, where relevant, the m
 
 # Welcome
 
-The aims of the summer school is to cover *in-silico* some the ESS data pipeline.
+The aim of the summer school is to cover *in-silico* some the ESS data pipeline.
 
 ![](./images/pipeline.png)
 
 In particular, we will introduce the importance of considering the data that you will collect at a neutron scattering experiment during the proposal stage and the benefits of FAIR data practices.
 We will then go on to show how the McStas simulation software can be used to plan the experiment that you will conduct, giving *realistic* simulated data.
-This "raw" data will be reduced with the scipp package, a Python library designed to facilities the manipulation of scientific data.
+This "raw" data will be reduced with the Scipp package, a Python library designed to facilitate the manipulation of scientific data.
 Then, the EasyScience framework will be used to analyse our reduced data, where we will be able to draw interesting scientific conclusions.
 Finally, all the data will be stored together within the SciCat metadata catalogue -- enabling FAIR storage.
 
