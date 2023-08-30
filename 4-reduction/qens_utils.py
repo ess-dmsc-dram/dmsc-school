@@ -3,8 +3,6 @@
 
 import os
 import scipp as sc
-import scippnexus.v2 as snx
-import warnings
 
 from load import load_ascii, load_nexus
 
@@ -58,29 +56,10 @@ def load_qens(path: str) -> sc.DataArray:
         events, meta = load_ascii(filename=ascii_file)
     else:
         events, meta = load_nexus(path=path)
-    # with warnings.catch_warnings():
-    #     warnings.simplefilter("ignore")
-    #     with snx.File(fname) as f:
-    #         dg = f[...]
-
-    # params = dg["entry1"]["simulation"]["Param"]
-    # events = sc.collapse(
-    #     dg["entry1"]["data"]["detector_signal_event_dat"].data, keep="dim_0"
-    # )
-    # columns = ["p", "x", "y", "n", "id", "t"]
-    # events = {c: v.copy() for c, v in zip(columns, events.values())}
-    # weights = events.pop("p")
-    # weights.unit = "counts"
-    # da = sc.DataArray(data=weights, coords=events)
 
     weights = events.pop("p") * float(meta["integration_time"])
     weights.unit = "counts"
     da = sc.DataArray(data=weights, coords=events)
-
-    # # TODO
-    # da *= 100
-
-    # da = da.rename_dims(dim_0="event")
 
     da.coords["y"].unit = "m"
     # The event positions are in the detector coordiante system.
