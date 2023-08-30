@@ -7,57 +7,59 @@ parts:
 - caption: Python
   chapters:
   - url: https://jupyterlab.readthedocs.io/en/stable/user/interface.html
-    title: 1. Introduction to JupyterLab
-  - file: python/2_python_basics
+    title: Introduction to JupyterLab
+  - file: 1-python/python_basics
     sections:
-    - file: python/2_python_basics/1_basic_language_principles
-    - file: python/2_python_basics/2_sequence-data-types
-    - file: python/2_python_basics/3_control_structures
-    - file: python/2_python_basics/4_working-with-functions
-  - file: python/3_using_external_libraries
+    - file: 1-python/python_basics/basic_language_principles
+    - file: 1-python/python_basics/sequence-data-types
+    - file: 1-python/python_basics/control_structures
+    - file: 1-python/python_basics/working-with-functions
+    - file: 1-python/python_basics/intermediate_topics
+  - file: 1-python/using_external_libraries
     sections:
-    - file: python/3_using_external_libraries/numpy
-    - file: python/3_using_external_libraries/matplotlib
-    - file: python/3_using_external_libraries/ipywidgets
-    - file: python/3_using_external_libraries/pandas
-    - file: python/3_using_external_libraries/unit_testing
+    - file: 1-python/using_external_libraries/numpy
+    - file: 1-python/using_external_libraries/matplotlib
+    - file: 1-python/using_external_libraries/ipywidgets
+    - file: 1-python/using_external_libraries/pandas
+    - file: 1-python/using_external_libraries/unit_testing
 - caption: Proposals, DMPs and FAIR
   chapters:
-  - file: proposals/proposals
-  - file: proposals/dmps
-  - file: proposals/fair
+  - file: 2-proposals/proposals
+  - file: 2-proposals/dmps
+  - file: 2-proposals/fair
 - caption: McStas
   chapters:
-  - file: mcstas/SANS_from_function
-  - file: mcstas/QENS_from_function
+  - file: 3-mcstas/SANS_from_function
+  - file: 3-mcstas/QENS_from_function
 - caption: Reduction with scipp
   chapters:
-  - file: scipp/scipp-introduction
-  - file: scipp/sans-reduction
-  - file: scipp/qens-reduction
+  - file: 4-reduction/scipp-introduction
+  - file: 4-reduction/coord-transforms
+  - file: 4-reduction/sans-reduction
+  - file: 4-reduction/qens-reduction
 - caption: Analysis with EasyScience
   chapters:
-  - file: model/intro
-  - file: model/prob_data
-  - file: model/easy_intro
-  - file: model/fitting
-  - file: model/bayes
-  - file: model/sans
-  - file: model/qens
-  - file: model/mcmc
-  - file: model/nested_sampling
-  - file: model/sans_ns
-  - file: model/qens_ns
+  - file: 5-analysis/intro
+  - file: 5-analysis/prob_data
+  - file: 5-analysis/easy_intro
+  - file: 5-analysis/fitting
+  - file: 5-analysis/bayes
+  - file: 5-analysis/sans
+  - file: 5-analysis/qens
+  - file: 5-analysis/mcmc
+  - file: 5-analysis/nested_sampling
+  - file: 5-analysis/sans_ns
+  - file: 5-analysis/qens_ns
 - caption: Scicat
   chapters:
-  - file: scicat/dataset
-  - file: scicat/data_curation
-  - file: scicat/fair_data
-  - file: scicat/data_metadata
-  - file: scicat/data_catalog
-  - file: scicat/scicat
-  - file: scicat/python_libraries
-  - file: scicat/example
+  - file: 6-scicat/dataset
+  - file: 6-scicat/data_curation
+  - file: 6-scicat/fair_data
+  - file: 6-scicat/data_metadata
+  - file: 6-scicat/data_catalog
+  - file: 6-scicat/scicat
+  - file: 6-scicat/python_libraries
+  - file: 6-scicat/example
 - caption: Appendices
   chapters:
   - file: glossary
