@@ -17,6 +17,7 @@ def add_variances(*inputs: sc.DataArray):
     for da in inputs:
         da.variances = da.values
 
+
 def fold_pulses(data, tof_edges, offsets):
     """
     Fold the data into a single pulse.
@@ -31,8 +32,8 @@ def fold_pulses(data, tof_edges, offsets):
         Time offset to apply to each of the time-of-flight bins.
     """
     binned = data.bin(tof=tof_edges)
-    binned.bins.coords['tof'] -= offsets
-    out =  binned.bins.constituents['data']
+    binned.bins.coords["tof"] -= offsets
+    out = binned.bins.constituents["data"]
     for name, coord in data.coords.items():
         if name not in out.coords:
             out.coords[name] = coord
