@@ -35,7 +35,7 @@ scicat_instance = "https://staging.scicat.ess.eu/api/v3"
 First of all, you need to import the scitacean library
 ```python
 from scitacean import Client
-from scitacean.transfer.sfto import SFTPFileTransfer
+from scitacean.transfer.sftp import SFTPFileTransfer
 ```
 
 Instantiate the client
