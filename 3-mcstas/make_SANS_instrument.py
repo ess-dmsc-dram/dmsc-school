@@ -6,7 +6,7 @@ def make(**kwargs):
 
     # Value used when reading data to multiply all weights in order to units from intensity to counts, set this to the time span of the experiment.
     instrument.add_parameter(
-        "double", "integration_time", value=3600*6, comment="[s] Time span of experiment"
+        "double", "integration_time", value=1, comment="[s] Time span of experiment"
     )
 
     instrument.add_component(
