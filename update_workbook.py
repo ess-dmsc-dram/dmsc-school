@@ -27,21 +27,21 @@ git_prefix_to_status = MappingProxyType({
 
 
 class Lecture(Enum):
-    MCSTAS = auto()
-    MODEL = auto()
-    PROPOSALS = auto()
     PYTHONBASICS = auto()
-    SCICAT = auto()
+    PROPOSALS = auto()
+    MCSTAS = auto()
     SCIPP = auto()
+    MODEL = auto()
+    SCICAT = auto()
 
 
 lecture_to_directories = MappingProxyType({
-    Lecture.MCSTAS: Path('mcstas'),
-    Lecture.MODEL: Path('model'),
-    Lecture.PROPOSALS: Path('proposals'),
-    Lecture.PYTHONBASICS: Path('python'),
-    Lecture.SCICAT: Path('scicat'),
-    Lecture.SCIPP: Path('scipp'),
+    Lecture.PYTHONBASICS: Path('1-python'),
+    Lecture.PROPOSALS: Path('2-proposals'),
+    Lecture.MCSTAS: Path('3-mcstas'),
+    Lecture.SCIPP: Path('4-reduction'),
+    Lecture.MODEL: Path('5-analysis'),
+    Lecture.SCICAT: Path('6-scicat'),
 })
 
 
