@@ -23,7 +23,9 @@ def load_nexus(path: str) -> sc.DataArray:
     )
     meta = dg["entry1"]["simulation"]["Param"]
     columns = ["p", "x", "y", "n", "id", "t"]
-    events = {c: v.rename_dims(dim_0="event") for c, v in zip(columns, events.values())}
+    events = {
+        c: v.rename_dims(dim_0="event").copy() for c, v in zip(columns, events.values())
+    }
     return events, meta
 
 

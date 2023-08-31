@@ -57,8 +57,9 @@ def load_qens(path: str) -> sc.DataArray:
     else:
         events, meta = load_nexus(path=path)
 
-    weights = events.pop("p") * float(meta["integration_time"])
+    weights = events.pop("p")
     weights.unit = "counts"
+    weights *= float(meta["integration_time"])
     da = sc.DataArray(data=weights, coords=events)
 
     da.coords["y"].unit = "m"
