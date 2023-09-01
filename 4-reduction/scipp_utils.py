@@ -166,7 +166,7 @@ def _smiley_signal(rng: np.random.Generator) -> sc.DataArray:
                         coords={'x': x, 'y': y})
 
 
-def load_signal_to_historgram(rng: np.random.Generator) -> sc.DataArray:
+def load_signal_to_histogram(rng: np.random.Generator) -> sc.DataArray:
     heart = _heart_signal(rng)
     smiley = _smiley_signal(rng)
     return sc.concat((heart, smiley), dim='row')
