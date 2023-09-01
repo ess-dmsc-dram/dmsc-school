@@ -215,6 +215,7 @@ class Textbook:
 
         with open(self.workbook_path, 'w') as file:
             json.dump(self.workbook, file, indent=1)
+            file.write('\n')
 
 
 def is_in_lecture_dirs(file_path: Path, lecture_dirs: Optional[list[Path]] = None) -> bool:
