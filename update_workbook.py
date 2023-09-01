@@ -8,6 +8,7 @@ from types import MappingProxyType
 SYNC_FILE_SUFFIXES = ('.py', '.ipynb')
 WORKBOOK_ROOT_DIR = Path('workbooks')
 SOURCE_REPLACEMENT_MESSAGE = '# Insert your solution:\n'
+CELL_PROTECTING_TAG = 'dmsc-school-keep'
 
 
 class GitStatus(Enum):
@@ -134,13 +135,18 @@ def retrieve_tags(cell: dict[str, dict]) -> list:
     return meta.get('tags', []) if (meta:=cell.get('metadata')) else []
 
 
-def tags_in(cell: dict[str, dict], *tags: str) -> bool:
+def check_tags(cell: dict[str, dict], tag_flags: dict[str, bool]) -> bool:
     return (cell_tags:=retrieve_tags(cell)) is not None and \
-            all([tag in cell_tags for tag in tags])
+            all([tag in cell_tags if flag else tag not in cell_tags 
+                 for tag, flag in tag_flags.items()])
 
 
-def is_solution_cell(cell: dict[str, dict]) -> bool:
-    return tags_in(cell, 'solution')
+def is_hidden_solution_cell(cell: dict[str, dict]) -> bool:
+    return check_tags(cell, {'solution': True, CELL_PROTECTING_TAG: False})
+
+
+def is_workbook_cell(cell: dict[str, dict]) -> bool:
+    return not check_tags(cell, {'remove-cell': True, CELL_PROTECTING_TAG: False})
 
 
 class Textbook:
@@ -157,13 +163,17 @@ class Textbook:
 
         How to create a workbook from a textbook
         ----------------------------------------
-        For all cells with ``solution`` tag,
-        remove ``source`` of the cell and ``hide-cell``, ``solution`` tags and
-        add ``SOURCE_REPLACEMENTM_MESSAE`` to the ``source``.
+        For all cells without ``dmsc-school-keep`` tag (``CELL_PROTECTING_TAG``).
+        1. Remove all cells containing ``remove-cell``.
+        2. Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
+           of all cells containing ``solution`` tags,
+           and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
+        
         """
         from copy import deepcopy
         workbook = deepcopy(self.contents)
-        solution_cells = filter(is_solution_cell, workbook.get('cells', []))
+        workbook['cells'] = list(filter(is_workbook_cell, workbook.get('cells', [])))
+        solution_cells = filter(is_hidden_solution_cell, workbook.get('cells', []))
         
         for solution in solution_cells:
             solution['source'] = [SOURCE_REPLACEMENT_MESSAGE]
