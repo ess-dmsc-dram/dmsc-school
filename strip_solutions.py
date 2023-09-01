@@ -28,8 +28,17 @@ def clean(filepath, destination):
 
     out = []
     for cell in obj["cells"]:
-        if ("tags" in cell["metadata"]) and ("solution" in cell["metadata"]["tags"]):
-            out.append(EMPTY_CELL)
+        if "tags" in cell["metadata"]:
+            if ("solution" in cell["metadata"]["tags"]) and (
+                "dmsc-school-keep" not in cell["metadata"]["tags"]
+            ):
+                out.append(EMPTY_CELL)
+            elif ("remove-cell" in cell["metadata"]["tags"]) and (
+                "dmsc-school-keep" not in cell["metadata"]["tags"]
+            ):
+                pass
+            else:
+                out.append(cell)
         else:
             out.append(cell)
     obj["cells"] = out
