@@ -11,9 +11,9 @@ Please review the [SciCat page](scicat/scicat) if you need more details on where
 Also, we are using the [scitacean python library](scicat/python_libraries).
 
 In addition to the code snippets contained in this page, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload dataset(s).
-- [access individual dataset](notebooks/access_individual_dataset.ipynb)
-- [access multiple datasets](notebooks/access_multiple_datasets.ipynb)
-- [upload individual dataset]()
+- [access individual dataset](./notebooks/access_individual_dataset.ipynb)
+- [access multiple datasets](./notebooks/access_multiple_datasets.ipynb)
+- [upload and create dataset](./notebooks/create_single_dataset.ipynb)
 
 ## Use case
 
@@ -27,16 +27,16 @@ access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzliMmE1MWI0MTU
 First of all, you need to import the scitacean library
 ```python
 from scitacean import Client
-from scitacean.transfer.ssh import SSHFileTransfer
+from scitacean.transfer.sftp import SFTPFileTransfer
 ```
 
 Instantiate the client
 ```python
-sct_client = Client.from_token(
+client = Client.from_token(
     url=scicat_instance,
     token=token,
-    file_transfer=SSHFileTransfer(
-        host="login.esss.dk"
+    file_transfer=SFTPFileTransfer(
+        host="sftpserver2.esss.dk"
     ))
 ```
 
