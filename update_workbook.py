@@ -2,10 +2,12 @@ import json
 from enum import auto, Enum
 from pathlib import Path
 from types import MappingProxyType
+from typing import Optional
 
 
 # Configuration Variables
-SYNC_FILE_SUFFIXES = ('.py', '.ipynb')
+SYNC_FILE_SUFFIXES = ('.py', '.ipynb', '.png', '.jpg', '.svg')
+EXCLUDE_DIRS = ('__pycache__', '.ipynb_checkpoints')
 WORKBOOK_ROOT_DIR = Path('workbooks')
 SOURCE_REPLACEMENT_MESSAGE = '# Insert your solution:\n'
 CELL_PROTECTING_TAG = 'dmsc-school-keep'
@@ -96,17 +98,30 @@ def check_current_dir():
                            f"hint: cd {cur_file_dir.resolve()}")
 
 
-def listmaterials(root_dir: Path) -> list:
-    import os
-    materials = []
-    for lecture_dir in lecture_to_directories.values():
-        try:
-            file_paths = os.listdir(root_dir/lecture_dir)
-            materials.extend([lecture_dir/Path(file_path) for file_path in file_paths])
-        except FileNotFoundError:
-            ...
+def flat_dir(dirs: list[Path], files: Optional[list[Path]] = None) -> list:
+    if files is None:
+        files = []
+
+    if not dirs:
+        return files    
+
+    if (dir:=dirs.pop()).is_file() and dir.suffix in SYNC_FILE_SUFFIXES:
+        files.append(dir)
+    elif dir.is_dir() and dir.name not in EXCLUDE_DIRS:
+        import os
+        dirs.extend([dir/Path(file) for file in os.listdir(dir)])
     
-    return materials
+    return flat_dir(dirs, files)
+
+
+def listmaterials(root_dir: Path) -> list:
+    from itertools import chain
+    return list(chain(
+        *(flat_dir(dirs=[root_dir/lecture_dir])
+        for lecture_dir
+        in lecture_to_directories.values()
+        if lecture_dir.exists())
+    ))
 
 
 def get_all_materials() -> dict:
@@ -124,10 +139,14 @@ def get_all_materials() -> dict:
     return materials
 
 
-def export_python_material(textbook_path: Path) -> None:
+def export_raw_material(textbook_path: Path) -> None:
     """Copy python materials to the workbook directory."""
-    import shutil
-    shutil.copy(textbook_path, WORKBOOK_ROOT_DIR/textbook_path.parent)
+    
+    import shutil, os
+    if not (workbook_dir:=WORKBOOK_ROOT_DIR/textbook_path.parent).exists():
+        os.makedirs(workbook_dir)
+
+    shutil.copy(textbook_path, workbook_dir)
 
 
 # Helper - Jupyter Contents
@@ -165,7 +184,7 @@ class Textbook:
         ----------------------------------------
         For all cells without ``dmsc-school-keep`` tag (``CELL_PROTECTING_TAG``).
         1. Remove all cells containing ``remove-cell``.
-        2. Replace source code with ``SOURCE_REPLACEMENT_MESSAGE``
+        2. Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
            of all cells containing ``solution`` tags,
            and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
         
@@ -198,17 +217,26 @@ class Textbook:
             json.dump(self.workbook, file, indent=1)
 
 
+def is_in_lecture_dirs(file_path: Path, lecture_dirs: Optional[list[Path]] = None) -> bool:
+    if lecture_dirs is None:
+        lecture_dirs = list(lecture_to_directories.values())
+
+    if (dir:=file_path.parent).parent == Path('.'):
+        return dir in lecture_dirs
+
+    return is_in_lecture_dirs(dir, lecture_dirs=lecture_dirs)
+
+
 def filter_textbooks(changed_files: dict) -> dict[Path, GitStatus]:
     changed_materials = {
         filepath: status
         for filepath, status in changed_files.items()
         if filepath.suffix in SYNC_FILE_SUFFIXES
     }
-    lecture_dirs = lecture_to_directories.values()
     return {
         file_path: status
         for file_path, status in changed_materials.items()
-        if file_path.parent in lecture_dirs
+        if is_in_lecture_dirs(file_path)
     }
 
 
@@ -222,11 +250,11 @@ def update_workbooks(textbooks: dict):
     for textbook_path, status in textbooks.items():
         if status == GitStatus.DELETED:
             delete_workbook(textbook_path)
-        elif textbook_path.suffix == '.py':
-            export_python_material(textbook_path)
-        else:  # jupyter notebooks
+        elif textbook_path.suffix == '.ipynb':
             textbook = Textbook(textbook_path)
             textbook.export_workbook()
+        else:
+            export_raw_material(textbook_path)
 
 
 if __name__ == "__main__":
