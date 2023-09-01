@@ -13,9 +13,9 @@ The FAIR principles can be summarized in the following four points:
 
 Further information and the full definition of the FAIR principles can be found on [GO FAIR](https://www.go-fair.org) website, specifically on the [FAIR Principles](https://www.go-fair.org/fair-principles/) page.
 
-The FAIR principles have become very important as they have been embraced by many funding and research institutions, in the effort to enhance the value of the data and to to further increase the re-use of the data.
+The FAIR principles have become very important as they have been embraced by many funding and research institutions, in the effort to enhance the value of the data and to further increase the re-use of the data.
 
-In 2020, an new and complementary set of principles, named TRUST, have emerged and formalized in [The TRUST Principles for digital repositories](https://www.nature.com/articles/s41597-020-0486-7) paper. 
+In 2020, a new and complementary set of principles, named TRUST, have emerged and formalized in [The TRUST Principles for digital repositories](https://www.nature.com/articles/s41597-020-0486-7) paper. 
 
 ![TRUST logo](images/trust.png)
 
@@ -26,4 +26,4 @@ The TRUST principles are geared more towards the repositories holding the data a
 - Sustainability
 - Technology
 
-Our experience has tought us that performing data curation correctly and with high quality facilitate to achieve optimal data FAIRness, will also help in having repository TRUSTness, and encourage increasing scientific output.
+Our experience has taught us that performing data curation correctly and with high quality to achieve optimal data FAIRness, will also help in having repository TRUSTness, and encouraging increased scientific output.

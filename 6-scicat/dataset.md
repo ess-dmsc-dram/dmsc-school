@@ -2,20 +2,20 @@
 
 ## What is a dataset?
 
-To improve the understanding of the material presented in this section, we should provide a clear definition of what is a __dataset__.
+To improve the understanding of the material presented in this section, we should provide a clear definition of what a __dataset__ is.
 There are many definitions in the current literature, but all of them agree on the main concept which defines a _dataset_ as _a collection of related items_.([1], [2], [3])
 
-For our course and in the SciCat world, the definition that we abide to is this one:
+For our course and in the SciCat world, the definition that we abide by is this one:
 
 ### Dataset
 
-> A Dataset is a collection of a multi-modal set of items which: 
-> - shares a common source
+> A Dataset is a collection of multi-modal items which: 
+> - share a common source
 > - were collected for a specific purpose, 
 > - describes an individual event or a series of events or an experiment, 
 > - pertains to the same experimental data collection.  
 
-A dataset might contain one or more files and must have a set of descriptors that, according to the current standards, are called metadata and help user finding the dataset itself.  
+A dataset might contain one or more files and must have a set of descriptors that, according to the current standards, are called metadata and help users to find the dataset itself.  
 
 ____
 [1]<https://en.wikipedia.org/wiki/Data_set>  
