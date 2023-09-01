@@ -2,12 +2,15 @@ import json
 from enum import auto, Enum
 from pathlib import Path
 from types import MappingProxyType
+from typing import Optional
 
 
 # Configuration Variables
-SYNC_FILE_SUFFIXES = ('.py', '.ipynb')
+SYNC_FILE_SUFFIXES = ('.py', '.ipynb', '.png', '.jpg', '.svg')
+EXCLUDE_DIRS = ('__pycache__', '.ipynb_checkpoints')
 WORKBOOK_ROOT_DIR = Path('workbooks')
 SOURCE_REPLACEMENT_MESSAGE = '# Insert your solution:\n'
+CELL_PROTECTING_TAG = 'dmsc-school-keep'
 
 
 class GitStatus(Enum):
@@ -27,21 +30,21 @@ git_prefix_to_status = MappingProxyType({
 
 
 class Lecture(Enum):
-    MCSTAS = auto()
-    MODEL = auto()
-    PROPOSALS = auto()
     PYTHONBASICS = auto()
-    SCICAT = auto()
+    PROPOSALS = auto()
+    MCSTAS = auto()
     SCIPP = auto()
+    MODEL = auto()
+    SCICAT = auto()
 
 
 lecture_to_directories = MappingProxyType({
-    Lecture.MCSTAS: Path('mcstas'),
-    Lecture.MODEL: Path('model'),
-    Lecture.PROPOSALS: Path('proposals'),
-    Lecture.PYTHONBASICS: Path('python'),
-    Lecture.SCICAT: Path('scicat'),
-    Lecture.SCIPP: Path('scipp'),
+    Lecture.PYTHONBASICS: Path('1-python'),
+    Lecture.PROPOSALS: Path('2-proposals'),
+    Lecture.MCSTAS: Path('3-mcstas'),
+    Lecture.SCIPP: Path('4-reduction'),
+    Lecture.MODEL: Path('5-analysis'),
+    Lecture.SCICAT: Path('6-scicat'),
 })
 
 
@@ -95,17 +98,30 @@ def check_current_dir():
                            f"hint: cd {cur_file_dir.resolve()}")
 
 
-def listmaterials(root_dir: Path) -> list:
-    import os
-    materials = []
-    for lecture_dir in lecture_to_directories.values():
-        try:
-            file_paths = os.listdir(root_dir/lecture_dir)
-            materials.extend([lecture_dir/Path(file_path) for file_path in file_paths])
-        except FileNotFoundError:
-            ...
+def flat_dir(dirs: list[Path], files: Optional[list[Path]] = None) -> list:
+    if files is None:
+        files = []
+
+    if not dirs:
+        return files    
+
+    if (dir:=dirs.pop()).is_file() and dir.suffix in SYNC_FILE_SUFFIXES:
+        files.append(dir)
+    elif dir.is_dir() and dir.name not in EXCLUDE_DIRS:
+        import os
+        dirs.extend([dir/Path(file) for file in os.listdir(dir)])
     
-    return materials
+    return flat_dir(dirs, files)
+
+
+def listmaterials(root_dir: Path) -> list:
+    from itertools import chain
+    return list(chain(
+        *(flat_dir(dirs=[root_dir/lecture_dir])
+        for lecture_dir
+        in lecture_to_directories.values()
+        if lecture_dir.exists())
+    ))
 
 
 def get_all_materials() -> dict:
@@ -123,10 +139,14 @@ def get_all_materials() -> dict:
     return materials
 
 
-def export_python_material(textbook_path: Path) -> None:
+def export_raw_material(textbook_path: Path) -> None:
     """Copy python materials to the workbook directory."""
-    import shutil
-    shutil.copy(textbook_path, WORKBOOK_ROOT_DIR/textbook_path.parent)
+    
+    import shutil, os
+    if not (workbook_dir:=WORKBOOK_ROOT_DIR/textbook_path.parent).exists():
+        os.makedirs(workbook_dir)
+
+    shutil.copy(textbook_path, workbook_dir)
 
 
 # Helper - Jupyter Contents
@@ -134,13 +154,18 @@ def retrieve_tags(cell: dict[str, dict]) -> list:
     return meta.get('tags', []) if (meta:=cell.get('metadata')) else []
 
 
-def tags_in(cell: dict[str, dict], *tags: str) -> bool:
+def check_tags(cell: dict[str, dict], tag_flags: dict[str, bool]) -> bool:
     return (cell_tags:=retrieve_tags(cell)) is not None and \
-            all([tag in cell_tags for tag in tags])
+            all([tag in cell_tags if flag else tag not in cell_tags 
+                 for tag, flag in tag_flags.items()])
 
 
-def is_solution_cell(cell: dict[str, dict]) -> bool:
-    return tags_in(cell, 'solution')
+def is_hidden_solution_cell(cell: dict[str, dict]) -> bool:
+    return check_tags(cell, {'solution': True, CELL_PROTECTING_TAG: False})
+
+
+def is_workbook_cell(cell: dict[str, dict]) -> bool:
+    return not check_tags(cell, {'remove-cell': True, CELL_PROTECTING_TAG: False})
 
 
 class Textbook:
@@ -157,13 +182,17 @@ class Textbook:
 
         How to create a workbook from a textbook
         ----------------------------------------
-        For all cells with ``solution`` tag,
-        remove ``source`` of the cell and ``hide-cell``, ``solution`` tags and
-        add ``SOURCE_REPLACEMENTM_MESSAE`` to the ``source``.
+        For all cells without ``dmsc-school-keep`` tag (``CELL_PROTECTING_TAG``).
+        1. Remove all cells containing ``remove-cell``.
+        2. Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
+           of all cells containing ``solution`` tags,
+           and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
+        
         """
         from copy import deepcopy
         workbook = deepcopy(self.contents)
-        solution_cells = filter(is_solution_cell, workbook.get('cells', []))
+        workbook['cells'] = list(filter(is_workbook_cell, workbook.get('cells', [])))
+        solution_cells = filter(is_hidden_solution_cell, workbook.get('cells', []))
         
         for solution in solution_cells:
             solution['source'] = [SOURCE_REPLACEMENT_MESSAGE]
@@ -188,17 +217,26 @@ class Textbook:
             json.dump(self.workbook, file, indent=1)
 
 
+def is_in_lecture_dirs(file_path: Path, lecture_dirs: Optional[list[Path]] = None) -> bool:
+    if lecture_dirs is None:
+        lecture_dirs = list(lecture_to_directories.values())
+
+    if (dir:=file_path.parent).parent == Path('.'):
+        return dir in lecture_dirs
+
+    return is_in_lecture_dirs(dir, lecture_dirs=lecture_dirs)
+
+
 def filter_textbooks(changed_files: dict) -> dict[Path, GitStatus]:
     changed_materials = {
         filepath: status
         for filepath, status in changed_files.items()
         if filepath.suffix in SYNC_FILE_SUFFIXES
     }
-    lecture_dirs = lecture_to_directories.values()
     return {
         file_path: status
         for file_path, status in changed_materials.items()
-        if file_path.parent in lecture_dirs
+        if is_in_lecture_dirs(file_path)
     }
 
 
@@ -212,11 +250,11 @@ def update_workbooks(textbooks: dict):
     for textbook_path, status in textbooks.items():
         if status == GitStatus.DELETED:
             delete_workbook(textbook_path)
-        elif textbook_path.suffix == '.py':
-            export_python_material(textbook_path)
-        else:  # jupyter notebooks
+        elif textbook_path.suffix == '.ipynb':
             textbook = Textbook(textbook_path)
             textbook.export_workbook()
+        else:
+            export_raw_material(textbook_path)
 
 
 if __name__ == "__main__":
