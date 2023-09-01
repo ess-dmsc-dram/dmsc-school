@@ -31,7 +31,7 @@ def make(**kwargs):
     src.Lmin = "wavelength - 0.5*d_wavelength"
     src.Lmax = "wavelength + 0.5*d_wavelength"
     instrument.add_parameter(
-        "double", "n_pulses", value=3.0, comment="[1] Number of pulses from source"
+        "double", "n_pulses", value=1.0, comment="[1] Number of pulses from source"
     )
     src.n_pulses = "n_pulses"
     src.acc_power = "2*(n_pulses/14)"
@@ -288,6 +288,7 @@ def make(**kwargs):
     detector_event.n = 200
     detector_event.filename = '"detector_signal_event.dat"'
 
+    """
     abs_logger_zy = instrument.add_component(
         "abs_logger_space_zy", "Union_abs_logger_2D_space"
     )
@@ -303,6 +304,7 @@ def make(**kwargs):
         D2_max=0.26,
         filename='"abs_logger_zy.dat"',
     )
+    """
 
     master = instrument.add_component("master", "Union_master")
     stop = instrument.add_component("stop", "Union_stop")

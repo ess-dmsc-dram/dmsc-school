@@ -7,7 +7,10 @@ def make(**kwargs):
 
     # Value used when reading data to multiply all weights in order to units from intensity to counts, set this to the time span of the experiment.
     instrument.add_parameter(
-        "double", "integration_time", value=1, comment="[s] Time span of experiment"
+        "double",
+        "integration_time",
+        value=3600 * 6,
+        comment="[s] Time span of experiment",
     )
 
     # Calculations
@@ -187,17 +190,12 @@ def make(**kwargs):
 
     # Unknown quasi
     quasi1 = instrument.add_component("quasi_incoherent_1", "Incoherent_process")
-    quasi1.set_parameters(sigma=1.0, gamma=0.0008, unit_cell_volume=20.0, f_QE=0.99)
-
-    quasi2 = instrument.add_component("quasi_incoherent_2", "Incoherent_process")
-    quasi2.set_parameters(sigma=2.2, gamma=0.0035, unit_cell_volume=20.0, f_QE=0.99)
+    quasi1.set_parameters(sigma=3.17, gamma=0.0076, unit_cell_volume=20.0, f_QE=0.99)
 
     material = instrument.add_component(
         "unknown_quasi_elastic_material", "Union_make_material"
     )
-    material.set_parameters(
-        my_absorption=0.57, process_string='"quasi_incoherent_1,quasi_incoherent_2"'
-    )
+    material.set_parameters(my_absorption=0.92, process_string='"quasi_incoherent_1"')
 
     analyzer_direction = instrument.add_declare_var(
         "double", "analyzer_direction", value=30
@@ -384,10 +382,10 @@ def make(**kwargs):
     instrument.add_declare_var("double", "t_max")
     instrument.add_declare_var("double", "t_max_pulses")
     instrument.append_initialize(
-        "t_min = (backscattering_wavelength)*(sample_distance - 0.1 + 2*analyzer_distance)/(K2V*2*PI);"
+        "t_min = (backscattering_wavelength)*(sample_distance - 0.7 + 2.0*analyzer_distance)/(K2V*2*PI);"
     )
     instrument.append_initialize(
-        "t_max = (backscattering_wavelength)*(sample_distance + 1.0 + 2*analyzer_distance)/(K2V*2*PI);"
+        "t_max = (backscattering_wavelength)*(sample_distance + 1.0 + 2.0*analyzer_distance)/(K2V*2*PI);"
     )
     instrument.append_initialize(
         "t_max = t_max + 4.0E-3; // Account for ESS pulse structure"
@@ -410,7 +408,7 @@ def make(**kwargs):
     detector.target_geometry = '"He3_gas"'
     detector.time_min = "t_min"
     detector.time_max = "t_max"
-    detector.n = 200
+    detector.n = 100
     detector.filename = '"detector_signal_time.dat"'
 
     detector = instrument.add_component(
@@ -421,7 +419,7 @@ def make(**kwargs):
     detector.n = 50
     detector.time_min = "t_min"
     detector.time_max = "t_max"
-    detector.time_bins = 300
+    detector.time_bins = 250
     detector.filename = '"detector_signal_2D.dat"'
 
     detector = instrument.add_component(
@@ -432,7 +430,7 @@ def make(**kwargs):
     detector.n = 50
     detector.time_min = "t_min"
     detector.time_max = "t_max_pulses"
-    detector.time_bins = 300
+    detector.time_bins = 350
     detector.filename = '"detector_signal_2D_all.dat"'
 
     detector_event = instrument.add_component(
