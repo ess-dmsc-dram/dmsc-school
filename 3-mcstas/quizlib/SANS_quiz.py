@@ -22,10 +22,11 @@ class SANS_Quiz(Quiz):
         - C: 3 m
         """
 
-        feedback = {"A": "No, this would give the widest angle coverage, but worst resolution",
-                    "B": "No, it's possible to get better angular precision with another setting",
-                    "C": "Yes, a large distance between sample and detector provides high angular precision",
-                    }
+        feedback = {
+            "A": "No, this would give the widest angle coverage, but worst resolution",
+            "B": "No, it's possible to get better angular precision with another setting",
+            "C": "Yes, a large distance between sample and detector provides high angular precision",
+        }
 
         self.multiple_choice(answer=answer, correct_answer="C", feedback=feedback)
 
@@ -41,9 +42,13 @@ class SANS_Quiz(Quiz):
 
         # check instrument object parameters
 
-        required_parameters = dict(sample_distance=150, wavelength=6,
-                                   d_wavelength=6, enable_sample=0,
-                                   n_pulses=1)
+        required_parameters = dict(
+            sample_distance=150,
+            wavelength=6,
+            d_wavelength=1.5,
+            enable_sample=0,
+            n_pulses=1,
+        )
 
         if not is_instrument_object(answer):
             return
@@ -52,11 +57,16 @@ class SANS_Quiz(Quiz):
 
         for key, value in required_parameters.items():
             if key not in parameters:
-                print_box(f"The parameter {key} was not found in the instrument.", False)
+                print_box(
+                    f"The parameter {key} was not found in the instrument.", False
+                )
                 return
 
             if not value == parameters[key].value:
-                print_box(f"The parameter {key} had value {parameters[key].value}, which was not as expected.", False)
+                print_box(
+                    f"The parameter {key} had value {parameters[key].value}, which was not as expected.",
+                    False,
+                )
                 return
 
         print_box("The parameters of the instrument were correctly set!", True)
@@ -71,12 +81,13 @@ class SANS_Quiz(Quiz):
         - C: The majority of the signal is far away from the direct beam
         """
 
-        feedback = {"A": "Yes, since the detector is above the beam, -0.25 m would be beam height, "
-                         "and the majority of the counts are seen at the lowest y values",
-                    "B": "No, sadly the signal is not as flat as one could have hoped",
-                    "C": "No, since the detector is above the beam, that would require the majority of "
-                         "the counts to be at large y values",
-                    }
+        feedback = {
+            "A": "Yes, since the detector is above the beam, -0.25 m would be beam height, "
+            "and the majority of the counts are seen at the lowest y values",
+            "B": "No, sadly the signal is not as flat as one could have hoped",
+            "C": "No, since the detector is above the beam, that would require the majority of "
+            "the counts to be at large y values",
+        }
 
         self.multiple_choice(answer=answer, correct_answer="A", feedback=feedback)
 
@@ -86,11 +97,12 @@ class SANS_Quiz(Quiz):
         - A: Yes
         - B: No
         """
-        feedback = {"A": "Exactly, since this region correspond to the lowest measured angles, "
-                         "crucial for small angle scattering",
-                    "B": "The quiz disagrees, a large signal at low height and thus low angle masks"
-                         "data important for small angle scattering",
-                    }
+        feedback = {
+            "A": "Exactly, since this region correspond to the lowest measured angles, "
+            "crucial for small angle scattering",
+            "B": "The quiz disagrees, a large signal at low height and thus low angle masks"
+            "data important for small angle scattering",
+        }
 
         self.multiple_choice(answer=answer, correct_answer="A", feedback=feedback)
 
@@ -103,11 +115,12 @@ class SANS_Quiz(Quiz):
         - D: By adding a Slit
         """
 
-        feedback = {"A": "No, that would improve the energy resolution",
-                    "B": "No, that would improve the energy resolution",
-                    "C": "Yes, the issue arise from the direct beam scattering in the casing, a beamstop can prevent this",
-                    "D": "From a McStas point of view this could work, but there is an easier solution",
-                    }
+        feedback = {
+            "A": "No, that would improve the energy resolution",
+            "B": "No, that would improve the energy resolution",
+            "C": "Yes, the issue arise from the direct beam scattering in the casing, a beamstop can prevent this",
+            "D": "From a McStas point of view this could work, but there is an easier solution",
+        }
 
         self.multiple_choice(answer=answer, correct_answer="C", feedback=feedback)
 
@@ -123,17 +136,20 @@ class SANS_Quiz(Quiz):
         - D: Before the detector position
         """
 
-        feedback = {"A": "No, that would prevent the beam from reaching the sample",
-                    "B": "No, that would prevent the beam from reaching the sample",
-                    "C": "Yes, that would remove the part of the beam that did not scatter in the sample",
-                    "D": "Yes, that would remove the part of the beam that did not scatter in the sample",
-                    }
+        feedback = {
+            "A": "No, that would prevent the beam from reaching the sample",
+            "B": "No, that would prevent the beam from reaching the sample",
+            "C": "Yes, that would remove the part of the beam that did not scatter in the sample",
+            "D": "Yes, that would remove the part of the beam that did not scatter in the sample",
+        }
 
         if not isinstance(answer, list):
             answer = [answer]
 
         for single_answer in answer:
-            self.multiple_choice(answer=single_answer, correct_answer=["C", "D"], feedback=feedback)
+            self.multiple_choice(
+                answer=single_answer, correct_answer=["C", "D"], feedback=feedback
+            )
 
     def question_7(self, answer=None):
         """
@@ -152,12 +168,17 @@ class SANS_Quiz(Quiz):
 
         comp_types = [x.component_name for x in answer.component_list]
         if "Beamstop" not in comp_types:
-            print_box("Did not find any beamstop added to this instrument object", False)
+            print_box(
+                "Did not find any beamstop added to this instrument object", False
+            )
             return
 
         if not comp_types.count("Beamstop") == 1:
-            print_box("Found several beamstops added to this instrument, only one is necessary!"
-                      "You may need to rerun the notebook from the top to get a fresh start.", False)
+            print_box(
+                "Found several beamstops added to this instrument, only one is necessary!"
+                "You may need to rerun the notebook from the top to get a fresh start.",
+                False,
+            )
             return
 
         beamstop_name = name_of_component_type(answer, "Beamstop")
@@ -168,23 +189,32 @@ class SANS_Quiz(Quiz):
         detector_position_index = comp_names.index("detector_position")
 
         if beamstop_index < sample_index:
-            print_box("The beamstop was inserted before the sample, this won't work!", False)
+            print_box(
+                "The beamstop was inserted before the sample, this won't work!", False
+            )
             return
 
         if beamstop_index > detector_position_index:
-            print_box("The beamstop was inserted after the detector position, this is not quite right", False)
+            print_box(
+                "The beamstop was inserted after the detector position, this is not quite right",
+                False,
+            )
             return
 
         msg = "The beamstop was added at the right point in the component sequence!"
         required_pars = dict(xwidth=0.1, yheight=0.02)
-        self.last_component_in_instr_check(answer=answer, comp_type_str="Beamstop",
-                                           required_pars=required_pars,
-                                           required_AT_relative=None,
-                                           required_AT_data=None,
-                                           required_ROTATED_relative=None,
-                                           required_ROTATED_data=None,
-                                           success_msg=msg,
-                                           comp_name=beamstop_name, print_output=True)
+        self.last_component_in_instr_check(
+            answer=answer,
+            comp_type_str="Beamstop",
+            required_pars=required_pars,
+            required_AT_relative=None,
+            required_AT_data=None,
+            required_ROTATED_relative=None,
+            required_ROTATED_data=None,
+            success_msg=msg,
+            comp_name=beamstop_name,
+            print_output=True,
+        )
 
     def question_8(self, answer=None):
         if not is_instrument_object(answer):
@@ -192,12 +222,17 @@ class SANS_Quiz(Quiz):
 
         comp_types = [x.component_name for x in answer.component_list]
         if not "Beamstop" in comp_types:
-            print_box("Did not find any beamstop added to this instrument object", False)
+            print_box(
+                "Did not find any beamstop added to this instrument object", False
+            )
             return
 
         if not comp_types.count("Beamstop") == 1:
-            print_box("Found several beamstops added to this instrument, only one is necessary!"
-                      "You may need to rerun the notebook from the top to get a fresh start.", False)
+            print_box(
+                "Found several beamstops added to this instrument, only one is necessary!"
+                "You may need to rerun the notebook from the top to get a fresh start.",
+                False,
+            )
             return
 
         beamstop_name = name_of_component_type(answer, "Beamstop")
@@ -208,20 +243,29 @@ class SANS_Quiz(Quiz):
         detector_position_index = comp_names.index("detector_position")
 
         if beamstop_index < sample_index:
-            print_box("The beamstop was inserted before the sample, this won't work!", False)
+            print_box(
+                "The beamstop was inserted before the sample, this won't work!", False
+            )
             return
 
         if beamstop_index > detector_position_index:
-            print_box("The beamstop was inserted after the detector position, this is not quite right", False)
+            print_box(
+                "The beamstop was inserted after the detector position, this is not quite right",
+                False,
+            )
             return
 
         msg = "The beamstop was added at the right point in the component sequence and space!"
         required_pars = dict(xwidth=0.1, yheight=0.02)
-        self.last_component_in_instr_check(answer=answer, comp_type_str="Beamstop",
-                                           required_AT_relative="sample_position",
-                                           required_AT_data=[0, 0, "0.9*detector_distance"],
-                                           success_msg=msg,
-                                           comp_name=beamstop_name, print_output=True)
+        self.last_component_in_instr_check(
+            answer=answer,
+            comp_type_str="Beamstop",
+            required_AT_relative="sample_position",
+            required_AT_data=[0, 0, "0.9*detector_distance"],
+            success_msg=msg,
+            comp_name=beamstop_name,
+            print_output=True,
+        )
 
     def question_9(self, answer=None):
         """
@@ -229,8 +273,9 @@ class SANS_Quiz(Quiz):
         - A: Yes
         - B: No
         """
-        feedback = {"A": "The large signal at low y has disappeared!",
-                    "B": "There are still issues, but the most significant one should have been fixed",
-                    }
+        feedback = {
+            "A": "The large signal at low y has disappeared!",
+            "B": "There are still issues, but the most significant one should have been fixed",
+        }
 
         self.multiple_choice(answer=answer, correct_answer="A", feedback=feedback)
