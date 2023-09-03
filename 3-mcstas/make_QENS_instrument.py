@@ -40,7 +40,7 @@ def make(**kwargs):
     )
 
     instrument.add_parameter(
-        "double", "energy_width_ueV", comment="Simulated energy range in micro eV"
+        "double", "energy_width_ueV", value=3, comment="Simulated energy range in micro eV"
     )
     instrument.add_declare_var("double", "energy_width_meV")
     instrument.append_initialize("energy_width_meV = 1E-3*energy_width_ueV;")
@@ -80,19 +80,6 @@ def make(**kwargs):
     )
     src.append_EXTEND("p*=7e5;")
 
-    """
-    enable_chopper = instrument.add_parameter("double", "enable_chopper", value=1,
-                                             comment="0 for no chopper, 1 for chopper")
-    enable_chopper.add_option(1, options_are_legal=True)
-    enable_chopper.add_option(0, options_are_legal=True)
-
-    chopper = instrument.add_component("chopper", "DiskChopper")
-    chopper.set_parameters(yheight=0.05, radius=0.7, nu="chopper_frequency",
-                           nslit=1.0, delay="chopper_delay", theta_0="chopper_theta")
-    chopper.set_AT("chopper_distance", RELATIVE=src)
-    chopper.set_WHEN("enable_chopper==1")
-    """
-
     sample_dist = instrument.add_parameter(
         "double", "sample_distance", value=8.0, comment="[m] Source Sample distance"
     )
@@ -111,24 +98,6 @@ def make(**kwargs):
     instrument.append_initialize(
         "t_max_sample_pulses = t_max_sample + 3.0E-3; // Account for ESS pulse structure"
     )
-
-    """
-    tof_wave = instrument.add_component("tof_wave", "TOFLambda_monitor")
-    tof_wave.set_parameters(nL=500, nt=500, tmin="1E6*t_min_sample", tmax="1E6*t_max_sample",
-                            xwidth=1.0, yheight=1.0,
-                            Lmin="min_wavelength",
-                            Lmax="max_wavelength",
-                            filename='"tof_wave.dat"', restore_neutron=1)
-    tof_wave.set_AT(0, RELATIVE=sample_position)
-
-    tof_wave_pulses = instrument.add_component("tof_wave_pulses", "TOFLambda_monitor")
-    tof_wave_pulses.set_parameters(nL=500, nt=500, tmin="1E6*t_min_sample", tmax="1E6*t_max_sample_pulses",
-                            xwidth=1.0, yheight=1.0,
-                            Lmin="min_wavelength",
-                            Lmax="max_wavelength",
-                            filename='"tof_wave_pulses.dat"', restore_neutron=1)
-    tof_wave_pulses.set_AT(0, RELATIVE=sample_position)
-    """
 
     instrument.add_component("init", "Union_init")
 
@@ -254,16 +223,6 @@ def make(**kwargs):
     analyzer_dir.set_AT(0, sample_position)
     analyzer_dir.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
 
-    """
-    mon = instrument.add_component("monitor", "PSD_monitor")
-    mon.nx = 100
-    mon.ny = 100
-    mon.filename = '"psd.dat"'
-    mon.xwidth = 0.08
-    mon.yheight = 0.08
-    mon.restore_neutron = 1
-    mon.set_AT([0,0,dist], RELATIVE=analyzer_dir)
-    """
 
     analyzer_pos = instrument.add_component("analyzer_pos", "Arm")
     analyzer_pos.set_AT([0, 0, dist], RELATIVE=analyzer_dir)
@@ -313,15 +272,6 @@ def make(**kwargs):
     Al.process_string = '"Al_incoherent,Al_powder"'
     Al.my_absorption = "100*4*0.231/66.4"
 
-    Cap_incoherent = instrument.add_component("Cap_incoherent", "Incoherent_process")
-    Cap_incoherent.sigma = 80
-    Cap_incoherent.packing_factor = 1
-    Cap_incoherent.unit_cell_volume = 120
-
-    Cap = instrument.add_component("Cap", "Union_make_material")
-    Cap.process_string = '"Cap_incoherent"'
-    Cap.my_absorption = 0.8
-
     # Set up He3 material with incoherent scattering
     def mu_gas(sigma, bars, temperature_C):
         pressure_Pa = bars * 1e5
@@ -359,24 +309,6 @@ def make(**kwargs):
         priority=310,
         p_interact=0.2,
     )
-
-    """
-    size_fraction = 0.95
-    buble = instrument.add_component("buble", "Union_cylinder")
-    buble.set_AT([0, 0.1*casing.yheight, -(1-size_fraction)*He3_gas.radius], casing)
-    buble.set_parameters(yheight=0.01, radius=0.999*size_fraction*He3_gas.radius,
-                           material_string='"Vacuum"', priority=311, p_interact=0.2)
-    """
-
-    """
-    cap_dist = 0.35
-    Caps = instrument.add_component("Caps", "Union_cylinder")
-    Caps.set_AT([0, 0.25*casing.yheight, cap_dist], casing)
-    Caps.set_parameters(yheight=0.1*casing.yheight, radius=casing.radius-2E-3,
-                        material_string='"Cap"', priority=290, p_interact=0.45,
-                        target_z=-cap_dist, target_y=0, target_x=0,
-                        focus_xh=0.01, focus_xw=0.02)
-    """
 
     instrument.add_declare_var("double", "t_min")
     instrument.add_declare_var("double", "t_max")
@@ -440,16 +372,6 @@ def make(**kwargs):
     detector_event.yheight = He3_gas.yheight
     detector_event.n = 200
     detector_event.filename = '"detector_signal_event.dat"'
-
-    """
-    abs_logger_zy = instrument.add_component("abs_logger_space_zy", "Union_abs_logger_2D_space")
-    abs_logger_zy.set_AT(0, RELATIVE=He3_gas)
-    abs_logger_zy.set_parameters(D_direction_1='"z"', n1=300,
-                                 D1_min=-0.04, D1_max=0.04,
-                                 D_direction_2='"y"', n2=300,
-                                 D2_min=-0.26, D2_max=0.26,
-                                 filename='"abs_logger_zy.dat"')
-    """
 
     master = instrument.add_component("detector_master", "Union_master")
     stop = instrument.add_component("stop", "Union_stop")
