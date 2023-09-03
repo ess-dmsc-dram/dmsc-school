@@ -11,10 +11,10 @@ copyright: "2023"
 execute:
   execute_notebooks: force
   allow_errors: true
-  exclude_patterns:
-    - '6-scicat/9-exercise.ipynb'
-    - '6-scicat/notebooks/*'
-  
+  timeout: -1
+
+exclude_patterns: [6-scicat/notebooks/*, 6-scicat/9-exercise.ipynb]
+
 # Define the name of the latex output file for PDF builds
 latex:
   latex_documents:
@@ -39,6 +39,3 @@ html:
 sphinx:
   extra_extensions:
     - sphinxcontrib.mermaid
-
-execute:
-  timeout: -1
