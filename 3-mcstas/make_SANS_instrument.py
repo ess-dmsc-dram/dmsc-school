@@ -70,7 +70,7 @@ def make(**kwargs):
     enable_sample.add_option(1, options_are_legal=True)
 
     sample_conventional = instrument.add_component(
-        "sample_conventional", "SANS_spheres2"
+        "sample", "SANS_spheres2"
     )
     sample_conventional.xwidth = 0.02
     sample_conventional.yheight = 0.02
@@ -81,15 +81,12 @@ def make(**kwargs):
     sample_conventional.dsdw_inc = 0.08
     sample_conventional.Qmaxd = "1.5*2.0*2.0*PI/(wavelength-0.5*d_wavelength)*sin(0.5*atan(0.5/detector_distance))"
     # sample_conventional.dsdw_inc = 0.0000008
-    R_par = instrument.add_parameter(
-        "double", "SANS_R", value=90, comment="[AA]  Radius of scattering hard spheres"
-    )
-    sample_conventional.R = R_par
+    sample_conventional.R = 90
     sample_conventional.set_WHEN("enable_sample == 1")
     sample_conventional.set_AT(0, RELATIVE="sample_position")
 
     dist = instrument.add_parameter(
-        "double", "detector_distance", value=3.0, comment="[m] Sample_detector_distance"
+        "double", "detector_distance", value=2.0, comment="[m] Sample_detector_distance"
     )
     detector_position = instrument.add_component("detector_position", "Arm")
     detector_position.set_AT([0, 0, dist], RELATIVE=sample_position)
