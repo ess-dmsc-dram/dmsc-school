@@ -70,7 +70,7 @@ def make(**kwargs):
     enable_sample.add_option(1, options_are_legal=True)
 
     sample_conventional = instrument.add_component(
-        "sample_conventional", "SANS_spheres2"
+        "sample", "SANS_spheres2"
     )
     sample_conventional.xwidth = 0.02
     sample_conventional.yheight = 0.02
