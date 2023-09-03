@@ -279,3 +279,18 @@ class SANS_Quiz(Quiz):
         }
 
         self.multiple_choice(answer=answer, correct_answer="A", feedback=feedback)
+
+    def question_10(self, answer=None):
+        """
+        Compare the results with and without sample. Where on the detector are the difference largest?
+        - A: Lowest part of the detector
+        - B: Middle of the detector
+        - C: Top of the detector
+        """
+        feedback = {
+            "A": "Yes, there should be around 500 times larger count rate at the lowest part of the detector",
+            "B": "No, there is some interesting structure, but the count rate is not much greater than background",
+            "C": "No, at large angles the signal is almost equal to the background.",
+        }
+
+        self.multiple_choice(answer=answer, correct_answer="A", feedback=feedback)
