@@ -48,6 +48,7 @@ class SANS_Quiz(Quiz):
             d_wavelength=1.5,
             enable_sample=0,
             n_pulses=1,
+            detector_distance=3.0,
         )
 
         if not is_instrument_object(answer):
