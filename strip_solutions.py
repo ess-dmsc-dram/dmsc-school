@@ -9,7 +9,7 @@ EMPTY_CELL = {
     "execution_count": None,
     "metadata": {},
     "outputs": [],
-    "source": ["# Insert your solution:"],
+    "source": ["# Insert your solution:\n"],
 }
 
 
