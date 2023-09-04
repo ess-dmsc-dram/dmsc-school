@@ -28,6 +28,7 @@ parts:
     title: The ESS Viewpoint
 - caption: McStas
   chapters:
+  - file: 3-mcstas/Simulation
   - file: 3-mcstas/SANS_from_function
   - file: 3-mcstas/QENS_from_function
 - caption: Reduction with scipp
