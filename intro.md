@@ -1,7 +1,7 @@
 ![](./images/logo.png)
 
 The purpose of this online book is as a companion to the workshop materials form the ESS Data Management and Software Centre Summer School.
-This material can be treated in a self-guided fashion and, where relevant, the material can be made interactive by selecting the JupyterHub functionality at the top of the page.
+This material can be treated in a self-guided fashion.
 
 # Welcome
 
