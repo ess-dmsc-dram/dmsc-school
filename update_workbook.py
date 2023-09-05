@@ -2,7 +2,7 @@ import json
 from enum import auto, Enum
 from pathlib import Path
 from types import MappingProxyType
-from typing import Optional
+from typing import Any, Optional
 
 
 # Configuration Variables
@@ -151,21 +151,45 @@ def export_raw_material(textbook_path: Path) -> None:
 
 # Helper - Jupyter Contents
 def retrieve_tags(cell: dict[str, dict]) -> list:
-    return meta.get('tags', []) if (meta:=cell.get('metadata')) else []
+    return meta.setdefault('tags', []) if (meta:=cell.setdefault('metadata', {})) else []
 
 
-def check_tags(cell: dict[str, dict], tag_flags: dict[str, bool]) -> bool:
-    return (cell_tags:=retrieve_tags(cell)) is not None and \
-            all([tag in cell_tags if flag else tag not in cell_tags 
+def check_tags(cell_tags: list[str], tag_flags: dict[str, bool]) -> bool:
+    return all([tag in cell_tags if flag else tag not in cell_tags
                  for tag, flag in tag_flags.items()])
 
 
-def is_hidden_solution_cell(cell: dict[str, dict]) -> bool:
-    return check_tags(cell, {'solution': True, CELL_PROTECTING_TAG: False})
+def is_workbook_cell(cell: dict[str, Any]) -> bool:
+    cell_tags = retrieve_tags(cell)
+    return not check_tags(cell_tags, {'remove-cell': True, CELL_PROTECTING_TAG: False})
 
 
-def is_workbook_cell(cell: dict[str, dict]) -> bool:
-    return not check_tags(cell, {'remove-cell': True, CELL_PROTECTING_TAG: False})
+def is_hidden_solution_cell(cell_tags: list[str]) -> bool:
+    return check_tags(cell_tags, {'solution': True, CELL_PROTECTING_TAG: False})
+
+
+def clear_outputs(cell: dict[str, Any]) -> None:
+    if cell.get('execution_count') is not None:
+        cell['execution_count'] = None
+    if (outputs:=cell.get('outputs')) is not None and len(outputs) > 0:
+        cell['outputs'] = []
+
+
+def freeze_cell(cell: dict[str, dict]) -> None:
+    meta = cell.setdefault('metadata', {})
+    meta['editable'] = False
+
+
+def remove_solution_source(cell: dict[str, list]) -> None:
+    cell['source'] = [SOURCE_REPLACEMENT_MESSAGE]
+
+
+def update_solution_tags(cell_tags: list[str]) -> None:
+    for tag in ('hide-cell', 'solution'):
+        if tag in cell_tags:
+            cell_tags.remove(tag)
+    if 'workbook' not in cell_tags:
+        cell_tags.append('workbook')
 
 
 class Textbook:
@@ -192,16 +216,14 @@ class Textbook:
         from copy import deepcopy
         workbook = deepcopy(self.contents)
         workbook['cells'] = list(filter(is_workbook_cell, workbook.get('cells', [])))
-        solution_cells = filter(is_hidden_solution_cell, workbook.get('cells', []))
-        
-        for solution in solution_cells:
-            solution['source'] = [SOURCE_REPLACEMENT_MESSAGE]
-            tags = retrieve_tags(solution)
-            for tag in ('hide-cell', 'solution'):
-                if tag in tags:
-                    tags.remove(tag)
-            if 'workbook' not in tags:
-                tags.append('workbook')
+
+        for cell in workbook.get('cells', []):
+            clear_outputs(cell)
+            if is_hidden_solution_cell((cell_tags:=retrieve_tags(cell))):
+                remove_solution_source(cell)
+                update_solution_tags(cell_tags)
+            else:
+                freeze_cell(cell)
 
         return workbook
 
