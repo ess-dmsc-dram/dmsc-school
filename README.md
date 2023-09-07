@@ -44,6 +44,10 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
     Solution of the exercise. Source code will be replaced with a instruction message.
 - `remove-cell`:
     Not included in the workbooks. Also used by `jupyter-book`.
+- `dmsc-school-hint`:
+    Editable cell with hints for students.
+    The tagged cell in the workbook will not be read-only,
+    unless it is already read-only in the textbook.
 - `dmsc-school-keep`: 
     Will not be edited or removed. It overwrites all other tags.
 
@@ -52,6 +56,9 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 There is a python script `update_workbook.py` to create a workbook(jupyter notebook)
 from the jupyter notebook lecture materials in [course directories](#Course-Directories)
 based on the [tags](#Workbook-tags) of each cells.
+
+All cells in the workbook will be read-only by default except for `solution` cells.
+Cells can be tagged with `dmsc-shool-hint` to keep their editability.
 
 If there is python files, or image files('*.png', '*.jpg', '*.svg') in the lecture material directories,
 it also copies them into the [workbook submodule](github.com:ess-dmsc-dram/dmsc-school-notebooks).
