@@ -41,6 +41,7 @@
 - janlukas:
     name: Jan-Lukas Wynen
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
+    orcid: 0000-0002-3761-3201
 - sun:
     name: Sunyoung Yoo
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
