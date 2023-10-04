@@ -63,3 +63,20 @@ This makes ESS unique in the neutron scattering landscape, coming online with da
 
 It was identified that training future users of ESS in neutron data simulation, reducation, analysis and handling would be important to enable the best science. 
 Therefore, the first DMSC Summer School was organised, to provide an in-depth discussion of these aspects. 
+The school was hosted at the Niels Bohr Institute of the University of Copenhagen (with some workshops taking place in the historic Auditorium A, where Niels Bohr himself had taught), the ESS site in Lund, and the DMSC offices in Copenhagen. 
+
+Modern data skills in neutron scattering require modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [10.1109/MCSE.2021.3059263](https://doi.org/10.1109/MCSE.2021.3059263). 
+Therefore, the first day of the summer school focused on introducing the Python programming language and plotting within Jupyter. 
+This gave the students a firm grounding in Python and ensured that all students were capable of working confidently on the material in later days. 
+
+TUESDAY
+
+WEDNESDAY
+
+THURSDAY 
+
+FRIDAY
+
+SOCIAL ACTIVITIES
+
+CONCLUDING PARAGRAPH
