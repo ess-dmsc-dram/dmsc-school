@@ -33,14 +33,16 @@
     name: Martin Trajanovski
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - neil:
-    name: Neil Veytet
+    name: Neil Vaytet
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
+    orcid: 0000-0002-6843-0037
 - peter:
     name: Peter K. Willendrup
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - janlukas:
     name: Jan-Lukas Wynen
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
+    orcid: 0000-0002-3761-3201
 - sun:
     name: Sunyoung Yoo
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
@@ -52,28 +54,28 @@
 
 # The First European Spallation Source Data Management and Software Centre Summer School
 
-From the fourth to the eight of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source hosted the first DMSC Summer School. 
+From the fourth to the eight of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source hosted the first DMSC Summer School.
 The focus of this school was to introduce "students" (ranging from Master's-level to staff scientist) to the growing importance of data in the neutron scattering landscape.
-The summer school covered aspects of Python programming, experimental simulation, data reduction, analysis and cataloguing -- with a focus on FAIR data practices throughout. 
-The material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school) and the school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt). 
+The summer school covered aspects of Python programming, experimental simulation, data reduction, analysis and cataloguing -- with a focus on FAIR data practices throughout.
+The material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school) and the school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt).
 
 The role of data in the neutron scattering landscape is changing, with more impetus being placed on the role of complex data reduction and analysis, as well as the importance of FAIR (findable, accessible, interoperable, and reusable) and open data [10.1140/epjp/s13360-023-04189-6](https://doi.org/10.1140/epjp/s13360-023-04189-6).
-The European Spallation Source (ESS) has recognised this, leading to the creation of the Data Management and Software Cente (DMSC) division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
-This makes ESS unique in the neutron scattering landscape, coming online with data as a primary partner in user experiments, alongside the instrumentation itself. 
+The European Spallation Source (ESS) has recognised this, leading to the creation of the Data Management and Software Cente (DMSC) division, based in Copenhagen and linked to the ESS Lund site for fast data transfer.
+This makes ESS unique in the neutron scattering landscape, coming online with data as a primary partner in user experiments, alongside the instrumentation itself.
 
-It was identified that training future users of ESS in neutron data simulation, reducation, analysis and handling would be important to enable the best science. 
-Therefore, the first DMSC Summer School was organised, to provide an in-depth discussion of these aspects. 
-The school was hosted at the Niels Bohr Institute of the University of Copenhagen (with some workshops taking place in the historic Auditorium A, where Niels Bohr himself had taught), the ESS site in Lund, and the DMSC offices in Copenhagen. 
+It was identified that training future users of ESS in neutron data simulation, reducation, analysis and handling would be important to enable the best science.
+Therefore, the first DMSC Summer School was organised, to provide an in-depth discussion of these aspects.
+The school was hosted at the Niels Bohr Institute of the University of Copenhagen (with some workshops taking place in the historic Auditorium A, where Niels Bohr himself had taught), the ESS site in Lund, and the DMSC offices in Copenhagen.
 
-Modern data skills in neutron scattering require modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [10.1109/MCSE.2021.3059263](https://doi.org/10.1109/MCSE.2021.3059263). 
-Therefore, the first day of the summer school focused on introducing the Python programming language and plotting within Jupyter. 
-This gave the students a firm grounding in Python and ensured that all students were capable of working confidently on the material in later days. 
+Modern data skills in neutron scattering require modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [10.1109/MCSE.2021.3059263](https://doi.org/10.1109/MCSE.2021.3059263).
+Therefore, the first day of the summer school focused on introducing the Python programming language and plotting within Jupyter.
+This gave the students a firm grounding in Python and ensured that all students were capable of working confidently on the material in later days.
 
 TUESDAY
 
 WEDNESDAY
 
-THURSDAY 
+THURSDAY
 
 FRIDAY
 
