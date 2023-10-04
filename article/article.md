@@ -58,3 +58,8 @@ The summer school covered aspects of Python programming, experimental simulation
 The material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school) and the school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt). 
 
 The role of data in the neutron scattering landscape is changing, with more impetus being placed on the role of complex data reduction and analysis, as well as the importance of FAIR (findable, accessible, interoperable, and reusable) and open data [10.1140/epjp/s13360-023-04189-6](https://doi.org/10.1140/epjp/s13360-023-04189-6).
+The European Spallation Source (ESS) has recognised this, leading to the creation of the Data Management and Software Cente (DMSC) division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
+This makes ESS unique in the neutron scattering landscape, coming online with data as a primary partner in user experiments, alongside the instrumentation itself. 
+
+It was identified that training future users of ESS in neutron data simulation, reducation, analysis and handling would be important to enable the best science. 
+Therefore, the first DMSC Summer School was organised, to provide an in-depth discussion of these aspects. 
