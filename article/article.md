@@ -20,23 +20,29 @@
 - joanna:
     name: Joanna Lewis
     affiliation: Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
+- max:
+    name: Massimiliano Novelli
+    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - cosmina:
     name: Cosmina Somani
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - alexandre:
     name: Alexandre Stefanov
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
+- martin:
+    name: Martin Trajanovski
+    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - neil:
     name: Neil Veytet
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- max:
-    name: Massimiliano Novelli
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - peter:
     name: Peter K. Willendrup
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - janlukas:
     name: Jan-Lukas Wynen
+    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
+- sun:
+    name: Sunyoung Yoo
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - thomas:
     name: Thomas Holm Rod
