@@ -168,6 +168,10 @@ def is_hidden_solution_cell(cell_tags: list[str]) -> bool:
     return check_tags(cell_tags, {'solution': True, CELL_PROTECTING_TAG: False})
 
 
+def is_editable_hint_cell(cell_tags: list[str]) -> bool:
+    return check_tags(cell_tags, {'dmsc-school-hint': True})
+
+
 def clear_outputs(cell: dict[str, Any]) -> None:
     if cell.get('execution_count') is not None:
         cell['execution_count'] = None
@@ -207,11 +211,14 @@ class Textbook:
         How to create a workbook from a textbook
         ----------------------------------------
         For all cells without ``dmsc-school-keep`` tag (``CELL_PROTECTING_TAG``).
-        1. Remove all cells containing ``remove-cell``.
-        2. Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
-           of all cells containing ``solution`` tags,
-           and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
+        - Remove all cells containing ``remove-cell``.
+        - Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
+          of all cells containing ``solution`` tags,
+          and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
         
+        For all cells, turn them into read-only,
+        if they are not cleared ``solution`` cells or tagged with ``dmsc-school-hint`.
+
         """
         from copy import deepcopy
         workbook = deepcopy(self.contents)
@@ -222,7 +229,7 @@ class Textbook:
             if is_hidden_solution_cell((cell_tags:=retrieve_tags(cell))):
                 remove_solution_source(cell)
                 update_solution_tags(cell_tags)
-            else:
+            elif not is_editable_hint_cell(cell_tags):
                 freeze_cell(cell)
 
         return workbook
