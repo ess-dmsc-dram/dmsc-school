@@ -42,3 +42,6 @@ sphinx:
 
 execute:
   timeout: -1
+
+exclude_patterns:
+  - 'article/article.md'
