@@ -4,6 +4,7 @@
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
     current address: School of Chemistry, University of Bristol, Cantock's Close, Bristol, BS8 1TS, United Kingdom.
     email: andrew.mccluskey@bristol.ac.uk
+    orcid: 0000-0003-3381-5911
 - petra:
     name: Petra Aulin
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
