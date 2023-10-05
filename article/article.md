@@ -23,7 +23,7 @@ b. Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
 
 * [andrew.mccluskey@bristol.ac.uk](mailto:andrew.mccluskey@bristol.ac.uk)/[thomas.holmrod@ess.eu](mailto:thomas.holmrod@ess.eu)
 
-From the fourth to the eight of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source hosted the first DMSC Summer School.
+From the fourth to the eight of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted the first DMSC Summer School.
 The focus of this school was to introduce "students" (ranging from Master's-level to staff scientist) to the growing importance of data in the neutron scattering landscape.
 The summer school covered aspects of Python programming, experimental simulation, data reduction, analysis and cataloguing -- with a focus on FAIR data practices throughout.
 The material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school) and the school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt).
@@ -40,9 +40,15 @@ Modern data skills in neutron scattering require modern computational practices,
 Therefore, the first day of the summer school focused on introducing the Python programming language and plotting within Jupyter.
 This gave the students a firm grounding in Python and ensured that all students were capable of working confidently on the material in later days.
 
-TUESDAY
+Tuesday was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of the ESS. 
+After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [REF FOR MCSTAS]. 
+At this point, the students were asked if they would prefer to simulate a small-angle neutron scattering (SANS) instrument or a backscattering quasi-elastic neutron scattering (QENS) instrument. 
+In the end, the fourteen students split approximately 50:50 between the two. 
+Additionally, while at the ESS site, the students where given a tour of the ESS construction site and participated in a poster session, where they were able to discuss their shared interests in the importance of data in neutron scattering. 
 
-WEDNESDAY
+The following day, the group returned to the Niels Bohr Institute to continue working with their simulated data. 
+Now, the task was to reduce their raw, simulated data to something that can be analysed with traditional methods. 
+For this, the `scipp` package [REF FOR SCIPP] was used, enabling informative visualisations and most importantly the ability to efficiently manipulate and histogram the data. 
 
 THURSDAY
 
