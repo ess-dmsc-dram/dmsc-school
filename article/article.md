@@ -1,59 +1,27 @@
----
-- andrew:
-    name: Andrew R. McCluskey
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-    current address: School of Chemistry, University of Bristol, Cantock's Close, Bristol, BS8 1TS, United Kingdom.
-    email: andrew.mccluskey@bristol.ac.uk
-    orcid: 0000-0003-3381-5911
-- petra:
-    name: Petra Aulin
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- fredrik:
-    name: Fredrik Bolmsten
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- mads:
-    name: Mads Bertelsen
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- carina:
-    name: Carina M. C. Lobley
-    affiliation: Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
-    orcid: 0000-0003-3673-2767
-- joanna:
-    name: Joanna Lewis
-    affiliation: Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
-- max:
-    name: Massimiliano Novelli
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- cosmina:
-    name: Cosmina Somani
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- alexandre:
-    name: Alexandre Stefanov
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- martin:
-    name: Martin Trajanovski
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- neil:
-    name: Neil Vaytet
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-    orcid: 0000-0002-6843-0037
-- peter:
-    name: Peter K. Willendrup
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- janlukas:
-    name: Jan-Lukas Wynen
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-    orcid: 0000-0002-3761-3201
-- sun:
-    name: Sunyoung Yoo
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-- thomas:
-    name: Thomas Holm Rod
-    affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
-    email: thomas.holmrod@ess.eu
----
-
 # The First European Spallation Source Data Management and Software Centre Summer School
+
+[Andrew R. McCluskey](https://orcid.org/0000-0003-3381-5911)<sup>a,</sup>&Dagger;\*, 
+Petra Aulin<sup>a</sup>, 
+Fredrik Bolmsten<sup>a</sup>, 
+Mads Bertelsen<sup>a</sup>, 
+[Carina M. C. Lobley](https://orcid.org/0000-0003-3673-2767)<sup>b</sup>, 
+Joanna Lewis<sup>b</sup>, 
+Massimiliano Novelli<sup>a</sup>, 
+Cosmina Somani<sup>a</sup>, 
+Alexandre Stefanov<sup>a</sup>, 
+Martin Trajanovski<sup>a</sup>, 
+[Neil Vaytet](https://ocrid.org/0000-0002-6843-0037)<sup>a</sup>, 
+Peter K. Willendrup<sup>a</sup>, 
+[Jan-Lukas Wynen](https://orcid.org/0000-0002-3761-3201)<sup>a</sup>, 
+Sunyoung Yoo<sup>a</sup>, and
+Thomas Holm Rod<sup>a</sup>\* 
+
+a. Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
+b. Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
+
+&Dagger; Current Address: School of Chemistry, University of Bristol, Cantock's Close, Bristol, BS8 1TS, United Kingdom 
+
+* [andrew.mccluskey@bristol.ac.uk](mailto:andrew.mccluskey@bristol.ac.uk)/[thomas.holmrod@ess.eu](mailto:thomas.holmrod@ess.eu)
 
 From the fourth to the eight of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source hosted the first DMSC Summer School.
 The focus of this school was to introduce "students" (ranging from Master's-level to staff scientist) to the growing importance of data in the neutron scattering landscape.
