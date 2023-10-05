@@ -15,8 +15,9 @@
     name: Mads Bertelsen
     affiliation: Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 - carina:
-    name: Carina Lobley
+    name: Carina M. C. Lobley
     affiliation: Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
+    orcid: 0000-0003-3673-2767
 - joanna:
     name: Joanna Lewis
     affiliation: Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
