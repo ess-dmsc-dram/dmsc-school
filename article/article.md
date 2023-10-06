@@ -39,6 +39,7 @@ The school was hosted at the Niels Bohr Institute of the University of Copenhage
 Modern data skills in neutron scattering require modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [10.1109/MCSE.2021.3059263](https://doi.org/10.1109/MCSE.2021.3059263).
 Therefore, the first day of the summer school focused on introducing the Python programming language and plotting within Jupyter.
 This gave the students a firm grounding in Python and ensured that all students were capable of working confidently on the material in later days.
+This day ended with a presentation introducing the ESS viewpoint on the subject of data management plans and the importance of FAIR data, concepts that would be consolidated throughout the school.
 
 Tuesday was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of the ESS. 
 After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [REF FOR MCSTAS]. 
@@ -49,11 +50,21 @@ Additionally, while at the ESS site, the students where given a tour of the ESS 
 The following day, the group returned to the Niels Bohr Institute to continue working with their simulated data. 
 Now, the task was to reduce their raw, simulated data to something that can be analysed with traditional methods. 
 For this, the `scipp` package [REF FOR SCIPP] was used, enabling informative visualisations and most importantly the ability to efficiently manipulate and histogram the data. 
+Using `scipp` the students were able to reduce their raw detector data from the McStas simulations to a 1D dataset of intensity as a function of either wavevector (SANS) or energy transfer (QENS). 
 
-THURSDAY
+On Thursday, the students were introduced to the EasyScience framework [REF FOR EASYSCIENCE] and tested with analysing their reduced data using a model-dependent approach. 
+For the SANS datasets, this meant fitting a spherical model to the "experimental" data, while for those working with QENS a simple diffusion model was used. 
+Beyond standard fitting, the students were shown Bayesian methods; Markov chain Monte Carlo and nested sampling, to probe the correlations in the model parameters and compare different analytical models. 
 
-FRIDAY
+The week ended with an discussion of the importance of data storage and cataloguing, in this case using the SciCat service. 
+The students were asked to consider what parts of their experiments constituted "data" and tasked with using the `scitacean` package to upload their complied datasets to the SciCat instance. 
+This session was particularly informative as it helped the students think again about the introduction to proposals, DMPs and FAIR data given at the start of the week. 
 
-SOCIAL ACTIVITIES
+Alongside the teaching, there was a range of social activities that the students were invited to participate in -- with the aim to build a cohort of data-focused neutron scatterers. 
+This started the Sunday before the school started with a visit to a board game café in central Copenhagen, where the group were welcomed. 
+On the Wednesday evening, the students (and many of the teachers) participated in an programming competition, a game that regularly takes place between staff of the DMSC, where they were tasked with writing a Python program to compete in a tournement, with one "AI" named as the winner. 
+Finally, there was a summer school dinner on the Thursday evening, which took place within the Tivoli Gardens in central Copenhagen. 
 
-CONCLUDING PARAGRAPH
+All in all, the first DMSC Summer School was successful in its aim to introduce members of the neutron scattering community to the growing importance of data in the field. 
+The feedback from the participants has been extremely positive and given that the event itself was 300 % oversubscribed, there is ambition to run it again in the future. 
+Hopefully, we will be able to welcome you to Copenhagen in the future for another DMSC Summer School. 
