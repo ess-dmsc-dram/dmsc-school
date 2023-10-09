@@ -23,18 +23,21 @@ b. Research Coordination Office, European Spallation Source ERIC, Lund, Sweden.
 
 * [andrew.mccluskey@bristol.ac.uk](mailto:andrew.mccluskey@bristol.ac.uk)/[thomas.holmrod@ess.eu](mailto:thomas.holmrod@ess.eu)
 
-From the fourth to the eight of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted the first DMSC Summer School.
-The focus of this school was to introduce "students" (ranging from Master's-level to staff scientist) to the growing importance of data in the neutron scattering landscape.
-The summer school covered aspects of Python programming, experimental simulation, data reduction, analysis and cataloguing -- with a focus on FAIR data practices throughout.
-The material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school) and the school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt).
+From the fourth to the eighth of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted the first DMSC Summer School. 
+The focus of this school was to introduce "students" (ranging from Master's-level to staff scientists) to the growing importance of data in the neutron scattering landscape. 
+The summer school covered aspects of Python programming, experiment simulation, and data reduction, analysis and cataloguing -- with a focus on FAIR (findable, accessible, interoperable, and reusable) data practices throughout.
+The school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt) and all of the material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school).
 
-The role of data in the neutron scattering landscape is changing, with more impetus being placed on the role of complex data reduction and analysis, as well as the importance of FAIR (findable, accessible, interoperable, and reusable) and open data [10.1140/epjp/s13360-023-04189-6](https://doi.org/10.1140/epjp/s13360-023-04189-6).
-The European Spallation Source (ESS) has recognised this, leading to the creation of the Data Management and Software Cente (DMSC) division, based in Copenhagen and linked to the ESS Lund site for fast data transfer.
+The role that data plays in neutron scattering is changing, more impetus is being placed on the use of complex data reduction and analysis [1](https://doi.org/10.1107/S1600576722011426), as well as the importance of FAIR and open data [2](https://doi.org/10.1140/epjp/s13360-023-04189-6).
+ESS has recognised this, leading to the creation of the DMSC division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
 This makes ESS unique in the neutron scattering landscape, coming online with data as a primary partner in user experiments, alongside the instrumentation itself.
 
-It was identified that training future users of ESS in neutron data simulation, reducation, analysis and handling would be important to enable the best science.
-Therefore, the first DMSC Summer School was organised, to provide an in-depth discussion of these aspects.
-The school was hosted at the Niels Bohr Institute of the University of Copenhagen (with some workshops taking place in the historic Auditorium A, where Niels Bohr himself had taught), the ESS site in Lund, and the DMSC offices in Copenhagen.
+The best science at ESS will require users to have an understanding of all parts of the neutron data pipeline. 
+Therefore, the aim of the DMSC Summer School was to provide an in-depth introduction to these. 
+The school was hosted at the Niels Bohr Institute of the University of Copenhagen and the DMSC offices in Copenhagen, with a day spent at the ESS site in Lund. 
+It was fitting to host the first two days of the school in the historic Auditorium A of the Niels Bohr Institute, where Niels Bohr had taught, to train students in the future of neutron scattering science.
+
+
 
 Modern data skills in neutron scattering require modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [10.1109/MCSE.2021.3059263](https://doi.org/10.1109/MCSE.2021.3059263).
 Therefore, the first day of the summer school focused on introducing the Python programming language and plotting within Jupyter.
