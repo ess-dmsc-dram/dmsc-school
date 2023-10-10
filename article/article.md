@@ -25,7 +25,7 @@ b. European Spallation Source ERIC, P.O. Box 176, SE-221 00, Lund, Sweden.
 
 From the fourth to the eighth of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted the first DMSC Summer School. 
 The focus of this school was to introduce "students" (ranging from Master's-level to staff scientists) to the growing importance of data in the neutron scattering landscape. 
-The summer school covered aspects of Python programming, experiment simulation, and data reduction, analysis and cataloguing -- with a focus on FAIR (findable, accessible, interoperable, and reusable) data practices throughout.
+The summer school covered aspects of Python programming, experiment simulation, data reduction, analysis, and cataloguing -- with a focus on FAIR (findable, accessible, interoperable, and reusable) data practices throughout.
 The school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt) and all of the material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school).
 
 The role that data plays in neutron scattering is changing, more impetus is being placed on the use of complex data reduction and analysis [1](https://doi.org/10.1107/S1600576722011426), as well as the importance of FAIR and open data [2](https://doi.org/10.1140/epjp/s13360-023-04189-6).
@@ -42,12 +42,12 @@ Therefore, the first day of the summer school focused on introducing the Python 
 This meant that all the students had a firm grounding in Python and were ready to work confidently on the material in later days. 
 The first day ended with a presentation introducing FAIR data practices and discussing the role of FAIR in the ESS facility; these concepts would be consolidated throughout the school.
 
-The tuesday was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of ESS. 
+The second day was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of ESS. 
 After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [4](https://doi.org/10.1080/10448639908233684)[5](https://doi.org/10.3233/JNR-190108)[6](https://doi.org/10.3233/JNR-200186). 
 At this point, the students were asked to select one of two paths for the summer school: small-angle neutron scattering (SANS) or backscattering quasi-elastic neutron scattering (QENS). 
-The data that they simulate using McStas will be carried with them throughout the summer school, through reduction, analysis and storage. 
+The data that they simulated using McStas would be carried with them throughout the summer school, through reduction, analysis, and storage. 
 In the end, the fourteen students split approximately 50:50 between the two. 
-While at the ESS stire, the students were also given a tour of the ESS facilities and participated in a poster session, where they were able to discuss their shared interests around neutron scattering data.
+While at the ESS site, the students were also given a tour of the ESS facilities and participated in a poster session, where they were able to discuss their shared interests around neutron scattering data.
 
 <img src='photo-1.JPG' width='49%'>
 <img src='photo-2.JPG' width='49%'>
@@ -55,19 +55,19 @@ While at the ESS stire, the students were also given a tour of the ESS facilitie
 Photographs from the day at the ESS site in Lund, (left) the school students and teachers and (right) the poster session in the ESS attrium.
 </small><br>
 
-The following day, the school returned to the NBI to continue working with their simulated data. 
+The following day, the students returned to the NBI to continue working with their simulated data. 
 The data that they had simulated was equivalent to raw detector data, therefore it was necessary to transform this into something that can be analysed with traditional methods. 
-For this, the `scipp` package [7](https://doi.org/10.5281/zenodo.8112237) was used, which enables informative visualisations and most important the ability to efficiently manipulate and histrogram data. 
-Using `scipp`, the students were able to reduce their McStas data to a one-dimensional dataset of intensity as a function of either wavevector (SANS) or eneryg transfer (QENS). 
+For this, the Scipp package [7](https://doi.org/10.5281/zenodo.8112237) was used, which enables informative visualisations and most importantly the ability to efficiently manipulate and histogram data. 
+Using Scipp, the students were able to reduce their McStas data to a one-dimensional dataset of intensity as a function of either wavevector (SANS) or energy transfer (QENS). 
 This included concepts of masking data, including normalisations, and processing multiple neutron pulses together. 
 
 With the data reduced, the following day, the students made use of the EasyScience framework [8](https://easyscience.software/), which enables the analysis of experimental data using a model-dependent approach. 
-In this context, the SANS data were interpreted with a spherical model, while the QENS data made use of a simple Lorentzian function convolved with a Gaussian resolution function. 
+In this context, the SANS data were interpreted with a spherical model, while the QENS analysis made use of a simple Lorentzian function convolved with a Gaussian resolution function. 
 Using EasyScience, the students were able to define functional forms for their models and optimise the parameters of interest. 
-Beyond standard fitting, the students were introduced to Bayesians methods; Markov chain Monte Carlo and Nested Sampling (using the `emcee` [9](https://doi.org/10.21105/joss.01864) and `dynesty` [10](https://doi.org/10.5281/zenodo.8408702)) to investigate the correlations in the model parameters and compare different analytical models, respectively. 
+Beyond standard fitting, the students were introduced to Bayesians methods; Markov chain Monte Carlo and Nested Sampling (using the `emcee` [9](https://doi.org/10.21105/joss.01864) and `dynesty` [10](https://doi.org/10.5281/zenodo.8408702) packages) to investigate the correlations in the model parameters and compare different analytical models, respectively. 
 
-The week ended with continuing the discussion introduced on the first day, around the importance of data storage, cataloguing, and FAIR data, in this case using the SciCat service. 
-In this session, the students were asked to consider what constituted a "dataset" and tasked with using the `scitacean` package [11](10.5281/zenodo.8289552) to upload their complied datasets to the ESS SctCat Catalogue.
+The week ended with continuing the discussion introduced on the first day around the importance of data storage, cataloguing, and FAIR data, in this case using the SciCat [11](https://scicatproject.github.io/) service. 
+In this session, the students were asked to consider what constituted a "dataset" and tasked with using the Scitacean package [12](10.5281/zenodo.8289552) to upload their compiled datasets to the ESS SciCat catalogue.
 This allowed students to reconsider, from their conceptions at the start of the week, what data means in terms of neutron scattering, following a week of working closely with data in various different forms.
 
 Alongside the teaching, there was a range of social activities that the stundets were invited to participate in -- with the aim to build a cohort of data-focused neutron scatterers. 
