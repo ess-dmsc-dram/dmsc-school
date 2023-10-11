@@ -23,14 +23,14 @@ b. European Spallation Source ERIC, P.O. Box 176, SE-221 00, Lund, Sweden.
 
 * [andrew.mccluskey@bristol.ac.uk](mailto:andrew.mccluskey@bristol.ac.uk)/[thomas.holmrod@ess.eu](mailto:thomas.holmrod@ess.eu)
 
-From the fourth to the eighth of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted the first DMSC Summer School. 
+From the fourth to the eighth of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted its first Summer School. 
 The focus of this school was to introduce "students" (ranging from Master's-level to staff scientists) to the growing importance of data in the neutron scattering landscape. 
 The summer school covered aspects of Python programming, experiment simulation, data reduction, analysis, and cataloguing -- with a focus on FAIR (findable, accessible, interoperable, and reusable) data practices throughout.
 The school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt) and all of the material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school).
 
 The role that data plays in neutron scattering is changing, more impetus is being placed on the use of complex data reduction and analysis [1](https://doi.org/10.1107/S1600576722011426), as well as the importance of FAIR and open data [2](https://doi.org/10.1140/epjp/s13360-023-04189-6).
-ESS has recognised this, leading to the creation of the DMSC division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
-This makes ESS unique in the neutron scattering landscape, coming online with data as a primary partner in user experiments, alongside the instrumentation itself.
+ESS has recognised this and created the DMSC division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
+This makes ESS unique among neutron scattering facilities, coming online with data as a primary partner in user experiments, alongside the instrumentation itself.
 
 Advanced experiments at ESS will require users to have an understanding of all parts of the neutron data pipeline.
 Therefore, the aim of the DMSC Summer School was to provide an in-depth introduction to these. 
@@ -70,9 +70,9 @@ The week ended with continuing the discussion introduced on the first day around
 In this session, the students were asked to consider what constituted a "dataset" and tasked with using the Scitacean package [12](10.5281/zenodo.8289552) to upload their compiled datasets to the ESS SciCat catalogue.
 This allowed students to reconsider, from their conceptions at the start of the week, what data means in terms of neutron scattering, following a week of working closely with data in various different forms.
 
-Alongside the teaching, there was a range of social activities that the stundets were invited to participate in -- with the aim to build a cohort of data-focused neutron scatterers. 
+Alongside the teaching, there was a range of social activities that the students were invited to participate in -- with the aim to build a cohort of data-focused neutron scatterers. 
 This started on the Sunday before the school began, with a visit to a board game café in central Copenhagen for the "Welcome Reception".
-On the Wednesday evening, the students (and many of the teachers) participated in a programming competition, a game that is regularly played between staff of the DMSC, where they were tasked with writing a Python program to complete in a Battle Royale style competition, with one "AI" named as the winner. 
+On the Wednesday evening, the students (and many of the teachers) participated in a programming competition, a game that is regularly played between staff of the DMSC, where they were tasked with writing a Python program to compete in a Battle Royale style tournament, with one "AI" named as the winner. 
 Finally, there was a summer school dinner on the Thursday evening, which took place within the Tivoli Gardens in central Copenhagen. 
 
 All in all, the first DMSC Summer School was successful in its aim to introduce members of the neutron scattering community to the growing importance of data in the field. 
