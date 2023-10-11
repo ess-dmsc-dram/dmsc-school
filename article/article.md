@@ -72,7 +72,7 @@ This allowed students to reconsider, from their conceptions at the start of the 
 
 Alongside the teaching, there was a range of social activities that the students were invited to participate in -- with the aim to build a cohort of data-focused neutron scatterers. 
 This started on the Sunday before the school began, with a visit to a board game café in central Copenhagen for the "Welcome Reception".
-On the Wednesday evening, the students (and many of the teachers) participated in a programming competition, a game that is regularly played between staff of the DMSC, where they were tasked with writing a Python program to compete in a Battle Royale style competition, with one "AI" named as the winner. 
+On the Wednesday evening, the students (and many of the teachers) participated in a programming competition, a game that is regularly played between staff of the DMSC, where they were tasked with writing a Python program to compete in a Battle Royale style tournament, with one "AI" named as the winner. 
 Finally, there was a summer school dinner on the Thursday evening, which took place within the Tivoli Gardens in central Copenhagen. 
 
 All in all, the first DMSC Summer School was successful in its aim to introduce members of the neutron scattering community to the growing importance of data in the field. 
