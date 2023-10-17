@@ -32,7 +32,7 @@ The role that data plays in neutron scattering is changing, more impetus is bein
 ESS has recognised this and created the DMSC division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
 This makes ESS unique among neutron scattering facilities, coming online with data as a primary partner in user experiments, alongside the instrumentation itself.
 
-Advanced experiments at ESS will require users to have an understanding of all parts of the neutron data pipeline.
+The data from experiments at ESS will be processed by a neutron data pipeline including acquisition, reduction, analysis and cataloging.
 Therefore, the aim of the DMSC Summer School was to provide an in-depth introduction to these. 
 The school was hosted at the Niels Bohr Institute (NBI) of the University of Copenhagen and the DMSC offices in Copenhagen, with a day spent at the ESS site in Lund. 
 It was fitting to host the first two days of the school in the historic Auditorium A of the NBI, where Niels Bohr had taught, training students in the future of neutron scattering science.
