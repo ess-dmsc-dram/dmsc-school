@@ -14,7 +14,7 @@ Martin Trajanovski<sup>a</sup>,
 Peter K. Willendrup<sup>a</sup>, 
 [Jan-Lukas Wynen](https://orcid.org/0000-0002-3761-3201)<sup>a</sup>, 
 Sunyoung Yoo<sup>a</sup>, and
-Thomas Holm Rod<sup>a</sup>\* 
+[Thomas Holm Rod](https://orcid.org/0000-0002-6227-8062)<sup>a</sup>\* 
 
 a. Data Management and Scientific Computing Division, European Spallation Source ERIC, Copenhagen, Denmark.
 b. European Spallation Source ERIC, P.O. Box 176, SE-221 00, Lund, Sweden.
