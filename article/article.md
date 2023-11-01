@@ -57,8 +57,8 @@ The data that they simulated using McStas would be carried with them throughout 
 In the end, the fourteen students split approximately 50:50 between the two neutron scattering techniques.
 While at the ESS site, the students were also given a tour of the ESS facilities and participated in a poster session, where they were able to discuss their shared interests around neutron scattering data.
 
-<img src='photo-1.JPG' width='49%'>
-<img src='photo-2.JPG' width='49%'>
+<img src='photo-1.JPG' width='45%'>
+<img src='photo-2.JPG' width='45%'>
 <small>
 Photographs from the day at the ESS site in Lund, (left) the school students and teachers and (right) the poster session in the ESS attrium.
 </small><br>
