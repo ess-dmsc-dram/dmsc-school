@@ -1,0 +1,1214 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>QENS data reduction &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '4-reduction/qens-reduction';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model-dependent analysis" href="../5-analysis/intro.html" />
+    <link rel="prev" title="SANS data reduction" href="sans-reduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/SANS_from_function.html">SANS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/QENS_from_function.html">QENS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sans-reduction.html">SANS data reduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">QENS data reduction</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyCore</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyCore</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/sans_ns.html">How many types of particle?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/qens_ns.html">How many Lorentzian functions?</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F4-reduction/qens-reduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/4-reduction/qens-reduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>QENS data reduction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">QENS data reduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#single-pulse">Single pulse</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-raw-data">Load raw data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-raw-data">Visualize the raw data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-mask-bad-region">Exercise 1: mask bad region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-to-energy-transfer">Transform to energy transfer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-compute-energy-transfer">Exercise 2: Compute energy transfer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1-finish-the-graph">Exercise 2.1: Finish the graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-compute-energy-transfer-with-the-masked-data">Exercise 2.2: Compute energy transfer with the masked data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3-compute-energy-transfer-for-unmasked-data">Exercise 2.3: Compute energy transfer for unmasked data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compute-energy-transfer-for-all-samples">Exercise 3: Compute energy transfer for all samples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-result-to-disk">Save result to disk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-pulses">Three pulses</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Load raw data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-fold-the-pulses">Exercise 4: Fold the pulses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-compute-energy-transfer-for-folded-data">Exercise 5: Compute energy transfer for folded data.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-results-to-disk">Save results to disk</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="qens-data-reduction">
+<h1>QENS data reduction<a class="headerlink" href="#qens-data-reduction" title="Permalink to this heading">#</a></h1>
+<p>This notebook will guide you through the data reduction for the QENS experiment that you simulated with McStas yesterday.</p>
+<p>The following is a basic outline of what this notebook will cover:</p>
+<ul class="simple">
+<li><p>Loading the NeXus files that contain the data</p></li>
+<li><p>Inspect/visualize the data contents</p></li>
+<li><p>How to convert the raw <code class="docutils literal notranslate"><span class="pre">time-of-flight</span></code> coordinate to something more useful (<span class="math notranslate nohighlight">\(\Delta E\)</span>)</p></li>
+<li><p>Write the results to file</p></li>
+<li><p>Process more than one pulse</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipp</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">plopp</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="kn">import</span> <span class="nn">scippneutron</span> <span class="k">as</span> <span class="nn">scn</span>
+<span class="kn">import</span> <span class="nn">utils</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="single-pulse">
+<h1>Single pulse<a class="headerlink" href="#single-pulse" title="Permalink to this heading">#</a></h1>
+<section id="load-raw-data">
+<h2>Load raw data<a class="headerlink" href="#load-raw-data" title="Permalink to this heading">#</a></h2>
+<p>Begin by loading and investigating a single file.
+In this example, we use the elastic sample, but any file with a single pulse will do.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;../3-mcstas/QENS_elastic_1_pulse&quot;</span>
+
+<span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;../3-mcstas/QENS_elastic_1_pulse&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+<span class="nn">File ~/work/dmsc-school/dmsc-school/4-reduction/qens_utils.py:58,</span> in <span class="ni">load_qens</span><span class="nt">(path)</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>     <span class="n">events</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_ascii</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">ascii_file</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">58</span>     <span class="n">events</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_nexus</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="n">weights</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;counts&quot;</span>
+
+<span class="nn">File ~/work/dmsc-school/dmsc-school/4-reduction/load.py:19,</span> in <span class="ni">load_nexus</span><span class="nt">(path)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">19</span>     <span class="k">with</span> <span class="n">sx</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>         <span class="n">dg</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">events</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">collapse</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">dg</span><span class="p">[</span><span class="s2">&quot;entry1&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;detector_signal_event_dat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="s2">&quot;dim_0&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/scippnexus/v2/file.py:29,</span> in <span class="ni">File.__init__</span><span class="nt">(self, definitions, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="k">if</span> <span class="n">definitions</span> <span class="ow">is</span> <span class="n">_default_definitions</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span>     <span class="n">definitions</span> <span class="o">=</span> <span class="n">base_definitions</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">29</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="n">definitions</span><span class="o">=</span><span class="n">definitions</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/h5py/_hl/files.py:562,</span> in <span class="ni">File.__init__</span><span class="nt">(self, name, mode, driver, libver, userblock_size, swmr, rdcc_nslots, rdcc_nbytes, rdcc_w0, track_order, fs_strategy, fs_persist, fs_threshold, fs_page_size, page_buf_size, min_meta_keep, min_raw_keep, locking, alignment_threshold, alignment_interval, meta_block_size, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">553</span>     <span class="n">fapl</span> <span class="o">=</span> <span class="n">make_fapl</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="n">libver</span><span class="p">,</span> <span class="n">rdcc_nslots</span><span class="p">,</span> <span class="n">rdcc_nbytes</span><span class="p">,</span> <span class="n">rdcc_w0</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">554</span>                      <span class="n">locking</span><span class="p">,</span> <span class="n">page_buf_size</span><span class="p">,</span> <span class="n">min_meta_keep</span><span class="p">,</span> <span class="n">min_raw_keep</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">555</span>                      <span class="n">alignment_threshold</span><span class="o">=</span><span class="n">alignment_threshold</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">556</span>                      <span class="n">alignment_interval</span><span class="o">=</span><span class="n">alignment_interval</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">557</span>                      <span class="n">meta_block_size</span><span class="o">=</span><span class="n">meta_block_size</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">558</span>                      <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">559</span>     <span class="n">fcpl</span> <span class="o">=</span> <span class="n">make_fcpl</span><span class="p">(</span><span class="n">track_order</span><span class="o">=</span><span class="n">track_order</span><span class="p">,</span> <span class="n">fs_strategy</span><span class="o">=</span><span class="n">fs_strategy</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">560</span>                      <span class="n">fs_persist</span><span class="o">=</span><span class="n">fs_persist</span><span class="p">,</span> <span class="n">fs_threshold</span><span class="o">=</span><span class="n">fs_threshold</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">561</span>                      <span class="n">fs_page_size</span><span class="o">=</span><span class="n">fs_page_size</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">562</span>     <span class="n">fid</span> <span class="o">=</span> <span class="n">make_fid</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">userblock_size</span><span class="p">,</span> <span class="n">fapl</span><span class="p">,</span> <span class="n">fcpl</span><span class="p">,</span> <span class="n">swmr</span><span class="o">=</span><span class="n">swmr</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">564</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">libver</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">565</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_libver</span> <span class="o">=</span> <span class="n">libver</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/h5py/_hl/files.py:235,</span> in <span class="ni">make_fid</span><span class="nt">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
+<span class="g g-Whitespace">    </span><span class="mi">233</span>     <span class="k">if</span> <span class="n">swmr</span> <span class="ow">and</span> <span class="n">swmr_support</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">234</span>         <span class="n">flags</span> <span class="o">|=</span> <span class="n">h5f</span><span class="o">.</span><span class="n">ACC_SWMR_READ</span>
+<span class="ne">--&gt; </span><span class="mi">235</span>     <span class="n">fid</span> <span class="o">=</span> <span class="n">h5f</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">fapl</span><span class="o">=</span><span class="n">fapl</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">236</span> <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;r+&#39;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">237</span>     <span class="n">fid</span> <span class="o">=</span> <span class="n">h5f</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">h5f</span><span class="o">.</span><span class="n">ACC_RDWR</span><span class="p">,</span> <span class="n">fapl</span><span class="o">=</span><span class="n">fapl</span><span class="p">)</span>
+
+<span class="nn">File h5py/_objects.pyx:54,</span> in <span class="ni">h5py._objects.with_phil.wrapper</span><span class="nt">()</span>
+
+<span class="nn">File h5py/_objects.pyx:55,</span> in <span class="ni">h5py._objects.with_phil.wrapper</span><span class="nt">()</span>
+
+<span class="nn">File h5py/h5f.pyx:102,</span> in <span class="ni">h5py.h5f.open</span><span class="nt">()</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] Unable to synchronously open file (unable to open file: name = &#39;../3-mcstas/QENS_elastic_1_pulse/mccode.h5&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 0, o_flags = 0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first way to inspect the data is to view the HTML representation of the loaded object.</p>
+<p>Try to explore what is inside the data, and familiarize yourself with the different sections (<code class="docutils literal notranslate"><span class="pre">Dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">Coordinates</span></code>, <code class="docutils literal notranslate"><span class="pre">Data</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualize-the-raw-data">
+<h2>Visualize the raw data<a class="headerlink" href="#visualize-the-raw-data" title="Permalink to this heading">#</a></h2>
+<p>Here is a histogram of the raw data in <code class="docutils literal notranslate"><span class="pre">tof</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is more enlightening to look at a 2D histogram in <code class="docutils literal notranslate"><span class="pre">tof</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> as this shows a defect of the detector for a certain y-range:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1-mask-bad-region">
+<h2>Exercise 1: mask bad region<a class="headerlink" href="#exercise-1-mask-bad-region" title="Permalink to this heading">#</a></h2>
+<p>We need to handle the events that are affected by the detector defect.
+The simplest way of doing so it to mask the affected region in y.
+We will do so by binning in y and applying a y-dependent mask to the data array.</p>
+<p><strong>Steps</strong>:</p>
+<ol class="arabic simple">
+<li><p>Define bin-edges in the y-dimension that cover the entire range of the data.
+There should be three bins which cover the y-range below the broken region, the broken region, and the the range above the broken region, respectively.
+So you should end up with a length-4 array of bin-edges.</p></li>
+<li><p>Define another array for the mask which should have the values <code class="docutils literal notranslate"><span class="pre">[False,</span> <span class="pre">True,</span> <span class="pre">False]</span></code>.
+So it masks the middle bin but not the others.</p></li>
+<li><p>Apply the mask by binning the events using the edges you defined and inserting the mask into the binned array’s masks.</p></li>
+</ol>
+<p><strong>Hints</strong>:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">sc.array</span></code> to create arrays for the bin-edges and the mask.</p></li>
+<li><p>Bin the data using <code class="docutils literal notranslate"><span class="pre">binned_for_mask</span> <span class="pre">=</span> <span class="pre">events.bin(...)</span></code>,</p></li>
+<li><p>Apply the mask by inserting it into <code class="docutils literal notranslate"><span class="pre">binned_for_mask.masks</span></code> which behaves like a <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+<span class="n">mask_regions</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">0.21</span><span class="p">,</span> <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.27</span><span class="p">,</span> <span class="mf">0.29</span><span class="p">],</span>
+    <span class="n">unit</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">binned_for_mask</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mask_regions</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="n">binned_for_mask</span><span class="o">.</span><span class="n">masks</span><span class="p">[</span><span class="s2">&quot;bad_timing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span>
+<span class="n">binned_for_mask</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We plot the data array with the mask below.
+The black band in the middle bin indicates the mask:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binned_for_mask</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When making the same 2D histogram as before, the masked events will be dropped and the result is a histogram with a gap:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binned_for_mask</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="transform-to-energy-transfer">
+<h2>Transform to energy transfer<a class="headerlink" href="#transform-to-energy-transfer" title="Permalink to this heading">#</a></h2>
+<p>The next step is to compute the measured energy transfer in the sample from time-of-flight and the other coordinates of our data.
+We use <a class="reference external" href="https://scipp.github.io/generated/functions/scipp.transform_coords.html">scipp.transform_coords</a> for this purpose.</p>
+<p>Scippneutron provides some pre-defined functions for coordinate transformations, see the <a class="reference external" href="https://scipp.github.io/scippneutron/user-guide/coordinate-transformations.html">documentation</a> for a list.
+In particular, it provides <a class="reference external" href="https://scipp.github.io/scippneutron/generated/modules/scippneutron.conversion.tof.energy_transfer_indirect_from_tof.html">scippneutron.conversion.tof.energy_transfer_indirect_from_tof</a> which computes the energy transfer for an indirect-geometry spectrometer:</p>
+<div class="math notranslate nohighlight">
+\[\Delta E = \frac{m_n L_1^2}{2 {(t-t_0)}^2} - \mathsf{final\_energy}\,, \qquad t_0 = \sqrt{\frac{L_2^2 m_n}{2 \mathsf{final\_energy}}}\,,\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_n\)</span> is the neutron mass, <span class="math notranslate nohighlight">\(L_1\)</span> is the primary flight path length (from source to sample), and <span class="math notranslate nohighlight">\(L_2\)</span> is the secondary flight path length (from sample to detector).
+The intermediate variable <span class="math notranslate nohighlight">\(t_0\)</span> is the the time of flight for the secondary path such that <span class="math notranslate nohighlight">\((t - t_0)\)</span> is the arrival time at the sample.</p>
+<p>While Scippneutron provides most of what we need, we have to define some custom components for our specific instrument.
+We require functions to compute</p>
+<ul class="simple">
+<li><p><strong>L2</strong>, the path length of the scattered neutron. The default function in Scippneutron assumes a straight path but here, we need to take the reflection from the analyzer crystal into account: <span class="math notranslate nohighlight">\(L_2 = |\overline{\mathsf{sample},\mathsf{analyzer}}| + |\overline{\mathsf{analyser},\mathsf{detector}}|\)</span></p></li>
+<li><p><strong>final_wavelength</strong>, the neutron wavelength that the analyzer selects for. We compute it from the known <span class="math notranslate nohighlight">\(d\)</span>-spacing of the analyzer <span class="math notranslate nohighlight">\(d_a\)</span> and the scattering angle off the analyzer <span class="math notranslate nohighlight">\(\theta_a\)</span>: <span class="math notranslate nohighlight">\(\mathsf{final\_wavelength} = 2 d_a \sin{\theta_a}\)</span></p></li>
+<li><p><strong>final_energy</strong>, the energy of the neutrons that hit the detector (more below): <span class="math notranslate nohighlight">\(\mathsf{final\_energy} = \displaystyle\frac{m_n}{2} v_f^2\)</span></p></li>
+</ul>
+<p>The first two are implemented below.
+They use the positions and analyzer parameters in the input data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">backscattered_l2</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">sample_position</span><span class="p">,</span> <span class="n">analyzer_position</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the length of the secondary flight path for backscattering off an analyzer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">position</span> <span class="o">-</span> <span class="n">analyzer_position</span><span class="p">)</span> <span class="o">+</span> <span class="n">sc</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+        <span class="n">analyzer_position</span> <span class="o">-</span> <span class="n">sample_position</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">wavelength_from_analyzer</span><span class="p">(</span><span class="n">analyzer_dspacing</span><span class="p">,</span> <span class="n">analyzer_angle</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the neutron wavelength after scattering from the analyzer&#39;s d-spacing.</span>
+
+<span class="sd">    Assuming Bragg scattering in the analyzer, the wavelength is</span>
+<span class="sd">        wavelength = 2 * d * sin(theta)</span>
+
+<span class="sd">    Where</span>
+<span class="sd">        d is the analyzer&#39;s d-spacing,</span>
+<span class="sd">        theta is the scattering angle or equivalently, the tilt of the analyzer</span>
+<span class="sd">              w.r.t. to the sample-analyzer axis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 2*theta is the angle between transmitted and scattered beam.</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">analyzer_dspacing</span>
+        <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;rad&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">analyzer_angle</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s2">&quot;rad&quot;</span><span class="p">))</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can start assembling the graph to compute the energy transfer:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scippneutron.conversion.graph.beamline</span> <span class="kn">import</span> <span class="n">beamline</span>
+<span class="kn">from</span> <span class="nn">scippneutron.conversion.tof</span> <span class="kn">import</span> <span class="n">energy_transfer_indirect_from_tof</span>
+
+<span class="n">graph</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">**</span><span class="n">beamline</span><span class="p">(</span><span class="n">scatter</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;energy_transfer&quot;</span><span class="p">:</span> <span class="n">energy_transfer_indirect_from_tof</span><span class="p">,</span>
+    <span class="c1"># Replace L2 with our own implementation.</span>
+    <span class="s2">&quot;L2&quot;</span><span class="p">:</span> <span class="n">backscattered_l2</span><span class="p">,</span>
+    <span class="c1"># Insert a new function for the wavelength.</span>
+    <span class="s2">&quot;final_wavelength&quot;</span><span class="p">:</span> <span class="n">wavelength_from_analyzer</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="c1"># Optional: remove unused functions in order to clean up the image below.</span>
+<span class="k">del</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;two_theta&quot;</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;scattered_beam&quot;</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;Ltotal&quot;</span><span class="p">]</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">simplified</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2-compute-energy-transfer">
+<h2>Exercise 2: Compute energy transfer<a class="headerlink" href="#exercise-2-compute-energy-transfer" title="Permalink to this heading">#</a></h2>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">final_energy</span></code> is not yet linked to <code class="docutils literal notranslate"><span class="pre">final_wavelength</span></code> in the graph.
+Your task is to implement a function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">final_energy(final_wavelength)</span></code> to fill in the gap.</p>
+<p>The energy is given by</p>
+<div class="math notranslate nohighlight">
+\[\mathsf{final\_energy} = \frac{m_n}{2} v_f^2, \qquad v_f = \frac{2\pi\hbar}{m_n \mathsf{final\_wavelength}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(v_f\)</span> is the speed of the scattered neutron and <span class="math notranslate nohighlight">\(m_n\)</span> is the neutron mass.</p>
+<section id="exercise-2-1-finish-the-graph">
+<h3>Exercise 2.1: Finish the graph<a class="headerlink" href="#exercise-2-1-finish-the-graph" title="Permalink to this heading">#</a></h3>
+<p><strong>Steps</strong>:</p>
+<ul class="simple">
+<li><p>Define a new function that computes the final energy given the equations above.</p>
+<ul>
+<li><p>Tip: Ensure that the result has unit <code class="docutils literal notranslate"><span class="pre">meV</span></code>.</p></li>
+<li><p>Tip: Use <a class="reference external" href="https://scipp.github.io/generated/modules/scipp.constants.html">sc.constants</a> to get values for <span class="math notranslate nohighlight">\(\hbar\)</span> (or <span class="math notranslate nohighlight">\(h\)</span>) and <span class="math notranslate nohighlight">\(m_n\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Insert the new function into the graph.</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">final_energy</span><span class="p">(</span><span class="n">final_wavelength</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the neutron energy after scattering.</span>
+
+<span class="sd">    Uses</span>
+<span class="sd">        final_energy = mn / 2 * final_speed**2</span>
+<span class="sd">        final_speed = 2 * pi * hbar / mn / final_wavelength</span>
+
+<span class="sd">    Where</span>
+<span class="sd">        mn is the neutron mass,</span>
+<span class="sd">        final_wavelength is the wavelength after scattering,</span>
+<span class="sd">        final_speed is the speed after scattering.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_unit</span><span class="p">(</span>
+        <span class="n">sc</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sc</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">neutron_mass</span> <span class="o">/</span> <span class="p">(</span><span class="n">final_wavelength</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;meV&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="n">graph</span><span class="p">[</span><span class="s2">&quot;final_energy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_energy</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">simplified</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-2-2-compute-energy-transfer-with-the-masked-data">
+<h3>Exercise 2.2: Compute energy transfer with the masked data<a class="headerlink" href="#exercise-2-2-compute-energy-transfer-with-the-masked-data" title="Permalink to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">binned_for_mask.transform_coords</span></code> (or what ever name you used for the masked array) to compute <code class="docutils literal notranslate"><span class="pre">&quot;energy_transfer&quot;</span></code>.</p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_energy_transfer</span> <span class="o">=</span> <span class="n">binned_for_mask</span><span class="o">.</span><span class="n">transform_coords</span><span class="p">(</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span>
+<span class="n">in_energy_transfer</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-2-3-compute-energy-transfer-for-unmasked-data">
+<h3>Exercise 2.3: Compute energy transfer for unmasked data<a class="headerlink" href="#exercise-2-3-compute-energy-transfer-for-unmasked-data" title="Permalink to this heading">#</a></h3>
+<p>For comparison, also compute energy transfer with the original data without a mask.</p>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_energy_transfer_unmasked</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">transform_coords</span><span class="p">(</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Now we can plot the masked and unmasked data to compare them.
+As always, we first need to histogram them.
+(We use <code class="docutils literal notranslate"><span class="pre">in_energy_transfer.bins.concat()</span></code> to undo the binning from exercise 1.
+Without it, we would get a 2D histogram in <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">energy_transfer</span></code>.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">masked_hist</span> <span class="o">=</span> <span class="n">in_energy_transfer</span><span class="o">.</span><span class="n">bins</span><span class="o">.</span><span class="n">concat</span><span class="p">()</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">energy_transfer</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">unmasked_hist</span> <span class="o">=</span> <span class="n">in_energy_transfer_unmasked</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">energy_transfer</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The histogrammed data currently has no standard deviations on the counts.
+This needs to be added after we have performed the histogramming operation.</p>
+<p>When dealing with neutron events, we assume the data has a Poisson distribution.
+This means that the variance in a bin is equal to the counts in that bin
+(the standard deviation is then <span class="math notranslate nohighlight">\(\sigma = \sqrt{\mathsf{counts}}\)</span>).</p>
+<p>We provide a helper function that will add Poisson variances to any given input:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">add_variances</span><span class="p">(</span><span class="n">masked_hist</span><span class="p">)</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">add_variances</span><span class="p">(</span><span class="n">unmasked_hist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And finally, we can plot the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;unmasked&quot;</span><span class="p">:</span> <span class="n">unmasked_hist</span><span class="p">,</span>
+        <span class="s2">&quot;masked&quot;</span><span class="p">:</span> <span class="n">masked_hist</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-compute-energy-transfer-for-all-samples">
+<h2>Exercise 3: Compute energy transfer for all samples<a class="headerlink" href="#exercise-3-compute-energy-transfer-for-all-samples" title="Permalink to this heading">#</a></h2>
+<p>We have only looked at one of our three samples so far.
+Now, we repeat the same procedure for the remaining two.</p>
+<p>Your task is to load the other samples, mask the broken detector region, and compute energy_transfer.
+(You don’t need to repeat the calculation for the unmasked data.
+And for now, only use the “1_pulse” files.)</p>
+<p><strong>Hints</strong>:</p>
+<ul class="simple">
+<li><p>Write a function that encapsulates the whole procedure.</p></li>
+<li><p>You can reuse the mask bin-edges and the mask itself.</p></li>
+<li><p>Store the results for all samples in a <code class="docutils literal notranslate"><span class="pre">dict</span></code>. This way, you can easily plot it using <code class="docutils literal notranslate"><span class="pre">pp.plot</span></code>.</p></li>
+<li><p>Use a scalar variable with a unit, e.g. <code class="docutils literal notranslate"><span class="pre">sc.scalar(0.01,</span> <span class="pre">unit='meV')</span></code>, for the histogramming to get a constant bin width.</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_sample</span><span class="p">(</span><span class="n">raw_events</span><span class="p">):</span>
+    <span class="n">binned_for_mask</span> <span class="o">=</span> <span class="n">raw_events</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mask_regions</span><span class="p">)</span>
+    <span class="n">binned_for_mask</span><span class="o">.</span><span class="n">masks</span><span class="p">[</span><span class="s2">&quot;bad_timing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span>
+
+    <span class="n">in_energy_transfer</span> <span class="o">=</span> <span class="n">binned_for_mask</span><span class="o">.</span><span class="n">transform_coords</span><span class="p">(</span>
+        <span class="s2">&quot;energy_transfer&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">graph</span>
+    <span class="p">)</span>
+
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">in_energy_transfer</span><span class="o">.</span><span class="n">bins</span><span class="o">.</span><span class="n">concat</span><span class="p">()</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">energy_transfer</span><span class="o">=</span><span class="mf">0.001</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;meV&#39;</span><span class="p">))</span>
+    <span class="n">utils</span><span class="o">.</span><span class="n">add_variances</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hist</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folders</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;../3-mcstas/QENS_elastic_1_pulse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;../3-mcstas/QENS_known_quasi_elastic_1_pulse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;../3-mcstas/QENS_unknown_quasi_elastic_1_pulse&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+    <span class="c1"># Remove the file path prefix from the folder name</span>
+    <span class="n">data_name</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;../3-mcstas/QENS_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">data_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">process_sample</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="save-result-to-disk">
+<h2>Save result to disk<a class="headerlink" href="#save-result-to-disk" title="Permalink to this heading">#</a></h2>
+<p>Finally, we need to save our results to disk so that the reduced data can be forwarded to the next step in the pipeline (data analysis).
+We will use a simple text file for this.</p>
+<p>This code assumes that you stored your histograms in a <code class="docutils literal notranslate"><span class="pre">dict</span></code> called <code class="docutils literal notranslate"><span class="pre">results</span></code> with keys of the form <code class="docutils literal notranslate"><span class="pre">&quot;elastic_1_pulse&quot;</span></code>, etc.
+If this is not the case, you need to modify the code below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># The simple file format does not support bin-edge coordinates.</span>
+    <span class="c1"># So we convert to bin-centers first.</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">midpoints</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">])</span>
+
+    <span class="n">scn</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save_xye</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;qens_energy_transfer_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.dat&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="three-pulses">
+<h2>Three pulses<a class="headerlink" href="#three-pulses" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>Load raw data<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>We now want to repeat the reduction, but using more than a single pulse to improve our statistics.</p>
+<p>We begin by loading a run with 3 pulses.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;../3-mcstas/QENS_known_quasi_elastic_3_pulse&quot;</span>
+<span class="n">events_3_pulse</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+<span class="n">events_3_pulse</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events_3_pulse</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that we have 3 distinct pulses (3 horizontal bands of events).</p>
+<p>In order to combine the data from the 3 pulses (also known as ‘pulse folding’), we need to compute a neutron time-of-flight relative to the start of each pulse, instead of absolute time.</p>
+</section>
+<section id="exercise-4-fold-the-pulses">
+<h3>Exercise 4: Fold the pulses<a class="headerlink" href="#exercise-4-fold-the-pulses" title="Permalink to this heading">#</a></h3>
+<p>You are provided with a function that will perform the folding correctly,
+assuming you supply it the correct inputs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">?</span>utils.fold_pulses
+</pre></div>
+</div>
+</div>
+</div>
+<p>Steps:</p>
+<ul class="simple">
+<li><p>Make an array of pulse offsets. That is, a length-3 array in dimension <code class="docutils literal notranslate"><span class="pre">tof</span></code> and with unit <code class="docutils literal notranslate"><span class="pre">&quot;ms&quot;</span></code>, starting at 0, using 14 pulses per second.</p></li>
+<li><p>Make evenly-spaced pulse-edges that cover the entire <code class="docutils literal notranslate"><span class="pre">tof</span></code>-range. This should be a length-4 array.</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">utils.fold_pulses</span></code> with your arrays and the loaded events.</p></li>
+<li><p>Histogram in <code class="docutils literal notranslate"><span class="pre">tof</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> and plot like we have done above to see if the pulses are properly folded.</p></li>
+</ul>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pulse_offsets</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="s2">&quot;tof&quot;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="mf">237.</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="mf">400.</span>
+<span class="n">pulse_edges</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="s2">&quot;tof&quot;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="n">folded</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">fold_pulses</span><span class="p">(</span><span class="n">events_3_pulse</span><span class="p">,</span> <span class="n">pulse_edges</span><span class="p">,</span> <span class="n">pulse_offsets</span><span class="p">)</span>
+
+<span class="n">folded</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-5-compute-energy-transfer-for-folded-data">
+<h3>Exercise 5: Compute energy transfer for folded data.<a class="headerlink" href="#exercise-5-compute-energy-transfer-for-folded-data" title="Permalink to this heading">#</a></h3>
+<p>Load the other two files with “3_pulse” runs and fold them in the same way.
+Then, apply the mask and compute <code class="docutils literal notranslate"><span class="pre">energy_transfer</span></code> in the same way as for the “1_pulse” data.
+If you made a function for the latter, you can reuse it here.</p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folders</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;../3-mcstas/QENS_elastic_3_pulse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;../3-mcstas/QENS_known_quasi_elastic_3_pulse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;../3-mcstas/QENS_unknown_quasi_elastic_3_pulse&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results_3_pulse</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+    <span class="n">folded</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">fold_pulses</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">pulse_edges</span><span class="p">,</span> <span class="n">pulse_offsets</span><span class="p">)</span>
+    <span class="c1"># Remove the file path prefix from the folder name</span>
+    <span class="n">data_name</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;../3-mcstas/QENS_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">results_3_pulse</span><span class="p">[</span><span class="n">data_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">process_sample</span><span class="p">(</span><span class="n">folded</span><span class="p">)</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results_3_pulse</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We can compare the “1_pulse” and “3_pulse” runs by making a plot.
+But since we are using total event counts, we need to normalize the histograms before we can compare them.</p>
+<p>The code below assumes that your histograms are stored in dicts called <code class="docutils literal notranslate"><span class="pre">results</span></code> (for “1_pulse”) and <code class="docutils literal notranslate"><span class="pre">results_3_pulse</span></code>.
+You may need to adapt the code to work with your way of storing the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;known_quasi_elastic_1_pulse&quot;</span><span class="p">]</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">n1</span> <span class="o">/</span> <span class="n">sc</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">n1</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">n3</span> <span class="o">=</span> <span class="n">results_3_pulse</span><span class="p">[</span><span class="s2">&quot;known_quasi_elastic_3_pulse&quot;</span><span class="p">]</span>
+<span class="n">n3</span> <span class="o">=</span> <span class="n">n3</span> <span class="o">/</span> <span class="n">sc</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">n3</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">({</span><span class="s2">&quot;known_quasi_elastic_1_pulse&quot;</span><span class="p">:</span> <span class="n">n1</span><span class="p">,</span> <span class="s2">&quot;known_quasi_elastic_3_pulse&quot;</span><span class="p">:</span> <span class="n">n3</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="save-results-to-disk">
+<h3>Save results to disk<a class="headerlink" href="#save-results-to-disk" title="Permalink to this heading">#</a></h3>
+<p>Again, we save the final results to a text file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results_3_pulse</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># The simple file format does not support bin-edge coordinates.</span>
+    <span class="c1"># So we convert to bin-centers first.</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">midpoints</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">])</span>
+
+    <span class="n">scn</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save_xye</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;qens_energy_transfer_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.dat&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./4-reduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sans-reduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SANS data reduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../5-analysis/intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Model-dependent analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">QENS data reduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#single-pulse">Single pulse</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-raw-data">Load raw data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-raw-data">Visualize the raw data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-mask-bad-region">Exercise 1: mask bad region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-to-energy-transfer">Transform to energy transfer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-compute-energy-transfer">Exercise 2: Compute energy transfer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1-finish-the-graph">Exercise 2.1: Finish the graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-compute-energy-transfer-with-the-masked-data">Exercise 2.2: Compute energy transfer with the masked data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3-compute-energy-transfer-for-unmasked-data">Exercise 2.3: Compute energy transfer for unmasked data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compute-energy-transfer-for-all-samples">Exercise 3: Compute energy transfer for all samples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-result-to-disk">Save result to disk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-pulses">Three pulses</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Load raw data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-fold-the-pulses">Exercise 4: Fold the pulses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-compute-energy-transfer-for-folded-data">Exercise 5: Compute energy transfer for folded data.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-results-to-disk">Save results to disk</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

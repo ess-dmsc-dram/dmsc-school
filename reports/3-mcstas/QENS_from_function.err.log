@@ -1,0 +1,45 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 173, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+my_configurator = ms.Configurator()
+my_configurator.set_mcrun_path("/usr/bin/")
+my_configurator.set_mcstas_path("/usr/share/mcstas/3.3/")
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+Cell [0;32mIn[3], line 3[0m
+[1;32m      1[0m my_configurator [38;5;241m=[39m ms[38;5;241m.[39mConfigurator()
+[1;32m      2[0m my_configurator[38;5;241m.[39mset_mcrun_path([38;5;124m"[39m[38;5;124m/usr/bin/[39m[38;5;124m"[39m)
+[0;32m----> 3[0m [43mmy_configurator[49m[38;5;241;43m.[39;49m[43mset_mcstas_path[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43m/usr/share/mcstas/3.3/[39;49m[38;5;124;43m"[39;49m[43m)[49m
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages/mcstasscript/interface/functions.py:247[0m, in [0;36mConfigurator.set_mcstas_path[0;34m(self, path)[0m
+[1;32m    237[0m [38;5;250m[39m[38;5;124;03m"""[39;00m
+[1;32m    238[0m [38;5;124;03mSets the path to McStas[39;00m
+[1;32m    239[0m 
+[0;32m   (...)[0m
+[1;32m    243[0m [38;5;124;03m    Path to the mcstas directory containing "sources", "optics", ...[39;00m
+[1;32m    244[0m [38;5;124;03m"""[39;00m
+[1;32m    246[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m os[38;5;241m.[39mpath[38;5;241m.[39misdir(path):
+[0;32m--> 247[0m     [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124m"[39m[38;5;124mInvalid path given to set_mcstas_path:[39m[38;5;124m"[39m
+[1;32m    248[0m                        [38;5;241m+[39m [38;5;28mstr[39m(path))
+[1;32m    250[0m [38;5;66;03m# read entire configuration file[39;00m
+[1;32m    251[0m config [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_read_yaml()
+
+[0;31mRuntimeError[0m: Invalid path given to set_mcstas_path:/usr/share/mcstas/3.3/
+
