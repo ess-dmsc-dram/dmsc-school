@@ -45,7 +45,7 @@ This meant that all the students had a firm grounding in Python and were ready t
 The first day ended with a presentation introducing FAIR data practices and discussing the role of FAIR in the ESS facility; these concepts would be consolidated throughout the school.
 
 The second day was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of ESS. 
-After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [4](https://doi.org/10.1080/10448639908233684)[5](https://doi.org/10.3233/JNR-190108)[6](https://doi.org/10.3233/JNR-200186). 
+After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [4](https://doi.org/10.1080/10448639908233684), [5](https://doi.org/10.3233/JNR-190108), [6](https://doi.org/10.3233/JNR-200186). 
 At this point, the students were asked to select one of two paths for the summer school: small-angle neutron scattering (SANS) or backscattering quasi-elastic neutron scattering (QENS). 
 The data that they simulated using McStas would be carried with them throughout the summer school, through reduction, analysis, and storage. 
 In the end, the fourteen students split approximately 50:50 between the two neutron scattering techniques.
