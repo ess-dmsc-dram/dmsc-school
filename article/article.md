@@ -29,20 +29,26 @@ The summer school covered aspects of Python programming, experiment simulation, 
 The school was generously supported by the [Carlsberg Foundation](https://www.carlsbergfondet.dk/en) and the Danish Scattering Association ([DanScatt](https://danscatt.dk/)). 
 Students accessed material and JupyterLab through the e-learning course _DMSC Summer School 2023_, which is accessible through the [Photon and Neutron Training portal](https://www.pan-training.eu). 
 Alternatively, all the material is freely accessible online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school).
+The school was hosted at the Niels Bohr Institute (NBI) of the University of Copenhagen and the DMSC offices in Copenhagen, with a day spent at the ESS site in Lund. 
+It was fitting to host the first two days of the school in the historic Auditorium A of the NBI, where Niels Bohr have taught students about neutrons.
 
 The role that data plays in neutron scattering is changing, more impetus is being placed on the use of complex data reduction and analysis [1](https://doi.org/10.1107/S1600576722011426), as well as the importance of FAIR and open data [2](https://doi.org/10.1140/epjp/s13360-023-04189-6).
 ESS has recognised this and created the Data Management and Scientific Computing (DMSC) division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
 This makes ESS unique among neutron scattering facilities, coming online with data as a primary partner in user experiments, alongside the instrumentation itself.
 
-The data from experiments at ESS will be processed by a neutron data pipeline including acquisition, reduction, analysis and cataloguing.
+The data from experiments at ESS will be processed by a neutron data pipeline including acquisition, reduction, analysis and cataloguing. 
 Therefore, the aim of the DMSC Summer School was to provide an in-depth introduction to these. 
-The school was hosted at the Niels Bohr Institute (NBI) of the University of Copenhagen and the DMSC offices in Copenhagen, with a day spent at the ESS site in Lund. 
-It was fitting to host the first two days of the school in the historic Auditorium A of the NBI, where Niels Bohr have taught students about neutrons.
+At the summer school the data acquisition step was replaced by simulations such that the students were introduced to the data pipeline illustrated below:
+
+<img  src='pipeline.JPG' width='75%'>
+<small>
+The data pipeline that students were introduced to at the summer school. The associated software is illustrated above the pipeline.
+</small><br>
 
 Modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [3](https://doi.org/10.1109/MCSE.2021.3059263), are required to get the most from neutron scattering data. 
 Therefore, the first day of the summer school focused on introducing the Python programming language and the Jupyter Notebook interface. 
 This meant that all the students had a firm grounding in Python and were ready to work confidently on the material in later days. 
-The first day ended with a presentation introducing FAIR data practices and discussing the role of FAIR in the ESS facility; these concepts would be consolidated throughout the school.
+The first day ended with a presentation introducing FAIR data practices and discussing the role of FAIR in the ESS facility; these concepts would be consolidated throughout the school. Moreover, students were introduced to what encompasses a good proposal for beam time. 
 
 The second day was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of ESS. 
 After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [4](https://doi.org/10.1080/10448639908233684), [5](https://doi.org/10.3233/JNR-190108), [6](https://doi.org/10.3233/JNR-200186). 
@@ -51,8 +57,7 @@ The data that they simulated using McStas would be carried with them throughout 
 In the end, the fourteen students split approximately 50:50 between the two neutron scattering techniques.
 While at the ESS site, the students were also given a tour of the ESS facilities and participated in a poster session, where they were able to discuss their shared interests around neutron scattering data.
 
-<img src='photo-1.JPG' width='49%'>
-<img src='photo-2.JPG' width='49%'>
+<img src='photo-1.JPG' width='48%'>  <img style="float: right;" src='photo-2.JPG' width='48%'>
 <small>
 Photographs from the day at the ESS site in Lund, (left) the school students and teachers and (right) the poster session in the ESS attrium.
 </small><br>
