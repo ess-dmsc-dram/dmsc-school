@@ -48,7 +48,8 @@ The data pipeline that students were introduced to at the summer school. The ass
 Modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [3](https://doi.org/10.1109/MCSE.2021.3059263), are required to get the most from neutron scattering data. 
 Therefore, the first day of the summer school focused on introducing the Python programming language and the Jupyter Notebook interface. 
 This meant that all the students had a firm grounding in Python and were ready to work confidently on the material in later days. 
-The first day ended with a presentation introducing FAIR data practices and discussing the role of FAIR in the ESS facility; these concepts would be consolidated throughout the school. Moreover, students were introduced to what encompasses a good proposal for beam time. 
+The first day ended with a presentation introducing FAIR data practices and discussing the role of FAIR in the ESS facility; these concepts would be consolidated throughout the school. 
+Moreover, students were introduced to what encompasses a good proposal for beam time. 
 
 The second day was spent in Lund, first to visit the MAX IV synchrotron source, which is a close neighbour of ESS. 
 After a tour of MAX IV, the students were introduced to the neutron instrumentation software McStas [4](https://doi.org/10.1080/10448639908233684), [5](https://doi.org/10.3233/JNR-190108), [6](https://doi.org/10.3233/JNR-200186). 
