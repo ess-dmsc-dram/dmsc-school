@@ -39,11 +39,11 @@ This makes ESS unique among neutron scattering facilities, coming online with da
 The data from experiments at ESS will be processed by a neutron data pipeline including acquisition, reduction, analysis and cataloguing. 
 Therefore, the aim of the DMSC Summer School was to provide an in-depth introduction to these. 
 At the summer school the data acquisition step was replaced by simulations such that the students were introduced to the data pipeline illustrated below:
+
 <img src='pipeline.JPG', width='75%'>
 <small>
 The data pipeline that students were introduced to at the summer school. The associated software is illustrated above the pipeline.
 </small><br>
-
 
 Modern computational practices, in particular the use of the Python programming language and Jupyter Notebooks [3](https://doi.org/10.1109/MCSE.2021.3059263), are required to get the most from neutron scattering data. 
 Therefore, the first day of the summer school focused on introducing the Python programming language and the Jupyter Notebook interface. 
