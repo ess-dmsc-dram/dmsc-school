@@ -26,7 +26,7 @@ b. European Spallation Source ERIC, P.O. Box 176, SE-221 00, Lund, Sweden.
 From the fourth to the eighth of September 2023, the Data Management and Software Centre (DMSC) of the European Spallation Source (ESS) hosted its first Summer School. 
 The focus of this school was to introduce "students" (ranging from Master's-level to staff scientists) to the growing importance of data in the neutron scattering landscape. 
 The summer school covered aspects of Python programming, experiment simulation, data reduction, analysis, and cataloguing -- with a focus on FAIR (findable, accessible, interoperable, and reusable) data practices throughout.
-The school was generously supported by the Carlsberg Foundation and the Danish Scattering Association (DanScatt) and all of the material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school).
+The school was generously supported by the [Carlsberg Foundation](https://www.carlsbergfondet.dk/en) and the Danish Scattering Association ([DanScatt](https://danscatt.dk/)) and all of the material from the summer school is available online at [ess-dmsc-dram.github.io/dmsc-school](https://ess-dmsc-dram.github.io/dmsc-school).
 
 The role that data plays in neutron scattering is changing, more impetus is being placed on the use of complex data reduction and analysis [1](https://doi.org/10.1107/S1600576722011426), as well as the importance of FAIR and open data [2](https://doi.org/10.1140/epjp/s13360-023-04189-6).
 ESS has recognised this and created the DMSC division, based in Copenhagen and linked to the ESS Lund site for fast data transfer. 
