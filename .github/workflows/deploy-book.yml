@@ -32,9 +32,11 @@ jobs:
     # Create the Conda environment and install dependencies
     - name: Create Conda environment
       run: |
-        conda create -n myenv python=3.10
-        conda activate myenv
-        conda install -c conda-forge mcstas graphviz
+        conda init bash
+        source ~/.bashrc
+        conda create -n myenv python=3.10 -y
+        source activate myenv
+        conda install -c conda-forge mcstas graphviz -y
 
     - name: Install pip dependencies
       run: |
