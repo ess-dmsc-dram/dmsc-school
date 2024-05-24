@@ -31,9 +31,8 @@ jobs:
         sudo apt install --yes mcstas-suite-python-ng
         cd ~
         MCRUN_DIR=$(dirname $(which mcrun))
-        MCSTAS_PATH=$MCSTAS
         echo "MCRUN_DIR=$MCRUN_DIR" >> $GITHUB_ENV
-        echo "MCSTAS_PATH=$MCSTAS_PATH" >> $GITHUB_ENV
+        echo "MCSTAS_PATH=$MCSTAS" >> $GITHUB_ENV
 
     - name: Install pip dependencies
       run: |
