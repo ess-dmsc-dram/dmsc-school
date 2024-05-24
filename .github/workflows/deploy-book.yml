@@ -27,7 +27,6 @@ jobs:
       with:
         auto-update-conda: true
         python-version: '3.10'
-        environment-file: environment.yml
         activate-environment: myenv
 
     # Create the Conda environment and install dependencies
