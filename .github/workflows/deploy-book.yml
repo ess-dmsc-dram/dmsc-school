@@ -30,10 +30,21 @@ jobs:
         sudo apt update
         sudo apt install --yes mcstas-suite-python-ng
         cd ~
+        MCRUN_PATH=$(which mcrun)
+        MCSTAS_PATH=$MCSTAS
+        echo "MCRUN_PATH=$MCRUN_PATH" >> $GITHUB_ENV
+        echo "MCSTAS_PATH=$MCSTAS_PATH" >> $GITHUB_ENV
 
     - name: Install pip dependencies
       run: |
         pip install -r requirements.txt
+        
+    - name: Configure mcstasscript
+      run: |
+        python -c "import mcstasscript as ms; \
+                   my_configurator = ms.Configurator(); \
+                   my_configurator.set_mcrun_path('${{ env.MCRUN_PATH }}'); \
+                   my_configurator.set_mcstas_path('${{ env.MCSTAS_PATH }}')"
 
     # Build the book
     - name: Build the book
