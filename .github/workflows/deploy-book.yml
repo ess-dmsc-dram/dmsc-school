@@ -15,34 +15,43 @@ jobs:
     steps:
     - uses: actions/checkout@v3
         
-    # Set up Miniconda
-    - name: Set up Miniconda
-      uses: conda-incubator/setup-miniconda@v2
+    # Install dependencies
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
       with:
-        auto-update-conda: true
         python-version: '3.10'
-        activate-environment: myenv
 
-    # Create the Conda environment and install dependencies
-    - name: Create Conda environment
+    - run: sudo apt install --yes graphviz graphviz-dev
+
+    - name: Install McStas
       run: |
-        conda init bash
-        source ~/.bashrc
-        conda create -n myenv python=3.10 -y
-        source activate myenv
-        conda install -c conda-forge mcstas graphviz -y
+        cd /etc/apt/sources.list.d
+        sudo wget https://packages.mccode.org/debian/mccode.list
+        sudo apt update
+        sudo apt install --yes mcstas-suite-python-ng=3.4
+        cd ~
+        MCRUN_DIR=$(dirname $(which mcrun))
+        echo "MCRUN_DIR=$MCRUN_DIR" >> $GITHUB_ENV
+        mcstas-3.4-environment
+        echo $MCSTAS
 
     - name: Install pip dependencies
       run: |
-        conda activate myenv
         pip install -r requirements.txt
+        
+    - name: Configure mcstasscript
+      run: |
+        MCRUN_DIR=$(dirname $(which mcrun))
+        python -c "import mcstasscript as ms; \
+                   my_configurator = ms.Configurator(); \
+                   my_configurator.set_mcrun_path('${MCRUN_DIR}'); \
+                   my_configurator.set_mcstas_path('/usr/share/mcstas/3.4/')"
 
     # Build the book
     - name: Build the book
       run: |
-        conda activate myenv
         jupyter-book build .
-
+        
     # Make artifact visible in github actions
     - uses: actions/upload-artifact@v3
       with:
