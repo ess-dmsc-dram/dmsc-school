@@ -4,17 +4,19 @@
 title: ESS Data Management and Software Centre Summer School
 author: Data Management and Software Centre
 # logo: logo.png
-copyright: "2023"
+copyright: "2024"
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
-  allow_errors: true
+  timeout: -1
+  execute_notebooks: cache
+  allow_errors: false
+  stderr_output: "error"
   exclude_patterns:
     - '6-scicat/9-exercise'
     - '6-scicat/notebooks/'
-  
+
 # Define the name of the latex output file for PDF builds
 latex:
   latex_documents:
@@ -39,9 +41,8 @@ html:
 sphinx:
   extra_extensions:
     - sphinxcontrib.mermaid
-
-execute:
-  timeout: -1
+  config:
+    nb_execution_show_tb: True
 
 exclude_patterns:
   - 'article/article.md'
