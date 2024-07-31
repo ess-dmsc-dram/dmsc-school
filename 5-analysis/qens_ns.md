@@ -1,4 +1,4 @@
-# How many Lorentzian functions?
+# Bayesian analysis of QENS data
     
 ```{admonition} Task
 :class: important
