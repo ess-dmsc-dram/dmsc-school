@@ -732,13 +732,14 @@ void add_element_to_double_list(struct pointer_to_1d_double_list *list,double va
       list-> elements = malloc(list->num_elements*sizeof(double));
       list-> elements[0] = value;
     } else {
-      double temp[list->num_elements];
+      double *temp=malloc(list->num_elements*sizeof(double));
       int iterate;
       for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
       free(list->elements);
       list->num_elements++;
       list-> elements = malloc(list->num_elements*sizeof(double));
       for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+      free(temp);
       list->elements[list->num_elements-1] = value;
     }
     };
@@ -749,13 +750,14 @@ void add_element_to_int_list(struct pointer_to_1d_int_list *list,int value) {
       list-> elements = malloc(list->num_elements*sizeof(int));
       list-> elements[0] = value;
     } else {
-      int temp[list->num_elements];
+      double *temp=malloc(list->num_elements*sizeof(double));
       int iterate;
       for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
       free(list->elements);
       list->num_elements++;
       list-> elements = malloc(list->num_elements*sizeof(int));
       for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+      free(temp);
       list->elements[list->num_elements-1] = value;
     }
     };
@@ -767,13 +769,14 @@ void add_element_to_focus_data_array(struct focus_data_array_struct *focus_data_
       focus_data_array-> elements = malloc(focus_data_array->num_elements*sizeof(struct focus_data_struct));
       focus_data_array-> elements[0] = focus_data;
     } else {
-      struct focus_data_struct temp[focus_data_array->num_elements];
+      struct focus_data_struct *temp=malloc(focus_data_array->num_elements*sizeof(struct focus_data_struct));
       int iterate;
       for (iterate=0;iterate<focus_data_array->num_elements;iterate++) temp[iterate] = focus_data_array->elements[iterate];
       free(focus_data_array->elements);
       focus_data_array->num_elements++;
       focus_data_array-> elements = malloc(focus_data_array->num_elements*sizeof(struct focus_data_struct));
       for (iterate=0;iterate<focus_data_array->num_elements-1;iterate++) focus_data_array->elements[iterate] = temp[iterate];
+      free(temp);
       focus_data_array->elements[focus_data_array->num_elements-1] = focus_data;
     }
     };
@@ -850,8 +853,8 @@ void add_function_to_conditional_list(struct conditional_list_struct *list,condi
       list->p_data_unions[0] = data_union;
     }
     else {
-    conditional_function_pointer temp_fp[list->num_elements];
-    union conditional_data_union *temp_du[list->num_elements];
+    conditional_function_pointer *temp_fp=malloc(list->num_elements*sizeof(conditional_function_pointer));
+    union conditional_data_union **temp_du=malloc(list->num_elements*sizeof(union conditional_data_union));
     int iterate;
     // Could even get away with a shallow copy here instead of the loop, but it is not relevant for performance.
     for (iterate=0;iterate<list->num_elements;iterate++) {
@@ -1001,13 +1004,14 @@ void add_element_to_process_list(struct pointer_to_global_process_list *list,str
     list-> elements[0] = new_element;
     }
     else {
-    struct global_process_element_struct temp[list->num_elements];
+      struct global_process_element_struct *temp=malloc(list->num_elements*sizeof(struct global_process_element_struct));
     int iterate;
     for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
     free(list->elements);
     list->num_elements++;
     list-> elements = malloc(list->num_elements*sizeof(struct global_process_element_struct));
     for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+    free(temp);
     list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1019,13 +1023,14 @@ void add_element_to_material_list(struct pointer_to_global_material_list *list,s
     list-> elements[0] = new_element;
     }
     else {
-    struct global_material_element_struct temp[list->num_elements];
+    struct global_material_element_struct *temp=malloc(list->num_elements*sizeof(struct global_material_element_struct));
     int iterate;
     for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
     free(list->elements);
     list->num_elements++;
     list-> elements = malloc(list->num_elements*sizeof(struct global_material_element_struct));
     for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+    free(temp);
     list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1037,13 +1042,14 @@ void add_element_to_geometry_list(struct pointer_to_global_geometry_list *list,s
     list-> elements[0] = new_element;
     }
     else {
-    struct global_geometry_element_struct temp[list->num_elements];
+    struct global_geometry_element_struct *temp=malloc(list->num_elements*sizeof(struct global_geometry_element_struct));
     int iterate;
     for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
     free(list->elements);
     list->num_elements++;
     list-> elements = malloc(list->num_elements*sizeof(struct global_geometry_element_struct));
     for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+    free(temp);
     list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1055,13 +1061,14 @@ void add_element_to_logger_list(struct pointer_to_global_logger_list *list,struc
     list-> elements[0] = new_element;
     }
     else {
-    struct global_logger_element_struct temp[list->num_elements];
+    struct global_logger_element_struct *temp=malloc(list->num_elements*sizeof(struct global_logger_element_struct));
     int iterate;
     for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
     free(list->elements);
     list->num_elements++;
     list-> elements = malloc(list->num_elements*sizeof(struct global_logger_element_struct));
     for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+    free(temp);
     list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1073,13 +1080,14 @@ void add_element_to_abs_logger_list(struct pointer_to_global_abs_logger_list *li
       list->elements[0] = new_element;
     }
     else {
-      struct global_abs_logger_element_struct temp[list->num_elements];
+      struct global_abs_logger_element_struct *temp=malloc(list->num_elements*sizeof(struct global_abs_logger_element_struct));
       int iterate;
       for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
       free(list->elements);
       list->num_elements++;
       list-> elements = malloc(list->num_elements*sizeof(struct global_abs_logger_element_struct));
       for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+      free(temp);
       list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1091,13 +1099,14 @@ void add_element_to_tagging_conditional_list(struct global_tagging_conditional_l
     list->elements[0] = new_element;
     }
     else {
-    struct global_tagging_conditional_element_struct temp[list->num_elements];
+    struct global_tagging_conditional_element_struct *temp=malloc(list->num_elements*sizeof(struct global_tagging_conditional_element_struct));
     int iterate;
     for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
     free(list->elements);
     list->num_elements++;
     list->elements = malloc(list->num_elements*sizeof(struct global_tagging_conditional_element_struct));
     for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+    free(temp);
     list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1109,13 +1118,14 @@ void add_element_to_master_list(struct pointer_to_global_master_list *list,struc
     list->elements[0] = new_element;
     }
     else {
-    struct global_master_element_struct temp[list->num_elements];
+    struct global_master_element_struct *temp=malloc(list->num_elements*sizeof(struct global_master_element_struct));
     int iterate;
     for (iterate=0;iterate<list->num_elements;iterate++) temp[iterate] = list->elements[iterate];
     free(list->elements);
     list->num_elements++;
     list-> elements = malloc(list->num_elements*sizeof(struct global_master_element_struct));
     for (iterate=0;iterate<list->num_elements-1;iterate++) list->elements[iterate] = temp[iterate];
+    free(temp);
     list->elements[list->num_elements-1] = new_element;
     }
 };
@@ -1131,13 +1141,14 @@ void add_initialized_logger_in_volume(struct loggers_struct *loggers,int number_
       loggers->p_logger_volume[0].p_logger_process[iterate] = NULL;
   } else {
     // Already some elements, store them in temp, free main, transfer back and add newest.
-    struct logger_for_each_process_list temp[loggers->num_elements];
+    struct logger_for_each_process_list *temp=malloc(loggers->num_elements*sizeof(struct logger_for_each_process_list));
     
     for (iterate=0;iterate<loggers->num_elements;iterate++) temp[iterate] = loggers->p_logger_volume[iterate];
     free(loggers->p_logger_volume);
     loggers->num_elements++;
     loggers->p_logger_volume = malloc(loggers->num_elements*sizeof(struct logger_for_each_process_list));
     for (iterate=0;iterate<loggers->num_elements-1;iterate++) loggers->p_logger_volume[iterate] = temp[iterate];
+    free(temp);
     loggers->p_logger_volume[loggers->num_elements-1].num_elements = number_of_processes;
     loggers->p_logger_volume[loggers->num_elements-1].p_logger_process = malloc(number_of_processes * sizeof(struct logger_struct**));
     for (iterate=0;iterate<number_of_processes;iterate++) {
@@ -1181,7 +1192,7 @@ void add_initialized_abs_logger_in_volume(struct abs_loggers_struct *abs_loggers
     abs_loggers->p_abs_logger = malloc(abs_loggers->num_elements * sizeof(struct abs_logger_struct*));
   } else {
     // Already some elements, store them in temp, free main, transfer back and add newest.
-    struct abs_logger_struct *temp[abs_loggers->num_elements];
+    struct abs_logger_struct **temp=malloc(abs_loggers->num_elements*sizeof(struct abs_logger_struct *));
     
     for (iterate=0;iterate<abs_loggers->num_elements;iterate++) temp[iterate] = abs_loggers->p_abs_logger[iterate];
     free(abs_loggers->p_abs_logger);
@@ -1189,8 +1200,8 @@ void add_initialized_abs_logger_in_volume(struct abs_loggers_struct *abs_loggers
     abs_loggers->num_elements++;
     abs_loggers->p_abs_logger = malloc(abs_loggers->num_elements*sizeof(struct abs_logger_struct*));
     for (iterate=0;iterate<abs_loggers->num_elements-1;iterate++) abs_loggers->p_abs_logger[iterate] = temp[iterate];
+    free(temp);
     abs_loggers->p_abs_logger[abs_loggers->num_elements-1] = NULL;
-    
   }
 };
 
@@ -1509,11 +1520,19 @@ int Sample_compare_doubles (const void *a, const void *b) {
 */
 
 
+/* TK: For osx compilation, changed ordering fct to use void* pointers. Orignal function was:
 int Sample_compare_history_intensities (const struct saved_history_struct *a, const struct saved_history_struct *b) {
   const double *da = (const double *) &(a->intensity);
   const double *db = (const double *) &(b->intensity);
 
   return (*da < *db) - (*da > *db);
+}
+*/
+
+int Sample_compare_history_intensities (const void* a, const void* b) {
+  const double da = ((const struct saved_history_struct *)a)->intensity;
+  const double db = ((const struct saved_history_struct *)b)->intensity;
+  return (da < db) - (da > db);
 }
 
 void write_tagging_tree(struct list_of_tagging_tree_node_pointers *master_list, struct Volume_struct **Volumes, int total_history_counter, int number_of_volumes) {
@@ -1643,7 +1662,12 @@ void write_tagging_tree(struct list_of_tagging_tree_node_pointers *master_list, 
   printf("Top 20 most common histories. Shows the index of volumes entered (VX), and the scattering processes (PX)\n");
   for (history_iterate=0;history_iterate<total_history.used_elements && history_iterate<20;history_iterate++) {
     printf("%d\t N I=%E \t", total_history.saved_histories[history_iterate].number_of_rays, total_history.saved_histories[history_iterate].intensity);
-    printf_history(&total_history.saved_histories[history_iterate]);
+    /*TK Changed from
+      printf_history(&total_history.saved_histories[history_iterate]); to the
+      following (of course this cast is only safe because the initial layout of
+      the two struct types is the same... I am not 100% sure it is actually
+      entirely guaranteed by the standard): */
+    printf_history((struct dynamic_history_list *)(&total_history.saved_histories[history_iterate]));
   }
    
   FILE *fp;
@@ -1867,7 +1891,7 @@ struct lines_to_draw draw_line_with_highest_priority(Coords position1,Coords pos
     
     int volume_index,iterate,permanent_list_length = 0;
     int number_of_solutions;
-    double temp_intersection[max_number_of_solutions];
+    double *temp_intersection=malloc(max_number_of_solutions*sizeof(double));
     double r1[3],r2[3],direction[3];
     struct pointer_to_1d_double_list intersection_list;
     
@@ -1911,6 +1935,7 @@ struct lines_to_draw draw_line_with_highest_priority(Coords position1,Coords pos
             
         }
     }
+    free(temp_intersection);
     // Now we have a list of intersection distances between r1 and r2 and all volumes.
     // This list needs to be sorted before we continue!
     
@@ -1920,7 +1945,7 @@ struct lines_to_draw draw_line_with_highest_priority(Coords position1,Coords pos
     // for (iterate = 0;iterate < intersection_list.num_elements;iterate++) printf("%f ",intersection_list.elements[iterate]);
     // printf("\n");
     
-    Coords points[intersection_list.num_elements+2];
+    Coords *points=malloc((intersection_list.num_elements+2)*sizeof(Coords));
     points[0] = coords_set(r1[0],r1[1],r1[2]);
     points[intersection_list.num_elements+1] = coords_set(r2[0],r2[1],r2[2]);
     for (iterate = 1;iterate < intersection_list.num_elements+1;iterate++) {
@@ -1935,8 +1960,8 @@ struct lines_to_draw draw_line_with_highest_priority(Coords position1,Coords pos
     // }
     // printf("\n");
   
-    struct line_segment lines[intersection_list.num_elements+1];
-    int draw_logic[intersection_list.num_elements+1];
+    struct line_segment *lines=malloc((intersection_list.num_elements+1)*sizeof(struct line_segment));
+    int *draw_logic=malloc((intersection_list.num_elements+1)*sizeof(int));
     //struct lines_to_draw draw_order;
     Coords midpoint;
     struct lines_to_draw draw_order;
@@ -1973,6 +1998,9 @@ struct lines_to_draw draw_line_with_highest_priority(Coords position1,Coords pos
     }
 
     // printf("function done \n");
+    free(points);
+    free(lines);
+    free(draw_logic);
     return draw_order;
     }
 
