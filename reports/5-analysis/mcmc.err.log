@@ -1,0 +1,116 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from easyCore import np
+from easyCore.Objects.Variable import Parameter
+from easyCore.Objects.ObjectClasses import BaseObj
+from easyCore.Fitting.Fitting import Fitter
+
+np.random.seed(123)
+
+a_true = -0.9594
+b_true = 7.294
+c_true = 3.102
+
+N = 25
+x = np.linspace(0, 10, N)
+yerr = 1 + 1 * np.random.rand(N)
+y = a_true * x ** 2 + b_true * x + c_true
+y += np.abs(y) * 0.1 * np.random.randn(N)
+
+a = Parameter(name='a', value=a_true, fixed=False, min=-5.0, max=0.5)
+b = Parameter(name='b', value=b_true, fixed=False, min=0, max=10)
+c = Parameter(name='c', value=c_true, fixed=False, min=-20, max=50)
+
+def math_model(x: np.ndarray) -> np.ndarray:
+    """
+    Mathematical model for a quadratic. 
+    
+    :x: values to calculate the model over. 
+    
+    :return: model values.
+    """
+    return a.raw_value * x ** 2 + b.raw_value * x + c.raw_value
+
+quad = BaseObj(name='quad', a=a, b=b, c=c)
+f = Fitter(quad, math_model)
+
+res = f.fit(x=x, y=y, weights=1/yerr)
+
+a, b, c
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [0;32mIn[1], line 2[0m
+[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01measyCore[39;00m [38;5;28;01mimport[39;00m np
+[0;32m----> 2[0m [38;5;28;01mfrom[39;00m [38;5;21;01measyCore[39;00m[38;5;21;01m.[39;00m[38;5;21;01mObjects[39;00m[38;5;21;01m.[39;00m[38;5;21;01mVariable[39;00m [38;5;28;01mimport[39;00m Parameter
+[1;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01measyCore[39;00m[38;5;21;01m.[39;00m[38;5;21;01mObjects[39;00m[38;5;21;01m.[39;00m[38;5;21;01mObjectClasses[39;00m [38;5;28;01mimport[39;00m BaseObj
+[1;32m      4[0m [38;5;28;01mfrom[39;00m [38;5;21;01measyCore[39;00m[38;5;21;01m.[39;00m[38;5;21;01mFitting[39;00m[38;5;21;01m.[39;00m[38;5;21;01mFitting[39;00m [38;5;28;01mimport[39;00m Fitter
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/easyCore/Objects/Variable.py:467[0m
+[1;32m    463[0m         d[[38;5;124m'[39m[38;5;124mavailable_options[39m[38;5;124m'[39m] [38;5;241m=[39m json[38;5;241m.[39mdumps([38;5;28mself[39m[38;5;241m.[39mavailable_options)
+[1;32m    464[0m         [38;5;28;01mreturn[39;00m d
+[0;32m--> 467[0m [38;5;28;01mclass[39;00m [38;5;21;01mParameter[39;00m(Descriptor):
+[1;32m    468[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m    469[0m [38;5;124;03m    This class is an extension of a ``easyCore.Object.Base.Descriptor``. Where the descriptor was for static objects,[39;00m
+[1;32m    470[0m [38;5;124;03m    a `Parameter` is for dynamic objects. A parameter has the ability to be used in fitting and[39;00m
+[1;32m    471[0m [38;5;124;03m    has additional fields to facilitate this.[39;00m
+[1;32m    472[0m [38;5;124;03m    """[39;00m
+[1;32m    474[0m     _constructor [38;5;241m=[39m M_
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/easyCore/Objects/Variable.py:481[0m, in [0;36mParameter[0;34m()[0m
+[1;32m    468[0m [38;5;250m[39m[38;5;124;03m"""[39;00m
+[1;32m    469[0m [38;5;124;03mThis class is an extension of a ``easyCore.Object.Base.Descriptor``. Where the descriptor was for static objects,[39;00m
+[1;32m    470[0m [38;5;124;03ma `Parameter` is for dynamic objects. A parameter has the ability to be used in fitting and[39;00m
+[1;32m    471[0m [38;5;124;03mhas additional fields to facilitate this.[39;00m
+[1;32m    472[0m [38;5;124;03m"""[39;00m
+[1;32m    474[0m _constructor [38;5;241m=[39m M_
+[1;32m    476[0m [38;5;28;01mdef[39;00m [38;5;21m__init__[39m(
+[1;32m    477[0m     [38;5;28mself[39m,
+[1;32m    478[0m     name: [38;5;28mstr[39m,
+[1;32m    479[0m     value: Union[numbers[38;5;241m.[39mNumber, np[38;5;241m.[39mndarray],
+[1;32m    480[0m     error: Optional[Union[numbers[38;5;241m.[39mNumber, np[38;5;241m.[39mndarray]] [38;5;241m=[39m [38;5;241m0.0[39m,
+[0;32m--> 481[0m     [38;5;28mmin[39m: Optional[numbers[38;5;241m.[39mNumber] [38;5;241m=[39m [38;5;241m-[39m[43mnp[49m[38;5;241;43m.[39;49m[43mInf[49m,
+[1;32m    482[0m     [38;5;28mmax[39m: Optional[numbers[38;5;241m.[39mNumber] [38;5;241m=[39m np[38;5;241m.[39mInf,
+[1;32m    483[0m     fixed: Optional[[38;5;28mbool[39m] [38;5;241m=[39m [38;5;28;01mFalse[39;00m,
+[1;32m    484[0m     [38;5;241m*[39m[38;5;241m*[39mkwargs,
+[1;32m    485[0m ):
+[1;32m    486[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m    487[0m [38;5;124;03m    This class is an extension of a ``easyCore.Object.Base.Descriptor``. Where the descriptor was for static[39;00m
+[1;32m    488[0m [38;5;124;03m    objects, a `Parameter` is for dynamic objects. A parameter has the ability to be used in fitting and has[39;00m
+[0;32m   (...)[0m
+[1;32m    508[0m [38;5;124;03m        Undo/Redo functionality is implemented for the attributes `value`, `error`, `min`, `max`, `fixed`[39;00m
+[1;32m    509[0m [38;5;124;03m    """[39;00m
+[1;32m    510[0m     [38;5;66;03m# Set the error[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/numpy/__init__.py:397[0m, in [0;36m__getattr__[0;34m(attr)[0m
+[1;32m    394[0m     [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(__former_attrs__[attr])
+[1;32m    396[0m [38;5;28;01mif[39;00m attr [38;5;129;01min[39;00m __expired_attributes__:
+[0;32m--> 397[0m     [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(
+[1;32m    398[0m         [38;5;124mf[39m[38;5;124m"[39m[38;5;124m`np.[39m[38;5;132;01m{[39;00mattr[38;5;132;01m}[39;00m[38;5;124m` was removed in the NumPy 2.0 release. [39m[38;5;124m"[39m
+[1;32m    399[0m         [38;5;124mf[39m[38;5;124m"[39m[38;5;132;01m{[39;00m__expired_attributes__[attr][38;5;132;01m}[39;00m[38;5;124m"[39m
+[1;32m    400[0m     )
+[1;32m    402[0m [38;5;28;01mif[39;00m attr [38;5;241m==[39m [38;5;124m"[39m[38;5;124mchararray[39m[38;5;124m"[39m:
+[1;32m    403[0m     warnings[38;5;241m.[39mwarn(
+[1;32m    404[0m         [38;5;124m"[39m[38;5;124m`np.chararray` is deprecated and will be removed from [39m[38;5;124m"[39m
+[1;32m    405[0m         [38;5;124m"[39m[38;5;124mthe main namespace in the future. Use an array with a string [39m[38;5;124m"[39m
+[1;32m    406[0m         [38;5;124m"[39m[38;5;124mor bytes dtype instead.[39m[38;5;124m"[39m, [38;5;167;01mDeprecationWarning[39;00m, stacklevel[38;5;241m=[39m[38;5;241m2[39m)
+
+[0;31mAttributeError[0m: `np.Inf` was removed in the NumPy 2.0 release. Use `np.inf` instead.
+
