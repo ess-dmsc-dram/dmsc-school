@@ -4,7 +4,7 @@
 import os
 import pandas as pd
 import scipp as sc
-import scippnexus.v2 as sx
+import scippnexus as sx
 from typing import Tuple
 import warnings
 

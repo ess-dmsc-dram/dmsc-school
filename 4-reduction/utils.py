@@ -2,7 +2,7 @@
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
 import scipp as sc
-import scippnexus.v2 as sx
+import scippnexus as sx
 import warnings
 
 from sans_utils import load_sans
