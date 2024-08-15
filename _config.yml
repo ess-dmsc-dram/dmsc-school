@@ -14,9 +14,9 @@ execute:
   allow_errors: false
   stderr_output: "error"
   exclude_patterns:
-    - '3-mcstas/Talk'
-    - '6-scicat/9-exercise'
-    - '6-scicat/notebooks/'
+    - '3-mcstas/Talk.ipynb'
+    - '6-scicat/9-exercise.ipynb'
+    - '6-scicat/notebooks/*'
 
 # Define the name of the latex output file for PDF builds
 latex:
