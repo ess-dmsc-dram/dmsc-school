@@ -14,6 +14,7 @@ execute:
   allow_errors: false
   stderr_output: "error"
   exclude_patterns:
+    - '3-mcstas/Talk'
     - '6-scicat/9-exercise'
     - '6-scicat/notebooks/'
 
