@@ -271,3 +271,17 @@ class QENS_Quiz(Quiz):
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
                           tollerance_factor=0.25)
+
+    def question_11(self, answer=None):
+        """
+        - Q: By taking the ratio between the time width at the known and unknown sample, what would the expected energy width (HWHM) of the unknown sample be?
+        - A: 8.24 ueV
+        """
+        success_msg = "Yes! Lets see how this early estimate holds up with more thorough analysis over the next days."
+        below_msg = "Expected a larger value, are you comparing the time width of the known and unknown sample results and normalizing with the known energy width?"
+        above_msg = "Expected a smaller value, are you comparing the time width of the known and unknown sample results and normalizing with the known energy width?"
+
+        self.insert_value(answer, 8.238,
+                          feedback_correct=success_msg,
+                          feedback_below=below_msg, feedback_above=above_msg,
+                          tollerance_factor=0.20)
