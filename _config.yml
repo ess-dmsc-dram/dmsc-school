@@ -44,6 +44,7 @@ sphinx:
     - sphinxcontrib.mermaid
   config:
     nb_execution_show_tb: True
+    suppress_warnings: ["myst.xref_missing"]
 
 exclude_patterns:
   - 'article/article.md'
