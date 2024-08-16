@@ -14,7 +14,6 @@ execute:
   allow_errors: false
   stderr_output: "error"
   exclude_patterns:
-    - 'README.md'
     - '3-mcstas/Talk.ipynb'
     - '6-scicat/9-exercise.ipynb'
     - '6-scicat/notebooks/*'

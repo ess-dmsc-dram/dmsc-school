@@ -21,6 +21,15 @@ Command to clear outputs of all jupyter notebooks in the current directory.
 tree -ifF -P *.ipynb | grep .ipynb | xargs -n1 jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
 ```
 
+### Building the book
+
+Make sure you have installed all the dependencies in the `requirements.txt` file.
+Then use (from the root folder):
+
+```bash
+jupyter-book build -W --keep-going .
+```
+
 ### Tags
 Teachers can add `tags` into the each cells for building textbooks and exporting workbooks.
 
@@ -48,7 +57,7 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
     Editable cell with hints for students.
     The tagged cell in the workbook will not be read-only,
     unless it is already read-only in the textbook.
-- `dmsc-school-keep`: 
+- `dmsc-school-keep`:
     Will not be edited or removed. It overwrites all other tags.
 
 ## How to export workbook from lecture materials
