@@ -1,4 +1,4 @@
-# How many types of particle?
+# Bayesian analysis of SANS data
     
 ```{admonition} Task
 :class: important
