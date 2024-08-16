@@ -1,0 +1,306 @@
+/********************************************************************************
+* 
+* McStas, neutron ray-tracing package
+*         Copyright (C) 1997-2008, All rights reserved
+*         Risoe National Laboratory, Roskilde, Denmark
+*         Institut Laue Langevin, Grenoble, France
+* 
+* This file was written by McStasScript, which is a 
+* python based McStas instrument generator written by 
+* Mads Bertelsen in 2019 while employed at the 
+* European Spallation Source Data Management and 
+* Software Centre
+* 
+* Instrument QENS
+* 
+* %Identification
+* Written by: Python McStas Instrument Generator
+* Date: 13:25:25 on July 09, 2024
+* Origin: ESS DMSC
+* %INSTRUMENT_SITE: Generated_instruments
+* 
+* 
+* %Parameters
+* 
+* %End 
+********************************************************************************/
+
+DEFINE INSTRUMENT QENS (
+double integration_time = 21600, // [s] Time span of experiment
+double energy_width_ueV = 5, // Simulated energy range in micro eV
+double n_pulses = 3, // Number of pulses from source
+double sample_distance = 150, // [m] Source Sample distance
+string sample_choice = "Elastic", // Choice of sample type
+double gamma_ueV = 12, // [ueV] Energy width of known quasi-elastic sample
+double analyzer_distance = 3, // [m] Sample analyzer distance
+double frequency_multiplier = 10 // Ratio between chopper and source frequency
+)
+
+DECLARE 
+%{
+double detector_offset = 0.25;
+double analyzer_angle;
+double backscattering_wavelength;
+double backscattering_energy;
+double energy_width_meV;
+double min_energy;
+double max_energy;
+double min_wavelength;
+double max_wavelength;
+double t_min_sample;
+double t_max_sample;
+double t_max_sample_pulses;
+double enable_elastic;
+double enable_known_quasi;
+double enable_unknown_quasi;
+double gamma_meV;
+double analyzer_direction = 30;
+double analyzer_d = 3.135;
+double analyzer_q = 2.00421;
+double t_min;
+double t_max;
+double t_max_pulses;
+double chopper_distance = 6.5; // [m] Distance from source to chopper
+double chopper_delay;
+double chopper_frequency;
+double chopper_theta = 12;
+double chopper_time_width;
+%}
+
+INITIALIZE 
+%{
+// Start of initialize for generated QENS
+analyzer_angle = RAD2DEG*0.5*atan(detector_offset/analyzer_distance);
+printf("Analyzer_angle: %lf \n", analyzer_angle);
+backscattering_wavelength = 2*analyzer_d*sin(DEG2RAD*0.5*(180-2.0*analyzer_angle));
+backscattering_energy = (2.0*PI/backscattering_wavelength)*K2V*(2.0*PI/backscattering_wavelength)*K2V*VS2E;
+printf("2 theta: %lf \n", DEG2RAD*0.5*(180-2.0*analyzer_angle));
+printf("Selected wavelength: %lf \n", 2*analyzer_d*sin(DEG2RAD*0.5*(180-2.0*analyzer_angle)));
+energy_width_meV = 1E-3*energy_width_ueV;
+min_energy = backscattering_energy - 0.5*energy_width_meV;
+max_energy = backscattering_energy + 0.5*energy_width_meV;
+min_wavelength = 2.0*PI/(sqrt(max_energy)*SE2V*V2K);
+max_wavelength = 2.0*PI/(sqrt(min_energy)*SE2V*V2K);
+t_min_sample = (min_wavelength)*(sample_distance - 0.05)/(K2V*2*PI);
+t_max_sample = (max_wavelength)*(sample_distance + 0.2)/(K2V*2*PI);
+t_max_sample_pulses = t_max_sample + 3.0E-3; // Account for ESS pulse structure
+
+    if (strcmp(sample_choice, "Elastic") == 0) {
+        enable_elastic = 1;
+        enable_known_quasi = 0;
+        enable_unknown_quasi = 0;
+    } else if (strcmp(sample_choice, "Known_quasi-elastic") == 0) {
+        enable_elastic = 0;
+        enable_known_quasi = 1;
+        enable_unknown_quasi = 0;
+    } else if (strcmp(sample_choice, "Unknown_quasi-elastic") == 0) {
+        enable_elastic = 0;
+        enable_known_quasi = 0;
+        enable_unknown_quasi = 1;
+    } else {
+        printf("sample_choice parameter did not match any sample choice! \n");
+        exit(1);
+    }
+    
+gamma_meV = 1E-3*gamma_ueV;
+t_min = (backscattering_wavelength)*(sample_distance - 0.7 + 2.0*analyzer_distance)/(K2V*2*PI);
+t_max = (backscattering_wavelength)*(sample_distance + 1.0 + 2.0*analyzer_distance)/(K2V*2*PI);
+t_max = t_max + 4.0E-3; // Account for ESS pulse structure
+t_max_pulses = t_max + (n_pulses-1.0)*1.0/14.0; // Account for n_pulses
+chopper_delay = 0.5*2.86E-3 + backscattering_wavelength*chopper_distance/(K2V*2*PI);
+chopper_frequency = 14.0*frequency_multiplier;
+chopper_time_width = (chopper_theta/360)/chopper_frequency;
+%}
+
+TRACE 
+COMPONENT source = ESS_butterfly(
+ yheight = 0.03, cold_frac = 0.95,
+ dist = sample_distance, focus_xw = 0.025,
+ focus_yh = 0.025, Lmin = min_wavelength,
+ Lmax = max_wavelength, n_pulses = n_pulses,
+ acc_power = 2*(n_pulses/14), tfocus_dist = chopper_distance,
+ tfocus_time = chopper_delay, tfocus_width = 1.5*chopper_time_width)
+AT (0,0,0) ABSOLUTE
+EXTEND %{
+// Compensate for lack of guide and analyzer area with weight increase
+p*=7e5;
+%}
+
+COMPONENT chopper = DiskChopper(
+ theta_0 = chopper_theta, radius = 0.7,
+ yheight = 0.05, nu = chopper_frequency,
+ nslit = 1, delay = chopper_delay)
+AT (0,0,chopper_distance) RELATIVE source
+
+COMPONENT sample_position = Arm()
+AT (0,0,sample_distance) RELATIVE source
+
+COMPONENT init = Union_init()
+AT (0,0,0) ABSOLUTE
+
+COMPONENT incoherent = Incoherent_process(
+ sigma = 3.08, unit_cell_volume = 20)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT elastic_material = Union_make_material(
+ process_string = "incoherent", my_absorption = 0.57)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT quasi_incoherent = Incoherent_process(
+ sigma = 3.08, f_QE = 0.99,
+ gamma = gamma_meV, unit_cell_volume = 20)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT known_quasi_elastic_material = Union_make_material(
+ process_string = "quasi_incoherent", my_absorption = 0.57)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT quasi_incoherent_1 = Incoherent_process(
+ sigma = 3.17, f_QE = 0.99,
+ gamma = 0.0076, unit_cell_volume = 20)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT unknown_quasi_elastic_material = Union_make_material(
+ process_string = "quasi_incoherent_1", my_absorption = 0.92)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT elastic_sample = Union_cylinder(
+ material_string = "elastic_material", priority = 10,
+ radius = 0.01, yheight = 0.03,
+ visualize = enable_elastic, target_z = analyzer_distance,
+ focus_xw = 0.01, focus_xh = 0.01,
+ p_interact = 0.4, number_of_activations = enable_elastic)
+AT (0,0,0) RELATIVE sample_position
+ROTATED (0,analyzer_direction,0) RELATIVE sample_position
+
+COMPONENT known_quasi_elastic_sample = Union_cylinder(
+ material_string = "known_quasi_elastic_material", priority = 11,
+ radius = 0.01, yheight = 0.03,
+ visualize = enable_known_quasi, target_z = analyzer_distance,
+ focus_xw = 0.01, focus_xh = 0.01,
+ p_interact = 0.4, number_of_activations = enable_known_quasi)
+AT (0,0,0) RELATIVE sample_position
+ROTATED (0,analyzer_direction,0) RELATIVE sample_position
+
+COMPONENT unknown_quasi_elastic_sample = Union_cylinder(
+ material_string = "unknown_quasi_elastic_material", priority = 12,
+ radius = 0.01, yheight = 0.03,
+ visualize = enable_unknown_quasi, target_z = analyzer_distance,
+ focus_xw = 0.01, focus_xh = 0.01,
+ p_interact = 0.4, number_of_activations = enable_unknown_quasi)
+AT (0,0,0) RELATIVE sample_position
+ROTATED (0,analyzer_direction,0) RELATIVE sample_position
+
+COMPONENT sample_master = Union_master()
+AT (0,0,0) ABSOLUTE
+
+COMPONENT analyzer_dir = Arm()
+AT (0,0,0) RELATIVE sample_position
+ROTATED (0,analyzer_direction,0) RELATIVE sample_position
+
+COMPONENT analyzer_pos = Arm()
+AT (0,0,analyzer_distance) RELATIVE analyzer_dir
+
+COMPONENT analyzer_orientation = Arm()
+AT (0,0,0) RELATIVE analyzer_pos
+ROTATED (0,90,0) RELATIVE analyzer_pos
+
+COMPONENT analyzer = Monochromator_flat(
+ zwidth = 0.05, yheight = 0.05,
+ mosaich = 30, mosaicv = 30,
+ r0 = 0.7, Q = analyzer_q)
+AT (0,0,0) RELATIVE analyzer_orientation
+ROTATED (0,0,analyzer_angle) RELATIVE analyzer_orientation
+
+COMPONENT return_orientation = Arm()
+AT (0,0,0) RELATIVE analyzer_pos
+ROTATED (0,180,0) RELATIVE analyzer_pos
+
+COMPONENT return_dir = Arm()
+AT (0,0,0) RELATIVE return_orientation
+ROTATED (-2.0*analyzer_angle,0,0) RELATIVE return_orientation
+
+COMPONENT detector_slit = Slit(
+ xwidth = 0.06, yheight = 0.1)
+AT (0,0,analyzer_distance - 0.1) RELATIVE return_dir
+EXTEND %{
+// Simulate detector glitch with timing
+if (y > 0.14*0.08 && y < 0.24*0.08 && rand01() > 0.23)
+t += 0.00034;
+%}
+
+COMPONENT Al_incoherent = Incoherent_process(
+ sigma = 4*0.0082, packing_factor = 1,
+ unit_cell_volume = 66.4)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al_powder = Powder_process(
+ reflections = "Al.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al = Union_make_material(
+ process_string = "Al_incoherent,Al_powder", my_absorption = 100*4*0.231/66.4)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT He3_inc = Incoherent_process(
+ sigma = 0.0116603, unit_cell_volume = 100)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT He3 = Union_make_material(
+ process_string = "He3_inc", my_absorption = 38.8654)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al_container = Union_cylinder(
+ material_string = "Al", priority = 300,
+ radius = 0.03, yheight = 0.1,
+ p_interact = 0.25)
+AT (0,0,analyzer_distance) RELATIVE return_dir
+
+COMPONENT He3_gas = Union_cylinder(
+ material_string = "He3", priority = 310,
+ radius = 0.026, yheight = 0.08,
+ p_interact = 0.2)
+AT (0,0,0) RELATIVE Al_container
+
+COMPONENT signal_space = Union_abs_logger_1D_space(
+ target_geometry = "He3_gas", yheight = 0.08,
+ n = 50, filename = "detector_signal_space.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_time = Union_abs_logger_1D_time(
+ target_geometry = "He3_gas", time_min = t_min,
+ time_max = t_max, n = 100,
+ filename = "detector_signal_time.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_tof = Union_abs_logger_1D_space_tof(
+ target_geometry = "He3_gas", yheight = 0.08,
+ n = 50, time_min = t_min,
+ time_max = t_max, time_bins = 250,
+ filename = "detector_signal_2D.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_tof_all = Union_abs_logger_1D_space_tof(
+ target_geometry = "He3_gas", yheight = 0.08,
+ n = 50, time_min = t_min,
+ time_max = t_max_pulses, time_bins = 350,
+ filename = "detector_signal_2D_all.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_tof_event = Union_abs_logger_1D_space_event(
+ target_geometry = "He3_gas", yheight = 0.08,
+ n = 200, filename = "detector_signal_event.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT detector_master = Union_master()
+AT (0,0,0) ABSOLUTE
+
+COMPONENT stop = Union_stop()
+AT (0,0,0) ABSOLUTE
+
+FINALLY 
+%{
+// Start of finally for generated QENS
+%}
+
+END

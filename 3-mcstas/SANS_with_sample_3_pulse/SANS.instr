@@ -1,0 +1,172 @@
+/********************************************************************************
+* 
+* McStas, neutron ray-tracing package
+*         Copyright (C) 1997-2008, All rights reserved
+*         Risoe National Laboratory, Roskilde, Denmark
+*         Institut Laue Langevin, Grenoble, France
+* 
+* This file was written by McStasScript, which is a 
+* python based McStas instrument generator written by 
+* Mads Bertelsen in 2019 while employed at the 
+* European Spallation Source Data Management and 
+* Software Centre
+* 
+* Instrument SANS
+* 
+* %Identification
+* Written by: Python McStas Instrument Generator
+* Date: 13:41:42 on July 09, 2024
+* Origin: ESS DMSC
+* %INSTRUMENT_SITE: Generated_instruments
+* 
+* 
+* %Parameters
+* 
+* %End 
+********************************************************************************/
+
+DEFINE INSTRUMENT SANS (
+double integration_time = 500, // [s] Time span of experiment
+double wavelength = 6, // [AA]  Mean wavelength of neutrons
+double d_wavelength = 1.5, // [AA]  Wavelength spread of neutrons
+double n_pulses = 3, // [1] Number of pulses from source
+double sample_distance = 150, // [m] Source Sample distance
+double enable_sample = 1, // [1] 0 for nothing, 1 for SANS sample
+double detector_distance = 3 // [m] Sample_detector_distance
+)
+
+DECLARE 
+%{
+double t_min;
+double t_max;
+double t_max_pulses;
+char options[256];
+%}
+
+INITIALIZE 
+%{
+// Start of initialize for generated SANS
+t_min = (wavelength - d_wavelength)*(sample_distance - 0.02 + detector_distance)/(K2V*2*PI);
+t_max = (wavelength + d_wavelength)*(sample_distance + 0.2 + detector_distance)/(K2V*2*PI);
+t_max = t_max + 3.0E-3; // Account for ESS pulse structure
+t_max_pulses = t_max + 3.0E-3 + (n_pulses-1.0)*1.0/14.0; // Account for n_pulses
+sprintf(options,"square, y bins=200, t limits=[%g %g] bins=300",t_min,t_max);
+%}
+
+TRACE 
+COMPONENT init = Union_init()
+AT (0,0,0) ABSOLUTE
+
+COMPONENT source = ESS_butterfly(
+ yheight = 0.03, cold_frac = 0.95,
+ dist = sample_distance + detector_distance, focus_xw = 0.02,
+ focus_yh = 0.02, Lmin = wavelength - 0.5*d_wavelength,
+ Lmax = wavelength + 0.5*d_wavelength, n_pulses = n_pulses,
+ acc_power = 2*(n_pulses/14))
+AT (0,0,0) ABSOLUTE
+EXTEND %{
+// Compensate for lack of guide with weight increase
+p*=3;
+%}
+
+COMPONENT sample_position = Arm()
+AT (0,0,sample_distance) RELATIVE source
+
+COMPONENT beam_window = Incoherent(
+ xwidth = 0.05, yheight = 0.05,
+ zdepth = 0.008, target_y = 0.25,
+ target_z = detector_distance, focus_xw = 0.06,
+ focus_yh = 0.55, p_interact = 0.1 + enable_sample*0.4,
+ sigma_abs = 0.924, sigma_inc = 11,
+ Vc = 66.4)
+AT (0,0,-0.05) RELATIVE sample_position
+
+COMPONENT sample = SANS_spheres2(
+ xwidth = 0.02, yheight = 0.02,
+ zthick = 0.0015, dsdw_inc = 0.08,
+ sc_aim = 0.95, sans_aim = 0.95,
+ R = 90, phi = 0.004,
+ Qmaxd = 1.5*2.0*2.0*PI/(wavelength-0.5*d_wavelength)*sin(0.5*atan(0.5/detector_distance)))
+WHEN (enable_sample == 1)
+AT (0,0,0) RELATIVE sample_position
+
+COMPONENT beamstop = Beamstop(
+ xwidth = 0.1, yheight = 0.02)
+AT (0,0,0.9*detector_distance) RELATIVE sample_position
+
+COMPONENT detector_position = Arm()
+AT (0,0,detector_distance) RELATIVE sample_position
+
+COMPONENT Al_incoherent = Incoherent_process(
+ sigma = 4*0.0082, packing_factor = 1,
+ unit_cell_volume = 66.4)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al_powder = Powder_process(
+ reflections = "Al.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al = Union_make_material(
+ process_string = "Al_incoherent,Al_powder", my_absorption = 100*4*0.231/66.4)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT He3_inc = Incoherent_process(
+ sigma = 0.0116603, unit_cell_volume = 100)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT He3 = Union_make_material(
+ process_string = "He3_inc", my_absorption = 38.8654)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al_container = Union_cylinder(
+ material_string = "Al", priority = 300,
+ radius = 0.03, yheight = 0.55,
+ p_interact = 0.3)
+AT (0,0.25,0) RELATIVE detector_position
+
+COMPONENT He3_gas = Union_cylinder(
+ material_string = "He3", priority = 310,
+ radius = 0.026, yheight = 0.47)
+AT (0,0,0) RELATIVE Al_container
+
+COMPONENT gas_buble1 = Union_sphere(
+ material_string = "Vacuum", priority = 500,
+ radius = 0.02574)
+AT (0,-0.16308999999999998,0) RELATIVE He3_gas
+
+COMPONENT signal = Union_abs_logger_1D_space(
+ target_geometry = "He3_gas", yheight = 0.47,
+ n = 300, filename = "detector_signal.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_tof = Union_abs_logger_1D_space_tof(
+ target_geometry = "He3_gas", yheight = 0.47,
+ n = 200, time_min = t_min,
+ time_max = t_max, time_bins = 300,
+ filename = "detector_signal_tof.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_tof_all = Union_abs_logger_1D_space_tof(
+ target_geometry = "He3_gas", yheight = 0.47,
+ n = 200, time_min = t_min,
+ time_max = t_max_pulses, time_bins = 300,
+ filename = "detector_signal_tof_all.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT signal_tof_event = Union_abs_logger_1D_space_event(
+ target_geometry = "He3_gas", yheight = 0.47,
+ n = 200, filename = "detector_signal_event.dat")
+AT (0,0,0) RELATIVE He3_gas
+
+COMPONENT master = Union_master()
+AT (0,0,0) ABSOLUTE
+
+COMPONENT stop = Union_stop()
+AT (0,0,0) ABSOLUTE
+
+FINALLY 
+%{
+// Start of finally for generated SANS
+%}
+
+END
