@@ -14,6 +14,7 @@ execute:
   allow_errors: false
   stderr_output: "error"
   exclude_patterns:
+    - 'README.md'
     - '3-mcstas/Talk.ipynb'
     - '6-scicat/9-exercise.ipynb'
     - '6-scicat/notebooks/*'
@@ -44,6 +45,7 @@ sphinx:
     - sphinxcontrib.mermaid
   config:
     nb_execution_show_tb: True
+    suppress_warnings: ["myst.xref_missing"]
 
 exclude_patterns:
   - 'article/article.md'
