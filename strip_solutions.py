@@ -9,7 +9,7 @@ EMPTY_CELL = {
     "execution_count": None,
     "metadata": {},
     "outputs": [],
-    "source": ["# Insert your solution:"],
+    "source": ["# Insert your solution:\n"],
 }
 
 
@@ -60,6 +60,18 @@ if __name__ == "__main__":
             "*.ipynb_checkpoints",
             "README.md",
             "LICENSE",
+            "references.bib",
+            "*.html",
+            "*.yml",
+            "_static",
+            "article",
+            "clean_metadata.py",
+            "glossary.md",
+            "favicon.ico",
+            "intro.md",
+            "requirements.txt",
+            "strip_solutions.py",
+            "update_workbook.py",
         ),
         dirs_exist_ok=True,
     )
