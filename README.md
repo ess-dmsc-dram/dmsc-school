@@ -48,7 +48,7 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 - `remove-output`
     `outputs` of the cell will not be included in the published pages.
 - `remove-cell`
-    Not included in the build. Also used by `update_workbook.py` script.
+    Not included in the build. Also used by `strip_solutions.py` script.
 
 #### Workbook tags
 - `solution`:
@@ -62,43 +62,36 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 - `dmsc-school-keep`:
     Will not be edited or removed. It overwrites all other tags.
 
-## How to export workbook from lecture materials
+## How to export student notebooks from lecture materials
 
-There is a python script `update_workbook.py` to create a workbook(jupyter notebook)
-from the jupyter notebook lecture materials in [course directories](#Course-Directories)
-based on the [tags](#Workbook-tags) of each cells.
+There is a python script `strip_solutions.py` to create a student notebooks
+from the jupyter notebook lecture materials in [course directories](##Course-Directories).
 
-All cells in the workbook will be read-only by default except for `solution` cells.
-Cells can be tagged with `dmsc-shool-hint` to keep their editability.
+The notebooks will be copies of the originals, with the solutions stripped out
+(replaced by cells that read "Add your solution here").
 
-If there is python files, or image files('*.png', '*.jpg', '*.svg') in the lecture material directories,
-it also copies them into the [workbook submodule](github.com:ess-dmsc-dram/dmsc-school-notebooks).
+Start from the root folder of the `dmsc-school` repo.
 
-It doesn't handle other type of files on purpose.
-
-### 1. Set up or update submodule:workbooks
-You need to set up the git submodule `workbooks` before you run the script.
-
+We first strip the outputs from all notebooks.
 ```bash
-git -C workbooks branch # Make sure if you're in the right branch of submodule
-
-git submodule update  # Use --init tag if it is the first time pulling submodule
+tree -ifF -P *.ipynb | grep .ipynb | xargs -n1 jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
 ```
 
-### 2. Update workbooks
-And then you can update materials.
+Then clone the notebooks repo and clear it out:
 ```bash
-python update_workbook.py --all  # Update all workbooks
-
-# or
-python update_workbook.py  # Update based on git status
+git clone git@github.com:ess-dmsc-dram/dmsc-school-notebooks.git
+rm -r dmsc-school-notebooks/*
 ```
 
-### 3. Commit & push workbooks
-Once you update the workbook,
-you have to commit and push the changes of the submodule manually.
+Then run the script to strip the solutions, pointing to the `dmsc-school-notebooks` folder for output:
+```bash
+python strip_solutions.py dmsc-school-notebooks
+```
 
-The script will report which files are updated based on `git status`.
-
-The script doesn't commit any changes automatically on purpose
-to avoid unexpected changes of workbooks.
+Finally, push the notebooks to the remote (and open a pull request):
+```bash
+cd dmsc-school-notebooks
+git checkout -b <MY_UPDATE_BRANCH>
+git add -A .
+git push origin <MY_UPDATE_BRANCH>
+```
