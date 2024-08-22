@@ -1,3 +1,5 @@
+![dmscschoollogo](https://indico.ess.eu/event/3514/logo-1681316.png)
+
 # DMSC School Lecture Materials
 Lecture material repository for teachers at DMSC School.
 
