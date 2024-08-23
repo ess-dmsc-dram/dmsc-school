@@ -52,15 +52,16 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 
 #### Workbook tags
 - `solution`:
-    Solution of the exercise. Source code will be replaced with a instruction message.
+    Solution of the exercise. Source code will be replaced with an instruction message.
 - `remove-cell`:
     Not included in the workbooks. Also used by `jupyter-book`.
-- `dmsc-school-hint`:
-    Editable cell with hints for students.
-    The tagged cell in the workbook will not be read-only,
-    unless it is already read-only in the textbook.
 - `dmsc-school-keep`:
     Will not be edited or removed. It overwrites all other tags.
+
+>We used to have workbooks ``read-only`` to make ``git pull`` easier
+whenever we want to update the workbooks without making any conflicts with students' work. </br>
+But now they are stable and it is very little likely to pull more changes during the school so we decided not to make them read-only. </br>
+So, if you want to make any cells read-only in the workbook, it should be applied in the metadata manually.
 
 ## How to export student notebooks from lecture materials
 
