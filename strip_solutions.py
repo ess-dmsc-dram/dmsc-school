@@ -4,14 +4,18 @@ from pathlib import Path
 import os
 from shutil import copytree, ignore_patterns
 
-EMPTY_CELL = {
+BASE_CELL = {
     "cell_type": "code",
     "execution_count": None,
     "metadata": {},
     "outputs": [],
-    "source": ["# Insert your solution:\n"],
 }
 
+EMPTY_CELL = BASE_CELL.copy()
+EMPTY_CELL["source"] = ["# Insert your solution:\n"]
+
+WIDGET_CELL = BASE_CELL.copy()
+WIDGET_CELL["source"] = ["%matplotlib widget"]
 
 parser = argparse.ArgumentParser(description="Remove solution cells from all notebooks")
 parser.add_argument(
@@ -20,13 +24,15 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-def clean(filepath, destination):
+def clean(filepath, destination, add_mpl_widget_cell=False):
     with open(filepath, "r") as myfile:
         data = myfile.read()
 
     obj = json.loads(data)
 
     out = []
+    if add_mpl_widget_cell:
+        out.append(WIDGET_CELL)
     for cell in obj["cells"]:
         if "tags" in cell["metadata"]:
             if ("solution" in cell["metadata"]["tags"]) and (
@@ -76,6 +82,13 @@ if __name__ == "__main__":
         ),
         dirs_exist_ok=True,
     )
+    notebooks_with_figures = ("matplotlib", "3-mcstas", "4-reduction", "5-analysis")
     for path in Path(".").rglob("*.ipynb"):
         print(path)
-        clean(filepath=path, destination=args.destination)
+        clean(
+            filepath=path,
+            destination=args.destination,
+            add_mpl_widget_cell=any(
+                string in str(path) for string in notebooks_with_figures
+            ),
+        )
