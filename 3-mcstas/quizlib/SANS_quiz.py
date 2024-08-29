@@ -202,7 +202,7 @@ class SANS_Quiz(Quiz):
             )
             return
 
-        msg = "The beamstop was added at the right point in the component sequence!"
+        msg = "The beamstop was added at the right point in the component sequence and with right parameters!"
         required_pars = dict(xwidth=0.1, yheight=0.02)
         self.last_component_in_instr_check(
             answer=answer,
@@ -256,13 +256,37 @@ class SANS_Quiz(Quiz):
             )
             return
 
+        beamstop_component = answer.get_component(beamstop_name)
+        if beamstop_component.AT_data[2] == 2.7:
+            print_box("The distance to the beamstop was set directly as a number, use the variable name instead. It is the right value though!", False)
+            return
+
+        alternate_answers = [[0, 0, "0.9*detector_distance"],
+                             [0, 0, "0.90*detector_distance"],
+                             [0, 0, "detector_distance*0.9"],
+                             [0, 0, "detector_distance*0.90"],
+                             [0, 0, "9*detector_distance/10"],
+                             [0, 0, "detector_distance/10*9"],
+                             [0, 0, "detector_distance/10*9.0"],
+                             [0, 0, "detector_distance/10.0*9"],
+                             [0, 0, "detector_distance/10.0*9.0"],
+                             [0, 0, "90/100*detector_distance"],
+                             [0, 0, "90.0/100.0*detector_distance"],
+                             [0, 0, "90/100.0*detector_distance"],
+                             [0, 0, "90.0/100*detector_distance"],
+                            ]
+        if beamstop_component.AT_data in alternate_answers:
+            check_AT_answer = beamstop_component.AT_data
+        else:
+            check_AT_answer = [0, 0, "0.9*detector_distance"]
+
         msg = "The beamstop was added at the right point in the component sequence and space!"
         required_pars = dict(xwidth=0.1, yheight=0.02)
         self.last_component_in_instr_check(
             answer=answer,
             comp_type_str="Beamstop",
             required_AT_relative="sample_position",
-            required_AT_data=[0, 0, "0.9*detector_distance"],
+            required_AT_data=check_AT_answer,
             success_msg=msg,
             comp_name=beamstop_name,
             print_output=True,

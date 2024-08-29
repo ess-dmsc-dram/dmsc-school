@@ -175,7 +175,7 @@ class QENS_Quiz(Quiz):
             print_box("The DiskChopper was inserted after the sample position, this is not quite right", False)
             return
 
-        msg = "The DiskChopper was added at the right point in the component sequence!"
+        msg = "The DiskChopper was added at the right point in the component sequence and with correct parameters!"
         required_pars = dict(yheight=0.05, radius=0.7, nu="chopper_frequency",
                              nslit=1.0, delay="chopper_delay", theta_0="chopper_theta")
         self.last_component_in_instr_check(answer=answer, comp_type_str="DiskChopper",
@@ -228,7 +228,12 @@ class QENS_Quiz(Quiz):
             print_box("The DiskChopper was inserted after the sample position, this is not quite right", False)
             return
 
-        msg = "The DiskChopper was added at the right point in the component sequence!"
+        chopper_component = answer.get_component(chopper_name)
+        if chopper_component.AT_data[2] == 6.5:
+            print_box("The distance to the chopper was set directly as a number, use the variable name instead. It is the right value though!", False)
+            return
+
+        msg = "The DiskChopper was added at the right point in the space!"
         required_pars = dict(yheight=0.05, radius=0.7, nu="chopper_frequency",
                              nslit=1.0, delay="chopper_delay", theta_0="chopper_theta")
         self.last_component_in_instr_check(answer=answer, comp_type_str="DiskChopper",
