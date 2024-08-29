@@ -25,7 +25,7 @@ def make(**kwargs):
 
     instrument.add_declare_var("double", "backscattering_wavelength")
     instrument.append_initialize(
-        "backscattering_wavelength = 2*analyzer_d*sin(DEG2RAD*0.5*(180-2.0*analyzer_angle));"
+        "backscattering_wavelength = 2.0*analyzer_d*sin(DEG2RAD*0.5*(180-2.0*analyzer_angle));"
     )
     instrument.add_declare_var("double", "backscattering_energy")
     instrument.append_initialize(
