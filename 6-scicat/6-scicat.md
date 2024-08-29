@@ -1,9 +1,9 @@
 # SciCat
 
 SciCat is the data catalog of choice in ESS.  
-It has been developed as an in-kind contribution and through a collaboration between ESS, [PSI](https://www.psi.ch/en), and [MaxIV](https://www.maxiv.lu.se/).  
+It has been developed as an in-kind contribution and through a collaboration between [ESS](https://www.ess.eu), [PSI](https://www.psi.ch/en), and [MaxIV](https://www.maxiv.lu.se/).  
 
-The current version is _4.x_, and it is based on the following technologies:
+The current version is _4.x_, and it is based on the following technologies and libraries:
 - backend
   - mongodb
   - mongoose
@@ -14,18 +14,18 @@ The current version is _4.x_, and it is based on the following technologies:
   - node.js
   - angular.js
 
-In order to log in into SciCat, please click on the user icon visible in the top right corner of any page.
-You will see the login screen
+In order to log in into the ESS instance of SciCat, please visit the url https://staging.scicat.ess.eu, click on the user icon visible in the top right corner of any page.  
+You will see the following login screen
 
 ![SciCat Datasets List](images/scicat_login.png)
 
-Once you have successfully logged in, you are directed to the dataset list page.  
+Select __Local__ login and type in the credentials that have been provided to you and click __Log in__.   
+Once you have successfully logged in, you are directed to the datasets list page.  
   
 ![SciCat Datasets List](images/scicat_datasets_list.png)
 
-This page includes the search form which provides all the functionalities to search and find a specific subset of datasets.  
-Using the search form, you can select the datasets that you are interested in.
-You can view the details page of a specific dataset (show below) by clicking on it.
+This page includes the search form which provides all the functionalities to search and find a specific dataset or a subset of them.  
+Once you have found the dataset or datasets that you are interested in, you can view their details page (shown below) by clicking on the matching row.
 
 ![SciCat Dataset List](images/scicat_dataset_details.png)
 
