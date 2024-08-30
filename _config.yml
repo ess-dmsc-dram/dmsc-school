@@ -49,3 +49,5 @@ sphinx:
 
 exclude_patterns:
   - 'article/article.md'
+
+only_build_toc_files: true
