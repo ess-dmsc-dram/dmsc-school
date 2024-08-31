@@ -19,9 +19,12 @@ Finally, all the data will be stored together within the SciCat metadata catalog
 
 - [Mads Bertelsen](https://github.com/mads-bertelsen)
 - [Simon Heybrock](https://github.com/SimonHeybrock)
+- [Henrik Jacobsen](https://github.com/henrikjacobsenfys)
 - [Andrew R. McCluskey](https://mccluskey.scot)
 - [Massimiliano Novelli](https://github.com/nitrosx)
+- [Mridul Seth](https://github.com/MridulS)
 - [Neil Vaytet](https://github.com/nvaytet)
+- [Christian Vedel](https://github.com/damskii9992)
 - [Peter Willendrup](https://github.com/willend)
 - [Jan-Lukas Wynen](https://github.com/jl-wynen)
 - [Sunyoung Yoo](https://github.com/YooSunYoung)
