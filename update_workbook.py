@@ -212,7 +212,7 @@ class Textbook:
         ----------------------------------------
         For all cells without ``dmsc-school-keep`` tag (``CELL_PROTECTING_TAG``).
         - Remove all cells containing ``remove-cell``.
-        - Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
+        - Replace source code with ``SOURCE_REPLACEMENTM_MESSAGE``
           of all cells containing ``solution`` tags,
           and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
 

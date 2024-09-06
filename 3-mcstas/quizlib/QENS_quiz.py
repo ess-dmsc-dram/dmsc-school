@@ -193,7 +193,7 @@ class QENS_Quiz(Quiz):
         which is done using the *set_AT* component. This method takes a list
         of 3 numbers, corresponding to the *x*, *y* and *z* coordinates of
         the component. One can also specify in what coordinate system one
-        wants to work, which can be that of any preceeding component. Use
+        wants to work, which can be that of any preceding component. Use
         the *RELATIVE* keyword to work in the *source* coordinate system.
         The position of the chopper is needed for calculating phase, so it
         is available as a variable in the instrument, use this variable to
