@@ -259,7 +259,7 @@ class QENS_Quiz(Quiz):
         self.insert_value(answer, 0.000246,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
-                          tollerance_factor=0.2)
+                          tolerance_factor=0.2)
 
     def question_10(self, answer=None):
         """
@@ -275,7 +275,7 @@ class QENS_Quiz(Quiz):
         self.insert_value(answer, 0.00126,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
-                          tollerance_factor=0.25)
+                          tolerance_factor=0.25)
 
     def question_11(self, answer=None):
         """
@@ -289,4 +289,4 @@ class QENS_Quiz(Quiz):
         self.insert_value(answer, 8.238,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
-                          tollerance_factor=0.20)
+                          tolerance_factor=0.20)

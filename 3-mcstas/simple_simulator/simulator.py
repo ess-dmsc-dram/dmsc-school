@@ -215,4 +215,3 @@ class Simulator:
 
         plt.show()
         plt.tight_layout()
-

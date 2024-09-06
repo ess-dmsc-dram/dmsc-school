@@ -23,7 +23,7 @@ model dataset
     the data that arises from our mathematical model
 
 nested sampling
-    a apporach to estimate the multi-dimension integral that gives the Bayesian evidence
+    a approach to estimate the multi-dimension integral that gives the Bayesian evidence
 
 normal distribution
     a probability distribution that is often used in the natural sciences to represent real-valued random variables, i.e. experimental measurements, also known as a Gaussian distribution

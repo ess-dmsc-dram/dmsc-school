@@ -16,7 +16,7 @@ According to the literature ([1], [2], [3], [4], [5]), data and metadata are oft
 
 ### Metadata
 > Metadata is data about data, or data that provides information about the data. Their purpose is to better explain how such data has been acquired, to provide additional information that was not available at experimental time and add key descriptors to make the data easier to find.
-  
+
 ## Our definition
 We, at ESS and as SciCat users/adopters, have decided to adopt slightly modified  definitions that are better suited to our technical set-up. We also embraced all the latest technological advancements in data acquisition where more and more information is produced, acquired, and stored digitally and the boundaries between data and metadata, according to the previous definitions has become less and less clear.
 

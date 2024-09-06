@@ -9,10 +9,10 @@ For our course and in the SciCat world, the definition that we abide by is the f
 
 ### Dataset
 
-> A Dataset is a collection of multi-modal items which: 
+> A Dataset is a collection of multi-modal items which:
 > - share a common source
-> - were collected for a specific purpose, 
-> - describe an individual event or a series of linked events or a whole experiment, 
+> - were collected for a specific purpose,
+> - describe an individual event or a series of linked events or a whole experiment,
 > - pertains to the same experimental data collection.  
 
 A dataset might contain one or more files and must have a set of descriptors that, according to the current standards, are called __metadata__ which help users in finding the dataset itself.  

@@ -55,7 +55,7 @@ class Quiz:
             correct = answer in correct_answer
         else:
             correct = answer == correct_answer
-        
+
         if answer not in feedback:
             message = "This multiple choice question did not contain that option!"
             valid = False
@@ -67,26 +67,26 @@ class Quiz:
 
     def insert_value(self, answer, correct_answer,
                      feedback_correct="", feedback_below="", feedback_above="",
-                     tollerance_factor=None, tollerance_interval=None):
+                     tolerance_factor=None, tolerance_interval=None):
 
         if answer is None:
             print("Insert your answer in the question above.")
             return
 
-        if tollerance_interval is not None and tollerance_factor is not None:
-            print("Question bug, use only tollerance_factor or tollerance_interval!")
+        if tolerance_interval is not None and tolerance_factor is not None:
+            print("Question bug, use only tolerance_factor or tolerance_interval!")
 
         lower_limit = correct_answer
-        if tollerance_factor is not None:
-            lower_limit *= 1 - tollerance_factor
-        if tollerance_interval is not None:
-            lower_limit -= 0.5*tollerance_interval
+        if tolerance_factor is not None:
+            lower_limit *= 1 - tolerance_factor
+        if tolerance_interval is not None:
+            lower_limit -= 0.5*tolerance_interval
 
         upper_limit = correct_answer
-        if tollerance_factor is not None:
-            upper_limit *= 1 + tollerance_factor
-        if tollerance_interval is not None:
-            upper_limit += 0.5*tollerance_interval
+        if tolerance_factor is not None:
+            upper_limit *= 1 + tolerance_factor
+        if tolerance_interval is not None:
+            upper_limit += 0.5*tolerance_interval
 
         if not isinstance(answer, (float, int)):
             message = "This question needs a value as the answer"
@@ -269,20 +269,3 @@ class Quiz:
             print_box(success_msg, True)
 
         return True
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-        
-

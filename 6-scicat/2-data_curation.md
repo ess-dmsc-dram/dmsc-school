@@ -13,7 +13,7 @@ They include the set of information recorded and available in lab notebooks or i
 In many cases, _data curation_ is part of data management and has to follow the policies adopted under the data governance, or DMPs (data management plans).  
 In some cases, _data curation_ is used interchangeably with the term _data enrichment_, although that is not completely accurate.  
 In our vision, _data enrichment_ is the act of adding additional descriptors to a dataset as the data contained in the dataset is further explored and analyzed.  
-According to this definition, _data enrichment_ is only one step of what we see as _data curation_. 
+According to this definition, _data enrichment_ is only one step of what we see as _data curation_.
 
 ----
 [1]: <https://www.techtarget.com/searchbusinessanalytics/definition/data-curation>  What is Data Curation?  

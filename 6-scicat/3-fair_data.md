@@ -15,7 +15,7 @@ Further information and the full definition of the FAIR principles can be found 
 
 The FAIR principles have become very important as they have been embraced by many funding agencies and research institutions, in the effort to increase the value of the data and to further increase the re-use of the data.
 
-In 2020, a new and complementary set of principles, named TRUST, have emerged and formalized in [The TRUST Principles for digital repositories](https://www.nature.com/articles/s41597-020-0486-7) paper. 
+In 2020, a new and complementary set of principles, named TRUST, have emerged and formalized in [The TRUST Principles for digital repositories](https://www.nature.com/articles/s41597-020-0486-7) paper.
 
 ![TRUST logo](images/trust.png)
 

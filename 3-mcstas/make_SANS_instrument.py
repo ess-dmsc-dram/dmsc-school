@@ -217,7 +217,7 @@ def make(**kwargs):
     ref.set_AT([0, 0.5*casing.yheight, 0], RELATIVE=detector_position)
     """
 
-    # Parmeters for time of flight limits
+    # Parameters for time of flight limits
     instrument.add_declare_var("double", "t_min")
     instrument.add_declare_var("double", "t_max")
     instrument.add_declare_var("double", "t_max_pulses")
