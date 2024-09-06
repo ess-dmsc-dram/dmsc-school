@@ -105,7 +105,7 @@ SHARE
 
 #endif
 
-%include "monitor_and-lib" // Internally avoids double import
+%include "monitor_nd-lib" // Internally avoids double import
 
 struct temp_abs_1D_event_data_element_struct {
  double x_pos;
