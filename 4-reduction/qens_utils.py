@@ -63,7 +63,7 @@ def load_qens(path: str) -> sc.DataArray:
     da = sc.DataArray(data=weights, coords=events)
 
     da.coords["y"].unit = "m"
-    # The event positions are in the detector coordiante system.
+    # The event positions are in the detector coordinate system.
     # Translate by the detector offset to get the lab system.
     da.coords["y"] += DETECTOR_OFFSET
     da.coords["x"].unit = "m"

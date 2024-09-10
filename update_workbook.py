@@ -78,7 +78,7 @@ def report_updates() -> None:
     if changed_list:
         print("Updates done.")
         print("There are updates in the workbooks to be committed.")
-        
+
         print("\nHint:\n",
             "cd workbooks\n",
             *(f"git add {str(filepath)}\n" for filepath in changed_list),
@@ -103,14 +103,14 @@ def flat_dir(dirs: list[Path], files: Optional[list[Path]] = None) -> list:
         files = []
 
     if not dirs:
-        return files    
+        return files
 
     if (dir:=dirs.pop()).is_file() and dir.suffix in SYNC_FILE_SUFFIXES:
         files.append(dir)
     elif dir.is_dir() and dir.name not in EXCLUDE_DIRS:
         import os
         dirs.extend([dir/Path(file) for file in os.listdir(dir)])
-    
+
     return flat_dir(dirs, files)
 
 
@@ -141,7 +141,7 @@ def get_all_materials() -> dict:
 
 def export_raw_material(textbook_path: Path) -> None:
     """Copy python materials to the workbook directory."""
-    
+
     import shutil, os
     if not (workbook_dir:=WORKBOOK_ROOT_DIR/textbook_path.parent).exists():
         os.makedirs(workbook_dir)
@@ -212,10 +212,10 @@ class Textbook:
         ----------------------------------------
         For all cells without ``dmsc-school-keep`` tag (``CELL_PROTECTING_TAG``).
         - Remove all cells containing ``remove-cell``.
-        - Replace source code with ``SOURCE_REPLACEMENTM_MESSAE``
+        - Replace source code with ``SOURCE_REPLACEMENTM_MESSAGE``
           of all cells containing ``solution`` tags,
           and replace ``hide-cell``, ``solution`` tags with ``workbook`` tag.
-        
+
         For all cells, turn them into read-only,
         if they are not cleared ``solution`` cells or tagged with ``dmsc-school-hint`.
 
@@ -237,7 +237,7 @@ class Textbook:
     def _load_contents(self) -> dict:
         with open(self.rel_path) as file:
             return json.load(file)
-    
+
     def export_workbook(self) -> None:
         if not self.workbook_path.parent.exists():
             self.workbook_path.parent.mkdir(parents=True)
@@ -276,7 +276,7 @@ def delete_workbook(workbook_path: Path):
 
 
 def update_workbooks(textbooks: dict):
-    
+
     for textbook_path, status in textbooks.items():
         if status == GitStatus.DELETED:
             delete_workbook(textbook_path)
@@ -292,15 +292,14 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('-a', '--all', dest="scope_all", help="Update all workbooks.", action="store_true")
     args = parser.parse_args()
-    
+
     check_current_dir()
 
     if args.scope_all:
         candidates = get_all_materials()
     else:
         candidates = git_changed_files()
-    
+
     textbooks = filter_textbooks(candidates)
     update_workbooks(textbooks)
     report_updates()
-

@@ -9,6 +9,22 @@ on:
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
+  formatting:
+    name: Formatting and static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --all-files
+      - uses: pre-commit-ci/lite-action@v1.0.2
+        if: always()
+        with:
+          msg: Apply automatic formatting
+
   deploy-book:
     runs-on: ubuntu-latest
     timeout-minutes: 45

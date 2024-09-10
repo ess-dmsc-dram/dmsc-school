@@ -19,9 +19,9 @@ You will see the following login screen
 
 ![SciCat Datasets List](images/scicat_login.png)
 
-Select __Local__ login and type in the credentials that have been provided to you and click __Log in__.   
+Select __Local__ login and type in the credentials that have been provided to you and click __Log in__.  
 Once you have successfully logged in, you are directed to the datasets list page.  
-  
+
 ![SciCat Datasets List](images/scicat_datasets_list.png)
 
 This page includes the search form which provides all the functionalities to search and find a specific dataset or a subset of them.  
@@ -29,7 +29,7 @@ Once you have found the dataset or datasets that you are interested in, you can 
 
 ![SciCat Dataset List](images/scicat_dataset_details.png)
 
-If you need to use the access token in other applications, you can find it under the _settings_ item of the _main menu_ accessible by clicking on the user icon in the top right corner of the page. 
+If you need to use the access token in other applications, you can find it under the _settings_ item of the _main menu_ accessible by clicking on the user icon in the top right corner of the page.
 The access token, also called authentication token, is visible under the name __SciCat Token__. As you can see, the UI offers a convenient _copy to clipboard_ functionality.
 
 ![SciCat User Settings](images/scicat_user_settings.png)

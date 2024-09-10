@@ -8,7 +8,7 @@ The information presented here assumes that you already have performed the follo
 - copied its pid
 
 Please review the [SciCat page](./scicat) if you need more details on where to find this info.  
-We use the [Scitacean Python library](./python_libraries) to interact with SciCat from Python. 
+We use the [Scitacean Python library](./python_libraries) to interact with SciCat from Python.
 
 In addition to the code snippets contained in this page, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload dataset(s).
 - [access individual dataset](./notebooks/access_individual_dataset.ipynb)
@@ -58,15 +58,15 @@ You can view the dataset information and metadata
 dataset
 ```
 This command presents the following view which shows the main information about the dataset.  
-  
+
 ![Dataset view in jupyter notebook 1](images/scitacean_dataset_visualization_collapsed.png)  
-  
-You can expand the collapsed sections to view the metadata   
-  
-![Dataset view in jupyter notebook 2](images/scitacean_dataset_visualization_with_metadata.png) 
-  
+
+You can expand the collapsed sections to view the metadata  
+
+![Dataset view in jupyter notebook 2](images/scitacean_dataset_visualization_with_metadata.png)
+
 or the file associated with the dataset.  
-  
+
 ![Dataset view in jupyter notebook 3](images/scitacean_dataset_visualization_with_files_list.png)
 
 Once you have verified that the dataset is the correct one, you can download the data files
@@ -75,7 +75,7 @@ dset = client.download_files(dset, target="../data", select="60395-2022-02-28_22
 dset
 ```
 If we check the files section of the dataset, we can see that the file has been downloaded:  
-  
+
 ![Dataset view in jupyter notebook 4](images/scitacean_dataset_visualization_with_downloaded_files.png)
 
 The current status of the dataset indicates that the first file is available locally with path

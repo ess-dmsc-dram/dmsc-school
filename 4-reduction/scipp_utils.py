@@ -122,7 +122,7 @@ def tear_drop(rng: np.random.Generator, size: int, eye_spec: CircleSpec) -> tupl
     height = width*2
     cx = eye_spec.cx
     cy = eye_spec.cy + eye_spec.r
-    
+
     param_t = rng.random(size=size) * 2*np.pi - np.pi
     x = height*np.sin(param_t) + cx - height
     y = width*np.cos(param_t) - width*0.5*np.sin(2*param_t)  + cy
@@ -140,10 +140,10 @@ def test_plot_tear_drop(rng: np.random.Generator) -> None:
                  coords={'x': x, 'y': y}).hist(x=50, y=50).plot()
 
 
-def _smiley_signal(rng: np.random.Generator) -> sc.DataArray:    
+def _smiley_signal(rng: np.random.Generator) -> sc.DataArray:
     face_spec = CircleSpec(r=0.1)
     leye_spec = CircleSpec(r=0.02, cx=0.02, cy=-0.04, stop=np.pi)
-    reye_spec = CircleSpec(r=0.02, cx=0.02, cy=0.04, stop=np.pi)    
+    reye_spec = CircleSpec(r=0.02, cx=0.02, cy=0.04, stop=np.pi)
     mouth_spec = CircleSpec(r=0.04, cx=-0.02, start=np.pi)
 
     part_spec_sizes = ((face_spec, 2000),

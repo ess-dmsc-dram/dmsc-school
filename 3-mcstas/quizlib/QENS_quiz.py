@@ -193,7 +193,7 @@ class QENS_Quiz(Quiz):
         which is done using the *set_AT* component. This method takes a list
         of 3 numbers, corresponding to the *x*, *y* and *z* coordinates of
         the component. One can also specify in what coordinate system one
-        wants to work, which can be that of any preceeding component. Use
+        wants to work, which can be that of any preceding component. Use
         the *RELATIVE* keyword to work in the *source* coordinate system.
         The position of the chopper is needed for calculating phase, so it
         is available as a variable in the instrument, use this variable to
@@ -259,7 +259,7 @@ class QENS_Quiz(Quiz):
         self.insert_value(answer, 0.000246,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
-                          tollerance_factor=0.2)
+                          tolerance_factor=0.2)
 
     def question_10(self, answer=None):
         """
@@ -275,7 +275,7 @@ class QENS_Quiz(Quiz):
         self.insert_value(answer, 0.00126,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
-                          tollerance_factor=0.25)
+                          tolerance_factor=0.25)
 
     def question_11(self, answer=None):
         """
@@ -289,4 +289,4 @@ class QENS_Quiz(Quiz):
         self.insert_value(answer, 8.238,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
-                          tollerance_factor=0.20)
+                          tolerance_factor=0.20)

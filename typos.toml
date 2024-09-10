@@ -1,0 +1,12 @@
+files.extend-exclude = [
+    "*.html",
+    "3-mcstas/run_folder",
+]
+
+
+[default.extend-identifiers]
+arange = "arange"
+
+[default.extend-words]
+monitor_nd = "monitor_nd"
+ue = "ue"  # used in ueV

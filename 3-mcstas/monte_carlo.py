@@ -7,13 +7,13 @@ from IPython.display import display, clear_output
 def plot_points(square_side_length, circle_radius,n=100):
     global points_inside_circle, total_points, estimates, estimate
     global points_x_inside, points_y_inside, points_x_outside, points_y_outside
-    
+
     for _ in range(n):
         x, y = np.random.rand(2)*square_side_length  # Random points x, y between 0 and 1
         distance = np.sqrt((x-0.5*square_side_length)**2 + (y-0.5*square_side_length)**2)
-        
+
         total_points += 1
-        
+
         if distance <= circle_radius:
             points_inside_circle += 1
             points_x_inside.append(x)
@@ -21,33 +21,33 @@ def plot_points(square_side_length, circle_radius,n=100):
         else:
             points_x_outside.append(x)
             points_y_outside.append(y)
-        
+
         # area of circle = pi*circle_radius**2
         # area of box = side_length**2
         # estimate =
-        
+
         estimate = square_side_length**2/circle_radius**2 * points_inside_circle / total_points
         estimates.append(estimate)
-        
+
     # Update scatter plots
     scatter_inside.set_offsets(np.c_[points_x_inside, points_y_inside])
     scatter_outside.set_offsets(np.c_[points_x_outside, points_y_outside])
-    
+
     # Update line plot
     line.set_data(range(len(estimates)), estimates)
     if len(estimates) == 0:
         line_pi.set_data([0, 1], [np.pi, np.pi])
     else:
         line_pi.set_data([0, len(estimates)], [np.pi, np.pi])
-    
+
     ax[1].relim()
     ax[1].autoscale_view()
-    
+
 
     ax[1].set_title(f'Estimate of Pi: {estimate}')
     ax[1].set_xlabel('Number of Points')
     ax[1].set_ylabel('Estimate Value')
-    
+
     # Update the figure
     fig.canvas.draw()
 
@@ -87,7 +87,7 @@ def example(points=100, square_side_length=1, circle_diameter=1):
     # Initial Plot
     plot_points(square_side_length, circle_radius, 100)
 
- 
+
     plt.tight_layout()
 
 
@@ -126,13 +126,13 @@ def example_interactive(square_side_length=1, circle_diameter=1):
     def plot_points(n=1):
         global points_inside_circle, total_points, estimates, estimate
         global points_x_inside, points_y_inside, points_x_outside, points_y_outside, scatter_inside, scatter_outside
-        
+
         for _ in range(n):
             x, y = np.random.rand(2)*square_side_length  # Random points x, y between 0 and 1
             distance = np.sqrt((x-0.5*square_side_length)**2 + (y-0.5*square_side_length)**2)
-            
+
             total_points += 1
-            
+
             if distance <= circle_radius:
                 points_inside_circle += 1
                 points_x_inside.append(x)
@@ -140,30 +140,30 @@ def example_interactive(square_side_length=1, circle_diameter=1):
             else:
                 points_x_outside.append(x)
                 points_y_outside.append(y)
-            
+
             # area of circle = pi*circle_radius**2
             # area of box = side_length**2
             # estimate =
-            
+
             estimate = square_side_length**2/circle_radius**2 * points_inside_circle / total_points
             estimates.append(estimate)
-            
+
         # Update scatter plots
         scatter_inside.set_offsets(np.c_[points_x_inside, points_y_inside])
         scatter_outside.set_offsets(np.c_[points_x_outside, points_y_outside])
-        
+
         # Update line plot
         line.set_data(range(len(estimates)), estimates)
         if len(estimates) == 0:
             line_pi.set_data([0, 1], [np.pi, np.pi])
         else:
             line_pi.set_data([0, len(estimates)], [np.pi, np.pi])
-        
+
         ax[1].relim()
         ax[1].autoscale_view()
         ax[1].set_xlabel('Number of Points')
         ax[1].set_ylabel('Estimate Value')
-        
+
         # Update the figure
         fig.canvas.draw()
 
