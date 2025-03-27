@@ -1,6 +1,5 @@
 name: deploy-book
 
-# Only run this when the master branch changes
 on:
   push:
     branches:
@@ -20,7 +19,7 @@ jobs:
       - uses: pre-commit/action@v3.0.1
         with:
           extra_args: --all-files
-      - uses: pre-commit-ci/lite-action@v1.0.2
+      - uses: pre-commit-ci/lite-action@v1.1.0
         if: always()
         with:
           msg: Apply automatic formatting
