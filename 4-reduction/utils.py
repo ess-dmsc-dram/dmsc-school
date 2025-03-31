@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
+# Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
 
 import scipp as sc
 import scippnexus as sx
 import warnings
 
-from sans_utils import load_sans
+from powder_utils import load_powder
 from qens_utils import load_qens
+from sans_utils import load_sans
 
 
 def add_variances(*inputs: sc.DataArray):
