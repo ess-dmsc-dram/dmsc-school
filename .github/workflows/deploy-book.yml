@@ -27,6 +27,9 @@ jobs:
 
   deploy-book:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}  # required for conda env
     timeout-minutes: 45
     steps:
     - uses: actions/checkout@v4
@@ -40,20 +43,27 @@ jobs:
     - run: sudo apt install --yes graphviz graphviz-dev
 
     - name: Install McStas
-      run: |
-        cd /etc/apt/sources.list.d
-        sudo wget https://packages.mccode.org/debian/mccode.list
-        sudo apt update
-        sudo apt install --yes mcstas-suite-python-ng=3.4
-        cd ~
-        MCRUN_DIR=$(dirname $(which mcrun))
-        echo "MCRUN_DIR=$MCRUN_DIR" >> $GITHUB_ENV
-        mcstas-3.4-environment
-        echo $MCSTAS
+      uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: 2.0.4-0
+          cache-environment: true
+          create-args: >-
+            python=3.10
+            mcstas
+      # run: |
+      #   cd /etc/apt/sources.list.d
+      #   sudo wget https://packages.mccode.org/debian/mccode.list
+      #   sudo apt update
+      #   sudo apt install --yes mcstas-suite-python-ng=3.4
+      #   cd ~
+      #   MCRUN_DIR=$(dirname $(which mcrun))
+      #   echo "MCRUN_DIR=$MCRUN_DIR" >> $GITHUB_ENV
+      #   mcstas-3.4-environment
+      #   echo $MCSTAS
 
     - name: Install pip dependencies
       run: |
-        pip install -r requirements.txt
+        python -m pip install -r requirements.txt
 
     - name: Configure mcstasscript
       run: |
