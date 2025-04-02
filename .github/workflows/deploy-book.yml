@@ -65,13 +65,13 @@ jobs:
       run: |
         python -m pip install -r requirements.txt
 
-    - name: Configure mcstasscript
-      run: |
-        MCRUN_DIR=$(dirname $(which mcrun))
-        python -c "import mcstasscript as ms; \
-                   my_configurator = ms.Configurator(); \
-                   my_configurator.set_mcrun_path('${MCRUN_DIR}'); \
-                   my_configurator.set_mcstas_path('/usr/share/mcstas/3.4/')"
+    # - name: Configure mcstasscript
+    #   run: |
+    #     MCRUN_DIR=$(dirname $(which mcrun))
+    #     python -c "import mcstasscript as ms; \
+    #                my_configurator = ms.Configurator(); \
+    #                my_configurator.set_mcrun_path('${MCRUN_DIR}'); \
+    #                my_configurator.set_mcstas_path('/usr/share/mcstas/3.4/')"
 
     # Build the book
     - name: Build the book
