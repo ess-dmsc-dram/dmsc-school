@@ -33,21 +33,21 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Install dependencies
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+    # # Install dependencies
+    # - name: Set up Python 3.11
+    #   uses: actions/setup-python@v5
+    #   with:
+    #     python-version: '3.11'
 
     - run: sudo apt install --yes graphviz graphviz-dev
 
-    - name: Install McStas
+    - name: Setup python and install McStas
       uses: mamba-org/setup-micromamba@v2
       with:
         micromamba-version: 2.0.4-0
         environment-name: dmsc-school-env
         create-args: >-
-          python=3.10
+          python=3.11.*
           mcstas
 
     - name: Install pip dependencies
