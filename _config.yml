@@ -49,5 +49,7 @@ sphinx:
 
 exclude_patterns:
   - 'article/article.md'
+  - '.venv'
+  - 'venv'
 
 only_build_toc_files: true
