@@ -140,15 +140,13 @@ ipykernel==6.29.5
     # via myst-nb
 ipympl==0.9.7
     # via -r requirements.in
-ipython==9.1.0
+ipython==8.35.0
     # via
     #   -r requirements.in
     #   ipykernel
     #   ipympl
     #   ipywidgets
     #   myst-nb
-ipython-pygments-lexers==1.1.1
-    # via ipython
 ipywidgets==8.1.5
     # via
     #   -r requirements.in
@@ -347,7 +345,6 @@ pygments==2.19.1
     # via
     #   accessible-pygments
     #   ipython
-    #   ipython-pygments-lexers
     #   pydata-sphinx-theme
     #   sphinx
 pynacl==1.5.0
