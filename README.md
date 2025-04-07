@@ -13,6 +13,11 @@ Each course has its own directory for collecting materials in this repository.
 - 5-analysis
 - 6-scicat
 
+## Prerequisites
+
+Create an environment with Python 3.11 and the dependencies from `requirements.txt`.
+Warning: the dependencies are pinned, so do not install them into your global environment or you risk breaking it!
+
 ## Jupyter notebooks
 Many of materials are written in notebooks and are published online by `jupyter-book`.
 Here are some tips and tools for writing jupyter notebooks for courses.
@@ -25,8 +30,7 @@ tree -ifF -P *.ipynb | grep .ipynb | xargs -n1 jupyter nbconvert --ClearOutputPr
 
 ### Building the book
 
-Make sure you have installed all the dependencies in the `requirements.txt` file.
-Then use (from the root folder):
+From the root folder:
 
 ```bash
 jupyter-book build -W --keep-going .
@@ -102,3 +106,11 @@ The script will report which files are updated based on `git status`.
 
 The script doesn't commit any changes automatically on purpose
 to avoid unexpected changes of workbooks.
+
+## Managing dependencies
+
+To add, remove, restrict dependencies, modify `requirements.in` and run
+```bash
+pip-compile requirements.in
+```
+to update the dependency pins in `requirements.txt`.
