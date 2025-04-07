@@ -102,7 +102,7 @@ flexcache==0.3
     # via pint
 flexparser==0.4
     # via pint
-fonttools==4.56.0
+fonttools==4.57.0
     # via matplotlib
 graphviz==0.20.3
     # via -r requirements.in
@@ -140,7 +140,7 @@ ipykernel==6.29.5
     # via myst-nb
 ipympl==0.9.7
     # via -r requirements.in
-ipython==9.0.2
+ipython==9.1.0
     # via
     #   -r requirements.in
     #   ipykernel
@@ -223,7 +223,7 @@ matplotlib-inline==0.1.7
     # via
     #   ipykernel
     #   ipython
-mcstasscript==0.0.73
+mcstasscript==0.0.74
     # via -r requirements.in
 mdit-py-plugins==0.4.2
     # via myst-parser
@@ -335,11 +335,11 @@ pybtex-docutils==1.0.3
     # via sphinxcontrib-bibtex
 pycparser==2.22
     # via cffi
-pydantic==2.10.6
+pydantic==2.11.2
     # via
     #   scippneutron
     #   scitacean
-pydantic-core==2.27.2
+pydantic-core==2.33.1
     # via pydantic
 pydata-sphinx-theme==0.15.4
     # via sphinx-book-theme
@@ -382,7 +382,7 @@ pyyaml==6.0.2
     #   pybtex
     #   sphinx-external-toc
     #   sphinxcontrib-mermaid
-pyzmq==26.3.0
+pyzmq==26.4.0
     # via
     #   ipykernel
     #   jupyter-client
@@ -398,7 +398,7 @@ rpds-py==0.24.0
     # via
     #   jsonschema
     #   referencing
-scipp==25.3.0
+scipp==25.4.0
     # via
     #   -r requirements.in
     #   easyscience
@@ -406,7 +406,7 @@ scipp==25.3.0
     #   scippnexus
 scippneutron==25.2.1
     # via -r requirements.in
-scippnexus==24.11.1
+scippnexus==25.4.0
     # via
     #   -r requirements.in
     #   scippneutron
@@ -481,7 +481,7 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-sqlalchemy==2.0.39
+sqlalchemy==2.0.40
     # via jupyter-cache
 stack-data==0.6.3
     # via ipython
@@ -509,7 +509,7 @@ traitlets==5.14.3
     #   traittypes
 traittypes==0.2.1
     # via ipydatawidgets
-typing-extensions==4.13.0
+typing-extensions==4.13.1
     # via
     #   anyio
     #   beautifulsoup4
@@ -523,6 +523,9 @@ typing-extensions==4.13.0
     #   pydata-sphinx-theme
     #   referencing
     #   sqlalchemy
+    #   typing-inspection
+typing-inspection==0.4.0
+    # via pydantic
 typish==1.9.3
     # via jsons
 tzdata==2025.2
@@ -543,7 +546,7 @@ wheel==0.45.1
     #   sphinx-togglebutton
 widgetsnbextension==4.0.13
     # via ipywidgets
-xarray==2025.3.0
+xarray==2025.3.1
     # via easyscience
 zipp==3.21.0
     # via importlib-metadata
