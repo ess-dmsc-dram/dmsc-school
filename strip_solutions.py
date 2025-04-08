@@ -79,16 +79,21 @@ if __name__ == "__main__":
             "requirements.txt",
             "strip_solutions.py",
             "update_workbook.py",
+            ".pre-commit-config.yaml",
+            ".python-version",
+            "requirements.in",
+            "typos.toml",
         ),
         dirs_exist_ok=True,
     )
     notebooks_with_figures = ("matplotlib", "3-mcstas", "4-reduction", "5-analysis")
     for path in Path(".").rglob("*.ipynb"):
         print(path)
-        clean(
-            filepath=path,
-            destination=args.destination,
-            add_mpl_widget_cell=any(
-                string in str(path) for string in notebooks_with_figures
-            ),
-        )
+        if "ipynb_checkpoints" not in str(path):
+            clean(
+                filepath=path,
+                destination=args.destination,
+                add_mpl_widget_cell=any(
+                    string in str(path) for string in notebooks_with_figures
+                ),
+            )
