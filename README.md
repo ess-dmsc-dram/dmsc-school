@@ -70,8 +70,8 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 
 We keep student notebooks (without solutions) in https://github.com/ess-dmsc-dram/dmsc-school-notebooks.
 
-To update these, navigate to the [actions](https://github.com/ess-dmsc-dram/dmsc-school/actions) tab
-and simply run the `update-notebooks` workflow.
+To update these, navigate to the [actions](https://github.com/ess-dmsc-dram/dmsc-school-notebooks/actions) tab
+in that repository and simply run the `update-notebooks` workflow.
 
 This will create a PR in the notebooks repository with updates to all notebooks.
 
