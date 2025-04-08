@@ -66,46 +66,14 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 - `dmsc-school-keep`:
     Will not be edited or removed. It overwrites all other tags.
 
-## How to export workbook from lecture materials
+## How to update the student notebooks
 
-There is a python script `update_workbook.py` to create a workbook(jupyter notebook)
-from the jupyter notebook lecture materials in [course directories](#Course-Directories)
-based on the [tags](#Workbook-tags) of each cells.
+We keep student notebooks (without solutions) in https://github.com/ess-dmsc-dram/dmsc-school-notebooks.
 
-All cells in the workbook will be read-only by default except for `solution` cells.
-Cells can be tagged with `dmsc-shool-hint` to keep their editability.
+To update these, navigate to the [actions](https://github.com/ess-dmsc-dram/dmsc-school/actions) tab
+and simply run the `update-notebooks` workflow.
 
-If there is python files, or image files('*.png', '*.jpg', '*.svg') in the lecture material directories,
-it also copies them into the [workbook submodule](github.com:ess-dmsc-dram/dmsc-school-notebooks).
-
-It doesn't handle other type of files on purpose.
-
-### 1. Set up or update submodule:workbooks
-You need to set up the git submodule `workbooks` before you run the script.
-
-```bash
-git -C workbooks branch # Make sure if you're in the right branch of submodule
-
-git submodule update  # Use --init tag if it is the first time pulling submodule
-```
-
-### 2. Update workbooks
-And then you can update materials.
-```bash
-python update_workbook.py --all  # Update all workbooks
-
-# or
-python update_workbook.py  # Update based on git status
-```
-
-### 3. Commit & push workbooks
-Once you update the workbook,
-you have to commit and push the changes of the submodule manually.
-
-The script will report which files are updated based on `git status`.
-
-The script doesn't commit any changes automatically on purpose
-to avoid unexpected changes of workbooks.
+This will create a PR in the notebooks repository with updates to all notebooks.
 
 ## Managing dependencies
 
