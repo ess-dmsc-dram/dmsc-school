@@ -17,9 +17,9 @@ execute:
     - '3-mcstas/Talk.ipynb'
     - '6-scicat/9-exercise.ipynb'
     - '6-scicat/notebooks/*'
-    - 'mcstas-powder.ipynb'
-    - 'reduction-powder.ipynb'
-    - 'analysis-powder.ipynb'
+    - '3-mcstas/mcstas-powder.ipynb'
+    - '4-reduction/reduction-powder.ipynb'
+    - '5-analysis/analysis-powder.ipynb'
 
 # Define the name of the latex output file for PDF builds
 latex:
