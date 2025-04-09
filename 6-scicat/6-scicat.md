@@ -1,7 +1,7 @@
 # SciCat
 
 SciCat is the data catalog of choice in ESS.  
-It has been developed as an in-kind contribution and through a collaboration between [ESS](https://www.ess.eu), [PSI](https://www.psi.ch/en), and [MaxIV](https://www.maxiv.lu.se/).  
+It has been developed as an in-kind contribution and through a collaboration between [ESS](https://ess.eu), [PSI](https://www.psi.ch/en), and [MaxIV](https://www.maxiv.lu.se/).  
 
 The current version is _4.x_, and it is based on the following technologies and libraries:
 - backend
