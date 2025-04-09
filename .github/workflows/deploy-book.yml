@@ -6,7 +6,6 @@ on:
     - main
   pull_request:
 
-# This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
   formatting:
     name: Formatting and static analysis
@@ -31,43 +30,48 @@ jobs:
         shell: bash -l {0}  # required for conda env
     timeout-minutes: 45
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install graphviz
-      run: sudo apt install --yes graphviz graphviz-dev
+      - name: Install graphviz
+        run: sudo apt install --yes graphviz graphviz-dev
 
-    - name: Setup python and install McStas
-      uses: mamba-org/setup-micromamba@v2
-      with:
-        micromamba-version: 2.0.4-0
-        environment-name: dmsc-school-env
-        create-args: >-
-          python=3.11.*
-          mcstas
+      - name: Setup python and install McStas
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          micromamba-version: 2.0.4-0
+          environment-name: dmsc-school-env
+          create-args: >-
+            python=3.11.*
+            mcstas
 
-    - name: Install pip dependencies
-      run: |
-        python -m pip install -r requirements.txt
+      - name: Install pip dependencies
+        run: |
+          python -m pip install -r requirements.txt
 
-    - name: Build the book
-      run: |
-        jupyter-book build -W --keep-going .
+      - name: Build the book
+        run: |
+          jupyter-book build -W --keep-going .
 
-    - name: Check links
-      run: |
-        jupyter-book build -W --keep-going --builder linkcheck .
+      - name: Check links
+        run: |
+          jupyter-book build -W --keep-going --builder linkcheck .
 
-    # Make artifact visible in github actions
-    - uses: actions/upload-artifact@v4
-      with:
-        name: dmsc-school-book
-        path: ./_build/html
+      # Make artifact visible in github actions
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dmsc-school-book
+          path: ./_build/html
 
-    # Push the book's HTML to github-pages
-    - name: GitHub Pages action
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_build/html
-        force_orphan: true
-      if: github.ref_name == 'main'
+  deploy-book:
+    needs: [build-book]
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+
+    steps:
+      - uses: actions/download-artifact@v4
+      - name: Upload to GH pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_build/html
+          force_orphan: true
