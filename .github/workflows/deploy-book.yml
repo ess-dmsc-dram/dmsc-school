@@ -24,7 +24,7 @@ jobs:
         with:
           msg: Apply automatic formatting
 
-  deploy-book:
+  build-book:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -49,10 +49,13 @@ jobs:
       run: |
         python -m pip install -r requirements.txt
 
-    # Build the book
     - name: Build the book
       run: |
         jupyter-book build -W --keep-going .
+
+    - name: Check links
+      run: |
+        jupyter-book build -W --keep-going --builder linkcheck .
 
     # Make artifact visible in github actions
     - uses: actions/upload-artifact@v4
