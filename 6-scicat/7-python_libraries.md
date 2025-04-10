@@ -10,7 +10,7 @@ There are two SciCat Python libraries, which serve two different use cases:
   It requires having experience with REST APIs and being familiar with the intricacies of SciCat data models.
   At the time of this writing, Pyscicat is functional but not complete and is lacking some endpoints.  
 
-- Scitacean([repository](https://github.com/SciCatProject/scitacean), [documentation](https://scicatproject.github.io/scitacean/))  
+- Scitacean([repository](https://github.com/SciCatProject/scitacean), [documentation](https://www.scicatproject.org/scitacean/))  
   ![Scitacean logo](images/scitacean.png)  
   This is a high-level library that hides the intricacies of AcpiCat and allows users to access their datasets, associated metadata and files.
   The intended audience for this library are scientist and users that are performing data exploration and are leveraging SciCat to retrieve or store their data.
