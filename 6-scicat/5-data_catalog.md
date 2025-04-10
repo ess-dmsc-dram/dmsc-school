@@ -17,7 +17,7 @@ The main components of SciCat are:
 - The backend, which provides all the data management functionalities and connects to the database.
 - The frontend, which is a single page web application providing a UI to most of the backend functionalities.
 
-More information about SciCat can be found on its [website](http://www.scicatproject.org/), and also the code repositories for the [frontend](https://github.com/SciCatProject/frontend) and [backend](https://github.com/SciCatProject/scicat-backend-next) repositories
+More information about SciCat can be found on its [website](https://www.scicatproject.org/), and also the code repositories for the [frontend](https://github.com/SciCatProject/frontend) and [backend](https://github.com/SciCatProject/scicat-backend-next) repositories
 
 ------
 [1] <https://www.ibm.com/think/topics/data-catalog> Data Catalog  
