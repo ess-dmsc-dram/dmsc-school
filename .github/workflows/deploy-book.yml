@@ -75,10 +75,16 @@ jobs:
   deploy-book:
     needs: [build-book, formatting]
     runs-on: ubuntu-latest
-    if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.deploy
+    # if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.deploy
 
     steps:
       - uses: actions/download-artifact@v4
+      - name: debug
+        run: |
+          ls -l
+          ls -l dmsc-school-book
+          ls -l dmsc-school-book/_build/html
+          ls -lR
       - name: Upload to GH pages
         uses: peaceiris/actions-gh-pages@v4
         with:
