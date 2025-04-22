@@ -83,11 +83,9 @@ jobs:
         run: |
           ls -l
           ls -l dmsc-school-book
-          ls -l dmsc-school-book/_build/html
-          ls -lR
       - name: Upload to GH pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dmsc-school-book/_build/html
+          publish_dir: dmsc-school-book
           force_orphan: true
