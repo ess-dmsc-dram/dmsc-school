@@ -83,5 +83,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_build/html
+          publish_dir: ./dmsc-school-book/_build/html
           force_orphan: true
