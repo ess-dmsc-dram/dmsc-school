@@ -99,6 +99,7 @@ def add_choppers(instrument):
                                        after="PSC_position", # Place after PSC_position arm in component sequence
                                        RELATIVE="PSC_position") # Place at PSC_position in space
     chopper.theta_0 = 7.0
+    chopper.nslit = 1
     chopper.radius = 0.35
     chopper.yheight = 0.05
     chopper.nu = "frequency_multiplier*14.0" # Calculation performed in McStas instrument file
@@ -114,9 +115,11 @@ def add_backend_classic(instrument, include_event_monitors=True):
     ybins = 20
     monitor = instrument.add_component("Banana_large", "Monitor_nD")
     monitor.set_parameters(radius=3.5, yheight="detector_height",
-                           filename='"direct_event_banana_signal_large.dat"', restore_neutron=1)
-    monitor.options = f'"banana theta bins={theta_bins} limits=[10, 170] y bins={ybins}, neutron pixel min={pixel_min}, t, list all neutrons"'
+                           filename='"direct_event_banana_signal_large.dat"',
+                           restore_neutron=1, user1='"source_time"', user2='"n_scattering_sample"')
+    monitor.options = f'"banana theta bins={theta_bins} limits=[10, 170] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, user2, list all neutrons"'
     monitor.set_AT(0.0, RELATIVE="sample_position")
+    #monitor.set_GROUP("detectors")
 
     # increment pixel id using the given detector resolution
     pixel_min += theta_bins*ybins + 10
@@ -125,9 +128,19 @@ def add_backend_classic(instrument, include_event_monitors=True):
     ybins = 20
     monitor = instrument.add_component("Banana_small", "Monitor_nD")
     monitor.set_parameters(radius=3.5, yheight="detector_height",
-                           filename='"direct_event_banana_signal_small.dat"', restore_neutron=1)
-    monitor.options = f'"banana theta bins={theta_bins} limits=[-40, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, list all neutrons"'
+                           filename='"direct_event_banana_signal_small.dat"', 
+                           restore_neutron=1, user1='"source_time"', user2='"n_scattering_sample"')
+    monitor.options = f'"banana theta bins={theta_bins} limits=[-40, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, user2, list all neutrons"'
     monitor.set_AT(0.0, RELATIVE="sample_position")
+    #monitor.set_GROUP("detectors")
+
+    """
+    monitor = instrument.add_component("metadata_monitor", "Monitor_nD")
+    monitor.set_parameters(filename='"metadata.dat"',
+                           restore_neutron=1, user1='"source_time"', user2='"n_scattering_sample"')
+    monitor.options = f'"Previous, t, v, l, user1, user2, list all neutrons"'
+    monitor.set_AT(0.0, RELATIVE="sample_position")
+    """
 
 
 def add_backend_union(instrument, include_event_monitors=True):
@@ -148,6 +161,8 @@ def add_backend_union(instrument, include_event_monitors=True):
     Al = instrument.add_component("Al", "Union_make_material")
     Al.process_string = '"Al_incoherent,Al_powder"'
     Al.my_absorption = 100 * 4 * 0.231 / 66.4
+    
+    instrument.add_component("start_union_geometries", "Arm")    
 
     tube_angles = np.linspace(10, 170, 16*3)
     #tube_angles.extend(np.linspace(-10, -40, 3*3))
@@ -166,8 +181,8 @@ def add_backend_union(instrument, include_event_monitors=True):
 
         gas_name = "gas_" + str(index)
         gas = instrument.add_component(gas_name, "Union_cylinder", RELATIVE=casing)
-        gas.set_parameters(radius=casing.radius - 2E-3, yheight=casing.yheight - 0.01,
-                           material_string='"He3"', priority=casing.priority + 0.1)
+        gas.set_parameters(radius=casing.radius - 2E-3, yheight="detector_height - 0.01",
+                           material_string='"He3"', priority=casing.priority + 0.1, p_interact=0.5)
 
         options = f'"previous x bins=1 limits=[-0.03, 0.03] y bins={20}, neutron pixel min={pixel_min} t, l, list all neutron"'
         abs_logger = instrument.add_component("abs_logger_" + str(index), "Union_abs_logger_nD")
@@ -220,6 +235,7 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
     
     if detectors == "classic":
         instrument.add_component("init", "Union_init")
+        instrument.add_component("start_union_geometries", "Arm")
         instrument.add_component("master", "Union_master")
         instrument.add_component("stop", "Union_stop")
         
@@ -248,6 +264,10 @@ def make(union_detectors=True, include_choppers=True, include_event_monitors=Tru
                           Lmin=l_min, Lmax=l_max, n_pulses=n_pulses,
                           acc_power=2)
                           
+    # Have particles remember their time leaving the source
+    instrument.add_user_var("double", "source_time")
+    Source.append_EXTEND("source_time = t;")
+                          
     #Source.append_EXTEND("t = t/100 + 0.5*2.86E-3;") # Makes it a short pulse source for testing
 
     # Add the guide system, source component used to set proper focusing
@@ -265,22 +285,29 @@ def make(union_detectors=True, include_choppers=True, include_event_monitors=Tru
     add_backend(instrument, detectors=detectors,
                 include_event_monitors=include_event_monitors)
     
-    Sample_inc = instrument.add_component("Sample_inc", "Incoherent_process", before="master")
+    Sample_inc = instrument.add_component("Sample_inc", "Incoherent_process", before="start_union_geometries")
     Sample_inc.sigma = 3.4176
     Sample_inc.unit_cell_volume = 1079.1
 
-    Sample_pow = instrument.add_component("Sample_pow", "Powder_process", before="master")
+    Sample_pow = instrument.add_component("Sample_pow", "Powder_process", before="start_union_geometries")
     Sample_pow.reflections = instrument.add_parameter("string", "reflections", value='"Na2Ca3Al2F14.laz"')
 
-    Sample = instrument.add_component("Sample", "Union_make_material", before="master")
+    Sample = instrument.add_component("Sample", "Union_make_material", before="start_union_geometries")
     Sample.process_string = '"Sample_inc,Sample_pow"'
     Sample.my_absorption = 100*2.9464/1079.1
 
     radius = instrument.add_parameter("sample_radius", value=0.01)
     height = instrument.add_parameter("sample_height", value=0.05) 
 
-    sample = instrument.add_component("sample", "Union_cylinder", before="master", RELATIVE="sample_position")
+    sample = instrument.add_component("sample", "Union_cylinder", after="start_union_geometries", RELATIVE="sample_position")
     sample.set_parameters(radius=radius, yheight=height, material_string='"Sample"', priority=5)
+    
+    # remember number of scattering events
+    instrument.add_user_var("double", "n_scattering_sample")
+    # Always keep the sample as the first geometry (0 is the surrounding vacuum)
+    instrument.get_component("master").append_EXTEND("n_scattering_sample = scattered_flag[1];")
+    
+
 
     return instrument
     
