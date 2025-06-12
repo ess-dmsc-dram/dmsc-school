@@ -2,8 +2,6 @@
 # Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
 
 import scipp as sc
-import scippnexus as sx
-import warnings
 
 from powder_utils import load_powder
 from qens_utils import load_qens
@@ -39,3 +37,12 @@ def fold_pulses(data, tof_edges, offsets):
         if name not in out.coords:
             out.coords[name] = coord
     return out
+
+
+__all__ = [
+    "add_variances",
+    "fold_pulses",
+    "load_powder",
+    "load_qens",
+    "load_sans",
+]
