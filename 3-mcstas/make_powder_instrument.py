@@ -77,7 +77,7 @@ def add_guide(instrument, source):
     # guide end is used by backend to place sample position
     guide_end = instrument.add_component("guide_end", "Arm")
     guide_end.set_AT(focusing.l, RELATIVE=focusing)
-    
+
 def add_choppers(instrument):
     instrument.add_parameter("chopper_wavelength_center", value=2.5, comment="Center of wavelength band [AA]")
     instrument.add_declare_var("double", "chopper_position", value=source_to_psc)
@@ -104,7 +104,7 @@ def add_choppers(instrument):
     chopper.yheight = 0.05
     chopper.nu = "frequency_multiplier*14.0" # Calculation performed in McStas instrument file
     chopper.delay = delay_var # Declare variable object
-    
+
 
 def add_backend_classic(instrument, include_event_monitors=True):
     # Classic detectors
@@ -128,7 +128,7 @@ def add_backend_classic(instrument, include_event_monitors=True):
     ybins = 20
     monitor = instrument.add_component("Banana_small", "Monitor_nD")
     monitor.set_parameters(radius=3.5, yheight="detector_height",
-                           filename='"direct_event_banana_signal_small.dat"', 
+                           filename='"direct_event_banana_signal_small.dat"',
                            restore_neutron=1, user1='"source_time"', user2='"n_scattering_sample"')
     monitor.options = f'"banana theta bins={theta_bins} limits=[-40, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, user2, list all neutrons"'
     monitor.set_AT(0.0, RELATIVE="sample_position")
@@ -161,8 +161,8 @@ def add_backend_union(instrument, include_event_monitors=True):
     Al = instrument.add_component("Al", "Union_make_material")
     Al.process_string = '"Al_incoherent,Al_powder"'
     Al.my_absorption = 100 * 4 * 0.231 / 66.4
-    
-    instrument.add_component("start_union_geometries", "Arm")    
+
+    instrument.add_component("start_union_geometries", "Arm")
 
     tube_angles = np.linspace(10, 170, 16*3)
     #tube_angles.extend(np.linspace(-10, -40, 3*3))
@@ -206,8 +206,8 @@ def add_backend_union(instrument, include_event_monitors=True):
     instrument.add_component("master", "Union_master")
 
     instrument.add_component("stop", "Union_stop")
-    
-    
+
+
 def add_backend(instrument, detectors="classic", include_event_monitors=True):
 
     # inserting basic monitors before sample position to ensure they are placed before any sample inserted later
@@ -227,18 +227,18 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
     # Sample position, an actual sample can be inserted "after" this
     sample_position = instrument.add_component("sample_position", "Arm")
     sample_position.set_AT(guide_to_sample, RELATIVE="guide_end")
-    
+
     fixed_source = instrument.add_component("fixed_source", "Arm")
     fixed_source.set_AT(-160.6, RELATIVE=sample_position)
-    
+
     instrument.add_parameter("detector_height", value=2.5)
-    
+
     if detectors == "classic":
         instrument.add_component("init", "Union_init")
         instrument.add_component("start_union_geometries", "Arm")
         instrument.add_component("master", "Union_master")
         instrument.add_component("stop", "Union_stop")
-        
+
         add_backend_classic(instrument, include_event_monitors=include_event_monitors)
     elif detectors == "union":
         add_backend_union(instrument, include_event_monitors=include_event_monitors)
@@ -263,11 +263,11 @@ def make(union_detectors=True, include_choppers=True, include_event_monitors=Tru
                           c_performance=1, t_performance=1,
                           Lmin=l_min, Lmax=l_max, n_pulses=n_pulses,
                           acc_power=2)
-                          
+
     # Have particles remember their time leaving the source
     instrument.add_user_var("double", "source_time")
     Source.append_EXTEND("source_time = t;")
-                          
+
     #Source.append_EXTEND("t = t/100 + 0.5*2.86E-3;") # Makes it a short pulse source for testing
 
     # Add the guide system, source component used to set proper focusing
@@ -281,10 +281,10 @@ def make(union_detectors=True, include_choppers=True, include_event_monitors=Tru
         detectors = "union"
     else:
         detectors = "classic"
-        
+
     add_backend(instrument, detectors=detectors,
                 include_event_monitors=include_event_monitors)
-    
+
     Sample_inc = instrument.add_component("Sample_inc", "Incoherent_process", before="start_union_geometries")
     Sample_inc.sigma = 3.4176
     Sample_inc.unit_cell_volume = 1079.1
@@ -297,17 +297,17 @@ def make(union_detectors=True, include_choppers=True, include_event_monitors=Tru
     Sample.my_absorption = 100*2.9464/1079.1
 
     radius = instrument.add_parameter("sample_radius", value=0.01)
-    height = instrument.add_parameter("sample_height", value=0.05) 
+    height = instrument.add_parameter("sample_height", value=0.05)
 
     sample = instrument.add_component("sample", "Union_cylinder", after="start_union_geometries", RELATIVE="sample_position")
     sample.set_parameters(radius=radius, yheight=height, material_string='"Sample"', priority=5)
-    
+
     # remember number of scattering events
     instrument.add_user_var("double", "n_scattering_sample")
     # Always keep the sample as the first geometry (0 is the surrounding vacuum)
     instrument.get_component("master").append_EXTEND("n_scattering_sample = scattered_flag[1];")
-    
+
 
 
     return instrument
-    
+
