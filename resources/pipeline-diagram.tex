@@ -1,0 +1,66 @@
+\documentclass{standalone}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage{tikz}
+\usepackage{graphicx,amsmath,amssymb}
+\usepackage{PTSansNarrow}
+\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+
+\begin{document}
+
+\noindent\begin{tikzpicture}
+
+\def\dx{4};
+\def\dy{1.0};
+
+\LARGE
+
+\definecolor{blueone}{HTML}{0099dc};
+\definecolor{bluetwo}{HTML}{04b3ff};
+\definecolor{bluethree}{HTML}{2bbfff};
+\definecolor{bluefour}{HTML}{53cbff};
+\definecolor{bluefive}{HTML}{7ad6ff};
+
+\def\x{0.0};
+
+\filldraw[color=blueone] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+% \filldraw[color=red] (0.0, 0.0) -- (1.0, 0.0) -- (1.0, 1.0) -- (0.0, 1.0) -- (0.0, 0.0);
+\node[above] at (\x+0.6*\dx, 2.*\dy) {\includegraphics[height=1.5cm]{python.png}};
+\node[white] at (\x+0.6*\dx, 1.*\dy) {Python};
+\node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 1};
+
+\def\x{4.5};
+
+\filldraw[color=bluetwo] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\node[above left] at (\x+0.45*\dx, 2.*\dy) {\includegraphics[height=1.4cm]{useroffice.png}};
+\node[above right] at (\x+0.45*\dx, 2.*\dy) {\includegraphics[height=1.3cm]{mcstas.png}};
+% \node[white] at (0.6*\dx, 1.*\dy) {\begin{minipage}{3cm} Proposals\\+\\Simulation\end{minipage}};
+\node[white, above] at (\x+0.6*\dx, 1.*\dy) {Proposals};
+\node[white] at (\x+0.6*\dx, 1.*\dy) {+};
+\node[white, below] at (\x+0.6*\dx, 1.*\dy) {Simulations};
+\node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 2};
+
+\def\x{9.0};
+
+\filldraw[color=bluethree] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\node[above] at (\x+0.5*\dx, 2.*\dy) {\includegraphics[height=1.1cm]{scipp.pdf}};
+\node[white] at (\x+0.6*\dx, 1.*\dy) {\begin{minipage}{2cm}\begin{center}Data reduction\end{center}\end{minipage}};
+\node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 3};
+
+\def\x{13.5};
+
+\filldraw[color=bluefour] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\node[above] at (\x+0.5*\dx, 2.*\dy) {\includegraphics[height=1.1cm]{easyscience.pdf}};
+\node[white] at (\x+0.6*\dx, 1.*\dy) {\begin{minipage}{2cm}\begin{center}Data analysis\end{center}\end{minipage}};
+\node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 4};
+
+\def\x{18.0};
+
+\filldraw[color=bluefive] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\node[above] at (\x+0.5*\dx, 2.*\dy) {\includegraphics[height=1.1cm]{scicat.pdf}};
+\node[white] at (\x+0.6*\dx, 1.*\dy) {\begin{minipage}{4cm}\begin{center}FAIR data management\end{center}\end{minipage}};
+\node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 5};
+
+\end{tikzpicture}
+
+\end{document}
