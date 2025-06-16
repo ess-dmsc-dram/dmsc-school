@@ -20,7 +20,7 @@ def add_variances(*inputs: sc.DataArray):
     does not have a variance of zero.
     """
     for da in inputs:
-        da.variances = np.clip(da.values, a_min=1.0)**2
+        da.variances = np.clip(da.values, a_min=1.0, a_max=None)**2
 
 
 def fold_pulses(data, tof_edges, offsets):
