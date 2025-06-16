@@ -23,51 +23,32 @@ def load_powder(
     with mcstastox.Read(path) as file:
         events = file.export_scipp_simple(source_name, sample_name)
 
-        detector_name_1 = "Banana_large"
-        detector_name_2 = "Banana_small"
-        variables_1 = file.get_component_variables(detector_name_1)
-        variables_2 = file.get_component_variables(detector_name_2)
+        detector_names = ["Banana_large", "Banana_small"]
+        var_names = {
+            "sim_wavelength": {"key": "L", "unit": "Å"},
+            "sim_speed": {"key": "v", "unit": "m/s"},
+            "sim_source_time": {"key": "U1", "unit": "s"},
+        }
 
-        var_names = ["L", "v", "U1"]
-
-        all_metadata_1 = all(item in variables_1 for item in var_names)
-        all_metadata_2 = all(item in variables_2 for item in var_names)
-        all_metadata = all_metadata_1 and all_metadata_2
-
-        if all_metadata:
-            raw_event_data_1 = file.get_event_data(
-                variables=var_names, component_name=detector_name_1
+        raw_event_data = [
+            file.get_event_data(
+                variables=[v["key"] for v in var_names.values()], component_name=det
             )
-            raw_event_data_2 = file.get_event_data(
-                variables=var_names, component_name=detector_name_2
-            )
+            for det in detector_names
+        ]
 
-            full_L = np.concatenate((raw_event_data_1["L"], raw_event_data_2["L"]))
-            events.coords["sim_wavelength"] = sc.array(
-                dims=["events"], values=full_L, unit="Å"
+        for var_name, var_info in var_names.items():
+            full_data = np.concatenate(
+                [raw_event[var_info["key"]] for raw_event in raw_event_data]
+            )
+            events.coords[var_name] = sc.array(
+                dims=["events"], values=full_data, unit=var_info["unit"]
             )
 
-            full_source_time = np.concatenate(
-                (raw_event_data_1["U1"], raw_event_data_2["U1"])
-            )
-            events.coords["sim_source_time"] = sc.array(
-                dims=["events"], values=full_source_time, unit="s"
-            )
+    # Add "xyz" coordinates from "position"
+    for c in "xyz":
+        events.coords[c] = getattr(events.coords["position"].fields, c).copy()
 
-            full_speed = np.concatenate((raw_event_data_1["v"], raw_event_data_2["v"]))
-            events.coords["sim_speed"] = sc.array(
-                dims=["events"], values=full_speed, unit="m/s"
-            )
-
-    events.coords["x"] = sc.array(
-        dims=["events"], values=events.coords["position"].fields.x.values, unit="m"
-    )
-    events.coords["y"] = sc.array(
-        dims=["events"], values=events.coords["position"].fields.y.values, unit="m"
-    )
-    events.coords["z"] = sc.array(
-        dims=["events"], values=events.coords["position"].fields.z.values, unit="m"
-    )
     # Rename 't' to 'toa'
     events.coords["toa"] = events.coords.pop("t")
     events.coords["time_origin"] = sc.scalar(0.0, unit=events.coords["toa"].unit)
