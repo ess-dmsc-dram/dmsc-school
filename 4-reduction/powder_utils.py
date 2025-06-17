@@ -53,6 +53,11 @@ def load_powder(
     events.coords["toa"] = events.coords.pop("t")
     events.coords["time_origin"] = sc.scalar(0.0, unit=events.coords["toa"].unit)
 
+    # Add variances
+    # (See https://www.mcstas.org/documentation/manual/mcstas-3.5.27-manual.pdf,
+    # section 2.2.1)
+    events.variances = events.values**2
+
     return events
 
 
