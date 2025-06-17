@@ -28,6 +28,7 @@ def load_sans(
     weights.unit = "counts"
     weights *= float(meta["integration_time"])
     da = sc.DataArray(data=weights, coords=events)
+    da.variances = da.values**2
 
     da.coords["y"].unit = "m"
     da.coords["y"] += 0.25 * sc.units.m

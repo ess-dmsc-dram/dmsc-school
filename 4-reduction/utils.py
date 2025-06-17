@@ -1,26 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
 
-import numpy as np
-import scipp as sc
 
 from powder_utils import load_powder
 from qens_utils import load_qens
 from sans_utils import load_sans
-
-
-def add_variances(*inputs: sc.DataArray):
-    """
-    Add variances to the data, using the data counts.
-    For McStas event weights, the variance is the square root of the variance.
-    See https://www.mcstas.org/documentation/manual/mcstas-3.5.27-manual.pdf, section
-    2.2.1.
-
-    We also clip the values to a minimum of 1, so that a histogram with zero counts
-    does not have a variance of zero.
-    """
-    for da in inputs:
-        da.variances = np.clip(da.values, a_min=1.0, a_max=None)**2
 
 
 def fold_pulses(data, tof_edges, offsets):
@@ -46,7 +30,6 @@ def fold_pulses(data, tof_edges, offsets):
 
 
 __all__ = [
-    "add_variances",
     "fold_pulses",
     "load_powder",
     "load_qens",

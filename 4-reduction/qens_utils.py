@@ -61,6 +61,7 @@ def load_qens(path: str) -> sc.DataArray:
     weights.unit = "counts"
     weights *= float(meta["integration_time"])
     da = sc.DataArray(data=weights, coords=events)
+    da.variances = da.values**2
 
     da.coords["y"].unit = "m"
     # The event positions are in the detector coordinate system.
