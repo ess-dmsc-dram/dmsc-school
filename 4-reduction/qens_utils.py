@@ -61,6 +61,10 @@ def load_qens(path: str) -> sc.DataArray:
     weights.unit = "counts"
     weights *= float(meta["integration_time"])
     da = sc.DataArray(data=weights, coords=events)
+
+    # Add variances
+    # (See https://www.mcstas.org/documentation/manual/mcstas-3.5.27-manual.pdf,
+    # section 2.2.1)
     da.variances = da.values**2
 
     da.coords["y"].unit = "m"
