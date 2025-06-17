@@ -15,26 +15,31 @@
 
 \LARGE
 
-\definecolor{blueone}{HTML}{0099dc};
-\definecolor{bluetwo}{HTML}{04b3ff};
-\definecolor{bluethree}{HTML}{2bbfff};
-\definecolor{bluefour}{HTML}{53cbff};
-\definecolor{bluefive}{HTML}{7ad6ff};
+% \definecolor{color1}{HTML}{0099dc};
+% \definecolor{color2}{HTML}{19a3df};
+% \definecolor{color3}{HTML}{32ade3};
+% \definecolor{color4}{HTML}{4cb7e6};
+% \definecolor{color5}{HTML}{66c1ea};
+
+\definecolor{color1}{HTML}{0099dc};
+\definecolor{color2}{HTML}{003366};
+\definecolor{color3}{HTML}{006646};
+\definecolor{color4}{HTML}{821482};
+\definecolor{color5}{HTML}{ff7d00};
+
 
 \def\x{0.0};
 
-\filldraw[color=blueone] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
-% \filldraw[color=red] (0.0, 0.0) -- (1.0, 0.0) -- (1.0, 1.0) -- (0.0, 1.0) -- (0.0, 0.0);
+\filldraw[color=color1] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
 \node[above] at (\x+0.6*\dx, 2.*\dy) {\includegraphics[height=1.5cm]{python.png}};
 \node[white] at (\x+0.6*\dx, 1.*\dy) {Python};
 \node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 1};
 
 \def\x{4.5};
 
-\filldraw[color=bluetwo] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\filldraw[color=color2] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
 \node[above left] at (\x+0.45*\dx, 2.*\dy) {\includegraphics[height=1.4cm]{useroffice.png}};
 \node[above right] at (\x+0.45*\dx, 2.*\dy) {\includegraphics[height=1.3cm]{mcstas.png}};
-% \node[white] at (0.6*\dx, 1.*\dy) {\begin{minipage}{3cm} Proposals\\+\\Simulation\end{minipage}};
 \node[white, above] at (\x+0.6*\dx, 1.*\dy) {Proposals};
 \node[white] at (\x+0.6*\dx, 1.*\dy) {+};
 \node[white, below] at (\x+0.6*\dx, 1.*\dy) {Simulations};
@@ -42,21 +47,21 @@
 
 \def\x{9.0};
 
-\filldraw[color=bluethree] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\filldraw[color=color3] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
 \node[above] at (\x+0.5*\dx, 2.*\dy) {\includegraphics[height=1.1cm]{scipp.pdf}};
 \node[white] at (\x+0.6*\dx, 1.*\dy) {\begin{minipage}{2cm}\begin{center}Data reduction\end{center}\end{minipage}};
 \node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 3};
 
 \def\x{13.5};
 
-\filldraw[color=bluefour] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\filldraw[color=color4] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
 \node[above] at (\x+0.5*\dx, 2.*\dy) {\includegraphics[height=1.1cm]{easyscience.pdf}};
 \node[white] at (\x+0.6*\dx, 1.*\dy) {\begin{minipage}{2cm}\begin{center}Data analysis\end{center}\end{minipage}};
 \node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 4};
 
 \def\x{18.0};
 
-\filldraw[color=bluefive] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
+\filldraw[color=color5] (\x+0.0, 0.0) -- (\x+\dx, 0.0) -- (\x+1.2*\dx, \dy) -- (\x+\dx, 2*\dy) -- (\x+0.0, 2*\dy) -- (\x+0.2*\dx, \dy) -- (\x+0.0, 0.0);
 \node[above] at (\x+0.5*\dx, 2.*\dy) {\includegraphics[height=1.1cm]{scicat.pdf}};
 \node[white] at (\x+0.6*\dx, 1.*\dy) {\begin{minipage}{4cm}\begin{center}FAIR data management\end{center}\end{minipage}};
 \node[below, gray] at (\x+0.6*\dx, 0.*\dy) {Day 5};
