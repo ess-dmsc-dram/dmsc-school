@@ -16,42 +16,8 @@ This "raw" data will be reduced with the Scipp package, a Python library designe
 Then, the EasyScience framework will be used to analyse our reduced data, where we will be able to draw interesting scientific conclusions.
 Finally, all the data will be stored together within the SciCat metadata catalogue -- enabling FAIR storage.
 
-## Contributors
-
-<table>
-<tr>
-<td>
-<a href="https://github.com/mads-bertelsen">Mads Bertelsen</a>
-</td>
-<td>
-<a href="https://github.com/SimonHeybrock">Simon Heybrock</a>
-</td>
-<td>
-<a href="https://github.com/henrikjacobsenfys">Henrik Jacobsen</a>
-</td>
-<td>
-<a href="https://mccluskey.scot">Andrew R. McCluskey</a>
-</td>
-</tr><tr>
-<td>
-<a href="https://github.com/nitrosx">Massimiliano Novelli</a>
-</td>
-<td>
-<a href="https://github.com/MridulS">Mridul Seth</a>
-</td>
-<td>
-<a href="https://github.com/nvaytet">Neil Vaytet</a>
-</td>
-<td>
-<a href="https://github.com/damskii9992">Christian Vedel</a>
-</td>
-</tr><tr>
-<td>
-<a href="https://github.com/willend">Peter Willendrup</a>
-</td>
-<td>
-<a href="https://github.com/jl-wynen">Jan-Lukas Wynen</a>
-</td>
-<td>
-<a href="https://github.com/YooSunYoung">Sunyoung Yoo</a>
-</td></tr></table>
+| Contributors |  |  |  |
+| - | - | - | - |
+| [Mads Bertelsen](https://github.com/mads-bertelsen) | [Simon Heybrock](https://github.com/SimonHeybrock) | [Henrik Jacobsen](https://github.com/henrikjacobsenfys) | [Andrew R. McCluskey](https://mccluskey.scot) |
+| [Massimiliano Novelli](https://github.com/nitrosx) | [Mridul Seth](https://github.com/MridulS) | [Neil Vaytet](https://github.com/nvaytet) | [Christian Vedel](https://github.com/damskii9992) |
+| [Peter Willendrup](https://github.com/willend) | [Jan-Lukas Wynen](https://github.com/jl-wynen) | [Sunyoung Yoo](https://github.com/YooSunYoung) |  |
