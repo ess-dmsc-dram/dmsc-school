@@ -1,20 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
 
-import scipp as sc
 
 from powder_utils import load_powder
 from qens_utils import load_qens
 from sans_utils import load_sans
-
-
-def add_variances(*inputs: sc.DataArray):
-    """
-    Add variances to the data, using the data counts (the standard deviation is the
-    square root of the variance).
-    """
-    for da in inputs:
-        da.variances = da.values
 
 
 def fold_pulses(data, tof_edges, offsets):
@@ -40,7 +30,6 @@ def fold_pulses(data, tof_edges, offsets):
 
 
 __all__ = [
-    "add_variances",
     "fold_pulses",
     "load_powder",
     "load_qens",
