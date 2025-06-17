@@ -8,6 +8,7 @@ This material can be treated in a self-guided fashion.
 The aim of the summer school is to cover *in-silico* some the ESS data pipeline.
 
 ![](./images/pipeline-diagram.png)
+<!-- Rendered from resources/pipeline-diagram.tex -->
 
 In particular, we will introduce the importance of considering the data that you will collect at a neutron scattering experiment during the proposal stage and the benefits of FAIR data practices.
 We will then go on to show how the McStas simulation software can be used to plan the experiment that you will conduct, giving *realistic* simulated data.
