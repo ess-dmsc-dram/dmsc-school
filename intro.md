@@ -17,14 +17,21 @@ Finally, all the data will be stored together within the SciCat metadata catalog
 
 ## Contributors
 
-- [Mads Bertelsen](https://github.com/mads-bertelsen)
-- [Simon Heybrock](https://github.com/SimonHeybrock)
-- [Henrik Jacobsen](https://github.com/henrikjacobsenfys)
-- [Andrew R. McCluskey](https://mccluskey.scot)
-- [Massimiliano Novelli](https://github.com/nitrosx)
-- [Mridul Seth](https://github.com/MridulS)
-- [Neil Vaytet](https://github.com/nvaytet)
-- [Christian Vedel](https://github.com/damskii9992)
-- [Peter Willendrup](https://github.com/willend)
-- [Jan-Lukas Wynen](https://github.com/jl-wynen)
-- [Sunyoung Yoo](https://github.com/YooSunYoung)
+<table><tr><td>
+<ul>
+  <li><a href="https://github.com/mads-bertelsen">Mads Bertelsen</a></li>
+  <li><a href="https://github.com/SimonHeybrock">Simon Heybrock</a></li>
+  <li><a href="https://github.com/henrikjacobsenfys">Henrik Jacobsen</a></li>
+  <li><a href="https://mccluskey.scot">Andrew R. McCluskey</a></li>
+  <li><a href="https://github.com/nitrosx">Massimiliano Novelli</a></li>
+  <li><a href="https://github.com/MridulS">Mridul Seth</a></li>
+</ul>
+</td><td>
+<ul>
+  <li><a href="https://github.com/nvaytet">Neil Vaytet</a></li>
+  <li><a href="https://github.com/damskii9992">Christian Vedel</a></li>
+  <li><a href="https://github.com/willend">Peter Willendrup</a></li>
+  <li><a href="https://github.com/jl-wynen">Jan-Lukas Wynen</a></li>
+  <li><a href="https://github.com/YooSunYoung">Sunyoung Yoo</a></li>
+</ul>
+</td></tr></table>
