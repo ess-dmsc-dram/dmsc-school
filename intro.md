@@ -18,21 +18,40 @@ Finally, all the data will be stored together within the SciCat metadata catalog
 
 ## Contributors
 
-<table><tr><td>
-<ul>
-  <li><a href="https://github.com/mads-bertelsen">Mads Bertelsen</a></li>
-  <li><a href="https://github.com/SimonHeybrock">Simon Heybrock</a></li>
-  <li><a href="https://github.com/henrikjacobsenfys">Henrik Jacobsen</a></li>
-  <li><a href="https://mccluskey.scot">Andrew R. McCluskey</a></li>
-  <li><a href="https://github.com/nitrosx">Massimiliano Novelli</a></li>
-  <li><a href="https://github.com/MridulS">Mridul Seth</a></li>
-</ul>
-</td><td>
-<ul>
-  <li><a href="https://github.com/nvaytet">Neil Vaytet</a></li>
-  <li><a href="https://github.com/damskii9992">Christian Vedel</a></li>
-  <li><a href="https://github.com/willend">Peter Willendrup</a></li>
-  <li><a href="https://github.com/jl-wynen">Jan-Lukas Wynen</a></li>
-  <li><a href="https://github.com/YooSunYoung">Sunyoung Yoo</a></li>
-</ul>
+<table>
+<tr>
+<td>
+<a href="https://github.com/mads-bertelsen">Mads Bertelsen</a>
+</td>
+<td>
+<a href="https://github.com/SimonHeybrock">Simon Heybrock</a>
+</td>
+<td>
+<a href="https://github.com/henrikjacobsenfys">Henrik Jacobsen</a>
+</td>
+<td>
+<a href="https://mccluskey.scot">Andrew R. McCluskey</a>
+</td>
+</tr><tr>
+<td>
+<a href="https://github.com/nitrosx">Massimiliano Novelli</a>
+</td>
+<td>
+<a href="https://github.com/MridulS">Mridul Seth</a>
+</td>
+<td>
+<a href="https://github.com/nvaytet">Neil Vaytet</a>
+</td>
+<td>
+<a href="https://github.com/damskii9992">Christian Vedel</a>
+</td>
+</tr><tr>
+<td>
+<a href="https://github.com/willend">Peter Willendrup</a>
+</td>
+<td>
+<a href="https://github.com/jl-wynen">Jan-Lukas Wynen</a>
+</td>
+<td>
+<a href="https://github.com/YooSunYoung">Sunyoung Yoo</a>
 </td></tr></table>
