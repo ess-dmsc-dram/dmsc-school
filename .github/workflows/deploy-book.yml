@@ -60,7 +60,7 @@ jobs:
 
       - name: Build the book
         run: |
-          jupyter-book build -W --keep-going .
+          jupyter-book build -W .
 
       - name: Check links
         if: github.event_name != 'workflow_dispatch' || inputs.linkcheck
