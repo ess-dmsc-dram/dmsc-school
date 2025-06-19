@@ -154,6 +154,10 @@ def add_choppers(instrument):
 def add_backend_classic(instrument, include_event_monitors=True):
     # Classic detectors
 
+    rotated_sample_position = instrument.add_component("rotated_sample_position", "Arm", RELATIVE="sample_position")
+    #rotated_sample_position.set_AT([0.5, 0, 0])
+    #rotated_sample_position.set_ROTATED([0, 4, 0])
+    
     pixel_min = 0
 
     theta_bins = 320
@@ -169,7 +173,7 @@ def add_backend_classic(instrument, include_event_monitors=True):
     )
     # monitor.options = f'"banana theta bins={theta_bins} limits=[10, 170] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, user2, list all neutrons"'
     monitor.options = f'"banana theta bins={theta_bins} limits=[10, 170] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, list all neutrons"'
-    monitor.set_AT(0.0, RELATIVE="sample_position")
+    monitor.set_AT(0.0, RELATIVE="rotated_sample_position")
     # monitor.set_GROUP("detectors")
 
     # increment pixel id using the given detector resolution
@@ -187,8 +191,8 @@ def add_backend_classic(instrument, include_event_monitors=True):
         # user2='"n_scattering_sample"'
     )
     # monitor.options = f'"banana theta bins={theta_bins} limits=[-40, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, user2, list all neutrons"'
-    monitor.options = f'"banana theta bins={theta_bins} limits=[-40, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, list all neutrons"'
-    monitor.set_AT(0.0, RELATIVE="sample_position")
+    monitor.options = f'"banana theta bins={theta_bins} limits=[-170, -140] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, list all neutrons"'
+    monitor.set_AT(0.0, RELATIVE="rotated_sample_position")
     # monitor.set_GROUP("detectors")
 
     """
@@ -406,36 +410,98 @@ def make(
         instrument, detectors=detectors, include_event_monitors=include_event_monitors
     )
 
-    Sample_inc = instrument.add_component(
-        "Sample_inc", "Incoherent_process", before="start_union_geometries"
+    Si_inc = instrument.add_component(
+        "Si_inc", "Incoherent_process", before="start_union_geometries"
     )
-    Sample_inc.sigma = 3.4176
-    Sample_inc.unit_cell_volume = 1079.1
+    Si_inc.sigma = 8*0.004
+    Si_inc.unit_cell_volume = 160.15
 
-    Sample_pow = instrument.add_component(
-        "Sample_pow", "Powder_process", before="start_union_geometries"
+    Si_pow = instrument.add_component(
+        "Si_pow", "Powder_process", before="start_union_geometries"
     )
-    Sample_pow.reflections = instrument.add_parameter(
-        "string", "reflections", value='"Na2Ca3Al2F14.laz"'
-    )
+    Si_pow.reflections = '"Si.laz"'
 
+    Si = instrument.add_component(
+        "Si", "Union_make_material", before="start_union_geometries"
+    )
+    Si.process_string = '"Si_inc,Si_pow"'
+    Si.my_absorption = 100 * 8*0.171 / 160.15
+
+
+    Si_fraction = 0.2
+    
+    
+    Sample_inc_vernite = instrument.add_component(
+        "Sample_inc_vernite", "Incoherent_process", before="start_union_geometries"
+    )
+    Sample_inc_vernite.sigma = 4*3.4176
+    Sample_inc_vernite.unit_cell_volume = 1079.1
+    Sample_inc_vernite.packing_factor = 1 - Si_fraction
+
+    Sample_inc_Si = instrument.add_component(
+        "Sample_inc_Si", "Incoherent_process", before="start_union_geometries"
+    )
+    Sample_inc_Si.sigma = 8*0.004
+    Sample_inc_Si.unit_cell_volume = 160.15
+    Sample_inc_Si.packing_factor = Si_fraction
+
+    Sample_pow_vernite = instrument.add_component(
+        "Sample_pow_vernite", "Powder_process", before="start_union_geometries"
+    )
+    Sample_pow_vernite.reflections = '"Na2Ca3Al2F14.laz"'
+    Sample_pow_vernite.packing_factor = 1 - Si_fraction
+
+    Sample_pow_Si = instrument.add_component(
+        "Sample_pow_Si", "Powder_process", before="start_union_geometries"
+    )
+    Sample_pow_Si.reflections = '"Si.laz"'
+    Sample_pow_Si.packing_factor = Si_fraction
+    
     Sample = instrument.add_component(
         "Sample", "Union_make_material", before="start_union_geometries"
     )
-    Sample.process_string = '"Sample_inc,Sample_pow"'
-    Sample.my_absorption = 100 * 2.9464 / 1079.1
+    Sample.process_string = '"Sample_inc_Si,Sample_inc_vernite,Sample_pow_vernite,Sample_pow_Si"'
+    Sample.my_absorption = (100 * 4 * 2.9464 / 1079.1) * (1-Si_fraction) + Si_fraction* (100 * 8 * 0.171 / 160.15)
 
     radius = instrument.add_parameter("sample_radius", value=0.01)
     height = instrument.add_parameter("sample_height", value=0.05)
 
+    instrument.add_parameter("string", "sample_choice", value='"sample_Si"', options=['"sample_Si"', '"sample_2"'])
+
+    instrument.add_declare_var("int", "sample_Si_active")
+    instrument.add_declare_var("int", "sample_2_active")
+    instrument.append_initialize('''
+    if (strcmp(sample_choice, "sample_Si") == 0) {
+       sample_Si_active = 1;
+       sample_2_active = 0;
+    }
+    else if (strcmp(sample_choice, "sample_2") == 0) {
+       sample_Si_active = 0;
+       sample_2_active = 1;
+    }
+    printf("sample_Si_active =%d, sample_2_active = %d", sample_Si_active, sample_2_active);
+    ''')
+
     sample = instrument.add_component(
-        "sample",
+        "sample_Si",
         "Union_cylinder",
         after="start_union_geometries",
         RELATIVE="sample_position",
     )
     sample.set_parameters(
-        radius=radius, yheight=height, material_string='"Sample"', priority=5
+        radius=radius, yheight=height, material_string='"Si"', priority=5,
+        number_of_activations = "sample_Si_active"
+    )
+
+    sample = instrument.add_component(
+        "sample_2",
+        "Union_cylinder",
+        after="start_union_geometries",
+        RELATIVE="sample_position",
+    )
+    sample.set_parameters(
+        radius=radius, yheight=height, material_string='"Sample"', priority=6,
+        number_of_activations = "sample_2_active"
     )
 
     # remember number of scattering events
