@@ -410,6 +410,7 @@ def make(
         instrument, detectors=detectors, include_event_monitors=include_event_monitors
     )
 
+    # ================ Si sample ================
     Si_inc = instrument.add_component(
         "Si_inc", "Incoherent_process", before="start_union_geometries"
     )
@@ -430,7 +431,7 @@ def make(
 
     Si_fraction = 0.2
     
-    
+    # ================ Mixture sample ================
     Sample_inc_vernite = instrument.add_component(
         "Sample_inc_vernite", "Incoherent_process", before="start_union_geometries"
     )
@@ -463,23 +464,76 @@ def make(
     Sample.process_string = '"Sample_inc_Si,Sample_inc_vernite,Sample_pow_vernite,Sample_pow_Si"'
     Sample.my_absorption = (100 * 4 * 2.9464 / 1079.1) * (1-Si_fraction) + Si_fraction* (100 * 8 * 0.171 / 160.15)
 
+
+    # ================ Vanadium sample ================
+    Vanadium_inc = instrument.add_component(
+        "Vanadium_inc", "Incoherent_process", before="start_union_geometries"
+    )
+    mult = 2
+    Vanadium_inc.sigma = mult * 4.94
+    Vanadium_inc.unit_cell_volume = 27.66
+
+    Vanadium = instrument.add_component(
+        "Vanadium", "Union_make_material", before="start_union_geometries"
+    )
+    Vanadium.process_string = '"Vanadium_inc"'
+    Vanadium.my_absorption = 100 * mult * 5.08 / Vanadium_inc.unit_cell_volume
+
+    # ================ Fe sample ================
+    Fe_inc = instrument.add_component(
+        "Fe_inc", "Incoherent_process", before="start_union_geometries"
+    )
+    mult = 2
+    Fe_inc.sigma = mult*0.4
+    Fe_inc.unit_cell_volume = 24.04
+
+    Fe_pow = instrument.add_component(
+        "Fe_pow", "Powder_process", before="start_union_geometries"
+    )
+    Fe_pow.reflections = '"Fe.laz"'
+
+    Fe = instrument.add_component(
+        "Fe", "Union_make_material", before="start_union_geometries"
+    )
+    Fe.process_string = '"Fe_inc,Fe_pow"'
+    Fe.my_absorption = 100 * mult*2.56 / Fe_inc.unit_cell_volume
+
+    
+    # ========================================================    
     radius = instrument.add_parameter("sample_radius", value=0.01)
     height = instrument.add_parameter("sample_height", value=0.05)
 
-    instrument.add_parameter("string", "sample_choice", value='"sample_Si"', options=['"sample_Si"', '"sample_2"'])
+    instrument.add_parameter("string", "sample_choice", value='"sample_Si"', options=['"sample_Si"', '"sample_2"', '"sample_vanadium"', '"sample_fe"'])
 
     instrument.add_declare_var("int", "sample_Si_active")
     instrument.add_declare_var("int", "sample_2_active")
+    instrument.add_declare_var("int", "sample_vanadium_active")
+    instrument.add_declare_var("int", "sample_fe_active")
     instrument.append_initialize('''
     if (strcmp(sample_choice, "sample_Si") == 0) {
        sample_Si_active = 1;
        sample_2_active = 0;
+       sample_vanadium_active = 0;
+       sample_fe_active = 0;
     }
     else if (strcmp(sample_choice, "sample_2") == 0) {
        sample_Si_active = 0;
        sample_2_active = 1;
+       sample_vanadium_active = 0;
+       sample_fe_active = 0;
     }
-    printf("sample_Si_active =%d, sample_2_active = %d", sample_Si_active, sample_2_active);
+    else if (strcmp(sample_choice, "sample_vanadium") == 0) {
+       sample_Si_active = 0;
+       sample_2_active = 0;
+       sample_vanadium_active = 1;
+       sample_fe_active = 0;
+    }
+    else if (strcmp(sample_choice, "sample_fe") == 0) {
+       sample_Si_active = 0;
+       sample_2_active = 0;
+       sample_vanadium_active = 0;
+       sample_fe_active = 1;
+    }
     ''')
 
     sample = instrument.add_component(
@@ -504,6 +558,29 @@ def make(
         number_of_activations = "sample_2_active"
     )
 
+    sample = instrument.add_component(
+        "sample_vanadium",
+        "Union_cylinder",
+        after="start_union_geometries",
+        RELATIVE="sample_position",
+    )
+    sample.set_parameters(
+        radius=radius, yheight=height, material_string='"Vanadium"', priority=7,
+        number_of_activations = "sample_vanadium_active"
+    )
+
+    sample = instrument.add_component(
+        "sample_fe",
+        "Union_cylinder",
+        after="start_union_geometries",
+        RELATIVE="sample_position",
+    )
+    sample.set_parameters(
+        radius=radius, yheight=height, material_string='"Fe"', priority=8,
+        number_of_activations = "sample_fe_active"
+    )
+
+    
     # remember number of scattering events
     instrument.add_user_var("double", "n_scattering_sample")
     # Always keep the sample as the first geometry (0 is the surrounding vacuum)
