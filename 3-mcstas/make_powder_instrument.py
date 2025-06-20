@@ -157,7 +157,7 @@ def add_backend_classic(instrument, include_event_monitors=True):
     rotated_sample_position = instrument.add_component("rotated_sample_position", "Arm", RELATIVE="sample_position")
     #rotated_sample_position.set_AT([0.5, 0, 0])
     #rotated_sample_position.set_ROTATED([0, 4, 0])
-    
+
     pixel_min = 0
 
     theta_bins = 320
@@ -430,7 +430,7 @@ def make(
 
 
     Si_fraction = 0.2
-    
+
     # ================ Mixture sample ================
     Sample_inc_vernite = instrument.add_component(
         "Sample_inc_vernite", "Incoherent_process", before="start_union_geometries"
@@ -457,7 +457,7 @@ def make(
     )
     Sample_pow_Si.reflections = '"Si.laz"'
     Sample_pow_Si.packing_factor = Si_fraction
-    
+
     Sample = instrument.add_component(
         "Sample", "Union_make_material", before="start_union_geometries"
     )
@@ -498,8 +498,8 @@ def make(
     Fe.process_string = '"Fe_inc,Fe_pow"'
     Fe.my_absorption = 100 * mult*2.56 / Fe_inc.unit_cell_volume
 
-    
-    # ========================================================    
+
+    # ========================================================
     radius = instrument.add_parameter("sample_radius", value=0.01)
     height = instrument.add_parameter("sample_height", value=0.05)
 
@@ -580,7 +580,7 @@ def make(
         number_of_activations = "sample_fe_active"
     )
 
-    
+
     # remember number of scattering events
     instrument.add_user_var("double", "n_scattering_sample")
     # Always keep the sample as the first geometry (0 is the surrounding vacuum)
