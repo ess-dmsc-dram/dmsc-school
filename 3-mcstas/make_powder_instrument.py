@@ -155,8 +155,6 @@ def add_backend_classic(instrument, include_event_monitors=True):
     # Classic detectors
 
     rotated_sample_position = instrument.add_component("rotated_sample_position", "Arm", RELATIVE="sample_position")
-    #rotated_sample_position.set_AT([0.5, 0, 0])
-    #rotated_sample_position.set_ROTATED([0, 4, 0])
 
     pixel_min = 0
 
