@@ -444,7 +444,6 @@ def make(
                 "sigma": 4.94,
                 "unit_cell_volume": 27.66,
                 "mult": 2,
-                "reflections": None,
                 "absorption": 5.08,
                 "fraction": 1.0,
             },
@@ -483,7 +482,8 @@ def make(
                     before="start_union_geometries",
                 )
                 pow_process.reflections = params["reflections"]
-                strings[-1] += f",{key}_{params['name']}_pow"
+                pow_process.packing_factor = params["fraction"]
+                strings.append(f"{key}_{params['name']}_pow")
 
         sample_material = instrument.add_component(
             f"{key}", "Union_make_material", before="start_union_geometries"
