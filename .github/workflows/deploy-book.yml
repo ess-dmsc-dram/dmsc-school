@@ -62,15 +62,15 @@ jobs:
         run: |
           jupyter-book build -W --keep-going .
 
-      - name: Check links
-        if: github.event_name != 'workflow_dispatch' || inputs.linkcheck
-        run: |
-          jupyter-book build -W --keep-going --builder linkcheck .
-
       - uses: actions/upload-artifact@v4
         with:
           name: dmsc-school-book
           path: ./_build/html
+
+      - name: Check links
+        if: github.event_name != 'workflow_dispatch' || inputs.linkcheck
+        run: |
+          jupyter-book build -W --keep-going --builder linkcheck .
 
   deploy-book:
     needs: [build-book, formatting]
