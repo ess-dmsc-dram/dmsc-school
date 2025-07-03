@@ -558,7 +558,7 @@ def make(
             priority=i + 5,  # Ensure unique priorities
             number_of_activations=f"{option}_active",
         )
-        if i == len(options)-1: 
+        if i == len(options)-1:
             sample.set_SPLIT(100)
 
     # remember number of scattering events
