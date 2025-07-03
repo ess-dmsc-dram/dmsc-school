@@ -158,11 +158,11 @@ def add_backend_classic(instrument, include_event_monitors=True):
 
     theta_bins = 320
     ybins = 20
-    monitor = instrument.add_component("Banana_large", "Monitor_nD")
+    monitor = instrument.add_component("Banana_large_0", "Monitor_nD")
     monitor.set_parameters(
         radius=3.5,
         yheight="detector_height",
-        filename='"direct_event_banana_signal_large.dat"',
+        filename='"direct_event_banana_signal_large_0.dat"',
         restore_neutron=1,
         user1='"source_time"',
         # user2='"n_scattering_sample"'
@@ -175,19 +175,19 @@ def add_backend_classic(instrument, include_event_monitors=True):
     # increment pixel id using the given detector resolution
     pixel_min += theta_bins * ybins + 10
 
-    theta_bins = 60
+    theta_bins = 320
     ybins = 20
-    monitor = instrument.add_component("Banana_small", "Monitor_nD")
+    monitor = instrument.add_component("Banana_large_1", "Monitor_nD")
     monitor.set_parameters(
         radius=3.5,
         yheight="detector_height",
-        filename='"direct_event_banana_signal_small.dat"',
+        filename='"direct_event_banana_signal_large_1.dat"',
         restore_neutron=1,
         user1='"source_time"',
         # user2='"n_scattering_sample"'
     )
-    # monitor.options = f'"banana theta bins={theta_bins} limits=[-40, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, user2, list all neutrons"'
-    monitor.options = f'"banana theta bins={theta_bins} limits=[-170, -140] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, list all neutrons"'
+
+    monitor.options = f'"banana theta bins={theta_bins} limits=[-170, -10] y bins={ybins}, neutron pixel min={pixel_min}, t, v, l, user1, list all neutrons"'
     monitor.set_AT(0.0, RELATIVE="sample_position")
     # monitor.set_GROUP("detectors")
 
@@ -298,7 +298,6 @@ def add_backend_union(instrument, include_event_monitors=True):
     )
 
     instrument.add_component("master", "Union_master")
-
     instrument.add_component("stop", "Union_stop")
 
 
@@ -341,7 +340,8 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
     if detectors == "classic":
         instrument.add_component("init", "Union_init")
         instrument.add_component("start_union_geometries", "Arm")
-        instrument.add_component("master", "Union_master")
+        union_master = instrument.add_component("master", "Union_master")
+        union_master.set_SPLIT(100)
         instrument.add_component("stop", "Union_stop")
 
         add_backend_classic(instrument, include_event_monitors=include_event_monitors)
@@ -411,9 +411,9 @@ def make(
             {
                 "name": "Si",
                 "sigma": 0.004,
-                "unit_cell_volume": 160.15,
+                "unit_cell_volume": 160.23,
                 "mult": 8,
-                "reflections": '"Si.laz"',
+                "reflections": '"si.laz"',
                 "absorption": 0.171,
                 "fraction": 1.0,
             },
@@ -424,18 +424,38 @@ def make(
                 "sigma": 3.4176,
                 "unit_cell_volume": 1079.1,
                 "mult": 4,
-                "reflections": '"Na2Ca3Al2F14.laz"',
+                "reflections": '"ncaf.laz"',
                 "absorption": 2.9464,
-                "fraction": 0.8,
+                "fraction": 0.95,
             },
             {
                 "name": "Si",
                 "sigma": 0.004,
-                "unit_cell_volume": 160.15,
+                "unit_cell_volume": 160.23,
                 "mult": 8,
-                "reflections": '"Si.laz"',
+                "reflections": '"si.laz"',
                 "absorption": 0.171,
-                "fraction": 0.2,
+                "fraction": 0.05,
+            },
+        ],
+        "sample_3": [
+            {
+                "name": "La0_5Ba0_5CoO3",
+                "sigma": 5.7581,
+                "unit_cell_volume": 58.9047,
+                "mult": 1,  # set to 1 because mult is already included in absorption and sigma for .laz by ncrystal
+                "reflections": '"lbco.laz"',
+                "absorption": 42.21557,
+                "fraction": 0.95,
+            },
+            {
+                "name": "Si",
+                "sigma": 0.004,
+                "unit_cell_volume": 160.23,
+                "mult": 8,
+                "reflections": '"si.laz"',
+                "absorption": 0.171,
+                "fraction": 0.05,
             },
         ],
         "sample_Vanadium": [
@@ -496,8 +516,8 @@ def make(
             for params in item
         )
 
-    radius = instrument.add_parameter("sample_radius", value=0.01)
-    height = instrument.add_parameter("sample_height", value=0.05)
+    radius = instrument.add_parameter("sample_radius", value=0.005)
+    height = instrument.add_parameter("sample_height", value=0.02)
 
     options = list(sample_library.keys())
 
