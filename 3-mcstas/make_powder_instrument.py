@@ -298,7 +298,6 @@ def add_backend_union(instrument, include_event_monitors=True):
     )
 
     instrument.add_component("master", "Union_master")
-
     instrument.add_component("stop", "Union_stop")
 
 
@@ -341,7 +340,8 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
     if detectors == "classic":
         instrument.add_component("init", "Union_init")
         instrument.add_component("start_union_geometries", "Arm")
-        instrument.add_component("master", "Union_master")
+        union_master = instrument.add_component("master", "Union_master")
+        union_master.set_SPLIT(100)
         instrument.add_component("stop", "Union_stop")
 
         add_backend_classic(instrument, include_event_monitors=include_event_monitors)
@@ -558,8 +558,6 @@ def make(
             priority=i + 5,  # Ensure unique priorities
             number_of_activations=f"{option}_active",
         )
-        if i == len(options)-1:
-            sample.set_SPLIT(100)
 
     # remember number of scattering events
     instrument.add_user_var("double", "n_scattering_sample")
