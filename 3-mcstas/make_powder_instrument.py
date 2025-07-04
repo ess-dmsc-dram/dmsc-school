@@ -14,15 +14,15 @@ def add_guide(instrument, source):
     :return: McStasScript instrument object
     """
     source_to_feeder = 2.0
-    
+
     # Position of pulse shaping chopper, placed in the choppers.py file
     PSC_position = instrument.add_component("PSC_position", "Arm")
     PSC_position.set_AT(source_to_psc, RELATIVE=source)
 
-    
+
     instrument.add_declare_var("double", "focus_out_offset", value=-0.17)
-    instrument.add_declare_var("double", "focus_in_offset", value=0.0)    
-    
+    instrument.add_declare_var("double", "focus_in_offset", value=0.0)
+
 
     # half ellipse
     focusing = instrument.add_component("focusing", "Elliptic_guide_gravity")
@@ -42,7 +42,7 @@ def add_guide(instrument, source):
     )
     source_to_focusing = 160 - 10
     focusing.set_AT([0,0, "160 - guide_length"], RELATIVE=source)
-    
+
     source.set_parameters(
         dist="160 - guide_length", focus_xw=focusing.xwidth, focus_yh=focusing.yheight
     )
@@ -53,10 +53,10 @@ def add_guide(instrument, source):
 
 
 def add_choppers(instrument):
-    
+
     instrument.add_parameter("double", "enable_chopper", value=0,
                              comment="1 to enable chopper, 0 to disable.")
-    
+
     instrument.add_parameter(
         "chopper_wavelength_center", value=2.5, comment="Center of wavelength band [AA]"
     )
@@ -94,7 +94,7 @@ def add_choppers(instrument):
     )
     chopper.delay = delay_var  # Declare variable object
     chopper.set_WHEN("enable_chopper")
-    
+
 
 
 def add_backend_classic(instrument, include_event_monitors=True):
