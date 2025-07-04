@@ -19,10 +19,8 @@ def add_guide(instrument, source):
     PSC_position = instrument.add_component("PSC_position", "Arm")
     PSC_position.set_AT(source_to_psc, RELATIVE=source)
 
-
     instrument.add_declare_var("double", "focus_out_offset", value=-0.17)
     instrument.add_declare_var("double", "focus_in_offset", value=0.0)
-
 
     # half ellipse
     focusing = instrument.add_component("focusing", "Elliptic_guide_gravity")
@@ -38,10 +36,10 @@ def add_guide(instrument, source):
     )
     focusing.set_parameters(
         linxw=f"guide_length + {focusing.loutxw} + focus_in_offset",
-        linyh=f"guide_length + {focusing.loutyh} + focus_in_offset"
+        linyh=f"guide_length + {focusing.loutyh} + focus_in_offset",
     )
     source_to_focusing = 160 - 10
-    focusing.set_AT([0,0, "160 - guide_length"], RELATIVE=source)
+    focusing.set_AT([0, 0, "160 - guide_length"], RELATIVE=source)
 
     source.set_parameters(
         dist="160 - guide_length", focus_xw=focusing.xwidth, focus_yh=focusing.yheight
@@ -49,13 +47,16 @@ def add_guide(instrument, source):
 
     # guide end is used by backend to place sample position
     guide_end = instrument.add_component("guide_end", "Arm")
-    guide_end.set_AT([0,0,"guide_length"], RELATIVE=focusing)
+    guide_end.set_AT([0, 0, "guide_length"], RELATIVE=focusing)
 
 
 def add_choppers(instrument):
-
-    instrument.add_parameter("double", "enable_chopper", value=0,
-                             comment="1 to enable chopper, 0 to disable.")
+    instrument.add_parameter(
+        "double",
+        "enable_chopper",
+        value=0,
+        comment="1 to enable chopper, 0 to disable.",
+    )
 
     instrument.add_parameter(
         "chopper_wavelength_center", value=2.5, comment="Center of wavelength band [AA]"
@@ -94,7 +95,6 @@ def add_choppers(instrument):
     )
     chopper.delay = delay_var  # Declare variable object
     chopper.set_WHEN("enable_chopper")
-
 
 
 def add_backend_classic(instrument, include_event_monitors=True):
@@ -330,7 +330,7 @@ def make(
         acc_power=2,
         tfocus_dist="6.5*enable_chopper",
         tfocus_time="delay*enable_chopper",
-        tfocus_width="15.0/360.0/14/frequency_multiplier*enable_chopper"
+        tfocus_width="15.0/360.0/14/frequency_multiplier*enable_chopper",
     )
 
     # Have particles remember their time leaving the source
@@ -367,27 +367,27 @@ def make(
                 "fraction": 1.0,
             },
         ],
+        # "sample_2": [
+        #     {
+        #         "name": "Na2Ca3Al2F14",
+        #         "sigma": 3.4176,
+        #         "unit_cell_volume": 1079.1,
+        #         "mult": 4,
+        #         "reflections": '"ncaf.laz"',
+        #         "absorption": 2.9464,
+        #         "fraction": 0.95,
+        #     },
+        #     {
+        #         "name": "Si",
+        #         "sigma": 0.004,
+        #         "unit_cell_volume": 160.23,
+        #         "mult": 8,
+        #         "reflections": '"si.laz"',
+        #         "absorption": 0.171,
+        #         "fraction": 0.05,
+        #     },
+        # ],
         "sample_2": [
-            {
-                "name": "Na2Ca3Al2F14",
-                "sigma": 3.4176,
-                "unit_cell_volume": 1079.1,
-                "mult": 4,
-                "reflections": '"ncaf.laz"',
-                "absorption": 2.9464,
-                "fraction": 0.95,
-            },
-            {
-                "name": "Si",
-                "sigma": 0.004,
-                "unit_cell_volume": 160.23,
-                "mult": 8,
-                "reflections": '"si.laz"',
-                "absorption": 0.171,
-                "fraction": 0.05,
-            },
-        ],
-        "sample_3": [
             {
                 "name": "La0_5Ba0_5CoO3",
                 "sigma": 5.7581,
