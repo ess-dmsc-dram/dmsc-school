@@ -15,104 +15,49 @@ def add_guide(instrument, source):
     """
     source_to_feeder = 2.0
 
-    feeder = instrument.add_component("feeder", "Elliptic_guide_gravity")
-    feeder.set_parameters(
-        xwidth=0.08,
-        yheight=0.06,
-        dimensionsAt='"entrance"',
-        l=4.3,
-        m=3,
-        alpha=3.2,
-        linxw=4.5,
-        linyh=2.05,
-        loutxw=0.4,
-        loutyh=0.3,
-    )
-    feeder.set_AT(source_to_feeder, RELATIVE=source)
-
-    # Update the source focus parameters to match the first guide element
-    source.set_parameters(
-        dist=source_to_feeder, focus_xw=feeder.xwidth, focus_yh=1.2 * feeder.yheight
-    )  # larger focus_yh due to gravity
-
     # Position of pulse shaping chopper, placed in the choppers.py file
     PSC_position = instrument.add_component("PSC_position", "Arm")
     PSC_position.set_AT(source_to_psc, RELATIVE=source)
 
-    # Define cross section of curved section
-    curved_section_width = 0.08
-    curved_section_height = 0.12
-
-    # half ellipse
-    expanding = instrument.add_component("expanding", "Elliptic_guide_gravity")
-    expanding.set_parameters(
-        xwidth=curved_section_width,
-        yheight=curved_section_height,
-        dimensionsAt='"exit"',
-        l=10,
-        m=3,
-        alpha=3.2,
-        linxw=1.2,
-        linyh=0.4,
-    )
-    expanding.set_parameters(
-        loutxw=expanding.l + expanding.linxw, loutyh=expanding.l + expanding.linyh
-    )
-    expanding.set_AT(0.05, RELATIVE=PSC_position)
-
-    # Curved section
-    curved_length = 160 - 6.55 - 10 - 10  # full length - chopper
-    total_rotation = 1  # total rotation in [deg]
-    n_segments = 12
-    segment_length = curved_length / n_segments
-    segment_rotation = total_rotation / n_segments
-    instrument.add_parameter("guide_curve_deg", value=1.0)
-
-    previous_component = expanding
-    previous_length = expanding.l
-    for index in range(n_segments):
-        guide = instrument.add_component("guide_" + str(index), "Guide_gravity")
-        guide.set_parameters(
-            w1=curved_section_width,
-            h1=curved_section_height,
-            l=segment_length,
-            m=1.5,
-            alpha=3.0,
-        )
-        guide.set_AT(
-            previous_length + 3e-3, RELATIVE=previous_component
-        )  # Leave 3 mm length between segments
-        guide.set_ROTATED(
-            [0, f"guide_curve_deg/{n_segments:.1f}", 0], RELATIVE=previous_component
-        )
-
-        # In order to place the next guide element relative to this one, we save it as previous
-        previous_component = guide
-        previous_length = guide.l
+    instrument.add_declare_var("double", "focus_out_offset", value=-0.17)
+    instrument.add_declare_var("double", "focus_in_offset", value=0.0)
 
     # half ellipse
     focusing = instrument.add_component("focusing", "Elliptic_guide_gravity")
     focusing.set_parameters(
-        xwidth=curved_section_width,
-        yheight=curved_section_height,
+        xwidth=instrument.add_declare_var("double", "guide_width", value=0.06),
+        yheight=instrument.add_declare_var("double", "guide_height", value=0.095),
         dimensionsAt='"entrance"',
-        l=10,
-        m=3,
+        l=instrument.add_declare_var("double", "guide_length", value=5.0),
+        m=instrument.add_declare_var("double", "guide_m", value=2.6),
         alpha=3.2,
-        loutxw=guide_to_sample + 0.05,
-        loutyh=guide_to_sample + 0.05,
+        loutxw=f"{guide_to_sample} + focus_out_offset",
+        loutyh=f"{guide_to_sample} + focus_out_offset",
     )
     focusing.set_parameters(
-        linxw=focusing.l + focusing.loutxw, linyh=focusing.l + focusing.loutyh
+        linxw=f"guide_length + {focusing.loutxw} + focus_in_offset",
+        linyh=f"guide_length + {focusing.loutyh} + focus_in_offset",
     )
-    focusing.set_AT(previous_length + 3e-3, RELATIVE=previous_component)
+    source_to_focusing = 160 - 10
+    focusing.set_AT([0, 0, "160 - guide_length"], RELATIVE=source)
+
+    source.set_parameters(
+        dist="160 - guide_length", focus_xw=focusing.xwidth, focus_yh=focusing.yheight
+    )
 
     # guide end is used by backend to place sample position
     guide_end = instrument.add_component("guide_end", "Arm")
-    guide_end.set_AT(focusing.l, RELATIVE=focusing)
+    guide_end.set_AT([0, 0, "guide_length"], RELATIVE=focusing)
 
 
 def add_choppers(instrument):
+    instrument.add_parameter(
+        "double",
+        "enable_chopper",
+        value=0,
+        comment="1 to enable chopper, 0 to disable.",
+    )
+
     instrument.add_parameter(
         "chopper_wavelength_center", value=2.5, comment="Center of wavelength band [AA]"
     )
@@ -149,6 +94,7 @@ def add_choppers(instrument):
         "frequency_multiplier*14.0"  # Calculation performed in McStas instrument file
     )
     chopper.delay = delay_var  # Declare variable object
+    chopper.set_WHEN("enable_chopper")
 
 
 def add_backend_classic(instrument, include_event_monitors=True):
@@ -382,11 +328,14 @@ def make(
         Lmax=l_max,
         n_pulses=n_pulses,
         acc_power=2,
+        tfocus_dist="6.5*enable_chopper",
+        tfocus_time="delay*enable_chopper",
+        tfocus_width="15.0/360.0/14/frequency_multiplier*enable_chopper",
     )
 
     # Have particles remember their time leaving the source
     instrument.add_user_var("double", "source_time")
-    Source.append_EXTEND("source_time = t;")
+    Source.append_EXTEND("source_time = t; p*=2E2; // Compensate for lack of guide")
 
     # Source.append_EXTEND("t = t/100 + 0.5*2.86E-3;") # Makes it a short pulse source for testing
 
@@ -418,27 +367,27 @@ def make(
                 "fraction": 1.0,
             },
         ],
+        # "sample_2": [
+        #     {
+        #         "name": "Na2Ca3Al2F14",
+        #         "sigma": 3.4176,
+        #         "unit_cell_volume": 1079.1,
+        #         "mult": 4,
+        #         "reflections": '"ncaf.laz"',
+        #         "absorption": 2.9464,
+        #         "fraction": 0.95,
+        #     },
+        #     {
+        #         "name": "Si",
+        #         "sigma": 0.004,
+        #         "unit_cell_volume": 160.23,
+        #         "mult": 8,
+        #         "reflections": '"si.laz"',
+        #         "absorption": 0.171,
+        #         "fraction": 0.05,
+        #     },
+        # ],
         "sample_2": [
-            {
-                "name": "Na2Ca3Al2F14",
-                "sigma": 3.4176,
-                "unit_cell_volume": 1079.1,
-                "mult": 4,
-                "reflections": '"ncaf.laz"',
-                "absorption": 2.9464,
-                "fraction": 0.95,
-            },
-            {
-                "name": "Si",
-                "sigma": 0.004,
-                "unit_cell_volume": 160.23,
-                "mult": 8,
-                "reflections": '"si.laz"',
-                "absorption": 0.171,
-                "fraction": 0.05,
-            },
-        ],
-        "sample_3": [
             {
                 "name": "La0_5Ba0_5CoO3",
                 "sigma": 5.7581,
