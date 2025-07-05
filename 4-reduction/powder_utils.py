@@ -23,7 +23,7 @@ def load_powder(
     with mcstastox.Read(path) as file:
         events = file.export_scipp_simple(source_name, sample_name)
 
-        detector_names = ["Banana_large", "Banana_small"]
+        detector_names = ["Banana_large_0", "Banana_large_1"]
         var_names = {
             "sim_wavelength": {"key": "L", "unit": "Å"},
             "sim_speed": {"key": "v", "unit": "m/s"},

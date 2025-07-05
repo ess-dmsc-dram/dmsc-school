@@ -16,13 +16,13 @@ def plot(
     event2 = ms.name_search("Banana_large_1", data)
 
     bins1 = (200, t_bins)
-    bins2 = (100, t_bins)
+    bins2 = (200, t_bins)
 
     ev2 = event2.make_2d(var1, var2, n_bins=bins2)
-    ev2.set_xlabel('theta [deg]')
+    ev2.set_xlabel("theta [deg]")
 
     ev1 = event1.make_2d(var1, var2, n_bins=bins1)
-    ev1.set_xlabel('theta [deg]')
+    ev1.set_xlabel("theta [deg]")
 
     ms.make_sub_plot(
         [
