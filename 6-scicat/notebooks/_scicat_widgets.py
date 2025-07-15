@@ -9,7 +9,7 @@ from IPython.display import display
 from dataclasses import dataclass, replace
 from types import MappingProxyType
 from collections.abc import Callable, Mapping
-from scitacean import Dataset, DatasetType
+from scitacean import Dataset, DatasetType, RemotePath
 import os
 
 default_layout = Layout(width="auto")
@@ -535,6 +535,14 @@ def _fallback_field_widget_factory(
             style=default_style,
         )
         return CommaSeparatedTextBox(text)
+    elif isinstance(field_spec.default_value, RemotePath):
+        return widgets.Text(
+            value=field_spec.default_value.posix,
+            description=field_spec.name,
+            disabled=field_spec.read_only,
+            layout=Layout(width="100%", margin="5px"),
+            style=default_style,
+        )
     else:
         return widgets.Text(
             value=str(field_spec.default_value or ""),
