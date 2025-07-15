@@ -1,11 +1,10 @@
-import getpass
 import pathlib
-import os
 
 from typing import Any
 from functools import partial
 from ipywidgets import widgets
 from ipywidgets import Layout
+from IPython.display import display
 
 default_layout = Layout(width="auto")
 default_style = {"description_width": "auto"}
@@ -46,19 +45,17 @@ class NotSoLongButNotShortText(widgets.HBox):
     def __init__(
         self, *args, entry_widget: type[widgets.Widget] = widgets.Text, **kwargs: Any
     ):
-        self.text = entry_widget(
-            *args, **{**kwargs, "layout": Layout(width="72%"), "style": default_style}
-        )
+        self.text = entry_widget(*args, **kwargs)
         self.paste_button = widgets.Button(
             description="Paste",
             tooltip="Paste from clipboard",
-            layout=Layout(width="14%"),
+            layout=Layout(width="80px"),
             style=default_style,
         )
         self.copy_button = widgets.Button(
             description="Copy",
             tooltip="Copy to clipboard",
-            layout=Layout(width="14%"),
+            layout=Layout(width="80px"),
             style=default_style,
         )
 
@@ -81,6 +78,21 @@ class NotSoLongButNotShortText(widgets.HBox):
     def value(self, new_value: str) -> None:
         self.text.value = new_value
 
+    @property
+    def disabled(self) -> bool:
+        """
+        Get the enabled state of the text box.
+        """
+        return self.text.disabled
+
+    @disabled.setter
+    def disabled(self, new_value: bool) -> None:
+        """
+        Set the enabled state of the text box.
+        If new_value is True, the text box is enabled; otherwise, it is disabled.
+        """
+        self.text.disabled = new_value
+
     def __str__(self) -> str:
         return self.text
 
@@ -97,33 +109,90 @@ def _is_debugging() -> bool:
     return _DEBUGGING_FILE_PATH.exists()
 
 
-class CredentialBox(widgets.VBox):
+def _get_default_address() -> str:
+    """
+    Get the default address and token for the SciCat widget.
+    If debugging is enabled, it reads from a file; otherwise, it uses a staging address.
+    """
+    if _is_debugging():
+        import json
+
+        data = json.loads(_DEBUGGING_FILE_PATH.read_text())
+        return data.get("address", "http://backend.localhost/api/v3")
+    else:
+        return "https://staging.scicat.ess.eu/api/v3"
+
+
+def _get_default_token() -> str:
+    """
+    Get the default address and token for the SciCat widget.
+    If debugging is enabled, it reads from a file; otherwise, it uses a staging address.
+    """
+    if _is_debugging():
+        import json
+
+        data = json.loads(_DEBUGGING_FILE_PATH.read_text())
+        return data.get("token", "")
+    else:
+        return ""
+
+
+class AddressBox(widgets.HBox):
     def __init__(self):
-        if _is_debugging():
-            import json
-
-            default_address = "http://backend.localhost/api/v3"
-            default_token = json.loads(_DEBUGGING_FILE_PATH.read_text()).get(
-                "token", ""
-            )
-        else:
-            default_address = "https://staging.scicat.ess.eu/api/v3"
-            default_token = ""
-
+        default_address = _get_default_address()
+        self.checkbox = widgets.Checkbox(
+            value=False,
+            description="Enable Editing",
+            layout=Layout(width="20%"),
+            style=default_style,
+        )
+        layout = Layout(width="80%", min_width="300px")
         self.address = NotSoLongButNotShortText(
             default_address,
             description="Scicat Address",
+            layout=layout,
+            style=default_style,
+            disabled=True,  # Disable editing the address
+        )
+
+        def toggle_editing(_: Any) -> None:
+            """
+            Toggle the enabled state of the address text box based on the checkbox.
+            If the checkbox is checked, the address text box is enabled; otherwise, it is disabled.
+            """
+            self.address.disabled = not self.checkbox.value
+
+        self.checkbox.observe(toggle_editing, names="value")
+        super().__init__(
+            children=[
+                self.address,
+                self.checkbox,
+            ],
             layout=default_layout,
             style=default_style,
-            enabled=False,  # Disable editing the address
         )
+
+    @property
+    def value(self) -> str:
+        """
+        Get the current value of the address.
+        If the checkbox is checked, it returns the address; otherwise, it returns an empty string.
+        """
+        return self.address.value
+
+
+class CredentialBox(widgets.VBox):
+    def __init__(self):
+        default_token = _get_default_token()
+
+        self.address_box = AddressBox()
         self.token = NotSoLongButNotShortText(
             value=default_token,
             placeholder="Enter token copied from SciCat",
             description="Scicat Token",
         )
         super().__init__(
-            children=[self.address, self.token],
+            children=[self.address_box, self.token],
             titles=["Credentials"],
             layout=default_layout,
             style=default_style,
@@ -222,7 +291,7 @@ class ScicatWidget(widgets.VBox):
         credential_box: CredentialBox,
         output_widget: widgets.Output,
         download_widget: DownloadBox | None = None,
-        upload_widget=None,  # Placeholder for UploadBox
+        upload_widget=None,
         download_registry: dict | None = None,
     ):
         self.download_registry = download_registry or {}
@@ -268,7 +337,9 @@ class ScicatWidget(widgets.VBox):
         )
 
 
-def download_widget(download_registry: dict | None = None):
+def download_widget(
+    download_registry: dict | None = None, show: bool = True
+) -> ScicatWidget:
     download_registry = download_registry or {}
     credential_box = CredentialBox()
     output = widgets.Output(
@@ -290,10 +361,10 @@ def download_widget(download_registry: dict | None = None):
         download_widget=DownloadBox(
             credential_box=credential_box, output_widget=output
         ),
-        upload_widget=None,  # Placeholder for UploadBox
         download_registry=download_registry,
     )
-    display(widget)
+    if show:
+        display(widget)
     return widget
 
 
