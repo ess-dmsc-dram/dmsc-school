@@ -6,6 +6,8 @@ from ipywidgets import widgets
 from ipywidgets import Layout
 from IPython.display import display
 
+from collections.abc import Callable
+
 default_layout = Layout(width="auto")
 default_style = {"description_width": "auto"}
 
@@ -201,7 +203,11 @@ class CredentialBox(widgets.VBox):
 
 class DownloadBox(widgets.VBox):
     def __init__(
-        self, credential_box: CredentialBox, output_widget: widgets.Output, **kwargs
+        self,
+        credential_box: CredentialBox,
+        output_widget: widgets.Output,
+        download_registry: dict | None = None,
+        **kwargs,
     ):
         self.output = output_widget
         self.credential_box = credential_box
@@ -224,6 +230,7 @@ class DownloadBox(widgets.VBox):
             layout=Layout(width="100%"),
             style=default_style,
         )
+        self.download_registry = download_registry or {}
 
         def add_action(_) -> None:
             """
@@ -284,6 +291,125 @@ class DownloadBox(widgets.VBox):
         self.children = (*self.children, download_target_widget)
 
 
+class UploadBox(widgets.VBox):
+    def __init__(
+        self, credential_box: CredentialBox, output_widget: widgets.Output, **kwargs
+    ):
+        default_button_layout = Layout(width="auto", margin="10px")
+        self.output = output_widget
+        self.credential_box = credential_box
+        self.start_button = widgets.Button(
+            description="New Dataset",
+            tooltip="Start creating a new dataset to upload",
+            layout=default_button_layout,
+            style=default_style,
+        )
+        self.start_button.button_style = "info"
+        self.upload_button = widgets.Button(
+            description="Upload",
+            tooltip="Upload the dataset",
+            layout=default_button_layout,
+            style=default_style,
+        )
+        self.upload_button.button_style = "primary"
+        self.upload_button.disabled = True
+
+        self.reset_button = widgets.Button(
+            description="Reset",
+            tooltip="Reset the dataset fields",
+            layout=default_button_layout,
+            style=default_style,
+        )
+        self.reset_button.button_style = "warning"
+
+        # Define the action for buttons
+        self.start_button.on_click(self._create_new_dataset)
+        self.reset_button.on_click(self.reset)
+
+        super().__init__([self.start_button], **kwargs)
+
+    def _create_new_dataset(self, _) -> None:
+        """
+        Action to perform when the 'New Dataset' button is clicked.
+        It should initialize a new dataset for upload.
+        """
+        with self.output:
+            print("Creating a new dataset for upload...")
+
+        self.upload_button.disabled = False
+        except_for_myself = [
+            child for child in self.children if child is not self.start_button
+        ]
+        self.children = (*except_for_myself, self.reset_button, self.upload_button)
+
+    def confirm_choice(
+        self,
+        *,
+        callback_for_confirm: Callable | None = None,
+        callback_for_cancel: Callable | None = None,
+        message: str = "Are you sure you want to proceed?",
+    ) -> None:
+        button_layout = Layout(width="50%", height="150px", margin="20px")
+        button_style = {"font_weight": "bold", "font_size": "28px"}
+        confirm_button = widgets.Button(
+            description="Confirm",
+            tooltip="Go ahead!",
+            layout=button_layout,
+            style=button_style,
+        )
+        confirm_button.button_style = "primary"
+        cancel_button = widgets.Button(
+            description="Cancel",
+            tooltip="Cancel and go back to the previous page.",
+            layout=button_layout,
+            style=button_style,
+        )
+        cancel_button.button_style = "warning"
+
+        message_widget = widgets.Label(
+            value=f"\n \n {message}",
+            layout=Layout(width="auto", display="flex", justify_content="center"),
+            style={
+                "font_weight": "bold",
+                "font_size": "24px",
+                "border": "1px solid red",
+            },
+        )
+        button_box = widgets.HBox(
+            children=[cancel_button, confirm_button],
+            layout=Layout(width="100%", justify_content="center"),
+            style=default_style,
+        )
+        confirm_box = widgets.VBox(
+            children=[message_widget, button_box],
+            layout=Layout(width="100%", justify_content="center"),
+            style=default_style,
+        )
+        original_children = self.children
+        self.children = (confirm_box,)
+
+        def confirm_action(_) -> None:
+            if callback_for_confirm is not None:
+                callback_for_confirm()
+
+        def cancel_action(_) -> None:
+            self.children = original_children
+            if callback_for_cancel is not None:
+                callback_for_cancel()
+
+        confirm_button.on_click(confirm_action)
+        cancel_button.on_click(cancel_action)
+
+    def reset(self, _) -> None:
+        """
+        Reset the upload box to its initial state.
+        This should be called when the 'Reset' button is clicked.
+        """
+        self.confirm_choice(
+            message="Are you sure you want to RESET all dataset fields?"
+        )
+
+
 class ScicatWidget(widgets.VBox):
     def __init__(
         self,
@@ -291,10 +417,8 @@ class ScicatWidget(widgets.VBox):
         credential_box: CredentialBox,
         output_widget: widgets.Output,
         download_widget: DownloadBox | None = None,
-        upload_widget=None,
-        download_registry: dict | None = None,
+        upload_widget: UploadBox | None = None,
     ):
-        self.download_registry = download_registry or {}
         self.upload_widget = upload_widget
         self.download_widget = download_widget
         self.credentials = credential_box
@@ -359,9 +483,35 @@ def download_widget(
         credential_box=credential_box,
         output_widget=output,
         download_widget=DownloadBox(
-            credential_box=credential_box, output_widget=output
+            credential_box=credential_box,
+            output_widget=output,
+            download_registry=download_registry,
         ),
-        download_registry=download_registry,
+    )
+    if show:
+        display(widget)
+    return widget
+
+
+def upload_widget(show: bool = True) -> ScicatWidget:
+    credential_box = CredentialBox()
+    output = widgets.Output(
+        layout=Layout(
+            overflow="scroll hidden",
+            flex_flow="row",
+            width="auto",
+            display="flex",
+            height="auto",
+            marging="10px",
+            padding="10px",
+        ),
+        style=default_style,
+    )
+    output.layout.border = "1px solid black"
+    widget = ScicatWidget(
+        credential_box=credential_box,
+        output_widget=output,
+        upload_widget=UploadBox(credential_box=credential_box, output_widget=output),
     )
     if show:
         display(widget)
