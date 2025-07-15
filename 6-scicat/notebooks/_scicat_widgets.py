@@ -11,6 +11,7 @@ from types import MappingProxyType
 from collections.abc import Callable, Mapping
 from scitacean import Dataset, DatasetType, RemotePath
 import os
+from scitacean import Client
 
 default_layout = Layout(width="auto")
 default_style = {"description_width": "auto"}
@@ -234,6 +235,24 @@ class CredentialBox(widgets.VBox):
             style=default_style,
         )
 
+    @property
+    def client(self) -> Client:
+        """
+        Get the SciCat client based on the address and token.
+        This method creates a SciCat client using the provided address and token.
+        """
+        from scitacean.transfer.copy import CopyFileTransfer
+
+        return Client.from_token(
+            url=self.address_box.value,
+            token=self.token.value,
+            file_transfer=CopyFileTransfer(
+                source_folder=(
+                    _get_default_proposal_mount() / _get_current_proposal() / "derived"
+                ).as_posix()
+            ),
+        )
+
 
 class DownloadBox(widgets.VBox):
     def __init__(
@@ -412,7 +431,9 @@ def _replace_field(
     )
 
 
-_FieldWidgetFactoryRegistry: MappingProxyType[str, Callable] = MappingProxyType({})
+_FieldWidgetFactoryRegistry: MappingProxyType[
+    str, Callable[[Field], widgets.ValueWidget]
+] = MappingProxyType({})
 _SkippedFields: tuple[str, ...] = (
     "api_version",
     "classification",
@@ -514,7 +535,7 @@ class CommaSeparatedTextBox(widgets.HBox):
 
 def _fallback_field_widget_factory(
     field_spec: Field,
-) -> widgets.Widget:
+) -> widgets.ValueWidget:
     """
     Fallback factory for field widgets.
     It creates a Text widget for fields that do not have a specific factory.
@@ -557,19 +578,30 @@ class DatasetFieldWidget(widgets.VBox):
     """Dataset Field Widget for Uploading."""
 
     def __init__(self):
-        field_specs = {
+        self.field_specs = {
             field_spec.name: _replace_field(field_spec)
             for field_spec in Dataset._FIELD_SPEC
         }
-        field_widgets = {
+        self.field_widgets: dict[str, widgets.ValueWidget] = {
             field_name: _FieldWidgetFactoryRegistry.get(
                 field_name, _fallback_field_widget_factory
             )(field_spec)
-            for field_name, field_spec in field_specs.items()
+            for field_name, field_spec in self.field_specs.items()
             if field_name not in _SkippedFields
         }
 
-        super().__init__([widgets.Box([wg]) for wg in field_widgets.values()])
+        super().__init__([widgets.Box([wg]) for wg in self.field_widgets.values()])
+
+    @property
+    def dataset(self) -> Dataset:
+        """Convert the field widgets to a Dataset instance.
+        This method collects the values from the field widgets and creates a Dataset.
+        """
+        field_values = {
+            field_name: widget.value
+            for field_name, widget in self.field_widgets.items()
+        }
+        return Dataset(**field_values)
 
 
 class UploadBox(widgets.VBox):
@@ -607,7 +639,9 @@ class UploadBox(widgets.VBox):
         # Define the action for buttons
         self.start_button.on_click(self._create_new_dataset)
         self.reset_button.on_click(self.reset)
-        self.dataset_field_widget = DatasetFieldWidget()
+        self.upload_button.on_click(self.upload)
+
+        self.dataset_field_widget: DatasetFieldWidget = DatasetFieldWidget()
         self.active_box = widgets.VBox(
             [
                 self.dataset_field_widget,
@@ -662,11 +696,7 @@ class UploadBox(widgets.VBox):
             else widgets.Label(
                 value=f"\n \n {message}",
                 layout=Layout(width="auto", display="flex", justify_content="center"),
-                style={
-                    "font_weight": "bold",
-                    "font_size": "24px",
-                    "border": "1px solid red",
-                },
+                style={"font_weight": "bold", "font_size": "24px"},
             )
         )
         button_box = widgets.HBox(
@@ -721,8 +751,31 @@ class UploadBox(widgets.VBox):
         Action to perform when the 'Upload' button is clicked.
         It should upload the dataset to SciCat.
         """
+        dataset = self.dataset_field_widget.dataset
+        dataset_html = widgets.HTML(dataset._repr_html_())
+        title = widgets.HTML("<h3>Dataset to Upload:</h3>")
+        warning_msg = widgets.Label(
+            value="This action cannot be undone!",
+            layout=Layout(width="auto", display="flex", justify_content="center"),
+            style={"font_weight": "bold", "font_size": "24px"},
+        )
+
+        def upload_action() -> None:
+            with self.output:
+                print("Uploading dataset to SciCat...")
+                try:
+                    client = self.credential_box.client
+                    client.upload_new_dataset_now(dataset)
+                    print("Dataset uploaded successfully!")
+                except Exception as e:
+                    print(f"Failed to upload dataset: {e}")
+
         self.confirm_choice(
-            message="Are you sure you want to UPLOAD this dataset?",
+            message=widgets.VBox(
+                children=[title, dataset_html, warning_msg],
+                layout=Layout(width="100%", justify_content="center"),
+            ),
+            callback_for_confirm=upload_action,
         )
 
 
