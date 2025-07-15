@@ -599,9 +599,10 @@ class UploadBox(widgets.VBox):
         # Define the action for buttons
         self.start_button.on_click(self._create_new_dataset)
         self.reset_button.on_click(self.reset)
+        self.dataset_field_widget = DatasetFieldWidget()
         self.active_box = widgets.VBox(
             [
-                DatasetFieldWidget(),
+                self.dataset_field_widget,
                 widgets.Box([self.reset_button, self.upload_button]),
             ],
             layout=Layout(width="auto"),
@@ -674,6 +675,7 @@ class UploadBox(widgets.VBox):
         self.children = (confirm_box,)
 
         def confirm_action(_) -> None:
+            self.children = original_children
             if callback_for_confirm is not None:
                 callback_for_confirm()
 
@@ -690,8 +692,20 @@ class UploadBox(widgets.VBox):
         Reset the upload box to its initial state.
         This should be called when the 'Reset' button is clicked.
         """
+
+        def reset_action() -> None:
+            with self.output:
+                print("Resetting all dataset fields to default values...")
+            # Reset the active box to the initial state
+            self.dataset_field_widget = DatasetFieldWidget()
+            self.active_box.children = [
+                self.dataset_field_widget,
+                widgets.Box([self.reset_button, self.upload_button]),
+            ]
+
         self.confirm_choice(
-            message="Are you sure you want to RESET all dataset fields?"
+            message="Are you sure you want to RESET all dataset fields?",
+            callback_for_confirm=reset_action,
         )
 
     def upload(self, _) -> None:
