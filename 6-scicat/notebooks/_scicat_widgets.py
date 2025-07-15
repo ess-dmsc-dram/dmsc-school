@@ -102,7 +102,7 @@ class CredentialBox(widgets.VBox):
         if _is_debugging():
             import json
 
-            default_address = "http://localhost/api/v3"
+            default_address = "http://backend.localhost/api/v3"
             default_token = json.loads(_DEBUGGING_FILE_PATH.read_text()).get(
                 "token", ""
             )
@@ -138,7 +138,9 @@ class DownloadBox(widgets.VBox):
         self.credential_box = credential_box
         self.pid_entry = widgets.Textarea(
             description="PID",
-            placeholder="Enter the PID of the dataset to download.\nSeparate multiple PIDs with space or newlines.",
+            placeholder="Enter the PID of the dataset to download.\n"
+            "Separate multiple PIDs with space or newlines.\n"
+            "Click 'Add' to add them to the download list below.",
             layout=Layout(width="80%"),
             style=default_style,
         )
