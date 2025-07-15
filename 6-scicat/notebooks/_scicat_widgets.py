@@ -9,9 +9,10 @@ from IPython.display import display
 from dataclasses import dataclass, replace
 from types import MappingProxyType
 from collections.abc import Callable, Mapping
-from scitacean import Dataset, DatasetType, RemotePath
+from scitacean import Client, Dataset, DatasetType, RemotePath
+
 import os
-from scitacean import Client
+import logging
 
 default_layout = Layout(width="auto")
 default_style = {"description_width": "auto"}
@@ -473,9 +474,11 @@ class CommaSeparatedText(widgets.Text):
 
 
 def _make_svg_label(
-    val_str: str, *, svg_height: int = 36, max_width: int = 150
+    val_str: str, *, svg_height: int = 36, max_value_length: int = 30
 ) -> widgets.HTML:
     val_str = val_str.strip()
+    if len(val_str) > max_value_length - 3:
+        val_str = val_str[: max_value_length - 3] + "..."
     svg_width = (len(val_str) * 8) + 10
     return widgets.HTML(
         value=f"""<svg width="{svg_width}" height="{svg_height}">
@@ -485,7 +488,7 @@ def _make_svg_label(
                 style="font-size: 14px; fill: #333;">{val_str}</text>
         </svg>""",
         layout=Layout(width="fit-content"),
-        style={"max_width": f"{max_width}px", "overflow": "hidden"},
+        style={"overflow": "hidden"},
     )
 
 
@@ -761,14 +764,15 @@ class UploadBox(widgets.VBox):
         )
 
         def upload_action() -> None:
+            logger = logging.getLogger("scicat-widget")
             with self.output:
-                print("Uploading dataset to SciCat...")
+                logger.info("Uploading dataset to SciCat...")
                 try:
                     client = self.credential_box.client
                     client.upload_new_dataset_now(dataset)
-                    print("Dataset uploaded successfully!")
+                    logger.info("Dataset uploaded successfully!")
                 except Exception as e:
-                    print(f"Failed to upload dataset: {e}")
+                    logger.info(f"Failed to upload dataset: {e}")
 
         self.confirm_choice(
             message=widgets.VBox(
@@ -837,13 +841,14 @@ def download_widget(
     credential_box = CredentialBox()
     output = widgets.Output(
         layout=Layout(
-            overflow="scroll hidden",
+            overflow="scroll",
             flex_flow="row",
             width="auto",
             display="flex",
             height="auto",
             marging="10px",
             padding="10px",
+            max_height="200px",
         ),
         style=default_style,
     )
@@ -863,16 +868,30 @@ def download_widget(
 
 
 def upload_widget(show: bool = True) -> ScicatWidget:
+    import logging
+
+    try:
+        from rich.logging import RichHandler
+
+        handler = RichHandler()
+    except ImportError:
+        handler = logging.StreamHandler()
+
+    logger = logging.getLogger("scicat-widget")
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
     credential_box = CredentialBox()
     output = widgets.Output(
         layout=Layout(
-            overflow="scroll hidden",
+            overflow="scroll",
+            overflow_y="auto",
             flex_flow="row",
             width="auto",
             display="flex",
             height="auto",
             marging="10px",
             padding="10px",
+            max_height="200px",
         ),
         style=default_style,
     )
