@@ -6,7 +6,11 @@ from ipywidgets import widgets
 from ipywidgets import Layout
 from IPython.display import display
 
-from collections.abc import Callable
+from dataclasses import dataclass, replace
+from types import MappingProxyType
+from collections.abc import Callable, Mapping
+from scitacean import Dataset, DatasetType
+import os
 
 default_layout = Layout(width="auto")
 default_style = {"description_width": "auto"}
@@ -137,6 +141,36 @@ def _get_default_token() -> str:
         return data.get("token", "")
     else:
         return ""
+
+
+def _get_default_proposal_mount() -> pathlib.Path:
+    """
+    Get the default proposal mount path for the SciCat widget.
+    If debugging is enabled, it reads from a file; otherwise, it uses a default path.
+    """
+    if _is_debugging():
+        import json
+
+        data = json.loads(_DEBUGGING_FILE_PATH.read_text())
+        return pathlib.Path(data.get("proposal_mount", "./myProposals/"))
+    else:
+        return pathlib.Path("/myProposals/")
+
+
+def _get_current_proposal() -> str:
+    proposal_mount = _get_default_proposal_mount()
+    if not proposal_mount.exists() or not proposal_mount.is_dir():
+        raise FileNotFoundError(
+            f"Proposal mount path {proposal_mount} does not exist. "
+            "Please check your SciCat configuration.\n"
+            "Cannot find the current proposal."
+        )
+    # Find the first subdirectory in the proposal mount path
+    sub_dirs = [sub_dir for sub_dir in proposal_mount.iterdir() if sub_dir.is_dir()]
+    if not sub_dirs:
+        return ""
+    # Return the name of the first subdirectory
+    return next(iter(sub_dirs)).name
 
 
 class AddressBox(widgets.HBox):
@@ -291,11 +325,250 @@ class DownloadBox(widgets.VBox):
         self.children = (*self.children, download_target_widget)
 
 
+@dataclass(frozen=True)
+class Field(Dataset.Field):
+    default_value: Any = None
+
+
+def _to_read_only(field: Dataset.Field) -> Dataset.Field:
+    return replace(field, read_only=True)
+
+
+_FieldReplacementRegistry: MappingProxyType[str, tuple[Callable, ...]] = (
+    MappingProxyType({"type": (_to_read_only,)})
+)
+
+
+def _make_default_dataset() -> Dataset:
+    my_name = os.environ.get("USER", "")
+    proposal_id = _get_current_proposal()
+    source_folder = pathlib.Path(
+        _get_default_proposal_mount() / proposal_id / "derived"
+    ).absolute()
+
+    return Dataset(
+        type=DatasetType.DERIVED,
+        contact_email="",
+        investigator=my_name,
+        owner=my_name,
+        owner_email="",
+        used_software=["scipp", "easyscience"],
+        data_format="",
+        is_published=False,
+        owner_group=proposal_id,
+        access_groups=[proposal_id],
+        instrument_id=None,
+        techniques=[],
+        keywords=["DMSC Summer School 2025"],
+        license="unknown",
+        proposal_id=proposal_id,
+        source_folder=source_folder.as_posix(),
+        name="Summer School Reduced Dataset",
+        description="Awesome reduced dataset from the DMSC Summer School 2025",
+    )
+
+
+def _make_default_value_registry() -> MappingProxyType[str, Any]:
+    """Create a default value registry for dataset fields."""
+
+    default_dataset = _make_default_dataset()
+    # First create a `Dataset` instance with default values.
+    # It is easier to set and validate the fields this way.
+    # However, we need to convert it to a mapping of field names to default values.
+    # It is more convenient to create a widget for each field with
+    # mapping of field names to default values instead of a `Dataset` instance.
+    # And `Dataset` instance is mutable but `MappingProxyType` is immutable.
+    return MappingProxyType(
+        {
+            field.name: _attr
+            for field in Dataset._FIELD_SPEC
+            if (_attr := getattr(default_dataset, field.name, None)) is not None
+        }
+    )
+
+
+_DefaultValueRegistry: MappingProxyType[str, Any] = _make_default_value_registry()
+
+
+def _replace_field(
+    field_spec: Dataset.Field,
+    registry: Mapping[str, tuple[Callable, ...]] = _FieldReplacementRegistry,
+) -> Field:
+    """
+    Replace fields in the field_specs based on the registry.
+    Each field in the registry is replaced by applying the functions in the tuple.
+    """
+    from dataclasses import fields
+
+    for func in registry.get(field_spec.name, ()):
+        field_spec = func(field_spec)
+
+    return Field(
+        **{
+            dc_field.name: getattr(field_spec, dc_field.name)
+            for dc_field in fields(field_spec)
+        },
+        default_value=_DefaultValueRegistry.get(field_spec.name, None),
+    )
+
+
+_FieldWidgetFactoryRegistry: MappingProxyType[str, Callable] = MappingProxyType({})
+_SkippedFields: tuple[str, ...] = (
+    "api_version",
+    "classification",
+    "created_at",
+    "created_by",
+    "creation_location",
+    "creation_time",
+    "data_quality_metrics",
+    "input_datasets",
+    "instrument_group",
+    "is_published",
+    "end_time",
+    "start_time",
+    "pid",
+    "lifecycle",
+    "relationships",
+    "updated_at",
+    "updated_by",
+    "validation_status",
+    "run_number",
+    "shared_with",
+    "source_folder_host",
+    "validation_status",
+    "principal_investigator",
+    "sample_id",
+    "job_log_data",
+    "job_parameters",
+    "instrument_id",
+)
+
+
+class CommaSeparatedText(widgets.Text):
+    @property
+    def values(self) -> list[str]:
+        """Alias for value property."""
+        return [item.strip() for item in super().value.split(",") if item.strip()]
+
+
+def _make_svg_label(
+    val_str: str, *, svg_height: int = 36, max_width: int = 150
+) -> widgets.HTML:
+    val_str = val_str.strip()
+    svg_width = (len(val_str) * 8) + 10
+    return widgets.HTML(
+        value=f"""<svg width="{svg_width}" height="{svg_height}">
+            <rect x="0" y="0" width="{svg_width}" height="{svg_height}" rx="10" ry="10"
+                style="fill: #f0f0f0; stroke: #ccc; stroke-width: 1"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+                style="font-size: 14px; fill: #333;">{val_str}</text>
+        </svg>""",
+        layout=Layout(width="fit-content"),
+        style={"max_width": f"{max_width}px", "overflow": "hidden"},
+    )
+
+
+class CommaSeparatedTextBox(widgets.HBox):
+    """A text box that accepts comma-separated values."""
+
+    def __init__(self, text: CommaSeparatedText):
+        self.text = text
+        text_box = widgets.Box(
+            children=[text],
+            layout=Layout(
+                width="100%", min_width="360px", max_width="640px", overflow="auto"
+            ),
+            style={
+                "align_items": "center",
+                "flex_flow": "row wrap",
+                "justify_content": "flex-start",
+            },
+        )
+        self.preview_box = widgets.HBox(
+            children=[],
+            layout=Layout(
+                width="100%", min_width="360px", max_width="480px", overflow="auto"
+            ),
+            style={
+                "align_items": "center",
+                "flex_flow": "row wrap",
+                "justify_content": "flex-start",
+            },
+        )
+
+        def update_preview(_: Any) -> None:
+            """Update the preview box with the current value of the text box."""
+            self.preview_box.children = tuple(map(_make_svg_label, self.text.values))
+
+        update_preview(None)
+        self.text.observe(update_preview, names="value", type="change")
+
+        super().__init__(
+            children=[text_box, self.preview_box], layout=Layout(width="100%")
+        )
+
+    @property
+    def value(self) -> list[str]:
+        return self.text.values
+
+
+def _fallback_field_widget_factory(
+    field_spec: Field,
+) -> widgets.Widget:
+    """
+    Fallback factory for field widgets.
+    It creates a Text widget for fields that do not have a specific factory.
+    """
+    from typing import get_origin
+
+    # Set the description width to 80px for better alignment
+    default_style = {"description_width": "200px"}
+    if get_origin(field_spec.type) is list:
+        default_value = field_spec.default_value or []
+        text = CommaSeparatedText(
+            value=",".join(map(str, default_value)),
+            description=field_spec.name,
+            disabled=field_spec.read_only,
+            layout=Layout(
+                width="100%", min_width="360px", overflow="auto", margin="5px"
+            ),
+            style=default_style,
+        )
+        return CommaSeparatedTextBox(text)
+    else:
+        return widgets.Text(
+            value=str(field_spec.default_value or ""),
+            description=field_spec.name,
+            disabled=field_spec.read_only,
+            layout=Layout(width="100%", margin="5px"),
+            style=default_style,
+        )
+
+
+class DatasetFieldWidget(widgets.VBox):
+    """Dataset Field Widget for Uploading."""
+
+    def __init__(self):
+        field_specs = {
+            field_spec.name: _replace_field(field_spec)
+            for field_spec in Dataset._FIELD_SPEC
+        }
+        field_widgets = {
+            field_name: _FieldWidgetFactoryRegistry.get(
+                field_name, _fallback_field_widget_factory
+            )(field_spec)
+            for field_name, field_spec in field_specs.items()
+            if field_name not in _SkippedFields
+        }
+
+        super().__init__([widgets.Box([wg]) for wg in field_widgets.values()])
+
+
 class UploadBox(widgets.VBox):
     def __init__(
         self, credential_box: CredentialBox, output_widget: widgets.Output, **kwargs
     ):
-        default_button_layout = Layout(width="auto", margin="10px")
+        default_button_layout = Layout(width="100%", height="36px", margin="5px")
         self.output = output_widget
         self.credential_box = credential_box
         self.start_button = widgets.Button(
@@ -305,6 +578,7 @@ class UploadBox(widgets.VBox):
             style=default_style,
         )
         self.start_button.button_style = "info"
+
         self.upload_button = widgets.Button(
             description="Upload",
             tooltip="Upload the dataset",
@@ -325,6 +599,13 @@ class UploadBox(widgets.VBox):
         # Define the action for buttons
         self.start_button.on_click(self._create_new_dataset)
         self.reset_button.on_click(self.reset)
+        self.active_box = widgets.VBox(
+            [
+                DatasetFieldWidget(),
+                widgets.Box([self.reset_button, self.upload_button]),
+            ],
+            layout=Layout(width="auto"),
+        )
 
         super().__init__([self.start_button], **kwargs)
 
@@ -340,14 +621,14 @@ class UploadBox(widgets.VBox):
         except_for_myself = [
             child for child in self.children if child is not self.start_button
         ]
-        self.children = (*except_for_myself, self.reset_button, self.upload_button)
+        self.children = (*except_for_myself, self.active_box)
 
     def confirm_choice(
         self,
         *,
         callback_for_confirm: Callable | None = None,
         callback_for_cancel: Callable | None = None,
-        message: str = "Are you sure you want to proceed?",
+        message: str | widgets.Widget = "Are you sure you want to proceed?",
     ) -> None:
         button_layout = Layout(width="50%", height="150px", margin="20px")
         button_style = {"font_weight": "bold", "font_size": "28px"}
@@ -366,14 +647,18 @@ class UploadBox(widgets.VBox):
         )
         cancel_button.button_style = "warning"
 
-        message_widget = widgets.Label(
-            value=f"\n \n {message}",
-            layout=Layout(width="auto", display="flex", justify_content="center"),
-            style={
-                "font_weight": "bold",
-                "font_size": "24px",
-                "border": "1px solid red",
-            },
+        message_widget = (
+            message
+            if isinstance(message, widgets.Widget)
+            else widgets.Label(
+                value=f"\n \n {message}",
+                layout=Layout(width="auto", display="flex", justify_content="center"),
+                style={
+                    "font_weight": "bold",
+                    "font_size": "24px",
+                    "border": "1px solid red",
+                },
+            )
         )
         button_box = widgets.HBox(
             children=[cancel_button, confirm_button],
@@ -407,6 +692,15 @@ class UploadBox(widgets.VBox):
         """
         self.confirm_choice(
             message="Are you sure you want to RESET all dataset fields?"
+        )
+
+    def upload(self, _) -> None:
+        """
+        Action to perform when the 'Upload' button is clicked.
+        It should upload the dataset to SciCat.
+        """
+        self.confirm_choice(
+            message="Are you sure you want to UPLOAD this dataset?",
         )
 
 
