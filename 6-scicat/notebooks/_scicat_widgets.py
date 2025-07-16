@@ -3,7 +3,7 @@ import os
 import logging
 from typing import Any
 from functools import partial
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, replace, field
 from types import MappingProxyType
 from collections.abc import Callable, Mapping
 
@@ -233,6 +233,169 @@ class CredentialBox(widgets.VBox):
         )
 
 
+def _get_cache_directory() -> pathlib.Path:
+    """Get the cache directory for SciCat widgets."""
+    cache_dir = pathlib.Path.home() / ".cache" / "scicat_widgets"
+    if not cache_dir.exists():
+        cache_dir.mkdir(parents=True, exist_ok=False)
+    return cache_dir
+
+
+def _load_public_personal_info() -> dict[str, str]:
+    """Load public personal information from a YAML file."""
+    import yaml
+
+    cache_dir = _get_cache_directory()
+    file_path = cache_dir / "public_personal_info.yaml"
+    if file_path.exists():
+        with open(file_path, "r") as file:
+            return yaml.safe_load(file)
+    return {}
+
+
+class PublicPersonalInfoBox(widgets.Accordion, widgets.ValueWidget):
+    """Box for public and personal information."""
+
+    @dataclass(kw_only=True)
+    class PublicPersonalInfo:
+        """Dataclass for public personal information."""
+
+        name: str = field(default_factory=lambda: os.environ.get("USER", ""))
+        email: str = ""
+        orcid: str = ""
+
+        @classmethod
+        def from_cache(cls) -> "PublicPersonalInfoBox.PublicPersonalInfo":
+            """Load public personal information from cache."""
+            loaded_info = _load_public_personal_info()
+            return cls(
+                name=loaded_info.get("name", ""),
+                email=loaded_info.get("email", ""),
+                orcid=loaded_info.get("orcid", ""),
+            )
+
+    def __init__(self, *, output: widgets.Output | None = None):
+        self.output = output or widgets.Output()
+        loaded_info = _load_public_personal_info()
+        text_box = partial(widgets.Text, layout=default_layout, style=default_style)
+        self.name = text_box(
+            value=loaded_info.get("name", ""),
+            description="Name",
+            placeholder="Enter your name",
+        )
+        self.email = text_box(
+            value=loaded_info.get("email", ""),
+            description="Email",
+            placeholder="Enter your email",
+        )
+        self.orcid = text_box(
+            value=loaded_info.get("orcid", ""),
+            description="ORCID",
+            placeholder="Enter your ORCID ID",
+        )
+        input_box = widgets.VBox(
+            children=[self.name, self.email, self.orcid],
+            layout=Layout(width="100%", min_width="560px"),
+            style=default_style,
+        )
+
+        self.save_button = widgets.Button(
+            description="Save",
+            tooltip="Save the public personal information. "
+            "It will be saved in '~/.cache/scicat_widgets/public_personal_info.yaml'",
+            layout=Layout(width="100%", height="90px"),
+            style={"font_weight": "bold", "font_size": "36px"},
+        )
+        self.save_button.button_style = "primary"
+
+        box = widgets.HBox(
+            children=[input_box, self.save_button],
+            layout=Layout(width="100%", justify_content="space-between"),
+            style=default_style,
+        )
+
+        # Add event handlers
+        self.name.observe(self.validate_values, names="value", type="change")
+        self.email.observe(self.validate_values, names="value", type="change")
+        self.orcid.observe(self.validate_values, names="value", type="change")
+        self.save_button.on_click(self.save_action)
+
+        super().__init__(
+            children=[box],
+            titles=["Public Personal Information"],
+            layout=Layout(width="auto", min_width="560px", margin="5px"),
+            style=default_style,
+        )
+        self.validate_values(None)  # Initialize the title with current values
+
+    def _save_action(self):
+        """Action to perform when the 'Save' button is clicked."""
+        import yaml
+
+        # Save the public personal information to a file
+        cache_dir = _get_cache_directory()
+        file_path = cache_dir / "public_personal_info.yaml"
+        public_info = {
+            "name": self.name.value.strip(),
+            "email": self.email.value.strip(),
+            "orcid": self.orcid.value.strip(),
+        }
+        with open(file_path, "w") as file:
+            yaml.dump(public_info, file)
+
+    def save_action(self, _):
+        """Action to perform when the 'Save' button is clicked."""
+        import time
+
+        # Change the color of the button to indicate saving
+        self.save_button.button_style = ""
+        self.save_button.disabled = True
+
+        self._save_action()
+        time.sleep(0.5)
+
+        # Show a success message
+        self.save_button.description = "Saved! ✅"
+        self.save_button.button_style = "success"
+
+        time.sleep(1)
+
+        # Change the color of the button back to primary
+        self.save_button.description = "Save"
+        self.save_button.disabled = False
+        self.save_button.button_style = "primary"
+
+    def __del__(self) -> None:
+        """Save the public personal information when the widget is deleted."""
+        self._save_action()
+        return super().__del__()
+
+    def validate_values(self, _):
+        """Update the title with a summary of the public personal information."""
+        values = {
+            "🪪 name 🪪": self.name.value.strip(),
+            "📧 email 📧": self.email.value.strip(),
+            "🌳 orcid 🌳": self.orcid.value.strip(),
+        }
+        values = {
+            key: val
+            for key, val in values.items()
+            if isinstance(val, str) and val.strip()
+        }
+        summary = " , ".join([":".join(key_value) for key_value in values.items()])
+        title = f"Public Personal Information: ({summary})"
+        self.titles = [title]
+
+    @property
+    def value(self) -> PublicPersonalInfo:
+        """Return the public personal information as a dictionary."""
+        return self.PublicPersonalInfo(
+            name=self.name.value.strip(),
+            email=self.email.value.strip(),
+            orcid=self.orcid.value.strip(),
+        )
+
+
 class DownloadBox(widgets.VBox):
     def __init__(
         self,
@@ -337,8 +500,19 @@ _FieldReplacementRegistry: MappingProxyType[str, tuple[Callable, ...]] = (
 )
 
 
-def _make_default_dataset() -> Dataset:
-    my_name = os.environ.get("USER", "")
+def _format_orcid(orcid: str) -> str:
+    if not orcid.startswith("https://orcid.org/"):
+        orcid = f"https://orcid.org/{orcid}"
+    return orcid
+
+
+def _make_default_dataset(
+    my_info: PublicPersonalInfoBox.PublicPersonalInfo | None = None,
+) -> Dataset:
+    _my_info = my_info or PublicPersonalInfoBox.PublicPersonalInfo.from_cache()
+    my_name = _my_info.name
+    email = _my_info.email
+    orcid = _format_orcid(_my_info.orcid)
     proposal_id = _get_current_proposal()
     source_folder = pathlib.Path(
         _get_default_proposal_mount() / proposal_id / "derived"
@@ -346,10 +520,10 @@ def _make_default_dataset() -> Dataset:
 
     return Dataset(
         type=DatasetType.DERIVED,
-        contact_email="",
+        contact_email=email,
         investigator=my_name,
         owner=my_name,
-        owner_email="",
+        owner_email=email,
         used_software=["scipp", "easyscience"],
         data_format="",
         is_published=False,
@@ -363,13 +537,16 @@ def _make_default_dataset() -> Dataset:
         source_folder=source_folder.as_posix(),
         name="Summer School Reduced Dataset",
         description="Awesome reduced dataset from the DMSC Summer School 2025",
+        orcid_of_owner=orcid,
     )
 
 
-def _make_default_value_registry() -> MappingProxyType[str, Any]:
+def _make_default_value_registry(
+    default_dataset: Dataset | None = None,
+) -> MappingProxyType[str, Any]:
     """Create a default value registry for dataset fields."""
 
-    default_dataset = _make_default_dataset()
+    default_dataset = default_dataset or _make_default_dataset()
     # First create a `Dataset` instance with default values.
     # It is easier to set and validate the fields this way.
     # However, we need to convert it to a mapping of field names to default values.
@@ -385,12 +562,11 @@ def _make_default_value_registry() -> MappingProxyType[str, Any]:
     )
 
 
-_DefaultValueRegistry: MappingProxyType[str, Any] = _make_default_value_registry()
-
-
 def _replace_field(
     field_spec: Dataset.Field,
+    *,
     registry: Mapping[str, tuple[Callable, ...]] = _FieldReplacementRegistry,
+    default_value_registry: Mapping[str, Any] = _make_default_value_registry(),
 ) -> Field:
     """
     Replace fields in the field_specs based on the registry.
@@ -406,7 +582,7 @@ def _replace_field(
             dc_field.name: getattr(field_spec, dc_field.name)
             for dc_field in fields(field_spec)
         },
-        default_value=_DefaultValueRegistry.get(field_spec.name, None),
+        default_value=default_value_registry.get(field_spec.name, None),
     )
 
 
@@ -553,9 +729,17 @@ def _fallback_field_widget_factory(
 class DatasetFieldWidget(widgets.VBox):
     """Dataset Field Widget for Uploading."""
 
-    def __init__(self):
+    def __init__(self, *, public_personal_info: PublicPersonalInfoBox | None = None):
+        if public_personal_info is None:
+            _default_value_registry = _make_default_value_registry()
+        else:
+            default_dataset = _make_default_dataset(public_personal_info.value)
+            _default_value_registry = _make_default_value_registry(default_dataset)
+
         self.field_specs = {
-            field_spec.name: _replace_field(field_spec)
+            field_spec.name: _replace_field(
+                field_spec, default_value_registry=_default_value_registry
+            )
             for field_spec in Dataset._FIELD_SPEC
         }
         self.field_widgets: dict[str, widgets.ValueWidget] = {
@@ -582,15 +766,23 @@ class DatasetFieldWidget(widgets.VBox):
 
 class UploadBox(widgets.VBox):
     def __init__(
-        self, credential_box: CredentialBox, output_widget: widgets.Output, **kwargs
+        self,
+        *,
+        credential_box: CredentialBox,
+        output_widget: widgets.Output,
+        public_personal_info_box: PublicPersonalInfoBox | None = None,
+        **kwargs,
     ):
         default_button_layout = Layout(width="100%", height="36px", margin="5px")
         self.output = output_widget
         self.credential_box = credential_box
+        self.public_personal_info_box = (
+            public_personal_info_box or PublicPersonalInfoBox(output=self.output)
+        )
         self.start_button = widgets.Button(
             description="New Dataset",
             tooltip="Start creating a new dataset to upload",
-            layout=default_button_layout,
+            layout=Layout(width="auto", height="36px", margin="5px"),
             style=default_style,
         )
         self.start_button.button_style = "info"
@@ -617,7 +809,7 @@ class UploadBox(widgets.VBox):
         self.reset_button.on_click(self.reset)
         self.upload_button.on_click(self.upload)
 
-        self.dataset_field_widget: DatasetFieldWidget = DatasetFieldWidget()
+        self.dataset_field_widget = DatasetFieldWidget()
         self.active_box = widgets.VBox(
             [
                 self.dataset_field_widget,
@@ -626,7 +818,7 @@ class UploadBox(widgets.VBox):
             layout=Layout(width="auto"),
         )
 
-        super().__init__([self.start_button], **kwargs)
+        super().__init__([self.public_personal_info_box, self.start_button], **kwargs)
 
     def _create_new_dataset(self, _) -> None:
         """
@@ -711,7 +903,9 @@ class UploadBox(widgets.VBox):
             with self.output:
                 print("Resetting all dataset fields to default values...")
             # Reset the active box to the initial state
-            self.dataset_field_widget = DatasetFieldWidget()
+            self.dataset_field_widget = DatasetFieldWidget(
+                public_personal_info=self.public_personal_info_box
+            )
             self.active_box.children = [
                 self.dataset_field_widget,
                 widgets.Box([self.reset_button, self.upload_button]),
