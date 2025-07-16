@@ -11,14 +11,9 @@ from ipywidgets import widgets, Layout
 from IPython.display import display
 from scitacean import Client, Dataset, DatasetType, RemotePath
 
-default_layout = Layout(width="auto")
-default_style = {"description_width": "auto"}
+default_layout = Layout(width="auto", min_width="560px")
+default_style = {"description_width": "200px"}
 button_layout = Layout(width="100%", height="36px", margin="5px")
-text_layout = Layout(width="100%", margin="5px")
-wide_text_layout = Layout(
-    width="100%", min_width="360px", overflow="auto", margin="5px"
-)
-field_style = {"description_width": "200px"}
 
 
 def import_pyperclip():
@@ -57,25 +52,38 @@ class NotSoLongButNotShortText(widgets.HBox):
         self, *args, entry_widget: type[widgets.Widget] = widgets.Text, **kwargs: Any
     ):
         self.text = entry_widget(*args, **kwargs)
-        self.paste_button = widgets.Button(
-            description="Paste",
-            tooltip="Paste from clipboard",
-            layout=Layout(width="80px"),
-        )
-        self.copy_button = widgets.Button(
-            description="Copy", tooltip="Copy to clipboard", layout=Layout(width="80px")
-        )
+        try:
+            self.paste_button = widgets.Button(
+                description="Paste",
+                tooltip="Paste from clipboard",
+                layout=Layout(width="80px"),
+            )
+            self.copy_button = widgets.Button(
+                description="Copy",
+                tooltip="Copy to clipboard",
+                layout=Layout(width="80px"),
+            )
 
-        self.paste_button.on_click(
-            partial(paste_from_clipboard, token_widget=self.text)
-        )
-        self.copy_button.on_click(partial(copy_to_clipboard, token_widget=self.text))
+            self.paste_button.on_click(
+                partial(paste_from_clipboard, token_widget=self.text)
+            )
+            self.copy_button.on_click(
+                partial(copy_to_clipboard, token_widget=self.text)
+            )
 
-        super().__init__(
-            children=[self.text, self.paste_button, self.copy_button],
-            layout=default_layout,
-            style=default_style,
-        )
+            super().__init__(
+                children=[self.text, self.paste_button, self.copy_button],
+                layout=default_layout,
+                style=default_style,
+            )
+        except ImportError as e:
+            # If pyperclip is not installed, just create a text widget
+            logging.getLogger("scicat-widget").warning(e)
+            super().__init__(
+                children=[self.text],
+                layout=Layout(width="100%", border="1px solid black"),
+                style=default_style,
+            )
 
     @property
     def value(self) -> str:
@@ -157,7 +165,8 @@ class AddressBox(widgets.HBox):
         self.address = NotSoLongButNotShortText(
             _get_default_address(),
             description="Scicat Address",
-            layout=Layout(width="80%", min_width="300px"),
+            layout=Layout(width="500px"),
+            style=default_style,
             disabled=True,
         )
 
@@ -167,7 +176,7 @@ class AddressBox(widgets.HBox):
         self.checkbox.observe(toggle_editing, names="value")
         super().__init__(
             children=[self.address, self.checkbox],
-            layout=default_layout,
+            layout=Layout(width="100%", min_width="560px"),
             style=default_style,
         )
 
@@ -176,14 +185,32 @@ class AddressBox(widgets.HBox):
         return self.address.value
 
 
+def validate_token(token: str) -> bool:
+    """Try connecting to the SciCat API with the provided token."""
+    from scitacean.util.credentials import ExpiringToken
+
+    try:
+        token_obj = ExpiringToken.from_jwt(token)
+        token_obj.get_str()
+        return True
+    except Exception as e:
+        print(f"Invalid token: {e}")
+        return False
+
+
 class CredentialBox(widgets.VBox):
-    def __init__(self):
-        self.address_box = AddressBox()
-        self.token = NotSoLongButNotShortText(
-            value=_get_default_token(),
-            placeholder="Enter token copied from SciCat",
-            description="Scicat Token",
-        )
+    def __init__(self, *, output: widgets.Output):
+        self.output = output
+        with self.output:
+            self.address_box = AddressBox()
+            self.token = NotSoLongButNotShortText(
+                value=_get_default_token(),
+                placeholder="Enter token copied from SciCat",
+                description="Scicat Token",
+                layout=Layout(width="500px"),
+                style=default_style,
+            )
+
         super().__init__(
             children=[self.address_box, self.token],
             titles=["Credentials"],
@@ -496,6 +523,7 @@ def _fallback_field_widget_factory(
     """
     from typing import get_origin
 
+    field_style = {"description_width": "200px"}
     if get_origin(field_spec.type) is list:
         default_value = field_spec.default_value or []
         text = CommaSeparatedText(
@@ -509,21 +537,17 @@ def _fallback_field_widget_factory(
         )
         return CommaSeparatedTextBox(text)
     elif isinstance(field_spec.default_value, RemotePath):
-        return widgets.Text(
-            value=field_spec.default_value.posix,
-            description=field_spec.name,
-            disabled=field_spec.read_only,
-            layout=Layout(width="100%", margin="5px"),
-            style=field_style,
-        )
+        value = field_spec.default_value.posix
     else:
-        return widgets.Text(
-            value=str(field_spec.default_value or ""),
-            description=field_spec.name,
-            disabled=field_spec.read_only,
-            layout=Layout(width="100%", margin="5px"),
-            style=field_style,
-        )
+        value = str(field_spec.default_value or "")
+
+    return widgets.Text(
+        value=value,
+        description=field_spec.name,
+        disabled=field_spec.read_only,
+        layout=Layout(width="100%", margin="5px"),
+        style=field_style,
+    )
 
 
 class DatasetFieldWidget(widgets.VBox):
@@ -783,40 +807,7 @@ class ScicatWidget(widgets.VBox):
         )
 
 
-def download_widget(
-    download_registry: dict | None = None, show: bool = True
-) -> ScicatWidget:
-    download_registry = download_registry or {}
-    credential_box = CredentialBox()
-    output = widgets.Output(
-        layout=Layout(
-            overflow="scroll",
-            flex_flow="row",
-            width="auto",
-            display="flex",
-            height="auto",
-            marging="10px",
-            padding="10px",
-            max_height="200px",
-        ),
-        style=default_style,
-    )
-    output.layout.border = "1px solid black"
-    widget = ScicatWidget(
-        credential_box=credential_box,
-        output_widget=output,
-        download_widget=DownloadBox(
-            credential_box=credential_box,
-            output_widget=output,
-            download_registry=download_registry,
-        ),
-    )
-    if show:
-        display(widget)
-    return widget
-
-
-def upload_widget(show: bool = True) -> ScicatWidget:
+def _config_logger():
     import logging
 
     try:
@@ -829,7 +820,9 @@ def upload_widget(show: bool = True) -> ScicatWidget:
     logger = logging.getLogger("scicat-widget")
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
-    credential_box = CredentialBox()
+
+
+def build_output_widget() -> widgets.Output:
     output = widgets.Output(
         layout=Layout(
             overflow="scroll",
@@ -845,6 +838,34 @@ def upload_widget(show: bool = True) -> ScicatWidget:
         style=default_style,
     )
     output.layout.border = "1px solid black"
+    return output
+
+
+def download_widget(
+    download_registry: dict | None = None, show: bool = True
+) -> ScicatWidget:
+    download_registry = download_registry or {}
+
+    output = build_output_widget()
+    credential_box = CredentialBox(output=output)
+    widget = ScicatWidget(
+        credential_box=credential_box,
+        output_widget=output,
+        download_widget=DownloadBox(
+            credential_box=credential_box,
+            output_widget=output,
+            download_registry=download_registry,
+        ),
+    )
+    if show:
+        display(widget)
+    return widget
+
+
+def upload_widget(show: bool = True) -> ScicatWidget:
+    _config_logger()
+    output = build_output_widget()
+    credential_box = CredentialBox(output=output)
     widget = ScicatWidget(
         credential_box=credential_box,
         output_widget=output,
@@ -855,18 +876,28 @@ def upload_widget(show: bool = True) -> ScicatWidget:
     return widget
 
 
-def scicat_widget(download_registry: dict | None = None) -> widgets.Widget:
-    return ScicatWidget()
+def scicat_widget(
+    *, download_registry: dict | None = None, show: bool = True
+) -> ScicatWidget:
+    """Create a SciCat widget with both download and upload functionality."""
+    _config_logger()
+    output = build_output_widget()
+    credential_box = CredentialBox(output=output)
+    download_widget_instance = DownloadBox(
+        credential_box=credential_box,
+        output_widget=output,
+        download_registry=download_registry or {},
+    )
+    upload_widget_instance = UploadBox(
+        credential_box=credential_box, output_widget=output
+    )
 
-
-def validate_token(token: str) -> bool:
-    """Try connecting to the SciCat API with the provided token."""
-    from scitacean.util.credentials import ExpiringToken
-
-    try:
-        token_obj = ExpiringToken.from_jwt(token)
-        token_obj.get_str()
-        return True
-    except Exception as e:
-        print(f"Invalid token: {e}")
-        return False
+    widget = ScicatWidget(
+        credential_box=credential_box,
+        output_widget=output,
+        download_widget=download_widget_instance,
+        upload_widget=upload_widget_instance,
+    )
+    if show:
+        display(widget)
+    return widget
