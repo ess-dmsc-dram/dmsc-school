@@ -903,16 +903,14 @@ class UploadBox(widgets.VBox):
         *,
         credential_box: CredentialBox,
         output_widget: widgets.Output,
-        public_personal_info_box: PublicPersonalInfoBox | None = None,
+        public_personal_info_box: PublicPersonalInfoBox,
         file_selection_widget: FileSelectionWidget,
         **kwargs,
     ):
         default_button_layout = Layout(width="100%", height="36px", margin="5px")
         self.output = output_widget
         self.credential_box = credential_box
-        self.public_personal_info_box = (
-            public_personal_info_box or PublicPersonalInfoBox(output=self.output)
-        )
+        self.public_personal_info_box = public_personal_info_box
         self.file_selection_widget = file_selection_widget
         self.start_button = widgets.Button(
             description="New Dataset",
@@ -954,7 +952,7 @@ class UploadBox(widgets.VBox):
             layout=Layout(width="auto"),
         )
 
-        super().__init__([self.public_personal_info_box, self.start_button], **kwargs)
+        super().__init__([self.start_button], **kwargs)
 
     def _create_new_dataset(self, _) -> None:
         """
@@ -1095,16 +1093,19 @@ class ScicatWidget(widgets.VBox):
         *,
         credential_box: CredentialBox,
         output_widget: widgets.Output,
+        public_personal_info_box: PublicPersonalInfoBox | None = None,
         download_widget: DownloadBox | None = None,
         upload_widget: UploadBox | None = None,
     ):
+        self.public_personal_info_box = public_personal_info_box
         self.upload_widget = upload_widget
         self.download_widget = download_widget
         self.credentials = credential_box
 
         self._sub_widgets = {
             "Credentials": self.credentials,
-            "Upload": self.upload_widget,
+            "Public Personal Info": self.public_personal_info_box,
+            "Prepare Upload": self.upload_widget,
             "Download": self.download_widget,
         }
 
@@ -1113,7 +1114,7 @@ class ScicatWidget(widgets.VBox):
             for name, widget in self._sub_widgets.items()
             if widget is not None  # Only include non-None widgets
         }
-        self.menus = widgets.Accordion(
+        self.menus = widgets.Tab(
             children=list(self.tabs.values()),
             titles=tuple(self.tabs.keys()),
             layout=Layout(height="auto"),
@@ -1200,6 +1201,7 @@ def upload_widget(show: bool = True) -> ScicatWidget:
     output = build_output_widget()
     credential_box = CredentialBox(output=output)
     file_selection_widget = FileSelectionWidget(output=output)
+    public_personal_info_box = PublicPersonalInfoBox(output=output)
     widget = ScicatWidget(
         credential_box=credential_box,
         output_widget=output,
@@ -1207,7 +1209,9 @@ def upload_widget(show: bool = True) -> ScicatWidget:
             credential_box=credential_box,
             output_widget=output,
             file_selection_widget=file_selection_widget,
+            public_personal_info_box=public_personal_info_box,
         ),
+        public_personal_info_box=public_personal_info_box,
     )
     if show:
         display(widget)
