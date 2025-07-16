@@ -592,11 +592,13 @@ _FieldWidgetFactoryRegistry: MappingProxyType[
 _SkippedFields: tuple[str, ...] = (
     "api_version",
     "classification",
+    "comment",
     "created_at",
     "created_by",
     "creation_location",
     "creation_time",
     "data_quality_metrics",
+    "data_format",
     "input_datasets",
     "instrument_group",
     "is_published",
@@ -604,6 +606,7 @@ _SkippedFields: tuple[str, ...] = (
     "start_time",
     "pid",
     "lifecycle",
+    "license",
     "relationships",
     "updated_at",
     "updated_by",
@@ -764,6 +767,34 @@ class DatasetFieldWidget(widgets.VBox):
         return Dataset(**field_values)
 
 
+class FileSelectionWidget(widgets.VBox):
+    """Widget for selecting files to upload."""
+
+    def __init__(self, *, output: widgets.Output):
+        self.output = output
+        self.file_path = widgets.Text(
+            description="File Path",
+            placeholder="Enter the path to the file to upload",
+            layout=Layout(width="auto", margin="5px"),
+            style=default_style,
+        )
+        self.file_path.style.description_width = "200px"
+        self.file_path.style.background = "lightyellow"
+
+        def validate_path(_) -> None:
+            """Validate the file path and update the output widget."""
+            file_path = pathlib.Path(self.file_path.value.strip())
+            if not file_path.exists() or not file_path.is_file():
+                self.file_path.style.background = "pink"
+            else:
+                self.file_path.style.background = "lightgreen"
+
+        self.file_path.observe(validate_path, names="value", type="change")
+        super().__init__(
+            children=[self.file_path], layout=Layout(width="auto"), style=default_style
+        )
+
+
 class UploadBox(widgets.VBox):
     def __init__(
         self,
@@ -771,6 +802,7 @@ class UploadBox(widgets.VBox):
         credential_box: CredentialBox,
         output_widget: widgets.Output,
         public_personal_info_box: PublicPersonalInfoBox | None = None,
+        file_selection_widget: FileSelectionWidget,
         **kwargs,
     ):
         default_button_layout = Layout(width="100%", height="36px", margin="5px")
@@ -779,6 +811,7 @@ class UploadBox(widgets.VBox):
         self.public_personal_info_box = (
             public_personal_info_box or PublicPersonalInfoBox(output=self.output)
         )
+        self.file_selection_widget = file_selection_widget
         self.start_button = widgets.Button(
             description="New Dataset",
             tooltip="Start creating a new dataset to upload",
@@ -813,6 +846,7 @@ class UploadBox(widgets.VBox):
         self.active_box = widgets.VBox(
             [
                 self.dataset_field_widget,
+                self.file_selection_widget,
                 widgets.Box([self.reset_button, self.upload_button]),
             ],
             layout=Layout(width="auto"),
@@ -921,7 +955,10 @@ class UploadBox(widgets.VBox):
         Action to perform when the 'Upload' button is clicked.
         It should upload the dataset to SciCat.
         """
-        dataset = self.dataset_field_widget.dataset
+        dataset: Dataset = self.dataset_field_widget.dataset
+        if file_path := self.file_selection_widget.file_path.value.strip():
+            dataset.add_local_files(file_path)
+
         dataset_html = widgets.HTML(dataset._repr_html_())
         title = widgets.HTML("<h3>Dataset to Upload:</h3>")
         warning_msg = widgets.Label(
@@ -1060,10 +1097,15 @@ def upload_widget(show: bool = True) -> ScicatWidget:
     _config_logger()
     output = build_output_widget()
     credential_box = CredentialBox(output=output)
+    file_selection_widget = FileSelectionWidget(output=output)
     widget = ScicatWidget(
         credential_box=credential_box,
         output_widget=output,
-        upload_widget=UploadBox(credential_box=credential_box, output_widget=output),
+        upload_widget=UploadBox(
+            credential_box=credential_box,
+            output_widget=output,
+            file_selection_widget=file_selection_widget,
+        ),
     )
     if show:
         display(widget)
@@ -1083,7 +1125,9 @@ def scicat_widget(
         download_registry=download_registry or {},
     )
     upload_widget_instance = UploadBox(
-        credential_box=credential_box, output_widget=output
+        credential_box=credential_box,
+        output_widget=output,
+        file_selection_widget=FileSelectionWidget(output=output),
     )
 
     widget = ScicatWidget(
