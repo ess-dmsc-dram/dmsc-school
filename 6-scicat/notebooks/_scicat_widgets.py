@@ -1,21 +1,24 @@
 import pathlib
-
+import os
+import logging
 from typing import Any
 from functools import partial
-from ipywidgets import widgets
-from ipywidgets import Layout
-from IPython.display import display
-
 from dataclasses import dataclass, replace
 from types import MappingProxyType
 from collections.abc import Callable, Mapping
-from scitacean import Client, Dataset, DatasetType, RemotePath
 
-import os
-import logging
+from ipywidgets import widgets, Layout
+from IPython.display import display
+from scitacean import Client, Dataset, DatasetType, RemotePath
 
 default_layout = Layout(width="auto")
 default_style = {"description_width": "auto"}
+button_layout = Layout(width="100%", height="36px", margin="5px")
+text_layout = Layout(width="100%", margin="5px")
+wide_text_layout = Layout(
+    width="100%", min_width="360px", overflow="auto", margin="5px"
+)
+field_style = {"description_width": "200px"}
 
 
 def import_pyperclip():
@@ -58,13 +61,9 @@ class NotSoLongButNotShortText(widgets.HBox):
             description="Paste",
             tooltip="Paste from clipboard",
             layout=Layout(width="80px"),
-            style=default_style,
         )
         self.copy_button = widgets.Button(
-            description="Copy",
-            tooltip="Copy to clipboard",
-            layout=Layout(width="80px"),
-            style=default_style,
+            description="Copy", tooltip="Copy to clipboard", layout=Layout(width="80px")
         )
 
         self.paste_button.on_click(
@@ -88,17 +87,10 @@ class NotSoLongButNotShortText(widgets.HBox):
 
     @property
     def disabled(self) -> bool:
-        """
-        Get the enabled state of the text box.
-        """
         return self.text.disabled
 
     @disabled.setter
     def disabled(self, new_value: bool) -> None:
-        """
-        Set the enabled state of the text box.
-        If new_value is True, the text box is enabled; otherwise, it is disabled.
-        """
         self.text.disabled = new_value
 
     def __str__(self) -> str:
@@ -109,54 +101,36 @@ _DEBUGGING_FILE_PATH = pathlib.Path("./SCICAT_WIDGET_DEBUGGING")
 
 
 def _is_debugging() -> bool:
-    """
-    Check if the debugging file exists.
-    This is used to determine if the widget should use a default address and token.
-    """
-
     return _DEBUGGING_FILE_PATH.exists()
 
 
-def _get_default_address() -> str:
-    """
-    Get the default address and token for the SciCat widget.
-    If debugging is enabled, it reads from a file; otherwise, it uses a staging address.
-    """
+def _get_debug_config() -> dict:
+    """Get debugging configuration or defaults."""
     if _is_debugging():
         import json
 
-        data = json.loads(_DEBUGGING_FILE_PATH.read_text())
-        return data.get("address", "http://backend.localhost/api/v3")
-    else:
-        return "https://staging.scicat.ess.eu/api/v3"
+        return json.loads(_DEBUGGING_FILE_PATH.read_text())
+    return {}
+
+
+def _get_default_address() -> str:
+    config = _get_debug_config()
+    return config.get(
+        "address",
+        "https://staging.scicat.ess.eu/api/v3"
+        if not _is_debugging()
+        else "http://backend.localhost/api/v3",
+    )
 
 
 def _get_default_token() -> str:
-    """
-    Get the default address and token for the SciCat widget.
-    If debugging is enabled, it reads from a file; otherwise, it uses a staging address.
-    """
-    if _is_debugging():
-        import json
-
-        data = json.loads(_DEBUGGING_FILE_PATH.read_text())
-        return data.get("token", "")
-    else:
-        return ""
+    return _get_debug_config().get("token", "")
 
 
 def _get_default_proposal_mount() -> pathlib.Path:
-    """
-    Get the default proposal mount path for the SciCat widget.
-    If debugging is enabled, it reads from a file; otherwise, it uses a default path.
-    """
-    if _is_debugging():
-        import json
-
-        data = json.loads(_DEBUGGING_FILE_PATH.read_text())
-        return pathlib.Path(data.get("proposal_mount", "./myProposals/"))
-    else:
-        return pathlib.Path("/myProposals/")
+    config = _get_debug_config()
+    default_path = "./myProposals/" if _is_debugging() else "/myProposals/"
+    return pathlib.Path(config.get("proposal_mount", default_path))
 
 
 def _get_current_proposal() -> str:
@@ -177,55 +151,36 @@ def _get_current_proposal() -> str:
 
 class AddressBox(widgets.HBox):
     def __init__(self):
-        default_address = _get_default_address()
         self.checkbox = widgets.Checkbox(
-            value=False,
-            description="Enable Editing",
-            layout=Layout(width="20%"),
-            style=default_style,
+            value=False, description="Enable Editing", layout=Layout(width="20%")
         )
-        layout = Layout(width="80%", min_width="300px")
         self.address = NotSoLongButNotShortText(
-            default_address,
+            _get_default_address(),
             description="Scicat Address",
-            layout=layout,
-            style=default_style,
-            disabled=True,  # Disable editing the address
+            layout=Layout(width="80%", min_width="300px"),
+            disabled=True,
         )
 
         def toggle_editing(_: Any) -> None:
-            """
-            Toggle the enabled state of the address text box based on the checkbox.
-            If the checkbox is checked, the address text box is enabled; otherwise, it is disabled.
-            """
             self.address.disabled = not self.checkbox.value
 
         self.checkbox.observe(toggle_editing, names="value")
         super().__init__(
-            children=[
-                self.address,
-                self.checkbox,
-            ],
+            children=[self.address, self.checkbox],
             layout=default_layout,
             style=default_style,
         )
 
     @property
     def value(self) -> str:
-        """
-        Get the current value of the address.
-        If the checkbox is checked, it returns the address; otherwise, it returns an empty string.
-        """
         return self.address.value
 
 
 class CredentialBox(widgets.VBox):
     def __init__(self):
-        default_token = _get_default_token()
-
         self.address_box = AddressBox()
         self.token = NotSoLongButNotShortText(
-            value=default_token,
+            value=_get_default_token(),
             placeholder="Enter token copied from SciCat",
             description="Scicat Token",
         )
@@ -238,10 +193,6 @@ class CredentialBox(widgets.VBox):
 
     @property
     def client(self) -> Client:
-        """
-        Get the SciCat client based on the address and token.
-        This method creates a SciCat client using the provided address and token.
-        """
         from scitacean.transfer.copy import CopyFileTransfer
 
         return Client.from_token(
@@ -545,8 +496,6 @@ def _fallback_field_widget_factory(
     """
     from typing import get_origin
 
-    # Set the description width to 80px for better alignment
-    default_style = {"description_width": "200px"}
     if get_origin(field_spec.type) is list:
         default_value = field_spec.default_value or []
         text = CommaSeparatedText(
@@ -556,7 +505,7 @@ def _fallback_field_widget_factory(
             layout=Layout(
                 width="100%", min_width="360px", overflow="auto", margin="5px"
             ),
-            style=default_style,
+            style=field_style,
         )
         return CommaSeparatedTextBox(text)
     elif isinstance(field_spec.default_value, RemotePath):
@@ -565,7 +514,7 @@ def _fallback_field_widget_factory(
             description=field_spec.name,
             disabled=field_spec.read_only,
             layout=Layout(width="100%", margin="5px"),
-            style=default_style,
+            style=field_style,
         )
     else:
         return widgets.Text(
@@ -573,7 +522,7 @@ def _fallback_field_widget_factory(
             description=field_spec.name,
             disabled=field_spec.read_only,
             layout=Layout(width="100%", margin="5px"),
-            style=default_style,
+            style=field_style,
         )
 
 
@@ -758,7 +707,7 @@ class UploadBox(widgets.VBox):
         dataset_html = widgets.HTML(dataset._repr_html_())
         title = widgets.HTML("<h3>Dataset to Upload:</h3>")
         warning_msg = widgets.Label(
-            value="This action cannot be undone!",
+            value="Upload the dataset above.",
             layout=Layout(width="auto", display="flex", justify_content="center"),
             style={"font_weight": "bold", "font_size": "24px"},
         )
@@ -911,12 +860,13 @@ def scicat_widget(download_registry: dict | None = None) -> widgets.Widget:
 
 
 def validate_token(token: str) -> bool:
-    # Try connecting to the SciCat API with the provided token.
+    """Try connecting to the SciCat API with the provided token."""
     from scitacean.util.credentials import ExpiringToken
 
-    token_obj = ExpiringToken.from_jwt(token)
     try:
+        token_obj = ExpiringToken.from_jwt(token)
         token_obj.get_str()
+        return True
     except Exception as e:
         print(f"Invalid token: {e}")
         return False
