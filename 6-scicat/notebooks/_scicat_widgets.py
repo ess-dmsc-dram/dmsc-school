@@ -496,7 +496,13 @@ def _to_read_only(field: Dataset.Field) -> Dataset.Field:
 
 
 _FieldReplacementRegistry: MappingProxyType[str, tuple[Callable, ...]] = (
-    MappingProxyType({"type": (_to_read_only,)})
+    MappingProxyType(
+        {
+            "type": (_to_read_only,),
+            "source_folder": (_to_read_only,),
+            "proposal_id": (_to_read_only,),
+        }
+    )
 )
 
 
@@ -590,9 +596,11 @@ _FieldWidgetFactoryRegistry: MappingProxyType[
     str, Callable[[Field], widgets.ValueWidget]
 ] = MappingProxyType({})
 _SkippedFields: tuple[str, ...] = (
+    "access_groups",
     "api_version",
     "classification",
     "comment",
+    "contact_email",
     "created_at",
     "created_by",
     "creation_location",
@@ -615,6 +623,7 @@ _SkippedFields: tuple[str, ...] = (
     "shared_with",
     "source_folder_host",
     "validation_status",
+    "investigator",
     "principal_investigator",
     "sample_id",
     "job_log_data",
@@ -630,18 +639,43 @@ class CommaSeparatedText(widgets.Text):
         return [item.strip() for item in super().value.split(",") if item.strip()]
 
 
-def _make_svg_label(
-    val_str: str, *, svg_height: int = 36, max_value_length: int = 30
-) -> widgets.HTML:
+def _strip_and_shorten(val_str: str, max_value_length: int = 30) -> str:
+    """Strip whitespace and shorten the string if it exceeds a certain length."""
     val_str = val_str.strip()
     if len(val_str) > max_value_length - 3:
-        val_str = val_str[: max_value_length - 3] + "..."
+        return val_str[: max_value_length - 3] + "..."
+    return val_str
+
+
+def _make_svg_label(val_str: str, *, svg_height: int = 36) -> widgets.HTML:
+    val_str = _strip_and_shorten(val_str)
     svg_width = (len(val_str) * 8) + 10
     return widgets.HTML(
         value=f"""<svg width="{svg_width}" height="{svg_height}">
             <rect x="0" y="0" width="{svg_width}" height="{svg_height}" rx="10" ry="10"
                 style="fill: #f0f0f0; stroke: #ccc; stroke-width: 1"/>
             <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+                style="font-size: 14px; fill: #333;">{val_str}</text>
+        </svg>""",
+        layout=Layout(width="fit-content"),
+        style={"overflow": "hidden"},
+    )
+
+
+def _make_svg_card(key_str: str, val_str: str, *, svg_height: int = 72) -> widgets.HTML:
+    max_value = max(len(key_str), len(val_str)) + 3
+    key_str = _strip_and_shorten(key_str, max_value_length=max_value)
+    val_str = _strip_and_shorten(val_str, max_value_length=max_value)
+    svg_width = (max_value * 8) + 10
+    return widgets.HTML(
+        value=f"""<svg width="{svg_width}" height="{svg_height}">
+            <rect x="0" y="0" width="{svg_width}" height="{svg_height}" rx="10" ry="10"
+                style="fill: #517891; stroke: #ccc; stroke-width: 1"/>
+            <rect x="0" y="{svg_height // 2}" width="{svg_width}" height="{svg_height // 2}" rx="10" ry="10"
+                style="fill: #ADD8E6; stroke: #ADD8E6; stroke-width: 2"/>
+            <text x="50%" y="25%" dominant-baseline="middle" text-anchor="middle"
+                style="font-size: 14px; fill: #ffffff;">{key_str}</text>
+            <text x="50%" y="75%" dominant-baseline="middle" text-anchor="middle"
                 style="font-size: 14px; fill: #333;">{val_str}</text>
         </svg>""",
         layout=Layout(width="fit-content"),
@@ -693,9 +727,7 @@ class CommaSeparatedTextBox(widgets.HBox):
         return self.text.values
 
 
-def _fallback_field_widget_factory(
-    field_spec: Field,
-) -> widgets.ValueWidget:
+def _fallback_field_widget_factory(field_spec: Field) -> widgets.ValueWidget:
     """
     Fallback factory for field widgets.
     It creates a Text widget for fields that do not have a specific factory.
@@ -729,6 +761,54 @@ def _fallback_field_widget_factory(
     )
 
 
+class ReadonlyFieldTable(widgets.HBox):
+    """A table to display read-only fields in a dataset."""
+
+    def __init__(self, field_specs: Mapping[str, Field]):
+        """Initialize the ReadonlyFieldTable with field specifications."""
+        self.field_specs = field_specs
+        table = self.create_table()
+        label = widgets.HTML(
+            value="<b>Static Fields</b>",
+            layout=Layout(
+                width="auto",
+                text_align="center",
+                justify_content="center",
+                margin="25px",
+            ),
+            style={"font_size": "16px", "font_weight": "bold"},
+        )
+        super().__init__(
+            children=[label, *table], layout=Layout(width="auto"), style=default_style
+        )
+
+    def create_table(self) -> list[widgets.HTML]:
+        """Create a VBox containing the read-only fields."""
+
+        def _format_value(field_spec: Field) -> str:
+            """Format the value for display."""
+            if isinstance(field_spec.default_value, RemotePath):
+                return field_spec.default_value.posix
+            elif isinstance(field_spec.default_value, list):
+                return ", ".join(map(str, field_spec.default_value))
+            return str(field_spec.default_value)
+
+        return [
+            _make_svg_card(field_spec.name, _format_value(field_spec))
+            for field_spec in self.field_specs.values()
+            if field_spec.read_only
+        ]
+
+    @property
+    def value(self) -> Mapping[str, Any]:
+        """Return the values of the read-only fields as a mapping."""
+        return {
+            field_spec.name: field_spec.default_value
+            for field_spec in self.field_specs.values()
+            if field_spec.read_only
+        }
+
+
 class DatasetFieldWidget(widgets.VBox):
     """Dataset Field Widget for Uploading."""
 
@@ -750,10 +830,22 @@ class DatasetFieldWidget(widgets.VBox):
                 field_name, _fallback_field_widget_factory
             )(field_spec)
             for field_name, field_spec in self.field_specs.items()
-            if field_name not in _SkippedFields
+            if field_name not in _SkippedFields and not field_spec.read_only
         }
+        self.static_fields: ReadonlyFieldTable = ReadonlyFieldTable(
+            {
+                name: field
+                for name, field in self.field_specs.items()
+                if name not in _SkippedFields and field.read_only
+            }
+        )
 
-        super().__init__([widgets.Box([wg]) for wg in self.field_widgets.values()])
+        super().__init__(
+            [
+                self.static_fields,
+                *(widgets.Box([wg]) for wg in self.field_widgets.values()),
+            ]
+        )
 
     @property
     def dataset(self) -> Dataset:
@@ -764,7 +856,17 @@ class DatasetFieldWidget(widgets.VBox):
             field_name: widget.value
             for field_name, widget in self.field_widgets.items()
         }
-        return Dataset(**field_values)
+        field_values.update(self.static_fields.value)
+        owner_group = field_values.get("proposal_id", "")
+        access_groups = [owner_group]
+        investigator = field_values.get("owner", "")
+        contact_email = field_values.get("owner_email", "")
+        return Dataset(
+            **field_values,
+            access_groups=access_groups,
+            contact_email=contact_email,
+            investigator=investigator,
+        )
 
 
 class FileSelectionWidget(widgets.VBox):
