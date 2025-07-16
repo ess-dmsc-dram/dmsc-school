@@ -17,7 +17,6 @@ execute:
     - '3-mcstas/Talk.ipynb'
     - '6-scicat/9-exercise.ipynb'
     - '6-scicat/notebooks/*'
-    - '5-analysis/analysis-powder-diffraction.ipynb'
 
 # Define the name of the latex output file for PDF builds
 latex:
