@@ -410,11 +410,11 @@ def make(
         "sample_Si": [
             {
                 "name": "Si",
-                "sigma": 0.004,
-                "unit_cell_volume": 160.23,
+                "sigma": 0.032,
+                "unit_cell_volume": 160.103007,
                 "mult": 8,
                 "reflections": '"si.laz"',
-                "absorption": 0.171,
+                "absorption": 1.368,
                 "fraction": 1.0,
             },
         ],
@@ -443,18 +443,18 @@ def make(
                 "name": "La0_5Ba0_5CoO3",
                 "sigma": 5.7581,
                 "unit_cell_volume": 58.9047,
-                "mult": 1,  # set to 1 because mult is already included in absorption and sigma for .laz by ncrystal
+                "mult": 5,  # set to 1 because mult is already included in absorption and sigma for .laz by ncrystal ???
                 "reflections": '"lbco.laz"',
                 "absorption": 42.21557,
                 "fraction": 0.95,
             },
             {
                 "name": "Si",
-                "sigma": 0.004,
-                "unit_cell_volume": 160.23,
+                "sigma": 0.032,
+                "unit_cell_volume": 160.103007,
                 "mult": 8,
                 "reflections": '"si.laz"',
-                "absorption": 0.171,
+                "absorption": 1.368,
                 "fraction": 0.05,
             },
         ],
