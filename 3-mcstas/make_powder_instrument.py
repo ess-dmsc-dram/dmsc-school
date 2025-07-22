@@ -468,17 +468,17 @@ def make(
                 "fraction": 1.0,
             },
         ],
-        "sample_Fe": [
-            {
-                "name": "Fe",
-                "sigma": 0.4,
-                "unit_cell_volume": 24.04,
-                "mult": 2,
-                "reflections": '"Fe.laz"',
-                "absorption": 2.56,
-                "fraction": 1.0,
-            },
-        ],
+        #"sample_Fe": [
+        #    {
+        #        "name": "Fe",
+        #        "sigma": 0.4,
+        #        "unit_cell_volume": 24.04,
+        #        "mult": 2,
+        #        "reflections": '"Fe.laz"',
+        #        "absorption": 2.56,
+        #        "fraction": 1.0,
+        #    },
+        #],
     }
 
     for key, item in sample_library.items():
