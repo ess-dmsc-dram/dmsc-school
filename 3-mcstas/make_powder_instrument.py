@@ -438,7 +438,7 @@ def make(
         #         "fraction": 0.05,
         #     },
         # ],
-        "sample_2": [
+        "sample_LBCO": [
             {
                 "name": "La0_5Ba0_5CoO3",
                 "sigma": 5.7581,
