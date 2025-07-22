@@ -443,7 +443,7 @@ def make(
                 "name": "La0_5Ba0_5CoO3",
                 "sigma": 5.7581,
                 "unit_cell_volume": 58.9047,
-                "mult": 5,  # set to 1 because mult is already included in absorption and sigma for .laz by ncrystal ???
+                "mult": 1,  # set to 1 because mult is already included in absorption and sigma for .laz by ncrystal ???
                 "reflections": '"lbco.laz"',
                 "absorption": 42.21557,
                 "fraction": 0.95,
