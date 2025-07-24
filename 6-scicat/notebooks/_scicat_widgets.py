@@ -115,9 +115,9 @@ def _is_debugging() -> bool:
 def _get_debug_config() -> dict:
     """Get debugging configuration or defaults."""
     if _is_debugging():
-        import json
+        import yaml
 
-        return json.loads(_DEBUGGING_FILE_PATH.read_text())
+        return yaml.safe_load(_DEBUGGING_FILE_PATH.read_text())
     return {}
 
 
@@ -253,7 +253,16 @@ def _load_public_personal_info() -> dict[str, str]:
     return {}
 
 
-class PublicPersonalInfoBox(widgets.Accordion, widgets.ValueWidget):
+def _make_help_text(text: str) -> widgets.HTML:
+    """Create a help text widget."""
+    return widgets.HTML(
+        value=f"<p style='margin: 10px; font-size: 14px; color: gray;'>{text}</p>",
+        layout=Layout(width="auto"),
+        style={"overflow": "auto"},
+    )
+
+
+class PublicPersonalInfoBox(widgets.VBox, widgets.ValueWidget):
     """Box for public and personal information."""
 
     @dataclass(kw_only=True)
@@ -277,20 +286,26 @@ class PublicPersonalInfoBox(widgets.Accordion, widgets.ValueWidget):
     def __init__(self, *, output: widgets.Output | None = None):
         self.output = output or widgets.Output()
         loaded_info = _load_public_personal_info()
-        text_box = partial(widgets.Text, layout=default_layout, style=default_style)
+        help_text = _make_help_text(
+            "This information will automatically fill some of the next section, <b>Prepare Upload</b>.<br>"
+            "Click <b>Save</b> button to store it in <i>~/.cache/scicat_widgets/public_personal_info.yaml</i>."
+        )
+        text_box = partial(
+            widgets.Text, layout=default_layout, style={"description_width": "100px"}
+        )
         self.name = text_box(
             value=loaded_info.get("name", ""),
-            description="Name",
+            description="🪪 Name",
             placeholder="Enter your name",
         )
         self.email = text_box(
             value=loaded_info.get("email", ""),
-            description="Email",
+            description="📧 Email",
             placeholder="Enter your email",
         )
         self.orcid = text_box(
             value=loaded_info.get("orcid", ""),
-            description="ORCID",
+            description="🌳 ORCID ID",
             placeholder="Enter your ORCID ID",
         )
         input_box = widgets.VBox(
@@ -308,25 +323,19 @@ class PublicPersonalInfoBox(widgets.Accordion, widgets.ValueWidget):
         )
         self.save_button.button_style = "primary"
 
-        box = widgets.HBox(
+        input_box = widgets.HBox(
             children=[input_box, self.save_button],
             layout=Layout(width="100%", justify_content="space-between"),
             style=default_style,
         )
-
-        # Add event handlers
-        self.name.observe(self.validate_values, names="value", type="change")
-        self.email.observe(self.validate_values, names="value", type="change")
-        self.orcid.observe(self.validate_values, names="value", type="change")
         self.save_button.on_click(self.save_action)
 
         super().__init__(
-            children=[box],
+            children=[help_text, input_box],
             titles=["Public Personal Information"],
             layout=Layout(width="auto", min_width="560px", margin="5px"),
             style=default_style,
         )
-        self.validate_values(None)  # Initialize the title with current values
 
     def _save_action(self):
         """Action to perform when the 'Save' button is clicked."""
@@ -369,22 +378,6 @@ class PublicPersonalInfoBox(widgets.Accordion, widgets.ValueWidget):
         """Save the public personal information when the widget is deleted."""
         self._save_action()
         return super().__del__()
-
-    def validate_values(self, _):
-        """Update the title with a summary of the public personal information."""
-        values = {
-            "🪪 name 🪪": self.name.value.strip(),
-            "📧 email 📧": self.email.value.strip(),
-            "🌳 orcid 🌳": self.orcid.value.strip(),
-        }
-        values = {
-            key: val
-            for key, val in values.items()
-            if isinstance(val, str) and val.strip()
-        }
-        summary = " , ".join([":".join(key_value) for key_value in values.items()])
-        title = f"Public Personal Information: ({summary})"
-        self.titles = [title]
 
     @property
     def value(self) -> PublicPersonalInfo:
@@ -908,17 +901,20 @@ class UploadBox(widgets.VBox):
         **kwargs,
     ):
         default_button_layout = Layout(width="100%", height="36px", margin="5px")
+
+        main_help_text = _make_help_text(
+            "Fill the mandatory fields below to create a dataset.<br>"
+            "Some fields are pre-filled and ineditable."
+        )
+        self.status_help_box = widgets.HBox(children=[])
+        help_text_box = widgets.HBox(
+            children=[main_help_text, self.status_help_box], layout=Layout(width="100%")
+        )
+
         self.output = output_widget
         self.credential_box = credential_box
         self.public_personal_info_box = public_personal_info_box
         self.file_selection_widget = file_selection_widget
-        self.start_button = widgets.Button(
-            description="New Dataset",
-            tooltip="Start creating a new dataset to upload",
-            layout=Layout(width="auto", height="36px", margin="5px"),
-            style=default_style,
-        )
-        self.start_button.button_style = "info"
 
         self.upload_button = widgets.Button(
             description="Upload",
@@ -938,12 +934,11 @@ class UploadBox(widgets.VBox):
         self.reset_button.button_style = "warning"
 
         # Define the action for buttons
-        self.start_button.on_click(self._create_new_dataset)
         self.reset_button.on_click(self.reset)
         self.upload_button.on_click(self.upload)
 
-        self.dataset_field_widget = DatasetFieldWidget()
-        self.active_box = widgets.VBox(
+        self.dataset_field_widget: DatasetFieldWidget = DatasetFieldWidget()
+        self.input_box = widgets.VBox(
             [
                 self.dataset_field_widget,
                 self.file_selection_widget,
@@ -952,21 +947,57 @@ class UploadBox(widgets.VBox):
             layout=Layout(width="auto"),
         )
 
-        super().__init__([self.start_button], **kwargs)
+        super().__init__([help_text_box, self.input_box], **kwargs)
+        self._update_status_help_box()
 
-    def _create_new_dataset(self, _) -> None:
-        """
-        Action to perform when the 'New Dataset' button is clicked.
-        It should initialize a new dataset for upload.
-        """
-        with self.output:
-            print("Creating a new dataset for upload...")
+    def _update_status_help_box(self, _=None) -> None:
+        def _check_sync(
+            public_info: PublicPersonalInfoBox.PublicPersonalInfo, dset: Dataset
+        ) -> bool:
+            """Check if the public personal info is in sync with the dataset."""
+            return (
+                dset.owner == public_info.name
+                and dset.owner_email == public_info.email
+                and dset.orcid_of_owner == _format_orcid(public_info.orcid)
+            )
 
-        self.upload_button.disabled = False
-        except_for_myself = [
-            child for child in self.children if child is not self.start_button
-        ]
-        self.children = (*except_for_myself, self.active_box)
+        public_info = self.public_personal_info_box.value
+        cur_dset = self.dataset_field_widget.dataset
+
+        if _check_sync(public_info, cur_dset):
+            status_help_text = widgets.HTML(
+                value="<p style='margin: 10px; font-size: 14px; color: green;'>"
+                "✅ <b>Public Personal Info</b> is in sync with the dataset.</p>",
+                layout=Layout(width="100%", text_align="center"),
+            )
+
+        else:
+            status_help_text = widgets.HTML(
+                value="<p style='margin: 10px; font-size: 14px; color: orange;'>"
+                "🤔 <b>Public Personal Info</b> is NOT in sync with the dataset.<br>"
+                "Press <b>Fill from Public Info</b> button to update the dataset fields.</p>",
+                layout=Layout(width="100%", text_align="center"),
+            )
+            button = widgets.Button(
+                description="Fill from Public Info",
+                tooltip="Fill the dataset fields with the public personal info.",
+                layout=Layout(width="auto", height="36px", margin="5px", min_width="200px", align_self="center"),
+                style=default_style,
+            )
+            button.button_style = "warning"
+
+            def _refill_fields(_) -> None:
+                """Refill the dataset fields with the public personal info."""
+                field_widgets = self.dataset_field_widget.field_widgets
+                field_widgets["owner"].value = public_info.name
+                field_widgets["owner_email"].value = public_info.email
+                field_widgets["orcid_of_owner"].value = _format_orcid(public_info.orcid)
+                self._update_status_help_box()
+
+            button.on_click(_refill_fields)
+            status_help_text = widgets.HBox(children=[status_help_text, button])
+
+        self.status_help_box.children = (status_help_text,)
 
     def confirm_choice(
         self,
@@ -1040,13 +1071,14 @@ class UploadBox(widgets.VBox):
             self.dataset_field_widget = DatasetFieldWidget(
                 public_personal_info=self.public_personal_info_box
             )
-            self.active_box.children = [
+            self.input_box.children = [
                 self.dataset_field_widget,
                 widgets.Box([self.reset_button, self.upload_button]),
             ]
 
         self.confirm_choice(
-            message="Are you sure you want to RESET all dataset fields?",
+            message="Are you sure you want to OVERWRITE "
+            "all fields with default values?",
             callback_for_confirm=reset_action,
         )
 
@@ -1139,6 +1171,14 @@ class ScicatWidget(widgets.VBox):
             layout=default_layout,
             style=default_style,
         )
+
+        if upload_widget is not None:
+            # Update status whenever the upload widget is changed
+            self.menus.observe(
+                upload_widget._update_status_help_box,
+                names="selected_index",
+                type="change",
+            )
 
 
 def _config_logger():
