@@ -12,7 +12,7 @@ from IPython.display import display
 from scitacean import Client, Dataset, DatasetType, RemotePath
 
 default_layout = Layout(width="auto", min_width="560px")
-default_style = {"description_width": "200px"}
+default_style = {"description_width": "150px"}
 button_layout = Layout(width="100%", height="36px", margin="5px")
 
 
@@ -157,6 +157,15 @@ def _get_current_proposal() -> str:
     return next(iter(sub_dirs)).name
 
 
+def _make_help_text(text: str) -> widgets.HTML:
+    """Create a help text widget."""
+    return widgets.HTML(
+        value=f"<p style='margin: 10px; font-size: 14px; color: gray;'>{text}</p>",
+        layout=Layout(width="auto"),
+        style={"overflow": "auto"},
+    )
+
+
 class AddressBox(widgets.HBox):
     def __init__(self):
         self.checkbox = widgets.Checkbox(
@@ -201,6 +210,12 @@ def validate_token(token: str) -> bool:
 class CredentialBox(widgets.VBox):
     def __init__(self, *, output: widgets.Output):
         self.output = output
+        help_text = _make_help_text(
+            "Go to <a href='https://staging.scicat.ess.eu/user' "
+            "target='_blank' style='color: blue;'>"
+            "your profile</a> to find your SciCat token. "
+            "(You might need to log in first.)<br>"
+        )
         with self.output:
             self.address_box = AddressBox()
             self.token = NotSoLongButNotShortText(
@@ -212,7 +227,7 @@ class CredentialBox(widgets.VBox):
             )
 
         super().__init__(
-            children=[self.address_box, self.token],
+            children=[help_text, self.address_box, self.token],
             titles=["Credentials"],
             layout=default_layout,
             style=default_style,
@@ -251,15 +266,6 @@ def _load_public_personal_info() -> dict[str, str]:
         with open(file_path, "r") as file:
             return yaml.safe_load(file)
     return {}
-
-
-def _make_help_text(text: str) -> widgets.HTML:
-    """Create a help text widget."""
-    return widgets.HTML(
-        value=f"<p style='margin: 10px; font-size: 14px; color: gray;'>{text}</p>",
-        layout=Layout(width="auto"),
-        style={"overflow": "auto"},
-    )
 
 
 class PublicPersonalInfoBox(widgets.VBox, widgets.ValueWidget):
@@ -517,13 +523,13 @@ def _make_default_dataset(
         _get_default_proposal_mount() / proposal_id / "derived"
     ).absolute()
 
-    return Dataset(
+    dataset_builder = partial(
+        Dataset,
         type=DatasetType.DERIVED,
         contact_email=email,
         investigator=my_name,
         owner=my_name,
         owner_email=email,
-        used_software=["scipp", "easyscience"],
         data_format="",
         is_published=False,
         owner_group=proposal_id,
@@ -534,10 +540,19 @@ def _make_default_dataset(
         license="unknown",
         proposal_id=proposal_id,
         source_folder=source_folder.as_posix(),
-        name="Summer School Reduced Dataset",
-        description="Awesome reduced dataset from the DMSC Summer School 2025",
         orcid_of_owner=orcid,
     )
+
+    if _is_debugging():
+        import datetime
+
+        return dataset_builder(
+            name=f"Debugging Dataset {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            description="This is a debugging dataset for the SciCat widget.",
+            used_software=["scipp", "easyscience"],
+        )
+    else:
+        return dataset_builder(name="", description="")
 
 
 def _make_default_value_registry(
@@ -727,7 +742,7 @@ def _fallback_field_widget_factory(field_spec: Field) -> widgets.ValueWidget:
     """
     from typing import get_origin
 
-    field_style = {"description_width": "200px"}
+    field_style = {"description_width": "120px"}
     if get_origin(field_spec.type) is list:
         default_value = field_spec.default_value or []
         text = CommaSeparatedText(
@@ -873,7 +888,7 @@ class FileSelectionWidget(widgets.VBox):
             layout=Layout(width="auto", margin="5px"),
             style=default_style,
         )
-        self.file_path.style.description_width = "200px"
+        self.file_path.style.description_width = "120px"
         self.file_path.style.background = "lightyellow"
 
         def validate_path(_) -> None:
@@ -890,11 +905,77 @@ class FileSelectionWidget(widgets.VBox):
         )
 
 
-class UploadBox(widgets.VBox):
+def confirm_choice(
+    main_window,
+    *,
+    callback_for_confirm: Callable | None = None,
+    callback_for_cancel: Callable | None = None,
+    message: str | widgets.Widget = "Are you sure you want to proceed?",
+) -> None:
+    button_layout = Layout(width="50%", height="150px", margin="20px")
+    button_style = {"font_weight": "bold", "font_size": "28px"}
+    confirm_button = widgets.Button(
+        description="Confirm",
+        tooltip="Go ahead!",
+        layout=button_layout,
+        style=button_style,
+    )
+    confirm_button.button_style = "primary"
+    cancel_button = widgets.Button(
+        description="Cancel",
+        tooltip="Cancel and go back to the previous page.",
+        layout=button_layout,
+        style=button_style,
+    )
+    cancel_button.button_style = "warning"
+
+    message_widget = (
+        message
+        if isinstance(message, widgets.Widget)
+        else widgets.Label(
+            value=f"\n \n {message}",
+            layout=Layout(width="auto", display="flex", justify_content="center"),
+            style={"font_weight": "bold", "font_size": "24px"},
+        )
+    )
+    button_box = widgets.HBox(
+        children=[cancel_button, confirm_button],
+        layout=Layout(width="100%", justify_content="center"),
+        style=default_style,
+    )
+    confirm_box = widgets.VBox(
+        children=[message_widget, button_box],
+        layout=Layout(width="100%", justify_content="center"),
+        style=default_style,
+    )
+    original_children = main_window.children
+    main_window.children = (confirm_box,)
+
+    def confirm_action(_) -> None:
+        main_window.children = original_children
+        if callback_for_confirm is not None:
+            callback_for_confirm()
+
+    def cancel_action(_) -> None:
+        main_window.children = original_children
+        if callback_for_cancel is not None:
+            callback_for_cancel()
+
+    confirm_button.on_click(confirm_action)
+    cancel_button.on_click(cancel_action)
+
+
+class PrepareUploadBox(widgets.VBox):
+    @property
+    def dataset(self) -> Dataset:
+        dataset: Dataset = self.dataset_field_widget.dataset
+        if file_path := self.file_selection_widget.file_path.value.strip():
+            dataset.add_local_files(file_path)
+        return dataset
+
     def __init__(
         self,
         *,
-        credential_box: CredentialBox,
         output_widget: widgets.Output,
         public_personal_info_box: PublicPersonalInfoBox,
         file_selection_widget: FileSelectionWidget,
@@ -912,18 +993,8 @@ class UploadBox(widgets.VBox):
         )
 
         self.output = output_widget
-        self.credential_box = credential_box
         self.public_personal_info_box = public_personal_info_box
         self.file_selection_widget = file_selection_widget
-
-        self.upload_button = widgets.Button(
-            description="Upload",
-            tooltip="Upload the dataset",
-            layout=default_button_layout,
-            style=default_style,
-        )
-        self.upload_button.button_style = "primary"
-        self.upload_button.disabled = True
 
         self.reset_button = widgets.Button(
             description="Reset",
@@ -935,14 +1006,13 @@ class UploadBox(widgets.VBox):
 
         # Define the action for buttons
         self.reset_button.on_click(self.reset)
-        self.upload_button.on_click(self.upload)
 
         self.dataset_field_widget: DatasetFieldWidget = DatasetFieldWidget()
         self.input_box = widgets.VBox(
             [
                 self.dataset_field_widget,
                 self.file_selection_widget,
-                widgets.Box([self.reset_button, self.upload_button]),
+                widgets.Box([self.reset_button]),
             ],
             layout=Layout(width="auto"),
         )
@@ -981,7 +1051,13 @@ class UploadBox(widgets.VBox):
             button = widgets.Button(
                 description="Fill from Public Info",
                 tooltip="Fill the dataset fields with the public personal info.",
-                layout=Layout(width="auto", height="36px", margin="5px", min_width="200px", align_self="center"),
+                layout=Layout(
+                    width="auto",
+                    height="36px",
+                    margin="5px",
+                    min_width="200px",
+                    align_self="center",
+                ),
                 style=default_style,
             )
             button.button_style = "warning"
@@ -999,65 +1075,6 @@ class UploadBox(widgets.VBox):
 
         self.status_help_box.children = (status_help_text,)
 
-    def confirm_choice(
-        self,
-        *,
-        callback_for_confirm: Callable | None = None,
-        callback_for_cancel: Callable | None = None,
-        message: str | widgets.Widget = "Are you sure you want to proceed?",
-    ) -> None:
-        button_layout = Layout(width="50%", height="150px", margin="20px")
-        button_style = {"font_weight": "bold", "font_size": "28px"}
-        confirm_button = widgets.Button(
-            description="Confirm",
-            tooltip="Go ahead!",
-            layout=button_layout,
-            style=button_style,
-        )
-        confirm_button.button_style = "primary"
-        cancel_button = widgets.Button(
-            description="Cancel",
-            tooltip="Cancel and go back to the previous page.",
-            layout=button_layout,
-            style=button_style,
-        )
-        cancel_button.button_style = "warning"
-
-        message_widget = (
-            message
-            if isinstance(message, widgets.Widget)
-            else widgets.Label(
-                value=f"\n \n {message}",
-                layout=Layout(width="auto", display="flex", justify_content="center"),
-                style={"font_weight": "bold", "font_size": "24px"},
-            )
-        )
-        button_box = widgets.HBox(
-            children=[cancel_button, confirm_button],
-            layout=Layout(width="100%", justify_content="center"),
-            style=default_style,
-        )
-        confirm_box = widgets.VBox(
-            children=[message_widget, button_box],
-            layout=Layout(width="100%", justify_content="center"),
-            style=default_style,
-        )
-        original_children = self.children
-        self.children = (confirm_box,)
-
-        def confirm_action(_) -> None:
-            self.children = original_children
-            if callback_for_confirm is not None:
-                callback_for_confirm()
-
-        def cancel_action(_) -> None:
-            self.children = original_children
-            if callback_for_cancel is not None:
-                callback_for_cancel()
-
-        confirm_button.on_click(confirm_action)
-        cancel_button.on_click(cancel_action)
-
     def reset(self, _) -> None:
         """
         Reset the upload box to its initial state.
@@ -1073,13 +1090,55 @@ class UploadBox(widgets.VBox):
             )
             self.input_box.children = [
                 self.dataset_field_widget,
-                widgets.Box([self.reset_button, self.upload_button]),
+                widgets.Box([self.reset_button]),
             ]
 
-        self.confirm_choice(
+        confirm_choice(
+            self,
             message="Are you sure you want to OVERWRITE "
             "all fields with default values?",
             callback_for_confirm=reset_action,
+        )
+
+
+class UploadBox(widgets.VBox):
+    def __init__(
+        self,
+        *,
+        output_widget: widgets.Output,
+        prepare_upload_box: PrepareUploadBox,
+        credential_box: CredentialBox,
+    ):
+        default_button_layout = Layout(width="auto", height="36px", margin="5px")
+
+        main_help_text = _make_help_text(
+            "Fill the mandatory fields below to create a dataset.<br>"
+            "Some fields are pre-filled and ineditable."
+        )
+        self.status_help_box = widgets.HBox(children=[])
+        help_text_box = widgets.HBox(
+            children=[main_help_text, self.status_help_box], layout=Layout(width="auto")
+        )
+
+        self.output = output_widget
+        self.prepare_upload_box = prepare_upload_box
+        self.credential_box = credential_box
+
+        self.preview_box = widgets.VBox(children=[])
+
+        self.upload_button = widgets.Button(
+            description="Upload",
+            tooltip="Upload the dataset",
+            layout=default_button_layout,
+            style=default_style,
+        )
+        self.upload_button.button_style = "primary"
+        self.upload_button.disabled = True
+
+        super().__init__(
+            [help_text_box, self.preview_box, self.upload_button],
+            layout=Layout(width="auto", margin="5px"),
+            style=default_style,
         )
 
     def upload(self, _) -> None:
@@ -1087,9 +1146,7 @@ class UploadBox(widgets.VBox):
         Action to perform when the 'Upload' button is clicked.
         It should upload the dataset to SciCat.
         """
-        dataset: Dataset = self.dataset_field_widget.dataset
-        if file_path := self.file_selection_widget.file_path.value.strip():
-            dataset.add_local_files(file_path)
+        dataset: Dataset = self.prepare_upload_box.dataset
 
         dataset_html = widgets.HTML(dataset._repr_html_())
         title = widgets.HTML("<h3>Dataset to Upload:</h3>")
@@ -1110,7 +1167,8 @@ class UploadBox(widgets.VBox):
                 except Exception as e:
                     logger.info(f"Failed to upload dataset: {e}")
 
-        self.confirm_choice(
+        confirm_choice(
+            self,
             message=widgets.VBox(
                 children=[title, dataset_html, warning_msg],
                 layout=Layout(width="100%", justify_content="center"),
@@ -1127,9 +1185,11 @@ class ScicatWidget(widgets.VBox):
         output_widget: widgets.Output,
         public_personal_info_box: PublicPersonalInfoBox | None = None,
         download_widget: DownloadBox | None = None,
+        prepare_upload_widget: PrepareUploadBox | None = None,
         upload_widget: UploadBox | None = None,
     ):
         self.public_personal_info_box = public_personal_info_box
+        self.prepare_upload_widget = prepare_upload_widget
         self.upload_widget = upload_widget
         self.download_widget = download_widget
         self.credentials = credential_box
@@ -1137,7 +1197,8 @@ class ScicatWidget(widgets.VBox):
         self._sub_widgets = {
             "Credentials": self.credentials,
             "Public Personal Info": self.public_personal_info_box,
-            "Prepare Upload": self.upload_widget,
+            "Prepare Upload": self.prepare_upload_widget,
+            "Upload": self.upload_widget,
             "Download": self.download_widget,
         }
 
@@ -1156,29 +1217,39 @@ class ScicatWidget(widgets.VBox):
 
         self.output = output_widget
         with self.output:
-            print(
-                "Welcome to the SciCat widget! "
-                "Please enter your SciCat credentials in the Credentials tab."
-            )
+            logger = logging.getLogger("scicat-widget")
+            logger.info("Here you can see the log of the SciCat widget.")
+
         output_box = widgets.Accordion(children=[self.output], titles=["Output (Log)"])
         output_box.selected_index = 0
 
         super().__init__(
-            children=[
-                widgets.HTML("<h2>Scicat Widget</h2>"),
-                widgets.VBox([self.menus, output_box]),
-            ],
+            children=[self._build_header_message(), self.menus, output_box],
             layout=default_layout,
             style=default_style,
         )
 
-        if upload_widget is not None:
+        if prepare_upload_widget is not None:
             # Update status whenever the upload widget is changed
             self.menus.observe(
-                upload_widget._update_status_help_box,
+                prepare_upload_widget._update_status_help_box,
                 names="selected_index",
                 type="change",
             )
+
+    def _build_header_message(self) -> widgets.HTML:
+        if self.upload_widget is not None and self.download_widget is None:
+            available_menu_message = "upload"
+        elif self.upload_widget is None and self.download_widget is not None:
+            available_menu_message = "download"
+        else:
+            available_menu_message = "upload or download"
+
+        return widgets.HTML(
+            "<p><b>Scicat Widget</b> - "
+            "<text style='color: gray;'>Follow the tabs from left to right "
+            f"to {available_menu_message} datasets.</text></p>"
+        )
 
 
 def _config_logger():
@@ -1241,17 +1312,23 @@ def upload_widget(show: bool = True) -> ScicatWidget:
     output = build_output_widget()
     credential_box = CredentialBox(output=output)
     file_selection_widget = FileSelectionWidget(output=output)
-    public_personal_info_box = PublicPersonalInfoBox(output=output)
-    widget = ScicatWidget(
-        credential_box=credential_box,
+    public_personal_info_widget = PublicPersonalInfoBox(output=output)
+    prepare_upload_widget = PrepareUploadBox(
         output_widget=output,
-        upload_widget=UploadBox(
-            credential_box=credential_box,
-            output_widget=output,
-            file_selection_widget=file_selection_widget,
-            public_personal_info_box=public_personal_info_box,
-        ),
-        public_personal_info_box=public_personal_info_box,
+        file_selection_widget=file_selection_widget,
+        public_personal_info_box=public_personal_info_widget,
+    )
+    _upload_widget = UploadBox(
+        output_widget=output,
+        prepare_upload_box=prepare_upload_widget,
+        credential_box=credential_box,
+    )
+    widget = ScicatWidget(
+        output_widget=output,
+        credential_box=credential_box,
+        public_personal_info_box=public_personal_info_widget,
+        prepare_upload_widget=prepare_upload_widget,
+        upload_widget=_upload_widget,
     )
     if show:
         display(widget)
@@ -1270,17 +1347,22 @@ def scicat_widget(
         output_widget=output,
         download_registry=download_registry or {},
     )
-    upload_widget_instance = UploadBox(
-        credential_box=credential_box,
+    prepare_upload_widget = PrepareUploadBox(
         output_widget=output,
         file_selection_widget=FileSelectionWidget(output=output),
+    )
+    _upload_widget = UploadBox(
+        output_widget=output,
+        prepare_upload_box=prepare_upload_widget,
+        credential_box=credential_box,
     )
 
     widget = ScicatWidget(
         credential_box=credential_box,
         output_widget=output,
         download_widget=download_widget_instance,
-        upload_widget=upload_widget_instance,
+        prepare_upload_widget=prepare_upload_widget,
+        upload_widget=_upload_widget,
     )
     if show:
         display(widget)
