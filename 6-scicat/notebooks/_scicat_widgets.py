@@ -777,7 +777,7 @@ class ReadonlyFieldTable(widgets.HBox):
         self.field_specs = field_specs
         table = self.create_table()
         label = widgets.HTML(
-            value="<b>Static Fields</b>",
+            value="<b>Prefilled Fields</b>",
             layout=Layout(
                 width="auto",
                 text_align="center",
@@ -860,7 +860,7 @@ class DatasetFieldWidget(widgets.VBox):
                 if name not in _SkippedFields and field.read_only
             }
         )
-        all_widgets = self.field_widgets.copy()
+        all_widgets = {**self.field_widgets}
         sub_widgets = [all_widgets.pop(field_name) for field_name in _FIELD_ORDER]
         # Add any remaining widgets that were not in the predefined order
         sub_widgets.extend(all_widgets.values())
@@ -883,6 +883,10 @@ class DatasetFieldWidget(widgets.VBox):
         access_groups = [owner_group]
         investigator = field_values.get("owner", "")
         contact_email = field_values.get("owner_email", "")
+        techniques = field_values.get("techniques", [])
+        if len(techniques) != 0:
+            raise NotImplementedError("PID for techniques is not implemented yet.")
+
         return Dataset(
             **field_values,
             access_groups=access_groups,
@@ -1126,8 +1130,8 @@ class UploadBox(widgets.VBox):
         default_button_layout = Layout(width="auto", height="36px", margin="5px")
 
         main_help_text = _make_help_text(
-            "Fill the mandatory fields below to create a dataset.<br>"
-            "Some fields are pre-filled and ineditable."
+            "Here you can see the dataset you are going to upload.<br>"
+            "Press <b>Upload</b> button to upload the dataset to SciCat.<br>"
         )
         self.status_help_box = widgets.HBox(children=[])
         help_text_box = widgets.HBox(
@@ -1147,13 +1151,36 @@ class UploadBox(widgets.VBox):
             style=default_style,
         )
         self.upload_button.button_style = "primary"
-        self.upload_button.disabled = True
 
         super().__init__(
             [help_text_box, self.preview_box, self.upload_button],
             layout=Layout(width="auto", margin="5px"),
             style=default_style,
         )
+
+    def _update_preview_box(self, _=None) -> None:
+        self.preview_box.children = []
+        try:
+            dataset: Dataset = self.prepare_upload_box.dataset
+            dataset_html = widgets.HTML(
+                dataset._repr_html_(), layout=Layout(width="auto")
+            )
+            title = widgets.HTML("<h3>Dataset to Upload:</h3>")
+            warning_msg = widgets.Label(
+                value="Upload the dataset above.",
+                layout=Layout(width="auto", display="flex", justify_content="center"),
+                style={"font_weight": "bold", "font_size": "24px"},
+            )
+            self.preview_box.children = [title, dataset_html, warning_msg]
+        except Exception as e:
+            self.preview_box.children = [
+                widgets.HTML(
+                    "<p style='color: red;'>Error occurred "
+                    " preparing dataset for upload. "
+                    "Please fill in the required fields and try again. <br>"
+                    f"Error Message: <br>{e}</p>",
+                )
+            ]
 
     def upload(self, _) -> None:
         """
@@ -1243,12 +1270,15 @@ class ScicatWidget(widgets.VBox):
             style=default_style,
         )
 
-        if prepare_upload_widget is not None:
-            # Update status whenever the upload widget is changed
+        if prepare_upload_widget is not None and upload_widget is not None:
+
+            def _sync_status_between_boxes(_) -> None:
+                """Synchronize the status between the upload and prepare upload widgets."""
+                upload_widget._update_preview_box()
+                prepare_upload_widget._update_status_help_box()
+
             self.menus.observe(
-                prepare_upload_widget._update_status_help_box,
-                names="selected_index",
-                type="change",
+                _sync_status_between_boxes, names="selected_index", type="change"
             )
 
     def _build_header_message(self) -> widgets.HTML:
