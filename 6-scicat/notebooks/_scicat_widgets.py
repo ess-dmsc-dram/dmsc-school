@@ -817,6 +817,19 @@ class ReadonlyFieldTable(widgets.HBox):
         }
 
 
+_FIELD_ORDER = (
+    "name",
+    "description",
+    "keywords",
+    "techniques",
+    "used_software",
+    "owner",
+    "owner_email",
+    "orcid_of_owner",
+    "owner_group",
+)
+
+
 class DatasetFieldWidget(widgets.VBox):
     """Dataset Field Widget for Uploading."""
 
@@ -847,12 +860,13 @@ class DatasetFieldWidget(widgets.VBox):
                 if name not in _SkippedFields and field.read_only
             }
         )
+        all_widgets = self.field_widgets.copy()
+        sub_widgets = [all_widgets.pop(field_name) for field_name in _FIELD_ORDER]
+        # Add any remaining widgets that were not in the predefined order
+        sub_widgets.extend(all_widgets.values())
 
         super().__init__(
-            [
-                self.static_fields,
-                *(widgets.Box([wg]) for wg in self.field_widgets.values()),
-            ]
+            [self.static_fields, *(widgets.Box([wg]) for wg in sub_widgets)]
         )
 
     @property
