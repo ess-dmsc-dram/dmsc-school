@@ -121,13 +121,21 @@ def _get_debug_config() -> dict:
     return {}
 
 
-def _get_default_address() -> str:
+def _get_default_backend_address() -> str:
     config = _get_debug_config()
     return config.get(
-        "address",
+        "backend_address",
         "https://staging.scicat.ess.eu/api/v3"
         if not _is_debugging()
         else "http://backend.localhost/api/v3",
+    )
+
+
+def _get_default_client_address() -> str:
+    config = _get_debug_config()
+    return config.get(
+        "client_address",
+        "https://staging.scicat.ess.eu" if not _is_debugging() else "http://localhost",
     )
 
 
@@ -136,9 +144,14 @@ def _get_default_token() -> str:
 
 
 def _get_default_proposal_mount() -> pathlib.Path:
-    config = _get_debug_config()
-    default_path = "./myProposals/" if _is_debugging() else "/myProposals/"
-    return pathlib.Path(config.get("proposal_mount", default_path))
+    if _is_debugging():
+        # If debugging, use the path from the debugging file
+        config = _get_debug_config()
+        return pathlib.Path(config.get("proposal_mount", "./myProposals/"))
+    else:
+        # symlink path
+        symlink_path = pathlib.Path.home() / "myProposals"
+        return symlink_path.resolve()
 
 
 def _get_current_proposal() -> str:
@@ -172,7 +185,7 @@ class AddressBox(widgets.HBox):
             value=False, description="Enable Editing", layout=Layout(width="20%")
         )
         self.address = NotSoLongButNotShortText(
-            _get_default_address(),
+            _get_default_backend_address(),
             description="Scicat Address",
             layout=Layout(width="500px"),
             style=default_style,
@@ -202,8 +215,7 @@ def validate_token(token: str) -> bool:
         token_obj = ExpiringToken.from_jwt(token)
         token_obj.get_str()
         return True
-    except Exception as e:
-        print(f"Invalid token: {e}")
+    except Exception:
         return False
 
 
@@ -233,6 +245,11 @@ class CredentialBox(widgets.VBox):
             style=default_style,
         )
 
+    def dataset_url(self, pid: str) -> str:
+        pid = pid.replace("/", "%2F")
+        client_url = _get_default_client_address()
+        return f"{client_url}/datasets/{pid}"
+
     @property
     def client(self) -> Client:
         from scitacean.transfer.copy import CopyFileTransfer
@@ -240,12 +257,31 @@ class CredentialBox(widgets.VBox):
         return Client.from_token(
             url=self.address_box.value,
             token=self.token.value,
-            file_transfer=CopyFileTransfer(
-                source_folder=(
-                    _get_default_proposal_mount() / _get_current_proposal() / "derived"
-                ).as_posix()
-            ),
+            file_transfer=CopyFileTransfer(),  # Not setting source_folder here
         )
+
+
+def _get_human_readable_unique_folder_path(parent: pathlib.Path) -> pathlib.Path:
+    """Generate a human-readable unique(within a second) folder name."""
+    import os
+
+    user_id = os.environ.get("USER", "unknown_user")
+    # Get the highest numbered directory that has a prefix of "user_id_"
+    existing_dirs = [
+        dir_name
+        for dir_name in parent.iterdir()
+        if dir_name.is_dir() and dir_name.name.startswith(f"{user_id}_")
+    ]
+    existing_dirs.sort(key=lambda x: x.name)
+    if len(existing_dirs) > 0 and len(list(existing_dirs[-1].iterdir())) == 0:
+        # If the last directory is empty, use it
+        return existing_dirs[-1]
+
+    new_num = len(existing_dirs)
+    new_dir = parent / f"{user_id}_{new_num:05d}"
+    if not new_dir.exists():
+        new_dir.mkdir(exist_ok=False)
+    return new_dir
 
 
 def _get_cache_directory() -> pathlib.Path:
@@ -293,7 +329,7 @@ class PublicPersonalInfoBox(widgets.VBox, widgets.ValueWidget):
         self.output = output or widgets.Output()
         loaded_info = _load_public_personal_info()
         help_text = _make_help_text(
-            "This information will automatically fill some of the next section, <b>Prepare Upload</b>.<br>"
+            "This information will automatically fill some fields in the next section, <b>Prepare Upload</b>.<br>"
             "Click <b>Save</b> button to store it in <i>~/.cache/scicat_widgets/public_personal_info.yaml</i>."
         )
         text_box = partial(
@@ -520,9 +556,9 @@ def _make_default_dataset(
     orcid = _format_orcid(_my_info.orcid)
     proposal_id = _get_current_proposal()
     source_folder = pathlib.Path(
-        _get_default_proposal_mount() / proposal_id / "derived"
+        _get_default_proposal_mount() / proposal_id / "upload"
     ).absolute()
-
+    source_folder = _get_human_readable_unique_folder_path(parent=source_folder)
     dataset_builder = partial(
         Dataset,
         type=DatasetType.DERIVED,
@@ -539,7 +575,7 @@ def _make_default_dataset(
         keywords=["DMSC Summer School 2025"],
         license="unknown",
         proposal_id=proposal_id,
-        source_folder=source_folder.as_posix(),
+        source_folder=source_folder.resolve().as_posix(),
         orcid_of_owner=orcid,
     )
 
@@ -556,11 +592,10 @@ def _make_default_dataset(
 
 
 def _make_default_value_registry(
-    default_dataset: Dataset | None = None,
+    default_dataset: Dataset,
 ) -> MappingProxyType[str, Any]:
     """Create a default value registry for dataset fields."""
 
-    default_dataset = default_dataset or _make_default_dataset()
     # First create a `Dataset` instance with default values.
     # It is easier to set and validate the fields this way.
     # However, we need to convert it to a mapping of field names to default values.
@@ -580,7 +615,7 @@ def _replace_field(
     field_spec: Dataset.Field,
     *,
     registry: Mapping[str, tuple[Callable, ...]] = _FieldReplacementRegistry,
-    default_value_registry: Mapping[str, Any] = _make_default_value_registry(),
+    default_value_registry: Mapping[str, Any],
 ) -> Field:
     """
     Replace fields in the field_specs based on the registry.
@@ -835,11 +870,11 @@ class DatasetFieldWidget(widgets.VBox):
 
     def __init__(self, *, public_personal_info: PublicPersonalInfoBox | None = None):
         if public_personal_info is None:
-            _default_value_registry = _make_default_value_registry()
+            default_dataset = _make_default_dataset()
         else:
             default_dataset = _make_default_dataset(public_personal_info.value)
-            _default_value_registry = _make_default_value_registry(default_dataset)
 
+        _default_value_registry = _make_default_value_registry(default_dataset)
         self.field_specs = {
             field_spec.name: _replace_field(
                 field_spec, default_value_registry=_default_value_registry
@@ -898,29 +933,157 @@ class DatasetFieldWidget(widgets.VBox):
 class FileSelectionWidget(widgets.VBox):
     """Widget for selecting files to upload."""
 
+    class SelectedFileWidget(widgets.HBox):
+        """Widget to display a selected file with options to remove it."""
+
+        def __init__(self, file_path: pathlib.Path, remove_callback: Callable):
+            file_dir = file_path.parent.as_posix()
+            file_name = file_path.name
+            file_path_str = f"{file_dir}/<b>{file_name}</b>"
+            file_label = widgets.HTML(
+                value=file_path_str,
+                layout=Layout(width="auto"),
+                style={"font_size": "14px"},
+            )
+            remove_button = widgets.Button(
+                description="X",
+                tooltip="Remove this file from the selection",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            remove_button.on_click(remove_callback)
+            super().__init__(
+                children=[file_label, remove_button],
+                layout=Layout(left="132px", width="fit-content"),
+            )
+
     def __init__(self, *, output: widgets.Output):
         self.output = output
-        self.file_path = widgets.Text(
+        self.file_path_input = widgets.Text(
             description="File Path",
             placeholder="Enter the path to the file to upload",
+            layout=Layout(width="auto", margin="5px", min_width="720px"),
+            style=default_style,
+        )
+        self.file_path_input.style.description_width = "120px"
+        self.file_path_input.style.background = "lightyellow"
+
+        self.add_button = widgets.Button(
+            description="Add File",
+            tooltip="Add the file to the dataset",
             layout=Layout(width="auto", margin="5px"),
             style=default_style,
         )
-        self.file_path.style.description_width = "120px"
-        self.file_path.style.background = "lightyellow"
+        self.add_button.button_style = "primary"
+        self.add_button.disabled = True
+        self.current_files: set[pathlib.Path] = set()
 
         def validate_path(_) -> None:
             """Validate the file path and update the output widget."""
-            file_path = pathlib.Path(self.file_path.value.strip())
-            if not file_path.exists() or not file_path.is_file():
-                self.file_path.style.background = "pink"
-            else:
-                self.file_path.style.background = "lightgreen"
+            if not (input_value := self.file_path_input.value.strip()):
+                self.file_path_input.style.background = "lightyellow"
+                self.add_button.disabled = True
+                return
 
-        self.file_path.observe(validate_path, names="value", type="change")
-        super().__init__(
-            children=[self.file_path], layout=Layout(width="auto"), style=default_style
+            file_path = pathlib.Path(input_value)
+            if not file_path.exists() or not file_path.is_file():
+                self.file_path_input.style.background = "pink"
+                self.add_button.disabled = True
+            else:
+                self.file_path_input.style.background = "lightgreen"
+                self.add_button.disabled = False
+
+        def add_file_action(_) -> None:
+            """Action to perform when the 'Add File' button is clicked."""
+            file_path = self.file_path_input.value.strip()
+            with self.output:
+                self.current_files.add(pathlib.Path(file_path).resolve(strict=True))
+
+            # Here you can add the logic to handle the file path, e.g., adding it to a dataset
+            # For now, we just clear the input field
+            self.file_path_input.value = ""
+            self.add_button.disabled = True
+            self._render_current_files()
+
+        self.file_path_input.observe(validate_path, names="value", type="change")
+        self.add_button.on_click(add_file_action)
+        self.preview_box = widgets.VBox(children=[])
+        self.input_box = widgets.HBox(
+            children=[self.file_path_input, self.add_button],
+            layout=Layout(width="auto"),
+            style=default_style,
         )
+        super().__init__(
+            children=[self.input_box, self.preview_box],
+            layout=Layout(width="auto"),
+            style=default_style,
+        )
+
+    def _remove_file(self, file_path: pathlib.Path, _) -> None:
+        """Remove a file from the current files set and update the preview box."""
+        self.current_files.discard(file_path)
+        self._render_current_files()
+
+    def _render_current_files(self) -> None:
+        """Render the current files in the preview box."""
+        self.preview_box.children = [
+            self.SelectedFileWidget(
+                file_path, remove_callback=partial(self._remove_file, file_path)
+            )
+            for file_path in self.current_files
+        ]
+
+    @property
+    def file_paths(self) -> list[pathlib.Path]:
+        """Return the list of selected file paths."""
+        return list(self.current_files)
+
+    def reset(self) -> None:
+        """Reset the file selection widget."""
+        self.file_path_input.value = ""
+        self.current_files.clear()
+        self._render_current_files()
+
+
+def confirm_message(
+    main_window,
+    *,
+    callback_for_confirm: Callable | None = None,
+    message: str | widgets.Widget,
+) -> None:
+    button_layout = Layout(width="50%", height="150px", margin="20px")
+    button_style = {"font_weight": "bold", "font_size": "28px"}
+    confirm_button = widgets.Button(
+        description="Confirm",
+        tooltip="Go ahead!",
+        layout=button_layout,
+        style=button_style,
+    )
+    confirm_button.button_style = "warning"
+
+    message_widget = (
+        message
+        if isinstance(message, widgets.Widget)
+        else widgets.Label(
+            value=f"\n \n {message}",
+            layout=Layout(width="auto", display="flex", justify_content="center"),
+            style={"font_weight": "bold", "font_size": "24px"},
+        )
+    )
+    confirm_box = widgets.VBox(
+        children=[message_widget, confirm_button],
+        layout=Layout(width="100%", justify_content="center"),
+        style=default_style,
+    )
+    original_children = main_window.children
+    main_window.children = (confirm_box,)
+
+    def confirm_action(_) -> None:
+        main_window.children = original_children
+        if callback_for_confirm is not None:
+            callback_for_confirm()
+
+    confirm_button.on_click(confirm_action)
 
 
 def confirm_choice(
@@ -987,7 +1150,7 @@ class PrepareUploadBox(widgets.VBox):
     @property
     def dataset(self) -> Dataset:
         dataset: Dataset = self.dataset_field_widget.dataset
-        if file_path := self.file_selection_widget.file_path.value.strip():
+        for file_path in self.file_selection_widget.file_paths:
             dataset.add_local_files(file_path)
         return dataset
 
@@ -1023,7 +1186,7 @@ class PrepareUploadBox(widgets.VBox):
         self.reset_button.button_style = "warning"
 
         # Define the action for buttons
-        self.reset_button.on_click(self.reset)
+        self.reset_button.on_click(self._reset_action)
 
         self.dataset_field_widget: DatasetFieldWidget = DatasetFieldWidget()
         self.input_box = widgets.VBox(
@@ -1063,7 +1226,7 @@ class PrepareUploadBox(widgets.VBox):
             status_help_text = widgets.HTML(
                 value="<p style='margin: 10px; font-size: 14px; color: orange;'>"
                 "🤔 <b>Public Personal Info</b> is NOT in sync with the dataset.<br>"
-                "Press <b>Fill from Public Info</b> button to update the dataset fields.</p>",
+                "Click <b>Fill from Public Info</b> button to update the dataset fields.</p>",
                 layout=Layout(width="100%", text_align="center"),
             )
             button = widgets.Button(
@@ -1093,29 +1256,32 @@ class PrepareUploadBox(widgets.VBox):
 
         self.status_help_box.children = (status_help_text,)
 
-    def reset(self, _) -> None:
+    def reset(self) -> None:
+        with self.output:
+            logger = logging.getLogger("scicat-widget")
+            logger.info("Resetting all dataset fields to default values...")
+        # Reset the active box to the initial state
+        self.dataset_field_widget = DatasetFieldWidget(
+            public_personal_info=self.public_personal_info_box
+        )
+        self.file_selection_widget.reset()
+        self.input_box.children = [
+            self.dataset_field_widget,
+            self.file_selection_widget,
+            widgets.Box([self.reset_button]),
+        ]
+
+    def _reset_action(self, _) -> None:
         """
         Reset the upload box to its initial state.
         This should be called when the 'Reset' button is clicked.
         """
 
-        def reset_action() -> None:
-            with self.output:
-                print("Resetting all dataset fields to default values...")
-            # Reset the active box to the initial state
-            self.dataset_field_widget = DatasetFieldWidget(
-                public_personal_info=self.public_personal_info_box
-            )
-            self.input_box.children = [
-                self.dataset_field_widget,
-                widgets.Box([self.reset_button]),
-            ]
-
         confirm_choice(
             self,
             message="Are you sure you want to OVERWRITE "
             "all fields with default values?",
-            callback_for_confirm=reset_action,
+            callback_for_confirm=self.reset,
         )
 
 
@@ -1127,11 +1293,9 @@ class UploadBox(widgets.VBox):
         prepare_upload_box: PrepareUploadBox,
         credential_box: CredentialBox,
     ):
-        default_button_layout = Layout(width="auto", height="36px", margin="5px")
-
         main_help_text = _make_help_text(
             "Here you can see the dataset you are going to upload.<br>"
-            "Press <b>Upload</b> button to upload the dataset to SciCat.<br>"
+            "Click <b>Upload</b> button to upload the dataset to SciCat.<br>"
         )
         self.status_help_box = widgets.HBox(children=[])
         help_text_box = widgets.HBox(
@@ -1142,15 +1306,9 @@ class UploadBox(widgets.VBox):
         self.prepare_upload_box = prepare_upload_box
         self.credential_box = credential_box
 
-        self.preview_box = widgets.VBox(children=[])
-
-        self.upload_button = widgets.Button(
-            description="Upload",
-            tooltip="Upload the dataset",
-            layout=default_button_layout,
-            style=default_style,
-        )
-        self.upload_button.button_style = "primary"
+        self.preview_box = widgets.VBox(children=[], layout=Layout(width="auto"))
+        self.upload_button = self._build_button()
+        self.upload_button.on_click(self.upload)
 
         super().__init__(
             [help_text_box, self.preview_box, self.upload_button],
@@ -1158,20 +1316,26 @@ class UploadBox(widgets.VBox):
             style=default_style,
         )
 
+    def _build_button(self) -> widgets.Button:
+        upload_button = widgets.Button(
+            description="Upload",
+            tooltip="Upload the dataset",
+            layout=Layout(width="auto", height="36px", margin="5px"),
+            style=default_style,
+        )
+        upload_button.button_style = "primary"
+        upload_button.layout.height = "72px"
+        upload_button.style.font_weight = "bold"
+        upload_button.style.font_size = "24px"
+        return upload_button
+
     def _update_preview_box(self, _=None) -> None:
         self.preview_box.children = []
         try:
             dataset: Dataset = self.prepare_upload_box.dataset
-            dataset_html = widgets.HTML(
-                dataset._repr_html_(), layout=Layout(width="auto")
-            )
+            dataset_html = widgets.HTML(dataset._repr_html_())
             title = widgets.HTML("<h3>Dataset to Upload:</h3>")
-            warning_msg = widgets.Label(
-                value="Upload the dataset above.",
-                layout=Layout(width="auto", display="flex", justify_content="center"),
-                style={"font_weight": "bold", "font_size": "24px"},
-            )
-            self.preview_box.children = [title, dataset_html, warning_msg]
+            self.preview_box.children = [title, dataset_html]
         except Exception as e:
             self.preview_box.children = [
                 widgets.HTML(
@@ -1182,40 +1346,65 @@ class UploadBox(widgets.VBox):
                 )
             ]
 
+    def _make_error_message(self, err: Exception) -> widgets.HTML:
+        error_p = "<p style='color: red;'>Failed to upload dataset. Error Message:</p>"
+        if not validate_token(self.credential_box.token) and ("expired" in str(err)):
+            error_p += "SciCat login has expired. Go to <b>Credentials</b> tab and enter a new token."
+        else:
+            error_p += f"<p>{err}</p>"
+        error_p += "<p>Click <b>Confirm</b> to close this message.</p>"
+        return widgets.HTML(
+            error_p,
+            layout=Layout(width="auto", display="flex", justify_content="center"),
+        )
+
+    def _make_success_message(self, uploaded_dataset: Dataset) -> widgets.HTML:
+        success_msg_p = "<p style='color: green;'>Dataset uploaded successfully!</p>"
+        if (pid := uploaded_dataset.pid) is not None:
+            url = self.credential_box.dataset_url(str(pid))
+            success_msg_p += f"<p>Dataset URL: <a href='{url}' target='_blank' style='color: blue;'>{url}</a></p>"
+        success_msg_p += "<p><b>Prepare Upload</b> tab was reset for a new dataset.</p>"
+        success_msg_p += "<p>Click <b>Confirm</b> to close this message.</p>"
+        return widgets.HTML(
+            success_msg_p,
+            layout=Layout(width="auto", display="flex", justify_content="center"),
+        )
+
     def upload(self, _) -> None:
         """
         Action to perform when the 'Upload' button is clicked.
         It should upload the dataset to SciCat.
         """
-        dataset: Dataset = self.prepare_upload_box.dataset
-
-        dataset_html = widgets.HTML(dataset._repr_html_())
-        title = widgets.HTML("<h3>Dataset to Upload:</h3>")
         warning_msg = widgets.Label(
-            value="Upload the dataset above.",
+            value="Upload the dataset above. Upload cannot be undone.",
             layout=Layout(width="auto", display="flex", justify_content="center"),
             style={"font_weight": "bold", "font_size": "24px"},
         )
 
-        def upload_action() -> None:
+        def confirm_upload() -> None:
             logger = logging.getLogger("scicat-widget")
             with self.output:
+                dataset: Dataset = self.prepare_upload_box.dataset
                 logger.info("Uploading dataset to SciCat...")
                 try:
                     client = self.credential_box.client
-                    client.upload_new_dataset_now(dataset)
+                    uploaded = client.upload_new_dataset_now(dataset)
                     logger.info("Dataset uploaded successfully!")
+                    success_msg = self._make_success_message(uploaded)
+                    self.prepare_upload_box.reset()
+                    confirm_message(self, message=success_msg)
                 except Exception as e:
                     logger.info(f"Failed to upload dataset: {e}")
+                    logger.exception(e.__traceback__)
+                    err_msg = self._make_error_message(e)
 
-        confirm_choice(
-            self,
-            message=widgets.VBox(
-                children=[title, dataset_html, warning_msg],
-                layout=Layout(width="100%", justify_content="center"),
-            ),
-            callback_for_confirm=upload_action,
+                    confirm_message(self, message=err_msg)
+
+        confirm_msg = widgets.VBox(
+            children=[self.preview_box, warning_msg],
+            layout=Layout(width="100%", justify_content="center"),
         )
+        confirm_choice(self, message=confirm_msg, callback_for_confirm=confirm_upload)
 
 
 class ScicatWidget(widgets.VBox):
