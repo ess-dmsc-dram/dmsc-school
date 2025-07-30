@@ -13,7 +13,7 @@ from IPython.display import display
 from scitacean import Client, Dataset, DatasetType, RemotePath
 
 # Types
-_ScientificMetadataContainer = dict[str, str | int | float | sc.Variable]
+_MetadataContainer = dict[str, str | int | float | sc.Variable]
 
 default_layout = Layout(width="auto", min_width="560px")
 default_style = {"description_width": "150px"}
@@ -1152,24 +1152,285 @@ def confirm_choice(
     cancel_button.on_click(cancel_action)
 
 
-class ScientificMetadataWidget(widgets.VBox):
-    def __init__(self, scientific_metadata: _ScientificMetadataContainer):
-        self._shared_container = scientific_metadata
-        self._scientific_metadata = {}
-        super().__init__([])
+@dataclass(frozen=True, kw_only=True)
+class _ScalarMetadataValue:
+    """Dataclass for scalar metadata."""
+
+    value: str
+    unit: str
+
+
+@dataclass(frozen=True, kw_only=True)
+class _ScalarMetadata(_ScalarMetadataValue):
+    """Dataclass for scalar metadata."""
+
+    key: str
+
+
+def _validate_scalar_values(value: Any) -> bool:
+    return isinstance(value, (int, float, str)) or (
+        isinstance(value, sc.Variable) and value.dims == ()
+    )
+
+
+def _filter_scalar_metadata(
+    metadata: dict[str, Any], *, complain: Callable = lambda _: None
+) -> dict[str, _ScalarMetadataValue]:
+    left_over = {}
+    for key, value in metadata.items():
+        if not _validate_scalar_values(value):
+            msg = f"Invalid scientific metadata from registry will be ignored: \n\t\t'{key}': {value}"
+            complain(msg)
+        elif isinstance(value, sc.Variable):
+            left_over[key] = _ScalarMetadataValue(
+                value=value.value, unit=str(value.unit)
+            )
+        else:
+            left_over[key] = _ScalarMetadataValue(value=str(value), unit=str(None))
+
+    return left_over
+
+
+class MetadataWidget(widgets.VBox):
+    class SelectedMetadataWidget(widgets.HBox):
+        """Widget to display a selected file with options to remove it."""
+
+        def __init__(self, metadata: _ScalarMetadata, remove_callback: Callable):
+            metadata_str = f"<b>{metadata.key}</b>: {metadata.value} [{metadata.unit}]"
+            metadata_label = widgets.HTML(
+                value=metadata_str,
+                layout=Layout(width="auto"),
+                style={"font_size": "14px"},
+            )
+            remove_button = widgets.Button(
+                description="X",
+                tooltip="Remove this metadata from the selection",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            remove_button.on_click(remove_callback)
+            super().__init__(
+                children=[metadata_label, remove_button],
+                layout=Layout(left="132px", width="fit-content"),
+            )
+
+    class RegistryInputWidget(widgets.HBox):
+        """Widget to input scientific metadata from a registry."""
+
+        def __init__(
+            self,
+            output_widget: widgets.Output,
+            metadata_registry: _MetadataContainer,
+        ):
+            self.output = output_widget
+            self._shared_container = metadata_registry
+            self._original_metadata_registry = {}
+            self._update_metadata_registry_from_shared_container()
+            self.dropdown_menu = widgets.Dropdown(
+                options=list(self._original_metadata_registry.keys()),
+                description="Key",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            value_preview = widgets.Text("", description="Value", disabled=True)
+            unit_preview = widgets.Text("", description="Unit", disabled=True)
+
+            def _update_preview(_):
+                """Update the value and unit preview based on the selected key."""
+                selected_key = self.dropdown_menu.value
+                if selected_key in self._original_metadata_registry:
+                    metadata_value = self._original_metadata_registry[selected_key]
+                    value_preview.value = str(metadata_value.value)
+                    unit_preview.value = metadata_value.unit
+                else:
+                    value_preview.value = ""
+                    unit_preview.value = ""
+
+            self.dropdown_menu.observe(_update_preview, names="value", type="change")
+            _update_preview(None)
+
+            refresh_button = widgets.Button(
+                description="Reload Options 🔄",
+                tooltip="Reload the metadata options from the registry",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            refresh_button.on_click(
+                lambda _: self._update_metadata_registry_from_shared_container()
+            )
+            super().__init__(
+                children=[
+                    self.dropdown_menu,
+                    value_preview,
+                    unit_preview,
+                    refresh_button,
+                ],
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+
+        def _update_metadata_registry_from_shared_container(self) -> None:
+            logger = logging.getLogger("scicat_widgets")
+            with self.output:
+                valid_metadata = _filter_scalar_metadata(
+                    self._shared_container, complain=logger.warning
+                )
+            self._original_metadata_registry = valid_metadata
+
+        @property
+        def value(self) -> _ScalarMetadata:
+            """Return the selected metadata as a _ScalarMetadata instance."""
+            selected_key = self.dropdown_menu.value
+            metadata_value = self._original_metadata_registry[selected_key]
+            return _ScalarMetadata(
+                key=selected_key, value=metadata_value.value, unit=metadata_value.unit
+            )
+
+    class ArbitraryInputWidget(widgets.HBox):
+        """Widget to input scientific metadata."""
+
+        def __init__(self):
+            self.key_input = widgets.Text(
+                value="",
+                description="Key",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            self.unit_input = widgets.Text(
+                value="",
+                description="Unit",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            self.value_input = widgets.Text(
+                value="",
+                description="Value",
+                layout=Layout(width="auto", margin="5px"),
+                style=default_style,
+            )
+            super().__init__(
+                children=[self.key_input, self.value_input, self.unit_input]
+            )
+
+        @property
+        def value(self) -> _ScalarMetadata:
+            """Return the entered metadata as a _ScalarMetadata instance."""
+            unit = self.unit_input.value.strip()
+            unit = str(None) if unit == "" else unit
+            return _ScalarMetadata(
+                key=self.key_input.value.strip(),
+                value=self.value_input.value.strip(),
+                unit=unit,
+            )
+
+    def __init__(
+        self,
+        output_widget: widgets.Output,
+        metadata_registry: _MetadataContainer,
+    ):
+        self._shared_container = metadata_registry
+        self.output = output_widget
+        self._current_metadata = {}
+        self._registry_input_widget = self.RegistryInputWidget(
+            output_widget=output_widget,
+            metadata_registry=metadata_registry,
+        )
+
+        self._arbitrary_input_widget = self.ArbitraryInputWidget()
+
+        self.input_tabs = widgets.Tab(
+            children=[self._registry_input_widget, self._arbitrary_input_widget],
+            layout=Layout(width="auto", margin="5px"),
+            style=default_style,
+        )
+        self.input_tabs.titles = ("From Registry", "Arbitrary Input")
+
+        add_button = widgets.Button(
+            description="Add Metadata",
+            tooltip="Add the metadata from the input fields",
+            layout=Layout(width="64", margin="5px", height="108px"),
+            style=default_style,
+        )
+        add_button.button_style = "primary"
+        add_button.on_click(self._add_metadata_action)
+        input_box = widgets.HBox(
+            children=[add_button, self.input_tabs],
+            layout=Layout(width="auto", height="fit-content"),
+        )
+        self.preview_box = widgets.VBox(
+            children=[],
+            layout=Layout(width="auto", height="fit-content", overflow="auto"),
+        )
+
+        super().__init__(
+            [self._build_title(), input_box, self.preview_box],
+            layout=Layout(width="auto"),
+        )
         self.reset()
 
-    def _render_current_metadata(self) -> None: ...
+    def _add_metadata_action(self, _) -> None:
+        selected_widget = self.input_tabs.selected_index
+        if selected_widget == 0:  # From Registry
+            metadata = self._registry_input_widget.value
+        else:
+            metadata = self._arbitrary_input_widget.value
+            self._arbitrary_input_widget.key_input.value = ""
+            self._arbitrary_input_widget.value_input.value = ""
+            self._arbitrary_input_widget.unit_input.value = ""
+
+        self._current_metadata[metadata.key] = metadata
+        self._render_current_metadata()
+
+    def _remove_metadata(self, key: str, _) -> None:
+        """Remove metadata by key and update the preview box."""
+        self._current_metadata.pop(key, None)
+        self._render_current_metadata()
+
+    def _build_title(self) -> widgets.HBox:
+        label = widgets.HTML(
+            value="<b>Scientific Metadata</b>",
+            layout=Layout(
+                width="auto",
+                text_align="center",
+                justify_content="center",
+                margin="25px",
+            ),
+            style={"font_size": "16px", "font_weight": "bold"},
+        )
+        helper_text = _make_help_text(
+            "Add a scientific metadata to the dataset.<br>"
+            "Tip: Pass <b>metadata_registry</b> to the widget constructor.<br>"
+        )
+        return widgets.HBox(children=[label, helper_text])
+
+    def _render_current_metadata(self) -> None:
+        """Render the current scientific metadata in the preview box."""
+        self.preview_box.children = [
+            self.SelectedMetadataWidget(
+                metadata,
+                remove_callback=partial(self._remove_metadata, metadata.key),
+            )
+            for metadata in self._current_metadata.values()
+        ]
 
     def reset(self) -> None:
-        self._scientific_metadata = {**self._shared_container}
+        self._current_metadata.clear()
         self._render_current_metadata()
+
+    @property
+    def value(self) -> dict[str, dict[str, str]]:
+        """Return the scientific metadata as a dictionary."""
+        return {
+            key: {"value": metadata.value, "unit": metadata.unit}
+            for key, metadata in self._current_metadata.items()
+        }
 
 
 class PrepareUploadWidget(widgets.VBox):
     @property
     def dataset(self) -> Dataset:
         dataset: Dataset = self.dataset_field_widget.dataset
+        dataset.meta = self.metadata_widget.value
         for file_path in self.file_selection_widget.file_paths:
             dataset.add_local_files(file_path)
         return dataset
@@ -1180,7 +1441,7 @@ class PrepareUploadWidget(widgets.VBox):
         output_widget: widgets.Output,
         public_personal_info_widget: PublicPersonalInfoWidget,
         file_selection_widget: FileSelectionWidget,
-        scientific_metadata_widget: ScientificMetadataWidget,
+        metadata_widget: MetadataWidget,
         **kwargs,
     ):
         default_button_layout = Layout(width="100%", height="36px", margin="5px")
@@ -1197,7 +1458,7 @@ class PrepareUploadWidget(widgets.VBox):
         self.output = output_widget
         self.public_personal_info_widget = public_personal_info_widget
         self.file_selection_widget = file_selection_widget
-        self.scientific_metadata_widget = scientific_metadata_widget
+        self.metadata_widget = metadata_widget
 
         self.reset_button = widgets.Button(
             description="Reset",
@@ -1222,7 +1483,7 @@ class PrepareUploadWidget(widgets.VBox):
         self.input_box.children = [
             self.dataset_field_widget,
             self.file_selection_widget,
-            self.scientific_metadata_widget,
+            self.metadata_widget,
             widgets.Box([self.reset_button]),
         ]
 
@@ -1290,7 +1551,7 @@ class PrepareUploadWidget(widgets.VBox):
             public_personal_info_widget=self.public_personal_info_widget
         )
         self.file_selection_widget.reset()
-        self.scientific_metadata_widget.reset()
+        self.metadata_widget.reset()
         self._initialize_input_box()
 
     def _reset_action(self, _) -> None:
@@ -1564,21 +1825,22 @@ def download_widget(
 
 def upload_widget(
     show: bool = True,
-    scientific_metadata: _ScientificMetadataContainer | None = None,
+    metadata_registry: _MetadataContainer | None = None,
 ) -> ScicatWidget:
     _config_logger()
     output = build_output_widget()
     credential_box = CredentialWidget(output=output)
     file_selection_widget = FileSelectionWidget(output=output)
     public_personal_info_widget = PublicPersonalInfoWidget(output=output)
-    scientific_metadata_widget = ScientificMetadataWidget(
-        scientific_metadata=scientific_metadata or {}
+    metadata_widget = MetadataWidget(
+        output_widget=output,
+        metadata_registry=metadata_registry or {},
     )
     prepare_upload_widget = PrepareUploadWidget(
         output_widget=output,
         file_selection_widget=file_selection_widget,
         public_personal_info_widget=public_personal_info_widget,
-        scientific_metadata_widget=scientific_metadata_widget,
+        metadata_widget=metadata_widget,
     )
     _upload_widget = UploadBox(
         output_widget=output,
