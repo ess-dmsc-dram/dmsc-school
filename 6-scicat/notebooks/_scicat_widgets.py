@@ -11,6 +11,7 @@ from collections.abc import Callable, Mapping
 from ipywidgets import widgets, Layout
 from IPython.display import display
 from scitacean import Client, Dataset, DatasetType, RemotePath
+from scitacean.model import Relationship
 
 # Types
 _MetadataContainer = dict[str, str | int | float | sc.Variable]
@@ -901,10 +902,18 @@ class DatasetFieldWidget(widgets.VBox):
                 if name not in _SkippedFields and field.read_only
             }
         )
+        # Custom Widget for parent dataset PID
+        self.parent_dataset_pid = widgets.Text(
+            description="Parent Dataset PID",
+            placeholder="Enter the PID of the parent dataset (if any)",
+            layout=Layout(width="auto", margin="5px", min_width="720px"),
+            style={"description_width": "120px"},
+        )
         all_widgets = {**self.field_widgets}
         sub_widgets = [all_widgets.pop(field_name) for field_name in _FIELD_ORDER]
         # Add any remaining widgets that were not in the predefined order
         sub_widgets.extend(all_widgets.values())
+        sub_widgets.append(self.parent_dataset_pid)
 
         super().__init__(
             [self.static_fields, *(widgets.Box([wg]) for wg in sub_widgets)]
@@ -925,6 +934,14 @@ class DatasetFieldWidget(widgets.VBox):
         investigator = field_values.get("owner", "")
         contact_email = field_values.get("owner_email", "")
         techniques = field_values.get("techniques", [])
+
+        if parent_pid := self.parent_dataset_pid.value.strip():
+            # TODO: It does not appear in the Related Dataset in the Client.
+            relation = Relationship(pid=parent_pid, relationship="derived_from")
+            relationships = [relation]
+        else:
+            relationships = []
+
         if len(techniques) != 0:
             raise NotImplementedError("PID for techniques is not implemented yet.")
 
@@ -933,7 +950,15 @@ class DatasetFieldWidget(widgets.VBox):
             access_groups=access_groups,
             contact_email=contact_email,
             investigator=investigator,
+            relationships=relationships,
         )
+
+
+def _img_preview_html(file_path: pathlib.Path) -> widgets.Image:
+    """Generate an HTML preview for an image file."""
+    return widgets.Image(
+        value=file_path.read_bytes(), format="png", height=128, width=128
+    )
 
 
 class FileSelectionWidget(widgets.VBox):
@@ -963,10 +988,10 @@ class FileSelectionWidget(widgets.VBox):
                 layout=Layout(left="132px", width="fit-content"),
             )
 
-    def __init__(self, *, output: widgets.Output):
+    def __init__(self, *, file_type: str = "file", output: widgets.Output):
         self.output = output
         self.file_path_input = widgets.Text(
-            description="File Path",
+            description=f"{file_type.capitalize()} Path",
             placeholder="Enter the path to the file to upload",
             layout=Layout(width="auto", margin="5px", min_width="720px"),
             style=default_style,
@@ -975,8 +1000,8 @@ class FileSelectionWidget(widgets.VBox):
         self.file_path_input.style.background = "lightyellow"
 
         self.add_button = widgets.Button(
-            description="Add File",
-            tooltip="Add the file to the dataset",
+            description=f"Add {file_type.capitalize()}",
+            tooltip=f"Add the {file_type} to the dataset",
             layout=Layout(width="auto", margin="5px"),
             style=default_style,
         )
@@ -1019,8 +1044,11 @@ class FileSelectionWidget(widgets.VBox):
             layout=Layout(width="auto"),
             style=default_style,
         )
+        self.img_preview_box = widgets.HBox(
+            children=[], layout=Layout(left="132px", width="fit-content")
+        )
         super().__init__(
-            children=[self.input_box, self.preview_box],
+            children=[self.input_box, self.preview_box, self.img_preview_box],
             layout=Layout(width="auto"),
             style=default_style,
         )
@@ -1037,6 +1065,11 @@ class FileSelectionWidget(widgets.VBox):
                 file_path, remove_callback=partial(self._remove_file, file_path)
             )
             for file_path in self.current_files
+        ]
+        self.img_preview_box.children = [
+            _img_preview_html(file_path)
+            for file_path in self.current_files
+            if file_path.suffix.lower() in {".png", ".jpg", ".jpeg", ".gif"}
         ]
 
     @property
@@ -1433,6 +1466,12 @@ class PrepareUploadWidget(widgets.VBox):
         dataset.meta = self.metadata_widget.value
         for file_path in self.file_selection_widget.file_paths:
             dataset.add_local_files(file_path)
+        for attachment_path in self.attachment_selection_widget.file_paths:
+            dataset.add_attachment(
+                attachment_path,
+                caption=attachment_path.name.removesuffix(attachment_path.suffix),
+            )
+
         return dataset
 
     def __init__(
@@ -1441,6 +1480,7 @@ class PrepareUploadWidget(widgets.VBox):
         output_widget: widgets.Output,
         public_personal_info_widget: PublicPersonalInfoWidget,
         file_selection_widget: FileSelectionWidget,
+        attachment_selection_widget: FileSelectionWidget,
         metadata_widget: MetadataWidget,
         **kwargs,
     ):
@@ -1458,6 +1498,7 @@ class PrepareUploadWidget(widgets.VBox):
         self.output = output_widget
         self.public_personal_info_widget = public_personal_info_widget
         self.file_selection_widget = file_selection_widget
+        self.attachment_selection_widget = attachment_selection_widget
         self.metadata_widget = metadata_widget
 
         self.reset_button = widgets.Button(
@@ -1483,6 +1524,7 @@ class PrepareUploadWidget(widgets.VBox):
         self.input_box.children = [
             self.dataset_field_widget,
             self.file_selection_widget,
+            self.attachment_selection_widget,
             self.metadata_widget,
             widgets.Box([self.reset_button]),
         ]
@@ -1831,6 +1873,9 @@ def upload_widget(
     output = build_output_widget()
     credential_box = CredentialWidget(output=output)
     file_selection_widget = FileSelectionWidget(output=output)
+    attachment_selection_widget = FileSelectionWidget(
+        output=output, file_type="Attachment"
+    )
     public_personal_info_widget = PublicPersonalInfoWidget(output=output)
     metadata_widget = MetadataWidget(
         output_widget=output,
@@ -1839,6 +1884,7 @@ def upload_widget(
     prepare_upload_widget = PrepareUploadWidget(
         output_widget=output,
         file_selection_widget=file_selection_widget,
+        attachment_selection_widget=attachment_selection_widget,
         public_personal_info_widget=public_personal_info_widget,
         metadata_widget=metadata_widget,
     )
