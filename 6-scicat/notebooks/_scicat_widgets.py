@@ -1016,9 +1016,13 @@ class FileSelectionWidget(widgets.VBox):
             it is relative to the current working directory,
             which is the home directory in VISA.
             """
-            if not path.startswith("/"):
-                return pathlib.Path(path)
-            return pathlib.Path.home() / pathlib.Path(path)
+            original_path = pathlib.Path(path)
+            if (
+                not original_path.exists()
+                and (from_home := pathlib.Path.home() / original_path).exists()
+            ):
+                return from_home
+            return original_path
 
         def validate_path(_) -> None:
             """Validate the file path and update the output widget."""
