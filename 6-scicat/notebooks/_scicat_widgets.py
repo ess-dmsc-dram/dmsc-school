@@ -1858,6 +1858,7 @@ def build_output_widget() -> widgets.Output:
         style=default_style,
     )
     output.layout.border = "1px solid black"
+    output.clear_output()
     return output
 
 
