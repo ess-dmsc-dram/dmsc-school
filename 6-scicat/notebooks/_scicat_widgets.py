@@ -1,6 +1,7 @@
 import pathlib
 import os
 import logging
+import scipp as sc
 from typing import Any
 from functools import partial
 from dataclasses import dataclass, replace, field
@@ -10,6 +11,9 @@ from collections.abc import Callable, Mapping
 from ipywidgets import widgets, Layout
 from IPython.display import display
 from scitacean import Client, Dataset, DatasetType, RemotePath
+
+# Types
+_ScientificMetadataContainer = dict[str, str | int | float | sc.Variable]
 
 default_layout = Layout(width="auto", min_width="560px")
 default_style = {"description_width": "150px"}
@@ -219,7 +223,7 @@ def validate_token(token: str) -> bool:
         return False
 
 
-class CredentialBox(widgets.VBox):
+class CredentialWidget(widgets.VBox):
     def __init__(self, *, output: widgets.Output):
         self.output = output
         help_text = _make_help_text(
@@ -304,7 +308,7 @@ def _load_public_personal_info() -> dict[str, str]:
     return {}
 
 
-class PublicPersonalInfoBox(widgets.VBox, widgets.ValueWidget):
+class PublicPersonalInfoWidget(widgets.VBox, widgets.ValueWidget):
     """Box for public and personal information."""
 
     @dataclass(kw_only=True)
@@ -316,7 +320,7 @@ class PublicPersonalInfoBox(widgets.VBox, widgets.ValueWidget):
         orcid: str = ""
 
         @classmethod
-        def from_cache(cls) -> "PublicPersonalInfoBox.PublicPersonalInfo":
+        def from_cache(cls) -> "PublicPersonalInfoWidget.PublicPersonalInfo":
             """Load public personal information from cache."""
             loaded_info = _load_public_personal_info()
             return cls(
@@ -434,7 +438,7 @@ class PublicPersonalInfoBox(widgets.VBox, widgets.ValueWidget):
 class DownloadBox(widgets.VBox):
     def __init__(
         self,
-        credential_box: CredentialBox,
+        credential_box: CredentialWidget,
         output_widget: widgets.Output,
         download_registry: dict | None = None,
         **kwargs,
@@ -548,9 +552,9 @@ def _format_orcid(orcid: str) -> str:
 
 
 def _make_default_dataset(
-    my_info: PublicPersonalInfoBox.PublicPersonalInfo | None = None,
+    my_info: PublicPersonalInfoWidget.PublicPersonalInfo | None = None,
 ) -> Dataset:
-    _my_info = my_info or PublicPersonalInfoBox.PublicPersonalInfo.from_cache()
+    _my_info = my_info or PublicPersonalInfoWidget.PublicPersonalInfo.from_cache()
     my_name = _my_info.name
     email = _my_info.email
     orcid = _format_orcid(_my_info.orcid)
@@ -868,11 +872,13 @@ _FIELD_ORDER = (
 class DatasetFieldWidget(widgets.VBox):
     """Dataset Field Widget for Uploading."""
 
-    def __init__(self, *, public_personal_info: PublicPersonalInfoBox | None = None):
-        if public_personal_info is None:
+    def __init__(
+        self, *, public_personal_info_widget: PublicPersonalInfoWidget | None = None
+    ):
+        if public_personal_info_widget is None:
             default_dataset = _make_default_dataset()
         else:
-            default_dataset = _make_default_dataset(public_personal_info.value)
+            default_dataset = _make_default_dataset(public_personal_info_widget.value)
 
         _default_value_registry = _make_default_value_registry(default_dataset)
         self.field_specs = {
@@ -1146,7 +1152,21 @@ def confirm_choice(
     cancel_button.on_click(cancel_action)
 
 
-class PrepareUploadBox(widgets.VBox):
+class ScientificMetadataWidget(widgets.VBox):
+    def __init__(self, scientific_metadata: _ScientificMetadataContainer):
+        self._shared_container = scientific_metadata
+        self._scientific_metadata = {}
+        super().__init__([])
+        self.reset()
+
+    def _render_current_metadata(self) -> None: ...
+
+    def reset(self) -> None:
+        self._scientific_metadata = {**self._shared_container}
+        self._render_current_metadata()
+
+
+class PrepareUploadWidget(widgets.VBox):
     @property
     def dataset(self) -> Dataset:
         dataset: Dataset = self.dataset_field_widget.dataset
@@ -1158,8 +1178,9 @@ class PrepareUploadBox(widgets.VBox):
         self,
         *,
         output_widget: widgets.Output,
-        public_personal_info_box: PublicPersonalInfoBox,
+        public_personal_info_widget: PublicPersonalInfoWidget,
         file_selection_widget: FileSelectionWidget,
+        scientific_metadata_widget: ScientificMetadataWidget,
         **kwargs,
     ):
         default_button_layout = Layout(width="100%", height="36px", margin="5px")
@@ -1174,8 +1195,9 @@ class PrepareUploadBox(widgets.VBox):
         )
 
         self.output = output_widget
-        self.public_personal_info_box = public_personal_info_box
+        self.public_personal_info_widget = public_personal_info_widget
         self.file_selection_widget = file_selection_widget
+        self.scientific_metadata_widget = scientific_metadata_widget
 
         self.reset_button = widgets.Button(
             description="Reset",
@@ -1189,21 +1211,24 @@ class PrepareUploadBox(widgets.VBox):
         self.reset_button.on_click(self._reset_action)
 
         self.dataset_field_widget: DatasetFieldWidget = DatasetFieldWidget()
-        self.input_box = widgets.VBox(
-            [
-                self.dataset_field_widget,
-                self.file_selection_widget,
-                widgets.Box([self.reset_button]),
-            ],
-            layout=Layout(width="auto"),
-        )
+        self.input_box = widgets.VBox([], layout=Layout(width="auto"))
+        self._initialize_input_box()
 
         super().__init__([help_text_box, self.input_box], **kwargs)
         self._update_status_help_box()
 
+    def _initialize_input_box(self) -> None:
+        """Initialize the input box with the dataset field widget and other components."""
+        self.input_box.children = [
+            self.dataset_field_widget,
+            self.file_selection_widget,
+            self.scientific_metadata_widget,
+            widgets.Box([self.reset_button]),
+        ]
+
     def _update_status_help_box(self, _=None) -> None:
         def _check_sync(
-            public_info: PublicPersonalInfoBox.PublicPersonalInfo, dset: Dataset
+            public_info: PublicPersonalInfoWidget.PublicPersonalInfo, dset: Dataset
         ) -> bool:
             """Check if the public personal info is in sync with the dataset."""
             return (
@@ -1212,7 +1237,7 @@ class PrepareUploadBox(widgets.VBox):
                 and dset.orcid_of_owner == _format_orcid(public_info.orcid)
             )
 
-        public_info = self.public_personal_info_box.value
+        public_info = self.public_personal_info_widget.value
         cur_dset = self.dataset_field_widget.dataset
 
         if _check_sync(public_info, cur_dset):
@@ -1262,14 +1287,11 @@ class PrepareUploadBox(widgets.VBox):
             logger.info("Resetting all dataset fields to default values...")
         # Reset the active box to the initial state
         self.dataset_field_widget = DatasetFieldWidget(
-            public_personal_info=self.public_personal_info_box
+            public_personal_info_widget=self.public_personal_info_widget
         )
         self.file_selection_widget.reset()
-        self.input_box.children = [
-            self.dataset_field_widget,
-            self.file_selection_widget,
-            widgets.Box([self.reset_button]),
-        ]
+        self.scientific_metadata_widget.reset()
+        self._initialize_input_box()
 
     def _reset_action(self, _) -> None:
         """
@@ -1290,8 +1312,8 @@ class UploadBox(widgets.VBox):
         self,
         *,
         output_widget: widgets.Output,
-        prepare_upload_box: PrepareUploadBox,
-        credential_box: CredentialBox,
+        prepare_upload_widget: PrepareUploadWidget,
+        credential_widget: CredentialWidget,
     ):
         main_help_text = _make_help_text(
             "Here you can see the dataset you are going to upload.<br>"
@@ -1303,8 +1325,8 @@ class UploadBox(widgets.VBox):
         )
 
         self.output = output_widget
-        self.prepare_upload_box = prepare_upload_box
-        self.credential_box = credential_box
+        self.prepare_upload_box = prepare_upload_widget
+        self.credential_box = credential_widget
 
         self.preview_box = widgets.VBox(children=[], layout=Layout(width="auto"))
         self.upload_button = self._build_button()
@@ -1411,11 +1433,11 @@ class ScicatWidget(widgets.VBox):
     def __init__(
         self,
         *,
-        credential_box: CredentialBox,
+        credential_box: CredentialWidget,
         output_widget: widgets.Output,
-        public_personal_info_box: PublicPersonalInfoBox | None = None,
+        public_personal_info_box: PublicPersonalInfoWidget | None = None,
         download_widget: DownloadBox | None = None,
-        prepare_upload_widget: PrepareUploadBox | None = None,
+        prepare_upload_widget: PrepareUploadWidget | None = None,
         upload_widget: UploadBox | None = None,
     ):
         self.public_personal_info_box = public_personal_info_box
@@ -1481,7 +1503,7 @@ class ScicatWidget(widgets.VBox):
         return widgets.HTML(
             "<p><b>Scicat Widget</b> - "
             "<text style='color: gray;'>Follow the tabs from left to right "
-            f"to {available_menu_message} datasets.</text></p>"
+            f"to {available_menu_message} dataset.</text></p>"
         )
 
 
@@ -1525,7 +1547,7 @@ def download_widget(
     download_registry = download_registry or {}
 
     output = build_output_widget()
-    credential_box = CredentialBox(output=output)
+    credential_box = CredentialWidget(output=output)
     widget = ScicatWidget(
         credential_box=credential_box,
         output_widget=output,
@@ -1540,21 +1562,28 @@ def download_widget(
     return widget
 
 
-def upload_widget(show: bool = True) -> ScicatWidget:
+def upload_widget(
+    show: bool = True,
+    scientific_metadata: _ScientificMetadataContainer | None = None,
+) -> ScicatWidget:
     _config_logger()
     output = build_output_widget()
-    credential_box = CredentialBox(output=output)
+    credential_box = CredentialWidget(output=output)
     file_selection_widget = FileSelectionWidget(output=output)
-    public_personal_info_widget = PublicPersonalInfoBox(output=output)
-    prepare_upload_widget = PrepareUploadBox(
+    public_personal_info_widget = PublicPersonalInfoWidget(output=output)
+    scientific_metadata_widget = ScientificMetadataWidget(
+        scientific_metadata=scientific_metadata or {}
+    )
+    prepare_upload_widget = PrepareUploadWidget(
         output_widget=output,
         file_selection_widget=file_selection_widget,
-        public_personal_info_box=public_personal_info_widget,
+        public_personal_info_widget=public_personal_info_widget,
+        scientific_metadata_widget=scientific_metadata_widget,
     )
     _upload_widget = UploadBox(
         output_widget=output,
-        prepare_upload_box=prepare_upload_widget,
-        credential_box=credential_box,
+        prepare_upload_widget=prepare_upload_widget,
+        credential_widget=credential_box,
     )
     widget = ScicatWidget(
         output_widget=output,
@@ -1574,20 +1603,20 @@ def scicat_widget(
     """Create a SciCat widget with both download and upload functionality."""
     _config_logger()
     output = build_output_widget()
-    credential_box = CredentialBox(output=output)
+    credential_box = CredentialWidget(output=output)
     download_widget_instance = DownloadBox(
         credential_box=credential_box,
         output_widget=output,
         download_registry=download_registry or {},
     )
-    prepare_upload_widget = PrepareUploadBox(
+    prepare_upload_widget = PrepareUploadWidget(
         output_widget=output,
         file_selection_widget=FileSelectionWidget(output=output),
     )
     _upload_widget = UploadBox(
         output_widget=output,
-        prepare_upload_box=prepare_upload_widget,
-        credential_box=credential_box,
+        prepare_upload_widget=prepare_upload_widget,
+        credential_widget=credential_box,
     )
 
     widget = ScicatWidget(
