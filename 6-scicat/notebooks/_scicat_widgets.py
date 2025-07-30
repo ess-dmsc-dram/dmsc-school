@@ -1397,7 +1397,7 @@ class MetadataWidget(widgets.VBox):
         add_button = widgets.Button(
             description="Add Metadata",
             tooltip="Add the metadata from the input fields",
-            layout=Layout(width="108px", margin="5px", height="108px"),
+            layout=Layout(width="108px", margin="5px", height="108px", min_width="108px"),
             style=default_style,
         )
         add_button.button_style = "primary"
