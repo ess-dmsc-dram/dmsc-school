@@ -1609,6 +1609,7 @@ class PrepareUploadWidget(widgets.VBox):
             public_personal_info_widget=self.public_personal_info_widget
         )
         self.file_selection_widget.reset()
+        self.attachment_selection_widget.reset()
         self.metadata_widget.reset()
         self._initialize_input_box()
 
