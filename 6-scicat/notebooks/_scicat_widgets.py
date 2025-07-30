@@ -1009,6 +1009,17 @@ class FileSelectionWidget(widgets.VBox):
         self.add_button.disabled = True
         self.current_files: set[pathlib.Path] = set()
 
+        def _fix_jupyter_path(path: str) -> pathlib.Path:
+            """Fix the path to be absolute if it is not.
+
+            When you copy path from a Jupyter lab
+            it is relative to the current working directory,
+            which is the home directory in VISA.
+            """
+            if not path.startswith("/"):
+                return pathlib.Path(path)
+            return pathlib.Path.home() / pathlib.Path(path)
+
         def validate_path(_) -> None:
             """Validate the file path and update the output widget."""
             if not (input_value := self.file_path_input.value.strip()):
@@ -1016,7 +1027,7 @@ class FileSelectionWidget(widgets.VBox):
                 self.add_button.disabled = True
                 return
 
-            file_path = pathlib.Path(input_value)
+            file_path = _fix_jupyter_path(input_value)
             if not file_path.exists() or not file_path.is_file():
                 self.file_path_input.style.background = "pink"
                 self.add_button.disabled = True
@@ -1027,6 +1038,7 @@ class FileSelectionWidget(widgets.VBox):
         def add_file_action(_) -> None:
             """Action to perform when the 'Add File' button is clicked."""
             file_path = self.file_path_input.value.strip()
+            file_path = _fix_jupyter_path(file_path)
             with self.output:
                 self.current_files.add(pathlib.Path(file_path).resolve(strict=True))
 
