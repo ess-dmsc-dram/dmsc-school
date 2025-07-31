@@ -29,14 +29,14 @@ parts:
 - caption: McStas
   chapters:
   - file: 3-mcstas/Simulation
-  - file: 3-mcstas/mcstas-powder
+  - file: 3-mcstas/mcstas-powder-diffraction
   - file: 3-mcstas/mcstas-qens
   - file: 3-mcstas/mcstas-sans
 - caption: Reduction with scipp
   chapters:
   - file: 4-reduction/scipp-introduction
   - file: 4-reduction/coord-transforms
-  - file: 4-reduction/reduction-powder
+  - file: 4-reduction/reduction-powder-diffraction
   - file: 4-reduction/reduction-qens
   - file: 4-reduction/reduction-sans
 - caption: Analysis with EasyScience
@@ -46,7 +46,7 @@ parts:
   - file: 5-analysis/easy_intro
   - file: 5-analysis/fitting
   - file: 5-analysis/bayes
-  - file: 5-analysis/analysis-powder
+  - file: 5-analysis/analysis-powder-diffraction
   - file: 5-analysis/analysis-qens
   - file: 5-analysis/analysis-sans
   - file: 5-analysis/mcmc
