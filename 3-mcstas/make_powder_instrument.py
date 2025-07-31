@@ -113,7 +113,7 @@ def add_guide(instrument, source):
 
 def add_chopper(instrument):
     add_chopper_calculations(instrument)
-    
+
     chopper = instrument.add_component(
         "chopper",
         "DiskChopper",
@@ -330,7 +330,7 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
         filename='"wavelength.dat"',
         restore_neutron=1,
     )
-    
+
     toa = instrument.add_component("arrival_time", "TOF_monitor")
     toa.set_AT(guide_to_sample, RELATIVE=guide_end)
 
