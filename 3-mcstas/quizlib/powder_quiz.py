@@ -31,7 +31,7 @@ class Powder_Quiz(Quiz):
                     }
 
         self.multiple_choice(answer=answer, correct_answer="B", feedback=feedback)
-        
+
     def question_2(self, answer=None):
         """
         ### Set sample size in simulated instrument
@@ -57,7 +57,7 @@ class Powder_Quiz(Quiz):
                 return
 
         print_box("The parameters of the instrument were correctly set!", True)
-        
+
     def question_3(self, answer=None):
         """
         - Q: Whats the relative uncertainty on the time observed at the sample position, FWHM?
@@ -103,7 +103,7 @@ class Powder_Quiz(Quiz):
                     "B": "Yes, that would ensure we knew that all neutrons passed through that point "
                          "in the guide at the same time, improving the time uncertainty.",
                     "C": "No, while a velocity selector can help, they are better suited for when low time resolution "
-                         "is necessary, for a powder difraction instrument we need higher accuracy.",
+                         "is necessary, for a powder diffraction instrument we need higher accuracy.",
                     "D": "No, would actually degrade the time resolution further as the travel time is reduced, yet the "
                          "long pulse length remains constant."
                     }
@@ -243,7 +243,7 @@ class Powder_Quiz(Quiz):
                                            required_ROTATED_data=None,
                                            success_msg=msg,
                                            comp_name=chopper_name, print_output=True)
-                                           
+
     def question_9(self, answer=None):
         """
         - Q: Whats the relative time uncertainty with this setup? Insert the answer as a percentage.
@@ -259,7 +259,7 @@ class Powder_Quiz(Quiz):
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
                           tolerance_factor=0.15)
-                          
+
     def question_10(self, answer=None):
         """
         ### Set parameters for run with Si sample
@@ -288,7 +288,7 @@ class Powder_Quiz(Quiz):
                 return
 
         print_box("The parameters of the instrument were correctly set!", True)
-        
+
     def question_11(self, answer=None):
         """
         What do we see in the plots from event data?
@@ -308,5 +308,5 @@ class Powder_Quiz(Quiz):
             answer = [answer]
 
         for single_answer in answer:
-            self.multiple_choice(answer=single_answer, correct_answer=["C"], feedback=feedback)        
-        
+            self.multiple_choice(answer=single_answer, correct_answer=["C"], feedback=feedback)
+
