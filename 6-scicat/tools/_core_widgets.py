@@ -316,8 +316,8 @@ class AddressBox(widgets.HBox):
         self.checkbox = widgets.Checkbox(
             value=False, description="Enable Editing", layout=Layout(width="20%")
         )
-        self.address = NotSoLongButNotShortText(
-            get_default_backend_address(),
+        self.address = widgets.Text(
+            value=get_default_backend_address(),
             description="Scicat Address",
             layout=Layout(width="500px"),
             style=default_style,
@@ -350,7 +350,7 @@ class CredentialWidget(widgets.VBox):
         )
         with self.output:
             self.address_box = AddressBox()
-            self.token = NotSoLongButNotShortText(
+            self.token = widgets.Password(
                 value=get_default_token(),
                 placeholder="Enter token copied from SciCat",
                 description="Scicat Token",
