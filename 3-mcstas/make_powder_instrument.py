@@ -36,8 +36,8 @@ def add_guide(instrument, source):
     )  # larger focus_yh due to gravity
 
     # Position of pulse shaping chopper, placed in the choppers.py file
-    PSC_position = instrument.add_component("PSC_position", "Arm")
-    PSC_position.set_AT(source_to_psc, RELATIVE=source)
+    #PSC_position = instrument.add_component("PSC_position", "Arm")
+    #PSC_position.set_AT(source_to_psc, RELATIVE=source)
 
     # Define cross section of curved section
     curved_section_width = 0.08
@@ -58,7 +58,7 @@ def add_guide(instrument, source):
     expanding.set_parameters(
         loutxw=expanding.l + expanding.linxw, loutyh=expanding.l + expanding.linyh
     )
-    expanding.set_AT(0.05, RELATIVE=PSC_position)
+    expanding.set_AT(source_to_psc + 0.05, RELATIVE="Source")
 
     # Curved section
     curved_length = 160 - 6.55 - 10 - 10  # full length - chopper
@@ -111,8 +111,26 @@ def add_guide(instrument, source):
     guide_end = instrument.add_component("guide_end", "Arm")
     guide_end.set_AT(focusing.l, RELATIVE=focusing)
 
+def add_chopper(instrument):
+    add_chopper_calculations(instrument)
+    
+    chopper = instrument.add_component(
+        "chopper",
+        "DiskChopper",
+        after="feeder",  # Place after PSC_position arm in component sequence
+        RELATIVE="Source",
+        AT=source_to_psc,
+    )  # Place at PSC_position in space
+    chopper.theta_0 = 7.0
+    chopper.nslit = 1
+    chopper.radius = 0.35
+    chopper.yheight = 0.05
+    chopper.nu = (
+        "frequency_multiplier*14.0"  # Calculation performed in McStas instrument file
+    )
+    chopper.delay = "delay"  # Variable with calculated delay
 
-def add_choppers(instrument):
+def add_chopper_calculations(instrument):
     instrument.add_parameter(
         "chopper_wavelength_center", value=2.5, comment="Center of wavelength band [AA]"
     )
@@ -134,21 +152,6 @@ def add_choppers(instrument):
         value=1,
         comment="[1] Chopper frequency as multiple of source frequency",
     )
-
-    chopper = instrument.add_component(
-        "chopper",
-        "DiskChopper",
-        after="PSC_position",  # Place after PSC_position arm in component sequence
-        RELATIVE="PSC_position",
-    )  # Place at PSC_position in space
-    chopper.theta_0 = 7.0
-    chopper.nslit = 1
-    chopper.radius = 0.35
-    chopper.yheight = 0.05
-    chopper.nu = (
-        "frequency_multiplier*14.0"  # Calculation performed in McStas instrument file
-    )
-    chopper.delay = delay_var  # Declare variable object
 
 
 def add_backend_classic(instrument, include_event_monitors=True):
@@ -327,6 +330,25 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
         filename='"wavelength.dat"',
         restore_neutron=1,
     )
+    
+    toa = instrument.add_component("arrival_time", "TOF_monitor")
+    toa.set_AT(guide_to_sample, RELATIVE=guide_end)
+
+    instrument.add_declare_var("double", "min_time")
+    instrument.add_declare_var("double", "max_time")
+
+    instrument.append_initialize("""
+    min_time = 160*l_min/(2*PI*K2V);
+    max_time = 160*l_max/(2*PI*K2V) + 2.86E-3;
+    """)
+
+    toa.set_parameters(xwidth=0.01,
+                       yheight=0.02,
+                       tmin="0.98*min_time*1E6",
+                       tmax="1.02*max_time*1E6",
+                       filename='"toa.dat"',
+                       nt=400,
+                       restore_neutron=1)
 
     # Sample position, an actual sample can be inserted "after" this
     sample_position = instrument.add_component("sample_position", "Arm")
@@ -352,7 +374,7 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
 
 
 def make(
-    union_detectors=False, include_choppers=True, include_event_monitors=True, **kwargs
+    union_detectors=False, include_choppers=False, include_event_monitors=True, **kwargs
 ):
     instrument = ms.McStas_instr("powder", **kwargs)
 
@@ -524,8 +546,8 @@ def make(
     instrument.add_parameter(
         "string",
         "sample_choice",
-        value=f'"{options[0]}"',
-        options=[f'"{opt}"' for opt in options],
+        value='"no_sample"',
+        options=[f'"{opt}"' for opt in options] + ['"no_sample"'],
     )
 
     for option in options:
@@ -565,5 +587,6 @@ def make(
     instrument.get_component("master").append_EXTEND(
         "n_scattering_sample = scattered_flag[1];"
     )
+    instrument.get_component("master").set_WHEN('strcmp(sample_choice, "no_sample") != 0')
 
     return instrument
