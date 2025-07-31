@@ -11,6 +11,23 @@ default_layout = Layout(width="auto", min_width="560px")
 default_style = {"description_width": "150px"}
 button_layout = Layout(width="100%", height="36px", margin="5px")
 
+
+def fix_jupyter_path(path: str) -> pathlib.Path:
+    """Fix the path to be absolute if it is not.
+
+    When you copy path from a Jupyter lab
+    it is relative to the current working directory,
+    which is the home directory in VISA.
+    """
+    original_path = pathlib.Path(path)
+    if (
+        not original_path.exists()
+        and (from_home := pathlib.Path.home() / original_path).exists()
+    ):
+        return from_home
+    return original_path
+
+
 # Debugging configuration and default values
 _DEBUGGING_FILE_PATH = pathlib.Path(__file__).parent / pathlib.Path(
     "SCICAT_WIDGET_DEBUGGING.yml"
@@ -84,6 +101,18 @@ def get_default_source_folder_parent() -> pathlib.Path:
     return pathlib.Path(
         _get_default_proposal_mount() / proposal_id / "upload"
     ).resolve()
+
+
+def get_default_download_pid() -> str:
+    """Get the default PID for downloads."""
+    config = _get_debug_config()
+    return config.get("download_pid", "")
+
+
+def get_default_target_dir() -> str:
+    """Get the default target directory for downloads."""
+    config = _get_debug_config()
+    return config.get("target_dir", "")
 
 
 # Widgets and Handlers

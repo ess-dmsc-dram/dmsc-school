@@ -18,6 +18,7 @@ from _core_widgets import (
     make_svg_card,
     get_current_proposal,
     is_debugging,
+    fix_jupyter_path,
     get_default_backend_address,
     get_default_source_folder_parent,
     get_logger,
@@ -621,20 +622,6 @@ class FileSelectionWidget(widgets.VBox):
         self.add_button.disabled = True
         self.current_files: set[pathlib.Path] = set()
 
-        def _fix_jupyter_path(path: str) -> pathlib.Path:
-            """Fix the path to be absolute if it is not.
-
-            When you copy path from a Jupyter lab
-            it is relative to the current working directory,
-            which is the home directory in VISA.
-            """
-            original_path = pathlib.Path(path)
-            if (
-                not original_path.exists()
-                and (from_home := pathlib.Path.home() / original_path).exists()
-            ):
-                return from_home
-            return original_path
 
         def validate_path(_) -> None:
             """Validate the file path and update the output widget."""
@@ -643,7 +630,7 @@ class FileSelectionWidget(widgets.VBox):
                 self.add_button.disabled = True
                 return
 
-            file_path = _fix_jupyter_path(input_value)
+            file_path = fix_jupyter_path(input_value)
             if not file_path.exists() or not file_path.is_file():
                 self.file_path_input.style.background = "pink"
                 self.add_button.disabled = True
@@ -654,7 +641,7 @@ class FileSelectionWidget(widgets.VBox):
         def add_file_action(_) -> None:
             """Action to perform when the 'Add File' button is clicked."""
             file_path = self.file_path_input.value.strip()
-            file_path = _fix_jupyter_path(file_path)
+            file_path = fix_jupyter_path(file_path)
             with self.output:
                 self.current_files.add(pathlib.Path(file_path).resolve(strict=True))
 
@@ -1276,10 +1263,10 @@ class UploadWidget(widgets.VBox):
                     logger.info("Dataset uploaded successfully!")
                     # Log success message
                     success_msg = self._make_success_message(uploaded)
-                    duration = time.time() - start
-                    logger.info(f"Dataset upload took {duration:.2f} seconds.")
-                    if duration < 1:
-                        time.sleep(1 - duration)  # Ensure at least 1 second delay
+                    elapsed = time.time() - start
+                    logger.info(f"Dataset upload took {elapsed:.2f} seconds.")
+                    if elapsed < 1:
+                        time.sleep(1 - elapsed)  # Ensure at least 1 second delay
                     # Restore the original children and show confirmation message
                     self.children = original_children
                     confirm_message(self, message=success_msg)

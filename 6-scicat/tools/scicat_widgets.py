@@ -17,14 +17,14 @@ from _upload_widget import (
     MetadataWidget,
     FileSelectionWidget,
 )
-from _download_widget import DownloadWidget
+from _download_widget import DownloadWidget, DirectorySelectionWidget
 
 
 class ScicatWidget(widgets.VBox):
     def __init__(
         self,
         *,
-        credential_box: CredentialWidget,
+        credential_widget: CredentialWidget,
         output_widget: widgets.Output,
         public_personal_info_box: PublicPersonalInfoWidget | None = None,
         download_widget: DownloadWidget | None = None,
@@ -35,7 +35,7 @@ class ScicatWidget(widgets.VBox):
         self.prepare_upload_widget = prepare_upload_widget
         self.upload_widget = upload_widget
         self.download_widget = download_widget
-        self.credentials = credential_box
+        self.credentials = credential_widget
 
         self._sub_widgets = {
             "Credentials": self.credentials,
@@ -116,16 +116,27 @@ def download_widget(
     download_registry = download_registry or {}
 
     output = build_output_widget()
-    credential_box = CredentialWidget(output=output)
-    widget = ScicatWidget(
-        credential_box=credential_box,
-        output_widget=output,
-        download_widget=DownloadWidget(
-            credential_box=credential_box,
-            output_widget=output,
-            download_registry=download_registry,
-        ),
+    credential_widget = CredentialWidget(output=output)
+    dir_selection_widget: DirectorySelectionWidget = DirectorySelectionWidget(
+        output=output
     )
+    download_widget: DownloadWidget = DownloadWidget(
+        dir_selection_widget=dir_selection_widget,
+        credential_widget=credential_widget,
+        output_widget=output,
+        download_registry=download_registry,
+    )
+    widget = ScicatWidget(
+        credential_widget=credential_widget,
+        output_widget=output,
+        download_widget=download_widget,
+    )
+    if is_debugging():
+        from _core_widgets import get_default_download_pid, get_default_target_dir
+
+        download_widget.pid_entry.value = get_default_download_pid()
+        dir_selection_widget.dir_path_input.value = get_default_target_dir()
+
     if show:
         display(widget)
     return widget
@@ -137,7 +148,7 @@ def upload_widget(
 ) -> ScicatWidget:
     _config_logger()
     output = build_output_widget()
-    credential_box = CredentialWidget(output=output)
+    credential_widget = CredentialWidget(output=output)
     file_selection_widget = FileSelectionWidget(output=output)
     attachment_selection_widget = FileSelectionWidget(
         output=output, file_type="Attachment"
@@ -157,11 +168,11 @@ def upload_widget(
     _upload_widget = UploadWidget(
         output_widget=output,
         prepare_upload_widget=prepare_upload_widget,
-        credential_widget=credential_box,
+        credential_widget=credential_widget,
     )
     widget = ScicatWidget(
         output_widget=output,
-        credential_box=credential_box,
+        credential_widget=credential_widget,
         public_personal_info_box=public_personal_info_widget,
         prepare_upload_widget=prepare_upload_widget,
         upload_widget=_upload_widget,
@@ -177,9 +188,11 @@ def scicat_widget(
     """Create a SciCat widget with both download and upload functionality."""
     _config_logger()
     output = build_output_widget()
-    credential_box = CredentialWidget(output=output)
+    credential_widget = CredentialWidget(output=output)
+    dir_selection_widget = DirectorySelectionWidget(output=output)
     download_widget_instance = DownloadWidget(
-        credential_box=credential_box,
+        dir_selection_widget=dir_selection_widget,
+        credential_widget=credential_widget,
         output_widget=output,
         download_registry=download_registry or {},
     )
@@ -190,11 +203,11 @@ def scicat_widget(
     _upload_widget = UploadWidget(
         output_widget=output,
         prepare_upload_widget=prepare_upload_widget,
-        credential_widget=credential_box,
+        credential_widget=credential_widget,
     )
 
     widget = ScicatWidget(
-        credential_box=credential_box,
+        credential_widget=credential_widget,
         output_widget=output,
         download_widget=download_widget_instance,
         prepare_upload_widget=prepare_upload_widget,

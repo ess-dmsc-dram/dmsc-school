@@ -58,7 +58,7 @@ It gives you path relative to the default path (the one you see when you start t
 It does not give you an absolute path.
 
 That is why there is a helper function to see if the file path is relative to the default path or not.<br>
-It's called `_fix_jupyter_path`.
+It's called `fix_jupyter_path` in `_core_widgets.py`.
 
 ## Side Effect Confirmation/Animation
 A bit chunk of code is for making a confirmation page and making an animation reaction for a button.<br>
