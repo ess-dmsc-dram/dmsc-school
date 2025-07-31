@@ -71,3 +71,15 @@ We decided to use tabs for different step of the uploading/downloading as it is 
 I think it's the best to separate widget building action and handler assigning action.<br>
 For example, we should build the widget first and then in the higher level the handler actions should be applied.<br>
 Currently a lot of handlers are created by the constructors.
+
+## Logging
+
+For now we use custom handler but we can later maybe just use rich handelr.
+I have used it for debugging but now it's removed.
+
+```python
+from rich.logging import RichHandler
+
+handler = RichHandler()
+logger.addHandler(handler)
+```
