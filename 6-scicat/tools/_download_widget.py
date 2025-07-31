@@ -112,7 +112,6 @@ def _download_files(
     time.sleep(1)
 
     # Restore the original children and show the result
-    report_to.children = original_children
     desc = "Check the <b>Local</b> path of <b>Files</b> in the dataset "
     desc += "below to see where the files were downloaded."
     if isinstance(registry, dict):
@@ -122,10 +121,9 @@ def _download_files(
     desc += "<br>Click <b>Confirm</b> to reset the widget and download another dataset."
 
     preview = build_dataset_preview(
-        result,
-        title="Dataset Files Downloaded Successfully",
-        desc=desc,
+        result, title="Dataset Files Downloaded Successfully", desc=desc
     )
+    report_to.children = original_children
     confirm_message(report_to, message=preview, callback_for_confirm=confirm_action)
 
 
@@ -153,7 +151,7 @@ class DownloadWidget(widgets.VBox):
             layout=default_layout,
             style=default_style,
         )
-        self.download_registry = download_registry or {}
+        self.download_registry = {} if download_registry is None else download_registry
         download_button = widgets.Button(
             description="Download",
             button_style="primary",

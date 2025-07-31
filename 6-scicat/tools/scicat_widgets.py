@@ -113,7 +113,7 @@ def _config_logger():
 def download_widget(
     download_registry: dict | None = None, show: bool = True
 ) -> ScicatWidget:
-    download_registry = download_registry or {}
+    download_registry = {} if download_registry is None else download_registry
 
     output = build_output_widget()
     credential_widget = CredentialWidget(output=output)
@@ -194,7 +194,7 @@ def scicat_widget(
         dir_selection_widget=dir_selection_widget,
         credential_widget=credential_widget,
         output_widget=output,
-        download_registry=download_registry or {},
+        download_registry={} if download_registry is None else download_registry,
     )
     prepare_upload_widget = PrepareUploadWidget(
         output_widget=output,
