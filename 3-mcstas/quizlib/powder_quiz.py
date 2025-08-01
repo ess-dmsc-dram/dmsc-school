@@ -309,4 +309,3 @@ class Powder_Quiz(Quiz):
 
         for single_answer in answer:
             self.multiple_choice(answer=single_answer, correct_answer=["C"], feedback=feedback)
-
