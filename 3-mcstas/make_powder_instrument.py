@@ -590,3 +590,4 @@ def make(
     instrument.get_component("master").set_WHEN('strcmp(sample_choice, "no_sample") != 0')
 
     return instrument
+
