@@ -1275,7 +1275,7 @@ class UploadWidget(widgets.VBox):
                     self._update_preview_box()
                 except Exception as e:
                     logger.info(f"Failed to upload dataset: {e}")
-                    logger.exception(e.__traceback__)
+                    logger.error(e.__traceback__)
                     # Restore the original children and show error message
                     err_msg = self._make_error_message(e)
                     self.children = original_children
