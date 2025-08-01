@@ -194,9 +194,19 @@ def scicat_widget(
         output_widget=output,
         download_registry=download_registry,
     )
+    file_selection_widget = FileSelectionWidget(output=output)
+    attachment_selection_widget = FileSelectionWidget(output=output, file_type="Attachment")
+    public_personal_info_widget = PublicPersonalInfoWidget(output=output)
+    metadata_widget = MetadataWidget(
+        output_widget=output,
+        metadata_registry={},
+    )
     prepare_upload_widget = PrepareUploadWidget(
         output_widget=output,
-        file_selection_widget=FileSelectionWidget(output=output),
+        file_selection_widget=file_selection_widget,
+        attachment_selection_widget=attachment_selection_widget,
+        public_personal_info_widget=public_personal_info_widget,
+        metadata_widget=metadata_widget,
     )
     _upload_widget = UploadWidget(
         output_widget=output,
