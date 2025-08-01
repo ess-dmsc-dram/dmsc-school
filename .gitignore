@@ -10,3 +10,10 @@ _build
 __pycache__/
 .idea
 .venv
+
+# VS Code
+.vscode/
+
+# Scicat Widget Development Configuration
+SCICAT_WIDGET_DEBUGGING.yml
+6-scicat/notebooks/myProposals/
