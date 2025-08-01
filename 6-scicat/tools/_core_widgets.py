@@ -74,26 +74,22 @@ def _get_default_proposal_mount() -> pathlib.Path:
         # If debugging, use the path from the debugging file
         config = _get_debug_config()
         return pathlib.Path(config.get("proposal_mount", "./myProposals/"))
-    else:
-        # symlink path
-        symlink_path = pathlib.Path.home() / "myProposals"
+    elif (symlink_path := pathlib.Path.home() / "myProposals").exists():
         return symlink_path.resolve()
+    else:
+        hardcoded_path = pathlib.Path("/ess/data/workshop/2025/")
+        return hardcoded_path.resolve()
 
 
 def get_current_proposal() -> str:
-    proposal_mount = _get_default_proposal_mount()
-    if not proposal_mount.exists() or not proposal_mount.is_dir():
-        raise FileNotFoundError(
-            f"Proposal mount path {proposal_mount} does not exist. "
-            "Please check your SciCat configuration.\n"
-            "Cannot find the current proposal."
-        )
-    # Find the first subdirectory in the proposal mount path
-    sub_dirs = [sub_dir for sub_dir in proposal_mount.iterdir() if sub_dir.is_dir()]
-    if not sub_dirs:
-        return ""
-    # Return the name of the first subdirectory
-    return next(iter(sub_dirs)).name
+    # The original idea was to list `~/myProposals` and return the first one.
+    # However, it was not there when I logged in to the VISA with a non-ess user ID.
+    # So we are hardcoding the proposal ID for the summer school.
+    if is_debugging():
+        # If debugging, use the proposal ID from the debugging file
+        config = _get_debug_config()
+        return config.get("proposal_id", "213256")
+    return "213256"
 
 
 def get_default_source_folder_parent() -> pathlib.Path:

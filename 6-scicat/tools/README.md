@@ -32,9 +32,14 @@ Here is the example yaml configuration you can copy to create a file.
 ```yaml
 token: "very-long-token-that-you-should-not-share-with-any-one"  # You can store a token here for debugging.
 proposal_mount: "./notebooks/myProposals/"  # To find a proposal information and complete source folder path.
-# It's `/home/${USER}/myProposals/` in VISA.
+                                            # It's `/home/${USER}/myProposals/` in VISA.
+proposal_id: "213256"
 backend_address: "http://backend.localhost/api/v3"  # For connecting to the scicat backend.
 client_address: "http://localhost" # For making a link to a new dataset in scicat web client.
+
+# For Download Widget
+download_pid: "undefined/2b85ddff-6ab6-4b46-837f-499b17e0b0ad"
+target_dir: "/Users/sunyoungyoo/ESS/dmsc-school/6-scicat/notebooks/myProposals/213256/derived/"
 
 ```
 
