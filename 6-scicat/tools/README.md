@@ -43,7 +43,34 @@ target_dir: "/Users/sunyoungyoo/ESS/dmsc-school/6-scicat/notebooks/myProposals/2
 
 ```
 
+# Development Environment
+
+## Staging Scicat
+
+If you want to use actual scicat instance, use `https://staging.scicat.ess.eu`.
+The relevant links are hard-coded for the staging scicat instance in the tool.
+
+## Local Scicat Instance
+Clone [`scicatlive`](https://github.com/SciCatProject/scicatlive.git) and run `docker compose up` to start up all services to use `scicat`.<br>
+The credentials for the premade users of `scicat` is in `scicatlive/services/backend/services/v3/README.md`.<br>
+
+### Links to the local instances (if you use default settings)
+| Address | Description |
+| ------- | ----------- |
+| http://backend.localhost/api/v3 | Backend API |
+| http://localhost | Scicat Web Client |
+
 # Development Log
+## VS Code
+VS Code jupyter extension had some problem with editing and proxy.<br>
+For editing, `Text` or `Password` input widget cannot `copy` or `paste` a value from a clipboard.<br>
+I tried using dev version of jupyter extension and tried turning off/on and so one but didn't help.<br>
+
+For proxy, there was a problem that `httpx` could not find the right proxy under a very specific environment
+(I was at home, disconnected from ESS VPN).
+Didn't have this problem when I was using `voila` or `jupyter lab` directly, not using `VS code`.
+
+> Tip: Use `VOILA` instead to build the widget quickly and try it out.
 
 ## File Path Input
 ### Why text input widget instead of a file browser widget?
