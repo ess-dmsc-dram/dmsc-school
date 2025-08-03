@@ -1,0 +1,1516 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>QENS exercise &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-mcstas/mcstas-qens';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SANS exercise" href="mcstas-sans.html" />
+    <link rel="prev" title="Powder diffraction exercise" href="mcstas-powder-diffraction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F3-mcstas/mcstas-qens.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-mcstas/mcstas-qens.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>QENS exercise</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-instrument-object">Get the instrument object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-instrument">Investigate instrument</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-parameters">Set parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrument-settings">Instrument settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-simulation">Run the simulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-data">Visualize the data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation-of-data">Explanation of data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improve-the-instrument">Improve the instrument</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcstas-sequence">McStas sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-component">Which component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chopper-calculations">Chopper calculations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-chopper-component-and-set-parameters">Add chopper component and set parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#placing-the-component-in-space">Placing the component in space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-new-component">Verify new component</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-improved-instrument">Run improved instrument</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-resolution">Time resolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-with-known-calibration-sample">Run with known calibration sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-with-unknown-sample">Run with unknown sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimate-unknown-sample-energy-width">Estimate unknown sample energy width</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#increase-the-number-of-neutrons">Increase the number of neutrons</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mcstasscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">make_QENS_instrument</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">quizlib</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span> <span class="o">=</span> <span class="n">quizlib</span><span class="o">.</span><span class="n">QENS_Quiz</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="qens-exercise">
+<h1>QENS exercise<a class="headerlink" href="#qens-exercise" title="Link to this heading">#</a></h1>
+<p>This notebook contains code and questions for a McStas simulation of a simplified backscattering instrument that can investigate quasi-elastic scattering from samples.</p>
+<p>Quasi-elastic scattering is inelastic scattering with small energy transfers and typically seen as a broadening of the elastic signal.
+At ESS the backscattering instrument under construction is called MIRACLES and uses the indirect geometry time of flight technique,
+here neutrons are scattered of the sample and some hit an analyzer crystal afterwards.
+This analyzer is angled such that if the neutron is scattered almost backwards, and due to Braggs law this will happen with a certain energy.</p>
+<p>It turns out the precision of that energy is highest when the neutron is scattered back in the direction it came from,
+but most instruments choose a slightly lower angle to avoid hitting the sample a second time.
+The detector is then placed slightly above or below the sample.</p>
+<p>Since the analyzer choose a specific energy, the final energy of the neutrons being recorded in the detector is known,
+this can be used to calculate the time of the neutron to the sample position.
+Then the time at that moment and the known pulse time can be used to calculate the time-of-flight,
+which with the known distance from source to sample gives the speed and thus energy before scattering in the sample.
+The difference between the known initial and final energy provide the energy transfer, which for backscattering can be down to <span class="math notranslate nohighlight">\(\mu\)</span>eV, where most other inelastic techniques look at meV.</p>
+<p>In this notebook you will get a McStas model of simplified backscattering instrument which can be used to perform virtual experiments. You will run a few and answer questions about the results. You will also get to improve it and run experiments with a small range of known and unknown samples. We will use the Python McStas API McStasScript to work with the instrument, you can find documentation <a class="reference external" href="https://mads-bertelsen.github.io">here</a>.</p>
+<section id="get-the-instrument-object">
+<h2>Get the instrument object<a class="headerlink" href="#get-the-instrument-object" title="Link to this heading">#</a></h2>
+<p>First we need the McStas instrument object. Here it is retrieved from a local python function that generates it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span> <span class="o">=</span> <span class="n">make_QENS_instrument</span><span class="o">.</span><span class="n">make</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="investigate-instrument">
+<h2>Investigate instrument<a class="headerlink" href="#investigate-instrument" title="Link to this heading">#</a></h2>
+<p>First investigate the instrument object <code class="docutils literal notranslate"><span class="pre">instrument</span></code> using some of the available methods.
+All the methods that help do that start with the word show.
+In particular, look at what parameters are available and take a look at the instrument geometry.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>double integration_time   = 21600      // [s] Time span of experiment
+double energy_width_ueV   = 3          // Simulated energy range in micro eV
+double n_pulses           = 3.0        // Number of pulses from source
+double sample_distance    = 8.0        // [m] Source Sample distance
+string sample_choice      = &quot;Elastic&quot;  // Choice of sample type
+double gamma_ueV          = 10         // [ueV] Energy width of known 
+                                           quasi-elastic sample 
+double analyzer_distance  = 3.0        // [m] Sample analyzer distance
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="set-parameters">
+<h2>Set parameters<a class="headerlink" href="#set-parameters" title="Link to this heading">#</a></h2>
+<p>Before running the instrument we need to set some parameters on the instrument.
+The most important one is the <code class="docutils literal notranslate"><span class="pre">sample_distance</span></code> parameter describing the distance between the source and the sample.
+Given the need for high precision in determining the energy of the neutron, which of the following instrument lengths should be chosen?</p>
+<ul class="simple">
+<li><p>A: 30 m</p></li>
+<li><p>B: 60 m</p></li>
+<li><p>C: 150 m</p></li>
+</ul>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_1</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_1</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes, a long instrument inherently provides a greater accuracy when determining
+the neutron flight time and thus energy.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">sample_distance</span></code> corresponding to the answer above and set the simulated energy width to 5 <span class="math notranslate nohighlight">\(\mu\)</span>eV.
+Keep the sample type to <code class="docutils literal notranslate"><span class="pre">Elastic</span></code> and number of pulses to 1. Use the <code class="docutils literal notranslate"><span class="pre">set_parameters</span></code> method on the instrument object.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">sample_distance</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Elastic&quot;&#39;</span><span class="p">,</span> <span class="n">n_pulses</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Validate the instrument by giving it to the question_2</span>
+<span class="n">quiz</span><span class="o">.</span><span class="n">question_2</span><span class="p">(</span><span class="n">instrument</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+The parameters of the instrument were correctly set!
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="instrument-settings">
+<h2>Instrument settings<a class="headerlink" href="#instrument-settings" title="Link to this heading">#</a></h2>
+<p>Before performing a simulation a few settings pertaining to the technical side should be set. These use a different method to clearly distinguish them from the instrument parameters. One important parameter is called <code class="docutils literal notranslate"><span class="pre">output_path</span></code> which sets the name of the generated folder.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span><span class="n">ncount</span><span class="o">=</span><span class="mf">5e7</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">suppress_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">NeXus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;first_run&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="run-the-simulation">
+<h2>Run the simulation<a class="headerlink" href="#run-the-simulation" title="Link to this heading">#</a></h2>
+<p>Now the simulation can be executed with the backengine method on the instrument object. Store the returned data in a python variable called <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p>
+<div class="cell tag_solution docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[
+ McStasData: signal_tof_all type: 2D  I:3.53436 E:0.0132635 N:368866.0,
+ 
+ McStasData: signal_tof type: 2D  I:3.53436 E:0.0132635 N:368866.0,
+ 
+ McStasDataEvent: signal_tof_event with 564546 events. Variables: p x y n id t,
+ 
+ McStasData: signal_space type: 1D  I:3.53453 E:0.0132635 N:564546.0,
+ 
+ McStasData: signal_time type: 1D  I:3.53436 E:0.0132635 N:368866.0]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="visualize-the-data">
+<h3>Visualize the data<a class="headerlink" href="#visualize-the-data" title="Link to this heading">#</a></h3>
+<p>The data objects in the returned list can be plotted with the McStasScript function <code class="docutils literal notranslate"><span class="pre">make_sub_plot</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">make_sub_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Skipped plotting signal_tof_event as it contains event data.
+</pre></div>
+</div>
+<img alt="../_images/672e0ced874e004a9976645b624992995ac4ebbd84d8545285623dc855bb66da.png" src="../_images/672e0ced874e004a9976645b624992995ac4ebbd84d8545285623dc855bb66da.png" />
+</div>
+</div>
+</section>
+<section id="explanation-of-data">
+<h3>Explanation of data<a class="headerlink" href="#explanation-of-data" title="Link to this heading">#</a></h3>
+<p>The data is all from a He3 tube which can only be reached from the sample by being scattered almost backwards from a Si analyzer crystal.
+Two 1D monitors show the spatial and time distribution of the signal respectively.
+The two 2D monitors show the correlation between time and position, though one will zoom out to capture multiple pulses if <code class="docutils literal notranslate"><span class="pre">n_pulse</span></code> is set to more than one.</p>
+</section>
+<section id="questions">
+<h3>Questions<a class="headerlink" href="#questions" title="Link to this heading">#</a></h3>
+<p>Look at the time distribution of the signal, which statement about this data is true?</p>
+<ul class="simple">
+<li><p>A: The data looks like a typical inelastic signal</p></li>
+<li><p>B: The data looks like the ESS pulse structure</p></li>
+<li><p>C: The data looks like a typical elastic signal</p></li>
+<li><p>D: The data looks like the analyzer selected to broad an energy range</p></li>
+</ul>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_3</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_3</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes, the time distribution is dominated by the ESS pulse structure
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Is this a problem for a backscattering instrument?</p>
+<ul class="simple">
+<li><p>A: Yes, the low time resolution means low energy resolution</p></li>
+<li><p>B: No, the low time resolution is not necessary for high energy resolution</p></li>
+</ul>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_4</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_4</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Exactly, the time of flight is used to calculate the initial neutron energy
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>How can the instrument be improved?</p>
+<ul class="simple">
+<li><p>A: Add a chopper to control the time aspect</p></li>
+<li><p>B: Add a slit before sample to reduce the illuminated area</p></li>
+<li><p>C: Add a slit before analyzer to ensure same angle</p></li>
+<li><p>D: Add a spin polarizer to select spin state</p></li>
+</ul>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_5</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_5</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes, that would limit the uncertainty on the time of flight
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="improve-the-instrument">
+<h2>Improve the instrument<a class="headerlink" href="#improve-the-instrument" title="Link to this heading">#</a></h2>
+<p>In order to improve the performance of the instrument, we will add a McStas component.
+The first aspect to consider when doing so is where to place it, both in the component sequence and its physical location.
+We start by investigating where to put the component in the component sequence, as that needs to be specified when adding the component, and the physical location can be updated later.</p>
+<section id="mcstas-sequence">
+<h3>McStas sequence<a class="headerlink" href="#mcstas-sequence" title="Link to this heading">#</a></h3>
+<p>Use either the <code class="docutils literal notranslate"><span class="pre">show_diagram</span></code> or <code class="docutils literal notranslate"><span class="pre">show_components</span></code> method on the instrument object to get an overview of the component sequence in the instrument.
+Where would you place the new component?</p>
+<ul class="simple">
+<li><p>A: After the source</p></li>
+<li><p>B: Before the sample position</p></li>
+<li><p>C: After the sample position</p></li>
+<li><p>D: After the analyzer</p></li>
+</ul>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/aabc24859d7e6012d6290bc1ccd59c2d2b90614aad339664dacfa15daacf4230.png" src="../_images/aabc24859d7e6012d6290bc1ccd59c2d2b90614aad339664dacfa15daacf4230.png" />
+<img alt="../_images/f69b3603de96fbf8c2b76002ae0d77ba68cc05fcc895e2d23bf07a7e2f8e658f.png" src="../_images/f69b3603de96fbf8c2b76002ae0d77ba68cc05fcc895e2d23bf07a7e2f8e658f.png" />
+</div>
+</details>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_6</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_6</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes, as we want to reduce the uncertainty in when the neutron was at the source,
+placing the chopper as close to the source as possible is optimal.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="which-component">
+<h3>Which component<a class="headerlink" href="#which-component" title="Link to this heading">#</a></h3>
+<p>Now we need to select what type of component to add to the instrument, here we will need the <code class="docutils literal notranslate"><span class="pre">DiskChopper</span></code> component.
+Use the <code class="docutils literal notranslate"><span class="pre">component_help</span></code> method on the instrument object to learn more about this component.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">component_help</span><span class="p">(</span><span class="s2">&quot;DiskChopper&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ___ Help DiskChopper _______________________________________________________________
+|<span class=" -Color -Color-Bold">optional parameter</span>|<span class=" -Color -Color-Bold">required parameter</span>|<span class=" -Color -Color-Bold">default value</span>|<span class=" -Color -Color-Bold">user specified value</span>|
+<span class=" -Color -Color-Bold">theta_0</span> = <span class=" -Color -Color-Bold">0.0</span> [deg] // Angular width of the slits.
+<span class=" -Color -Color-Bold">radius</span> = <span class=" -Color -Color-Bold">0.5</span> [m] // Radius of the disc
+<span class=" -Color -Color-Bold">yheight</span> [m] // Slit height (if = 0, equal to radius). Auto centering of beam at 
+               half height. 
+<span class=" -Color -Color-Bold">nu</span> [Hz] // Frequency of the Chopper, omega=2*PI*nu (algebraic sign defines the 
+           direction of rotation) 
+<span class=" -Color -Color-Bold">nslit</span> = <span class=" -Color -Color-Bold">3.0</span> [1] // Number of slits, regularly arranged around the disk
+<span class=" -Color -Color-Bold">jitter</span> = <span class=" -Color -Color-Bold">0.0</span> [s] // Jitter in the time phase
+<span class=" -Color -Color-Bold">delay</span> = <span class=" -Color -Color-Bold">0.0</span> [s] // Time &#39;delay&#39;
+<span class=" -Color -Color-Bold">isfirst</span> = <span class=" -Color -Color-Bold">0.0</span> [0/1] // Set it to 1 for the first chopper position in a cw 
+                       source (it then spreads the neutron time distribution) 
+<span class=" -Color -Color-Bold">n_pulse</span> = <span class=" -Color -Color-Bold">1.0</span> [1] // Number of pulses (Only if isfirst)
+<span class=" -Color -Color-Bold">abs_out</span> = <span class=" -Color -Color-Bold">1.0</span> [0/1] // Absorb neutrons hitting outside of chopper radius?
+<span class=" -Color -Color-Bold">phase</span> = <span class=" -Color -Color-Bold">0.0</span> [deg] // Angular &#39;delay&#39; (overrides delay)
+<span class=" -Color -Color-Bold">xwidth</span> = <span class=" -Color -Color-Bold">0.0</span> [m] // Horizontal slit width opening at beam center
+<span class=" -Color -Color-Bold">verbose</span> = <span class=" -Color -Color-Bold">0.0</span> [1] // Set to 1 to display Disk chopper configuration
+-------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="chopper-calculations">
+<h3>Chopper calculations<a class="headerlink" href="#chopper-calculations" title="Link to this heading">#</a></h3>
+<p>When adding a chopper one need to perform calculations to obtain the appropriate rotation frequency and phase.
+For this exercise, those calculations can be added to the instrument using a function included in the given Python file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_QENS_instrument</span><span class="o">.</span><span class="n">add_chopper_code</span><span class="p">(</span><span class="n">instrument</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To see what variables are used in the instrument, one can use the <code class="docutils literal notranslate"><span class="pre">show_variables</span></code> method like below. This will included the ones added by the above function.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_variables</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DECLARE VARIABLES 
+type    variable name              array length  value               
+-------------------------------------------------------------------
+double  detector_offset                          0.25                
+double  analyzer_angle                                               
+double  backscattering_wavelength                                    
+double  backscattering_energy                                        
+double  energy_width_meV                                             
+double  min_energy                                                   
+double  max_energy                                                   
+double  min_wavelength                                               
+double  max_wavelength                                               
+double  t_min_sample                                                 
+double  t_max_sample                                                 
+double  t_max_sample_pulses                                          
+double  enable_elastic                                               
+double  enable_known_quasi                                           
+double  enable_unknown_quasi                                         
+double  gamma_meV                                                    
+double  analyzer_direction                       30                  
+double  analyzer_d                               3.135               
+double  analyzer_q                               2.0042058396107136  
+double  t_min                                                        
+double  t_max                                                        
+double  t_max_pulses                                                 
+double  chopper_distance                         6.5                 
+double  chopper_delay                                                
+double  chopper_frequency                                            
+double  chopper_theta                            12                  
+double  chopper_time_width                                           
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="add-chopper-component-and-set-parameters">
+<h3>Add chopper component and set parameters<a class="headerlink" href="#add-chopper-component-and-set-parameters" title="Link to this heading">#</a></h3>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">add_component</span></code> method on the instrument object to add a chopper.
+Place it in the component sequence according to your answer in question 6 by using either the <code class="docutils literal notranslate"><span class="pre">before</span></code> or <code class="docutils literal notranslate"><span class="pre">after</span></code> keyword argument.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">add_component</span></code> method returns a component object, store that in a python variable.</p>
+<p>Set the parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">yheight</span></code>: 0.05 m</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">radius</span></code>: 0.7 m</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nslit</span></code>: 1.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nu</span></code>, <code class="docutils literal notranslate"><span class="pre">delay</span></code> and <code class="docutils literal notranslate"><span class="pre">theta_0</span></code>: To the variables calculated in the instrument (use quotation marks)</p></li>
+</ul>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chopper</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;chopper&quot;</span><span class="p">,</span> <span class="s2">&quot;DiskChopper&quot;</span><span class="p">,</span> <span class="n">after</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">)</span>
+<span class="n">chopper</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+    <span class="n">yheight</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">radius</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">nu</span><span class="o">=</span><span class="s2">&quot;chopper_frequency&quot;</span><span class="p">,</span>
+    <span class="n">nslit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delay</span><span class="o">=</span><span class="s2">&quot;chopper_delay&quot;</span><span class="p">,</span>
+    <span class="n">theta_0</span><span class="o">=</span><span class="s2">&quot;chopper_theta&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>To check if the component was added correctly, provide your instrument object to the <em>question_7</em> function below.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Validate the instrument again</span>
+<span class="n">quiz</span><span class="o">.</span><span class="n">question_7</span><span class="p">(</span><span class="n">instrument</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+The DiskChopper was added at the right point in the component sequence and with
+correct parameters!
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="placing-the-component-in-space">
+<h3>Placing the component in space<a class="headerlink" href="#placing-the-component-in-space" title="Link to this heading">#</a></h3>
+<p>The next task is to specify the physical location of the component, this is done using the <code class="docutils literal notranslate"><span class="pre">set_AT</span></code> method on the component object.
+This method takes a list of 3 numbers, corresponding to the <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code> coordinates of the component.</p>
+<p>One can also specify in what coordinate system one wants to work, which can be that of any preceding component.
+Use the <code class="docutils literal notranslate"><span class="pre">RELATIVE</span></code> keyword to work in the <code class="docutils literal notranslate"><span class="pre">source</span></code> coordinate system.
+The position of the chopper is needed for calculating phase, so it is available as a variable in the instrument, use this variable to set the position.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chopper</span><span class="o">.</span><span class="n">set_AT</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;chopper_distance&quot;</span><span class="p">],</span> <span class="n">RELATIVE</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>To check if the component was added correctly, provide your instrument object to the <em>question_7</em> function below.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_8</span><span class="p">(</span><span class="n">instrument</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+The DiskChopper was added at the right point in the space!
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="verify-new-component">
+<h3>Verify new component<a class="headerlink" href="#verify-new-component" title="Link to this heading">#</a></h3>
+<p>Now that the chopper has been added to the instrument, lets show the component sequence again to verify it was added correctly.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/aabc24859d7e6012d6290bc1ccd59c2d2b90614aad339664dacfa15daacf4230.png" src="../_images/aabc24859d7e6012d6290bc1ccd59c2d2b90614aad339664dacfa15daacf4230.png" />
+<img alt="../_images/cef3569a7b5affd227edb29820488c4c01800cd1cf86be178c2c0c8ab47bfb50.png" src="../_images/cef3569a7b5affd227edb29820488c4c01800cd1cf86be178c2c0c8ab47bfb50.png" />
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="run-improved-instrument">
+<h2>Run improved instrument<a class="headerlink" href="#run-improved-instrument" title="Link to this heading">#</a></h2>
+<p>Run the improved instrument with the following parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_distance</span></code>: 150 m</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">energy_width_ueV</span></code>: 5 ueV (This controls the simulated energy range, should be larger than inelastic signal width)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_choice</span></code>: ‘“Elastic”’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frequency_multiplier</span></code>: 10 (This controls the ratio between chopper and source frequency)</p></li>
+</ul>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">settings</span></code> method to set a reasonable name, including the sample type.</p>
+<p>Store the resulting data in a variable called <code class="docutils literal notranslate"><span class="pre">data_improved</span></code>.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span><span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;QENS_elastic&quot;</span><span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Elastic&quot;&#39;</span><span class="p">,</span> <span class="n">n_pulses</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">frequency_multiplier</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">data_improved</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Plot the data using the <code class="docutils literal notranslate"><span class="pre">make_sub_plot</span></code> function.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">make_sub_plot</span><span class="p">(</span><span class="n">data_improved</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Skipped plotting signal_tof_event as it contains event data.
+</pre></div>
+</div>
+<img alt="../_images/1fdefd8268b3c19d45e76ee73d79ce45ce380812dad7fdd6cbc971a20092f646.png" src="../_images/1fdefd8268b3c19d45e76ee73d79ce45ce380812dad7fdd6cbc971a20092f646.png" />
+</div>
+</details>
+</div>
+<section id="time-resolution">
+<h3>Time resolution<a class="headerlink" href="#time-resolution" title="Link to this heading">#</a></h3>
+<p>Using the plotted data above its possible to get a estimate of the time resolution of the instrument.</p>
+<p>Use the cursor to zoom and read of values for the time resolution of the instrument (FWHM). Insert the found time in the question below as a value in seconds.</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_9</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_9</span><span class="p">(</span><span class="mf">0.248503</span><span class="o">-</span><span class="mf">0.248258</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes!
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="run-with-known-calibration-sample">
+<h3>Run with known calibration sample<a class="headerlink" href="#run-with-known-calibration-sample" title="Link to this heading">#</a></h3>
+<p>Next we will run a simulation with a known calibration sample, its energy width can be adjusted with the gamma_ueV (HWHM).
+Run with the following parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_choice</span></code>: ‘“Known_quasi-elastic”’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gamma_ueV</span></code>: 12 ueV</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">energy_width_ueV</span></code>: 150 ueV</p></li>
+</ul>
+<p>Again set a descriptive name, call the produced data <code class="docutils literal notranslate"><span class="pre">data_known</span></code>.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span><span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;QENS_known_quasi_elastic&quot;</span><span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Known_quasi-elastic&quot;&#39;</span><span class="p">,</span>
+                          <span class="n">gamma_ueV</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">frequency_multiplier</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">data_known</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Plot the data with <code class="docutils literal notranslate"><span class="pre">make_sub_plot</span></code>.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">make_sub_plot</span><span class="p">(</span><span class="n">data_known</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Skipped plotting signal_tof_event as it contains event data.
+</pre></div>
+</div>
+<img alt="../_images/735012e803b88d1de4498104d50d67757bfbaaebb388592be7459ca8109a709a.png" src="../_images/735012e803b88d1de4498104d50d67757bfbaaebb388592be7459ca8109a709a.png" />
+</div>
+</details>
+</div>
+<p>What is the time width when using a known sample with 12 ueV broadening? Insert the answer with units of seconds.</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_10</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_10</span><span class="p">(</span><span class="mf">0.249004</span><span class="o">-</span><span class="mf">0.247830</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes!
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="run-with-unknown-sample">
+<h3>Run with unknown sample<a class="headerlink" href="#run-with-unknown-sample" title="Link to this heading">#</a></h3>
+<p>Finally we can run a virtual experiment with an unknown sample.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_choice</span></code>: <code class="docutils literal notranslate"><span class="pre">&quot;Unknown_quasi-elastic&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">energy_width_ueV</span></code>: 150 ueV</p></li>
+</ul>
+<p>Again set a descriptive name, call the produced data <code class="docutils literal notranslate"><span class="pre">data_unknown</span></code>.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;QENS_unknown_quasi_elastic&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+    <span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+    <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Unknown_quasi-elastic&quot;&#39;</span><span class="p">,</span>
+    <span class="n">frequency_multiplier</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">data_unknown</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Plot the data using <code class="docutils literal notranslate"><span class="pre">make_sub_plot</span></code>.</p>
+<div class="cell tag_solution tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">make_sub_plot</span><span class="p">(</span><span class="n">data_unknown</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">9.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Skipped plotting signal_tof_event as it contains event data.
+</pre></div>
+</div>
+<img alt="../_images/6946f5ee2cede73196e1378008ecced46b5f3832fcd9246e2214682b39d56447.png" src="../_images/6946f5ee2cede73196e1378008ecced46b5f3832fcd9246e2214682b39d56447.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="estimate-unknown-sample-energy-width">
+<h3>Estimate unknown sample energy width<a class="headerlink" href="#estimate-unknown-sample-energy-width" title="Link to this heading">#</a></h3>
+<p>By comparing the data from the known and unknown sample, provide an estimate of the energy width of the unknown sample. Insert the result below in ueV (HWHM). This questions is optional, if short on time go to the next question.</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_11</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_dmsc-school-remove tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiz</span><span class="o">.</span><span class="n">question_11</span><span class="p">((</span><span class="mf">0.248782</span> <span class="o">-</span> <span class="mf">0.247976</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">0.249004</span><span class="o">-</span><span class="mf">0.247830</span><span class="p">)</span><span class="o">*</span><span class="mf">12.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Correct!</span>
+Yes! Lets see how this early estimate holds up with more thorough analysis over
+the next days.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="increase-the-number-of-neutrons">
+<h2>Increase the number of neutrons<a class="headerlink" href="#increase-the-number-of-neutrons" title="Link to this heading">#</a></h2>
+<p>Your final task is to re-run the simulations for the 3 different samples, using more neutrons to improve the signal-to-noise ratio of the results.
+This is controlled using the <code class="docutils literal notranslate"><span class="pre">ncount</span></code> parameter on the instrument object.
+We will use this data in the exercises for the rest of the week.</p>
+<p><strong>Hints:</strong></p>
+<ul class="simple">
+<li><p>Change the destination folder so that you don’t overwrite the results from your previous simulations.</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Elastic sample</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span>
+    <span class="n">ncount</span><span class="o">=</span><span class="mf">1.5e8</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;QENS_elastic_many_neutrons&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+    <span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Elastic&quot;&#39;</span><span class="p">,</span>
+    <span class="n">frequency_multiplier</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">elastic_many_neutrons</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+
+
+<span class="c1"># Known calibration sample</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span>
+    <span class="n">ncount</span><span class="o">=</span><span class="mf">1.5e8</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;QENS_known_quasi_elastic_many_neutrons&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+    <span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+    <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Known_quasi-elastic&quot;&#39;</span><span class="p">,</span>
+    <span class="n">gamma_ueV</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+    <span class="n">frequency_multiplier</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">known_many_neutrons</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+
+
+<span class="c1"># Unknown sample</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span>
+    <span class="n">ncount</span><span class="o">=</span><span class="mf">1.5e8</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;QENS_unknown_quasi_elastic_many_neutrons&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+    <span class="n">energy_width_ueV</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+    <span class="n">sample_choice</span><span class="o">=</span><span class="s1">&#39;&quot;Unknown_quasi-elastic&quot;&#39;</span><span class="p">,</span>
+    <span class="n">frequency_multiplier</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">unknown_many_neutrons</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-mcstas"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mcstas-powder-diffraction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Powder diffraction exercise</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mcstas-sans.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SANS exercise</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-instrument-object">Get the instrument object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-instrument">Investigate instrument</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-parameters">Set parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrument-settings">Instrument settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-simulation">Run the simulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-data">Visualize the data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation-of-data">Explanation of data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improve-the-instrument">Improve the instrument</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcstas-sequence">McStas sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-component">Which component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chopper-calculations">Chopper calculations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-chopper-component-and-set-parameters">Add chopper component and set parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#placing-the-component-in-space">Placing the component in space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-new-component">Verify new component</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-improved-instrument">Run improved instrument</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-resolution">Time resolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-with-known-calibration-sample">Run with known calibration sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-with-unknown-sample">Run with unknown sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimate-unknown-sample-energy-width">Estimate unknown sample energy width</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#increase-the-number-of-neutrons">Increase the number of neutrons</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
