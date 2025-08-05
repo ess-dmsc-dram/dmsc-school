@@ -115,3 +115,8 @@ from rich.logging import RichHandler
 handler = RichHandler()
 logger.addHandler(handler)
 ```
+
+## Unit
+
+Setting unit as `None` and setting unit as an empty string have different meaning.
+Therefore we needed a special custom widget for `Unit` that can be toggled between `None` and a custom value.
