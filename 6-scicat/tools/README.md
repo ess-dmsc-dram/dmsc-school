@@ -115,3 +115,9 @@ from rich.logging import RichHandler
 handler = RichHandler()
 logger.addHandler(handler)
 ```
+
+## Unit
+
+For `scipp` data structure, setting unit as `None` and an empty string have different meaning
+but for `scicat` they are the same thing.
+Therefore we simply set it as an empty string if there is no `unit` for the scientific metadata.
