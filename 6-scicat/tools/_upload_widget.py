@@ -750,13 +750,17 @@ class UnitInputWidget(widgets.HBox):
 
     def __init__(self):
         label = widgets.Label(
-            value="Unit", layout=Layout(width="30px", align_self="center")
+            value="Unit",
+            layout=Layout(width="30px", align_self="center", margin="0px 5px 0px 15px"),
         )
         self.unit_toggle = widgets.RadioButtons(
             options=["None", self._NONE_NONE_OPTION],
             value=self._NONE_NONE_OPTION,
             layout=Layout(
-                width="fit-content", align_self="center", margin="1px 0px 0px 0px"
+                width="fit-content",
+                align_self="center",
+                margin="1px 0px 0px 0px",
+                min_width="95px",
             ),
             orientation="horizontal",
         )
