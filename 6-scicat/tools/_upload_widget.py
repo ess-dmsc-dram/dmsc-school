@@ -730,6 +730,7 @@ def _filter_scalar_metadata(
         elif isinstance(value, sc.Variable):
             valid_metadata[key] = _ScalarMetadataValue(
                 value=value.value,
+                # Scicat does not have concept of `None` unit.
                 unit=str(value.unit) if value.unit is not None else "",
             )
         else:
