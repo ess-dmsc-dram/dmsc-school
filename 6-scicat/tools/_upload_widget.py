@@ -850,7 +850,7 @@ class MetadataWidget(widgets.VBox):
             return _ScalarMetadata(
                 key=selected_key,
                 value=metadata_value.value,
-                unit=self.unit_preview.value,  # Unit may be overwritten by a user.
+                unit=self.unit_preview.value.strip(),  # Unit may be overwritten by a user.
             )
 
     class ArbitraryInputWidget(widgets.HBox):
