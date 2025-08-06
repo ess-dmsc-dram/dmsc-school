@@ -622,7 +622,6 @@ class FileSelectionWidget(widgets.VBox):
         self.add_button.disabled = True
         self.current_files: set[pathlib.Path] = set()
 
-
         def validate_path(_) -> None:
             """Validate the file path and update the output widget."""
             if not (input_value := self.file_path_input.value.strip()):
@@ -723,19 +722,27 @@ def _validate_scalar_values(value: Any) -> bool:
 def _filter_scalar_metadata(
     metadata: dict[str, Any], *, complain: Callable = lambda _: None
 ) -> dict[str, _ScalarMetadataValue]:
-    left_over = {}
+    valid_metadata = {}
     for key, value in metadata.items():
         if not _validate_scalar_values(value):
             msg = f"Invalid scientific metadata from registry will be ignored: \n\t\t'{key}': {value}"
             complain(msg)
         elif isinstance(value, sc.Variable):
-            left_over[key] = _ScalarMetadataValue(
-                value=value.value, unit=str(value.unit)
+            valid_metadata[key] = _ScalarMetadataValue(
+                value=value.value,
+                # Scicat does not have concept of `None` unit.
+                unit=str(value.unit) if value.unit is not None else "",
             )
         else:
-            left_over[key] = _ScalarMetadataValue(value=str(value), unit=str(None))
+            valid_metadata[key] = _ScalarMetadataValue(value=str(value), unit="")
 
-    return left_over
+    return valid_metadata
+
+
+_METADATA_INPUT_STYLE = {"description_width": "40px"}
+_METADATA_INPUT_LAYOUT = Layout(
+    width="auto", margin="5px 15px 5px 15px", min_width="100px"
+)
 
 
 class MetadataWidget(widgets.VBox):
@@ -776,20 +783,32 @@ class MetadataWidget(widgets.VBox):
             self.dropdown_menu = widgets.Dropdown(
                 options=list(self._original_metadata_registry.keys()),
                 description="Key",
-                layout=Layout(width="auto", margin="5px"),
-                style=default_style,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
             )
-            self.value_preview = widgets.Text("", description="Value", disabled=True)
+            self.value_preview = widgets.Text(
+                "",
+                description="Value",
+                disabled=True,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
+            )
             # Unit may be overwritten by the user, so it is not disabled.
-            self.unit_preview = widgets.Text("", description="Unit", disabled=False)
+            self.unit_preview = widgets.Text(
+                "",
+                description="Unit",
+                disabled=False,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
+            )
 
             def _update_preview(_):
                 """Update the value and unit preview based on the selected key."""
                 selected_key = self.dropdown_menu.value
                 if selected_key in self._original_metadata_registry:
                     metadata_value = self._original_metadata_registry[selected_key]
-                    self.value_preview.value = str(metadata_value.value)
-                    self.unit_preview.value = metadata_value.unit
+                    self.value_preview.value = str(metadata_value.value).strip()
+                    self.unit_preview.value = str(metadata_value.unit).strip()
                 else:
                     self.value_preview.value = ""
                     self.unit_preview.value = ""
@@ -800,8 +819,8 @@ class MetadataWidget(widgets.VBox):
             refresh_button = widgets.Button(
                 description="Reload Options 🔄",
                 tooltip="Reload the metadata options from the registry",
-                layout=Layout(width="auto", margin="5px"),
-                style=default_style,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
             )
             refresh_button.on_click(
                 lambda _: self._update_metadata_registry_from_shared_container()
@@ -812,9 +831,7 @@ class MetadataWidget(widgets.VBox):
                     self.value_preview,
                     self.unit_preview,
                     refresh_button,
-                ],
-                layout=Layout(width="auto", margin="5px"),
-                style=default_style,
+                ]
             )
 
         def _update_metadata_registry_from_shared_container(self) -> None:
@@ -830,11 +847,10 @@ class MetadataWidget(widgets.VBox):
             """Return the selected metadata as a _ScalarMetadata instance."""
             selected_key = self.dropdown_menu.value
             metadata_value = self._original_metadata_registry[selected_key]
-            # Unit may be overwritten by a user.
-            unit = self.unit_preview.value.strip()
-            unit = str(None) if unit == "" else unit
             return _ScalarMetadata(
-                key=selected_key, value=metadata_value.value, unit=unit
+                key=selected_key,
+                value=metadata_value.value,
+                unit=self.unit_preview.value.strip(),  # Unit may be overwritten by a user.
             )
 
     class ArbitraryInputWidget(widgets.HBox):
@@ -844,20 +860,20 @@ class MetadataWidget(widgets.VBox):
             self.key_input = widgets.Text(
                 value="",
                 description="Key",
-                layout=Layout(width="auto", margin="5px"),
-                style=default_style,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
             )
             self.unit_input = widgets.Text(
                 value="",
                 description="Unit",
-                layout=Layout(width="auto", margin="5px"),
-                style=default_style,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
             )
             self.value_input = widgets.Text(
                 value="",
                 description="Value",
-                layout=Layout(width="auto", margin="5px"),
-                style=default_style,
+                layout=_METADATA_INPUT_LAYOUT,
+                style=_METADATA_INPUT_STYLE,
             )
             super().__init__(
                 children=[self.key_input, self.value_input, self.unit_input]
@@ -866,12 +882,10 @@ class MetadataWidget(widgets.VBox):
         @property
         def value(self) -> _ScalarMetadata:
             """Return the entered metadata as a _ScalarMetadata instance."""
-            unit = self.unit_input.value.strip()
-            unit = str(None) if unit == "" else unit
             return _ScalarMetadata(
                 key=self.key_input.value.strip(),
                 value=self.value_input.value.strip(),
-                unit=unit,
+                unit=self.unit_input.value.strip(),
             )
 
     def __init__(
@@ -900,7 +914,7 @@ class MetadataWidget(widgets.VBox):
             description="Add Metadata",
             tooltip="Add the metadata from the input fields",
             layout=Layout(
-                width="108px", margin="5px", height="108px", min_width="108px"
+                width="108px", margin="5px", height="98px", min_width="108px"
             ),
             style=default_style,
         )
