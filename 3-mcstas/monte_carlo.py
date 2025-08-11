@@ -77,7 +77,7 @@ def example(points=100, square_side_length=1, circle_diameter=1):
     scatter_outside = ax[0].scatter([], [], marker="x", color='r')
     line, = ax[1].plot([], [])
     line_pi, = ax[1].plot([], [], "k--")
-    ax[1].text(0, np.pi, "$\pi$", fontsize=20, va="top")
+    ax[1].text(0, np.pi, "$\\pi$", fontsize=20, va="top")
 
     # Draw square and circle
     ax[0].add_patch(plt.Rectangle((0,0), square_side_length, square_side_length, fill=False))
@@ -115,7 +115,7 @@ def example_interactive(square_side_length=1, circle_diameter=1):
     scatter_outside = ax[0].scatter([], [], marker="x", color='r')
     line, = ax[1].plot([], [])
     line_pi, = ax[1].plot([], [], "k--")
-    ax[1].text(0, np.pi, "$\pi$", fontsize=20, va="top")
+    ax[1].text(0, np.pi, "$\\pi$", fontsize=20, va="top")
 
     # Draw square and circle
     ax[0].add_patch(plt.Rectangle((0,0), square_side_length, square_side_length, fill=False))

@@ -33,7 +33,7 @@ class QENS_Quiz(Quiz):
 
     def question_2(self, answer=None):
         """
-        Set the *sample_distance* corresponding to the answer above and set the simulated energy width to 3 $\mu$eV.
+        Set the *sample_distance* corresponding to the answer above and set the simulated energy width to 3 $\\mu$eV.
         """
         # check instrument object parameters
 
