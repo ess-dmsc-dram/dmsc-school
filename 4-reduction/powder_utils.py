@@ -98,3 +98,46 @@ def time_distance_diagram(events: sc.DataArray):
     ax.set(xlabel="Time [ms]", ylabel="Distance [m]")
     ax.autoscale()
     ax.grid()
+
+
+def save_xye(
+    filename: str,
+    *,
+    event_data: sc.DataArray,
+    normalized_histogram: sc.DataArray,
+) -> None:
+    """
+    Save normalized histogram data to an XYE file.
+
+    Parameters
+    ----------
+    filename:
+        The name of the output file.
+    event_data:
+        The event data containing the coordinates for Ltotal and two_theta.
+    normalized_histogram:
+        The normalized histogram data to be saved.
+    """
+    average_l = event_data.coords["Ltotal"].mean()
+    average_two_theta = event_data.coords["two_theta"].mean()
+    difc = sc.to_unit(
+        2
+        * sc.constants.m_n
+        / sc.constants.h
+        * average_l
+        * sc.sin(0.5 * average_two_theta),
+        unit="us / angstrom",
+    )
+
+    from scippneutron.io import save_xye
+
+    result = normalized_histogram.copy(deep=False)
+    result.coords["tof"] = (sc.midpoints(result.coords["dspacing"]) * difc).to(
+        unit="us"
+    )
+
+    save_xye(
+        filename,
+        result.rename_dims(dspacing="tof"),
+        header=f"DIFC = {difc.to(unit='us/angstrom').value} [µ/Å] L = {average_l.value} [m] two_theta = {sc.to_unit(average_two_theta, 'deg').value} [deg]\ntof [µs]               Y [counts]               E [counts]",
+    )
