@@ -30,19 +30,12 @@ attrs==25.3.0
     #   referencing
 babel==2.17.0
     # via
-    #   mkdocs-material
     #   pydata-sphinx-theme
     #   sphinx
-backrefs==5.9
-    # via mkdocs-material
 bcrypt==4.3.0
     # via paramiko
 beautifulsoup4==4.13.3
-    # via
-    #   nbconvert
-    #   pydata-sphinx-theme
-bleach[css]==6.2.0
-    # via nbconvert
+    # via pydata-sphinx-theme
 build==1.2.2.post1
     # via pip-tools
 bumps==0.9.3
@@ -64,15 +57,10 @@ click==8.1.8
     # via
     #   jupyter-book
     #   jupyter-cache
-    #   mkdocs
-    #   mkdocstrings
     #   pip-tools
     #   sphinx-external-toc
 colorama==0.4.6
-    # via
-    #   easydiffraction
-    #   griffe
-    #   mkdocs-material
+    # via easydiffraction
 comm==0.2.2
     # via
     #   ipykernel
@@ -87,14 +75,10 @@ cryspy==0.7.8
     # via easydiffraction
 cycler==0.12.1
     # via matplotlib
-darkdetect==0.8.0
-    # via easydiffraction
 debugpy==1.8.13
     # via ipykernel
 decorator==5.2.1
     # via ipython
-defusedxml==0.7.1
-    # via nbconvert
 dfo-ls==1.5.4
     # via
     #   easydiffraction
@@ -121,7 +105,7 @@ docutils==0.21.2
     #   sphinxcontrib-bibtex
 dynesty==2.1.5
     # via -r requirements.in
-easydiffraction @ git+https://github.com/easyscience/diffraction-lib@d-spacing
+easydiffraction==0.5.2
     # via -r requirements.in
 easyscience==1.3.0
     # via -r requirements.in
@@ -131,8 +115,6 @@ email-validator==2.2.0
     #   scitacean
 emcee==3.1.6
     # via -r requirements.in
-execnet==2.1.1
-    # via pytest-xdist
 executing==2.2.0
     # via
     #   stack-data
@@ -147,12 +129,8 @@ fonttools==4.57.0
     # via matplotlib
 gemmi==0.7.3
     # via easydiffraction
-ghp-import==2.1.0
-    # via mkdocs
 graphviz==0.20.3
     # via -r requirements.in
-griffe==1.7.3
-    # via mkdocstrings-python
 h11==0.14.0
     # via httpcore
 h5py==3.13.0
@@ -183,10 +161,7 @@ iniconfig==2.1.0
 ipydatawidgets==4.3.5
     # via pythreejs
 ipykernel==6.29.5
-    # via
-    #   mkdocs-jupyter
-    #   myst-nb
-    #   nbmake
+    # via myst-nb
 ipympl==0.9.7
     # via -r requirements.in
 ipython==8.35.0
@@ -208,11 +183,7 @@ jedi==0.19.2
 jinja2==3.1.6
     # via
     #   jupyter-book
-    #   mkdocs
-    #   mkdocs-material
-    #   mkdocstrings
     #   myst-parser
-    #   nbconvert
     #   sphinx
 json-tricks==3.17.3
     # via libpyvinyl
@@ -237,16 +208,11 @@ jupyter-core==5.7.2
     #   ipykernel
     #   jupyter-client
     #   nbclient
-    #   nbconvert
     #   nbformat
-jupyterlab-pygments==0.3.0
-    # via nbconvert
 jupyterlab-widgets==3.0.13
     # via ipywidgets
 jupyterquiz==2.8.1
     # via -r requirements.in
-jupytext==1.17.2
-    # via mkdocs-jupyter
 kiwisolver==1.4.8
     # via matplotlib
 latexcodec==3.0.0
@@ -263,25 +229,12 @@ lmfit==1.3.3
     # via
     #   easydiffraction
     #   easyscience
-markdown==3.8.2
-    # via
-    #   mkdocs
-    #   mkdocs-autorefs
-    #   mkdocs-material
-    #   mkdocstrings
-    #   pymdown-extensions
 markdown-it-py==3.0.0
     # via
-    #   jupytext
     #   mdit-py-plugins
     #   myst-parser
 markupsafe==3.0.2
-    # via
-    #   jinja2
-    #   mkdocs
-    #   mkdocs-autorefs
-    #   mkdocstrings
-    #   nbconvert
+    # via jinja2
 matplotlib==3.10.1
     # via
     #   -r requirements.in
@@ -300,49 +253,9 @@ mcstasscript==0.0.74
 mcstastox==0.0.11
     # via -r requirements.in
 mdit-py-plugins==0.4.2
-    # via
-    #   jupytext
-    #   myst-parser
+    # via myst-parser
 mdurl==0.1.2
     # via markdown-it-py
-mergedeep==1.3.4
-    # via
-    #   mkdocs
-    #   mkdocs-get-deps
-mistune==3.1.3
-    # via nbconvert
-mkdocs==1.6.1
-    # via
-    #   easydiffraction
-    #   mkdocs-autorefs
-    #   mkdocs-jupyter
-    #   mkdocs-markdownextradata-plugin
-    #   mkdocs-material
-    #   mkdocs-plugin-inline-svg
-    #   mkdocstrings
-mkdocs-autorefs==1.2.0
-    # via
-    #   easydiffraction
-    #   mkdocstrings
-    #   mkdocstrings-python
-mkdocs-get-deps==0.2.0
-    # via mkdocs
-mkdocs-jupyter==0.25.1
-    # via easydiffraction
-mkdocs-markdownextradata-plugin==0.2.6
-    # via easydiffraction
-mkdocs-material==9.6.15
-    # via
-    #   easydiffraction
-    #   mkdocs-jupyter
-mkdocs-material-extensions==1.3.1
-    # via mkdocs-material
-mkdocs-plugin-inline-svg==0.1.0
-    # via easydiffraction
-mkdocstrings==0.27.0
-    # via mkdocstrings-python
-mkdocstrings-python==1.13.0
-    # via easydiffraction
 mpltoolbox==24.5.1
     # via
     #   -r requirements.in
@@ -355,26 +268,15 @@ myst-parser==3.0.1
     # via
     #   jupyter-book
     #   myst-nb
-narwhals==1.47.0
-    # via plotly
 nbclient==0.10.2
     # via
     #   jupyter-cache
     #   myst-nb
-    #   nbconvert
-    #   nbmake
-nbconvert==7.16.6
-    # via mkdocs-jupyter
 nbformat==5.10.4
     # via
     #   jupyter-cache
-    #   jupytext
     #   myst-nb
     #   nbclient
-    #   nbconvert
-    #   nbmake
-nbmake==1.5.5
-    # via easydiffraction
 nest-asyncio==1.6.0
     # via ipykernel
 numpy==2.2.4
@@ -408,34 +310,23 @@ packaging==24.2
     # via
     #   build
     #   ipykernel
-    #   jupytext
     #   lazy-loader
     #   matplotlib
-    #   mkdocs
-    #   nbconvert
-    #   plotly
     #   pooch
     #   pydata-sphinx-theme
     #   pytest
     #   sphinx
     #   sphinx-jupyterbook-latex
     #   xarray
-paginate==0.5.7
-    # via mkdocs-material
 pandas==2.2.3
     # via
     #   -r requirements.in
     #   dfo-ls
-    #   easydiffraction
     #   xarray
-pandocfilters==1.5.1
-    # via nbconvert
 paramiko==3.5.1
     # via scitacean
 parso==0.8.4
     # via jedi
-pathspec==0.12.1
-    # via mkdocs
 pexpect==4.9.0
     # via ipython
 pillow==11.1.0
@@ -451,8 +342,6 @@ pip-tools==7.4.1
 platformdirs==4.3.7
     # via
     #   jupyter-core
-    #   mkdocs-get-deps
-    #   mkdocstrings
     #   pint
     #   pooch
     #   xraydb
@@ -460,8 +349,6 @@ plopp==25.3.0
     # via
     #   -r requirements.in
     #   scippneutron
-plotly==6.0.1
-    # via easydiffraction
 pluggy==1.5.0
     # via pytest
 ply==3.11
@@ -506,16 +393,8 @@ pygments==2.19.1
     # via
     #   accessible-pygments
     #   ipython
-    #   mkdocs-jupyter
-    #   mkdocs-material
-    #   nbconvert
-    #   nbmake
     #   pydata-sphinx-theme
     #   sphinx
-pymdown-extensions==10.16
-    # via
-    #   mkdocs-material
-    #   mkdocstrings
 pynacl==1.5.0
     # via paramiko
 pyparsing==3.2.3
@@ -525,16 +404,9 @@ pyproject-hooks==1.2.0
     #   build
     #   pip-tools
 pytest==8.3.5
-    # via
-    #   -r requirements.in
-    #   easydiffraction
-    #   nbmake
-    #   pytest-xdist
-pytest-xdist==3.8.0
-    # via easydiffraction
+    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via
-    #   ghp-import
     #   jupyter-client
     #   matplotlib
     #   pandas
@@ -547,23 +419,14 @@ pytz==2025.2
     # via pandas
 pyyaml==6.0.2
     # via
-    #   easydiffraction
     #   jupyter-book
     #   jupyter-cache
-    #   jupytext
     #   mcstasscript
-    #   mkdocs
-    #   mkdocs-get-deps
-    #   mkdocs-markdownextradata-plugin
     #   myst-nb
     #   myst-parser
     #   pybtex
-    #   pymdown-extensions
-    #   pyyaml-env-tag
     #   sphinx-external-toc
     #   sphinxcontrib-mermaid
-pyyaml-env-tag==1.1
-    # via mkdocs
 pyzmq==26.4.0
     # via
     #   ipykernel
@@ -574,7 +437,6 @@ referencing==0.36.2
     #   jsonschema-specifications
 requests==2.32.3
     # via
-    #   mkdocs-material
     #   pooch
     #   sphinx
 rpds-py==0.24.0
@@ -680,8 +542,6 @@ tabulate==0.9.0
     # via
     #   easydiffraction
     #   jupyter-cache
-tinycss2==1.4.0
-    # via bleach
 tomli==2.2.1
     # via scitacean
 tornado==6.4.2
@@ -699,7 +559,6 @@ traitlets==5.14.3
     #   jupyter-core
     #   matplotlib-inline
     #   nbclient
-    #   nbconvert
     #   nbformat
     #   pythreejs
     #   traittypes
@@ -736,16 +595,10 @@ urllib3==2.3.0
     # via requests
 varname==0.15.0
     # via easydiffraction
-watchdog==6.0.0
-    # via mkdocs
 wcwidth==0.2.13
     # via
     #   prettytable
     #   prompt-toolkit
-webencodings==0.5.1
-    # via
-    #   bleach
-    #   tinycss2
 wheel==0.45.1
     # via
     #   pip-tools
