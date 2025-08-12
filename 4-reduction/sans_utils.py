@@ -5,7 +5,6 @@ import os
 import scipp as sc
 
 from load import load_ascii, load_nexus
-
 from utils import fetch_data  # noqa: F401
 
 

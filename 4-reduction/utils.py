@@ -17,4 +17,4 @@ def fetch_data(name: str) -> str:
     )
 
     path = Path(file_path[0])
-    return path.parent.absolute()
+    return str(path.parent.absolute())
