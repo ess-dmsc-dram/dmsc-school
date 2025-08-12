@@ -141,3 +141,21 @@ def save_xye(
         result.rename_dims(dspacing="tof"),
         header=f"DIFC = {difc.to(unit='us/angstrom').value} [µ/Å] L = {average_l.value} [m] two_theta = {sc.to_unit(average_two_theta, 'deg').value} [deg]\ntof [µs]               Y [counts]               E [counts]",
     )
+
+
+def fetch_data(name: str) -> str:
+    """
+    Fetch pre-prepared data from a remote source and return the path to the folder
+    containing the extracted files.
+    """
+    import pooch
+    from pathlib import Path
+
+    file_path = pooch.retrieve(
+        url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
+        known_hash=None,
+        processor=pooch.Unzip(),
+    )
+
+    path = Path(file_path[0])
+    return path.parent.absolute()
