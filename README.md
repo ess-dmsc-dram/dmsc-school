@@ -60,9 +60,7 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 - `remove-cell`:
     Not included in the workbooks. Also used by `jupyter-book`.
 - `dmsc-school-hint`:
-    Editable cell with hints for students.
-    The tagged cell in the workbook will not be read-only,
-    unless it is already read-only in the textbook.
+    Collapse the content of the cell in the workbooks. The content can be expanded by clicking on the cell.
 - `dmsc-school-keep`:
     Will not be edited or removed. It overwrites all other tags.
 

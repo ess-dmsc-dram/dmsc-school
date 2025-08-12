@@ -35,17 +35,23 @@ def clean(filepath, destination, add_mpl_widget_cell=False):
         out.append(WIDGET_CELL)
     for cell in obj["cells"]:
         if "tags" in cell["metadata"]:
+            to_be_appended = None
             if ("solution" in cell["metadata"]["tags"]) and (
                 "dmsc-school-keep" not in cell["metadata"]["tags"]
             ):
-                out.append(EMPTY_CELL)
+                to_be_appended = EMPTY_CELL
             elif (
                 ("remove-cell" in cell["metadata"]["tags"])
                 and ("dmsc-school-keep" not in cell["metadata"]["tags"])
             ) or ("dmsc-school-remove" in cell["metadata"]["tags"]):
                 pass
             else:
-                out.append(cell)
+                to_be_appended = cell
+
+            if to_be_appended is not None:
+                if "dmsc-school-hint" in cell["metadata"]["tags"]:
+                    to_be_appended["metadata"]["jupyter"] = {"source_hidden": True}
+                out.append(to_be_appended)
         else:
             out.append(cell)
     obj["cells"] = out
