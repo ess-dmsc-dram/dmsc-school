@@ -18,6 +18,8 @@ annotated-types==0.7.0
     # via pydantic
 anyio==4.10.0
     # via httpx
+anywidget==0.9.18
+    # via easydiffraction
 appnope==0.1.4
     # via ipykernel
 asciichartpy==1.5.25
@@ -119,7 +121,7 @@ docutils==0.21.2
     #   sphinxcontrib-bibtex
 dynesty==2.1.5
     # via -r requirements.in
-easydiffraction[visualization]==0.5.3
+easydiffraction[visualization] @ git+https://github.com/easyscience/diffraction-lib@patch
     # via -r requirements.in
 easyscience==1.3.0
     # via -r requirements.in
@@ -198,6 +200,7 @@ ipython==8.37.0
 ipywidgets==8.1.7
     # via
     #   -r requirements.in
+    #   anywidget
     #   ipydatawidgets
     #   ipympl
     #   mcstasscript
@@ -301,7 +304,7 @@ myst-parser==3.0.1
     # via
     #   jupyter-book
     #   myst-nb
-narwhals==2.1.0
+narwhals==2.1.1
     # via plotly
 nbclient==0.10.2
     # via
@@ -410,6 +413,8 @@ propcache==0.3.2
     #   yarl
 psutil==7.0.0
     # via ipykernel
+psygnal==0.14.1
+    # via anywidget
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
@@ -620,6 +625,7 @@ typing-extensions==4.14.1
     # via
     #   aiosignal
     #   anyio
+    #   anywidget
     #   beautifulsoup4
     #   flexcache
     #   flexparser
