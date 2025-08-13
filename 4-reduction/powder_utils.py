@@ -8,6 +8,8 @@ import scipp as sc
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 
+from utils import fetch_data  # noqa: F401
+
 
 def load_powder(
     path: str, source_name="Source", sample_name="sample_position"

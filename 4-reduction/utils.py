@@ -2,13 +2,19 @@
 # Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
 
 
-from powder_utils import load_powder
-from qens_utils import load_qens
-from sans_utils import load_sans
+def fetch_data(name: str) -> str:
+    """
+    Fetch pre-prepared data from a remote source and return the path to the folder
+    containing the extracted files.
+    """
+    import pooch
+    from pathlib import Path
 
+    file_path = pooch.retrieve(
+        url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
+        known_hash=None,
+        processor=pooch.Unzip(),
+    )
 
-__all__ = [
-    "load_powder",
-    "load_qens",
-    "load_sans",
-]
+    path = Path(file_path[0])
+    return str(path.parent.absolute())
