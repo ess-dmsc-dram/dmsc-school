@@ -119,7 +119,7 @@ docutils==0.21.2
     #   sphinxcontrib-bibtex
 dynesty==2.1.5
     # via -r requirements.in
-easydiffraction[visualization]==0.5.3
+easydiffraction[visualization]==0.5.6
     # via -r requirements.in
 easyscience==1.3.0
     # via -r requirements.in
@@ -301,7 +301,7 @@ myst-parser==3.0.1
     # via
     #   jupyter-book
     #   myst-nb
-narwhals==2.1.0
+narwhals==2.1.1
     # via plotly
 nbclient==0.10.2
     # via
