@@ -3,9 +3,6 @@ from .helpers import name_of_component_type, is_instrument_object
 
 
 class Powder_Quiz(Quiz):
-    def __init__(self):
-        super().__init__()
-
     def question_1(self, answer=None):
         """
         ### Q1
