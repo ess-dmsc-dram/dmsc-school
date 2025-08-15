@@ -1,0 +1,853 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Curation Exercise &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '6-scicat/9-exercise';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Glossary" href="../glossary.html" />
+    <link rel="prev" title="Example" href="8-example.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-example.html">Example</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F6-scicat/9-exercise.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/6-scicat/9-exercise.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data Curation Exercise</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dmsc-summer-school">DMSC Summer School</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-luck">Good Luck</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-1">Section 1.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-2">Section 2.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-3">Section 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-4">Section 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-5">Section 5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-6">Section 6</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-7">Section 7</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-8">Section 8</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-9">Section 9</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-curation-exercise">
+<h1>Data Curation Exercise<a class="headerlink" href="#data-curation-exercise" title="Link to this heading">#</a></h1>
+<section id="dmsc-summer-school">
+<h2>DMSC Summer School<a class="headerlink" href="#dmsc-summer-school" title="Link to this heading">#</a></h2>
+<p>Today is the last day of the DMSC Summer School. You should have created new simulated data, reduced them and analyzed them.<br />
+In each one of those steps, you have saved one or multiple files and took notes about the work that you have performed.<br />
+Now it is time to curate your data and make them FAIR.</p>
+<p>In this notebook, we ask you to perform the following <strong>tasks</strong>:</p>
+<ol class="arabic simple">
+<li><p>Decide which data files you would like to upload in SciCat and make them available to your class mates</p></li>
+<li><p>Organize them in datasets</p></li>
+<li><p>For each datasets that you have decided to create, create a set of metadata that you think is relevant to find the dataset and decide if it is relevant for your needs</p></li>
+<li><p>Create the datasets locally, add metadata and data files</p></li>
+<li><p>Upload the datasets to SciCat</p></li>
+<li><p>Save the pids of the datasets created</p></li>
+<li><p>Validate the new datasets through SciCat Frontend or a Jupyter Notebook leveraging Scitacean</p></li>
+</ol>
+<p>You can work on the tasks <em>alone</em>, although we suggest to work on them in <em>a group of two/three people</em>. Working in a group helps with deciding in defining your datasets and brainstorming which metadata are important to make your data FAIR.</p>
+<p>If you have any questions about python, Scitacean and SciCat, do not hesitate to ask.</p>
+<p>This notebook has been prepopulated with the necessary code to connect to SciCat and instantiate the Scitacean client.<br />
+We highlighted the cells where you need to fill in the blanks in order to perform the tasks listed above.<br />
+They are titled <strong>Section</strong> <em><strong>n</strong></em>.<br />
+We assumed that only one dataset will be created. If you need to create more than one, please duplicate cells as needed.</p>
+<section id="good-luck">
+<h3>Good Luck<a class="headerlink" href="#good-luck" title="Link to this heading">#</a></h3>
+<p>Load standard libraries</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>URL of the scicat instance containing the data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scicat_instance</span> <span class="o">=</span> <span class="s2">&quot;https://staging.scicat.ess.eu/api/v3&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Valid Authentication token<br />
+(Also called access token or SciCat token)<br />
+<em>Follow the steps listed below to obtain the token</em>,</p>
+<ul class="simple">
+<li><p>visit (ESS SciCat staging environment)[<a class="reference external" href="https://staging.scicat.ess.eu">https://staging.scicat.ess.eu</a>]</p></li>
+<li><p>log in using the credentials provided</p></li>
+<li><p>go to User-&gt;settings page,</p></li>
+<li><p>and click on the <strong>copy to clipboard</strong> icon added at the end of the <strong>SciCat Token</strong> .</p></li>
+</ul>
+<p><img alt="SciCat User Settings" src="../_images/scicat_user_settings.png" /></p>
+<p>Access token example:<br />
+<code class="docutils literal notranslate"><span class="pre">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzliMmE1MWI0MTU0OWY1M2RmOWVjMzYiLCJyZWFsbSI6ImxvY2FsaG9zdCIsInVzZXJuYW1lIjoiaW5nZXN0b3IiLCJlbWFpbCI6InNjaWNhdGluZ2VzdG9yQHlvdXIuc2l0ZSIsImVtYWlsVmVyaWZpZWQiOnRydWUsImF1dGhTdHJhdGVneSI6ImxvY2FsIiwiaWQiOiI2MzliMmE1MWI0MTU0OWY1M2RmOWVjMzYiLCJpYXQiOjE2OTIwODc0ODUsImV4cCI6MTY5MjA5MTA4NX0.Phca4UF7WKY367-10Whgwd5jaFjiPku6WsgiPeDh_-o</span></code></p>
+<p><strong>IMPORTANT</strong>: make sure to replace <code class="docutils literal notranslate"><span class="pre">&lt;YOUR_SCICAT_TOKEN&gt;</span></code> with the current token retrieved from SciCat</p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">token</span> <span class="o">=</span> <span class="s2">&quot;&lt;YOUR_SCICAT_TOKEN&gt;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Import Scitacean.
+For more information please check the official <a class="reference external" href="https://github.com/SciCatProject/scitacean">repository</a> and <a class="reference external" href="https://www.scicatproject.org/scitacean/">documentation</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scitacean</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scitacean.transfer.sftp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SFTPFileTransfer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>User name and access key used to access files.
+The ssh key file is provided at the beginning of the session.
+Note that the key filename only works on the School’s JupyterHub.</p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sftp_username</span> <span class="o">=</span> <span class="s2">&quot;dss2024&quot;</span>
+<span class="n">sftp_key_filename</span> <span class="o">=</span> <span class="s2">&quot;/home/jovyan/.ssh/id_summerschool2024&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Function to perform some magic and establish connection to the data repository</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">paramiko</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSHClient</span><span class="p">,</span> <span class="n">AutoAddPolicy</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">SSHClient</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">load_system_host_keys</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">set_missing_host_key_policy</span><span class="p">(</span><span class="n">AutoAddPolicy</span><span class="p">())</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+        <span class="n">hostname</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> 
+        <span class="n">username</span><span class="o">=</span><span class="n">sftp_username</span><span class="p">,</span>
+        <span class="n">key_filename</span><span class="o">=</span><span class="n">sftp_key_filename</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">open_sftp</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Instantiate scitacean client</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="o">.</span><span class="n">from_token</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">scicat_instance</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+    <span class="n">file_transfer</span><span class="o">=</span><span class="n">SFTPFileTransfer</span><span class="p">(</span>
+        <span class="n">host</span><span class="o">=</span><span class="s2">&quot;sftpserver2.esss.dk&quot;</span><span class="p">,</span>
+        <span class="n">connect</span><span class="o">=</span><span class="n">connect</span><span class="p">,</span>
+    <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need a unique name for the folder where to upload the data to.<br />
+We use UUID to achieve that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_uuid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-1">
+<h3>Section 1.<a class="headerlink" href="#section-1" title="Link to this heading">#</a></h3>
+<p>Create a local Scitacean dataset of type raw.<br />
+We already included the main template, please populate all the needed fields.</p>
+<p>Here is a list of some of the available dataset fields:</p>
+<ul class="simple">
+<li><p>name</p></li>
+<li><p>description</p></li>
+<li><p>type</p></li>
+<li><p>contact_email</p></li>
+<li><p>principal_investigator</p></li>
+<li><p>owner</p></li>
+<li><p>owner_email</p></li>
+<li><p>data_format</p></li>
+<li><p>is_published</p></li>
+<li><p>keywords</p></li>
+</ul>
+<p>Some of this fields are required.</p>
+<p>Please check <a class="reference external" href="https://www.scicatproject.org/scitacean/">Scitacean documentation</a> for more information</p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span>
+    <span class="n">creation_location</span><span class="o">=</span><span class="s1">&#39;/ESS/DMSC/Summer_School&#39;</span><span class="p">,</span>
+    <span class="n">owner_group</span><span class="o">=</span><span class="s1">&#39;dss2024&#39;</span><span class="p">,</span>
+    <span class="n">access_groups</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ess&#39;</span><span class="p">,</span><span class="s1">&#39;dram&#39;</span><span class="p">,</span><span class="s1">&#39;swap&#39;</span><span class="p">],</span>
+    <span class="n">instrument_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">techniques</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">keywords</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;DMSC Summer School&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;2025&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;DMSC Summer School 2025&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">license</span><span class="o">=</span><span class="s1">&#39;unknown&#39;</span><span class="p">,</span>
+    <span class="n">proposal_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>    
+    <span class="n">source_folder</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/ess/data/dmsc_summer_school/2024/upload/</span><span class="si">{</span><span class="n">run_uuid</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">source_folder_host</span><span class="o">=</span><span class="s1">&#39;SpectrumScale.esss.dk&#39;</span><span class="p">,</span>
+    <span class="o">&lt;</span><span class="n">ADD_MISSING_FIELDS</span><span class="o">&gt;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-2">
+<h3>Section 2.<a class="headerlink" href="#section-2" title="Link to this heading">#</a></h3>
+<p>Add your scientific metadata to the new dataset.</p>
+<p>Remember the dataset scientific metadata is a dictionary where the key is the name of the metadata and the value is a nested dictionary containing the value and the unit.<br />
+If unit is not used, leave it empty.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;your-metadata-key&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;value&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-metadata-value&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;unit&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;metadata-SI-unit&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">_meta</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">&lt;</span><span class="n">INSERT_YOUR_METADATA</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-3">
+<h3>Section 3<a class="headerlink" href="#section-3" title="Link to this heading">#</a></h3>
+<p>add the files that you want to link to this dataset.<br />
+You need to repeat this step for each file that you would like to include in the dataset</p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">add_local_files</span><span class="p">(</span>
+    <span class="o">&lt;</span><span class="n">LOCAL_PATH_TO_THE_FILE</span><span class="o">&gt;</span><span class="p">,</span> 
+    <span class="n">base_path</span><span class="o">=&lt;</span><span class="n">PORTION_OF_THE_PATH_THAT_NEEDS_TO_BE_REMOVED</span><span class="o">&gt;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-4">
+<h3>Section 4<a class="headerlink" href="#section-4" title="Link to this heading">#</a></h3>
+<p>visually inspect your newly created dataset</p>
+</section>
+<section id="section-5">
+<h3>Section 5<a class="headerlink" href="#section-5" title="Link to this heading">#</a></h3>
+<p>We are now ready to upload the dataset to SciCat and save the new dataset to variable <code class="docutils literal notranslate"><span class="pre">uploaded_dataset</span></code></p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uploaded_dataset</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-6">
+<h3>Section 6<a class="headerlink" href="#section-6" title="Link to this heading">#</a></h3>
+<p>Extract the SciCat-assigned pid from the new dataset and print it</p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_pid</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-7">
+<h3>Section 7<a class="headerlink" href="#section-7" title="Link to this heading">#</a></h3>
+<p>Verify the uploaded dataset shows the correct pid with a visual inspection</p>
+</section>
+<section id="section-8">
+<h3>Section 8<a class="headerlink" href="#section-8" title="Link to this heading">#</a></h3>
+<p>Reload the newly created dataset from SciCat and validate that matches the information that you specified when you created it.</p>
+<div class="cell tag_dmsc-school-hint docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">verification_dataset</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span>
+    <span class="o">&lt;</span><span class="n">DATASET_PID_FROM_SECTION_6</span><span class="o">&gt;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-9">
+<h3>Section 9<a class="headerlink" href="#section-9" title="Link to this heading">#</a></h3>
+<p>Check directly on Scicat how your new dataset looks like in the webUI</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./6-scicat"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="8-example.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Example</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../glossary.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Glossary</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dmsc-summer-school">DMSC Summer School</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-luck">Good Luck</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-1">Section 1.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-2">Section 2.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-3">Section 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-4">Section 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-5">Section 5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-6">Section 6</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-7">Section 7</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-8">Section 8</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#section-9">Section 9</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

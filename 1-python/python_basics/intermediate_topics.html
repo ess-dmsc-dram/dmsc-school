@@ -1,0 +1,959 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Intermediate topics &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1-python/python_basics/intermediate_topics';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Using external libraries" href="../using_external_libraries.html" />
+    <link rel="prev" title="Working with functions" href="working-with-functions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../python_basics.html">Python basics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F1-python/python_basics/intermediate_topics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/1-python/python_basics/intermediate_topics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Intermediate topics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dict-comprehension">Dict-comprehension</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lambda-functions">Lambda functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#type-hints">Type hints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keyword-arguments">Keyword arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#args-and-kwargs">*args and **kwargs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataclasses">Dataclasses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decorators">Decorators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities-from-the-standard-library">Utilities from the standard library</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="intermediate-topics">
+<h1>Intermediate topics<a class="headerlink" href="#intermediate-topics" title="Link to this heading">#</a></h1>
+<p>If you are already familiar with the Python basics, this notebook will introduce you to some more advanced topics.
+Neither of these topics is required to complete the exercises, but they may be useful to you in the future.</p>
+<p>This notebook is not a complete introduction to these topics, but rather a quick overview of some of the most useful features.
+If you want to learn more, you can find many tutorials online.</p>
+<p>We will cover:</p>
+<ul class="simple">
+<li><p>Dict-comprehensions</p></li>
+<li><p>Lambda functions</p></li>
+<li><p>Type hints</p></li>
+<li><p>Keyword arguments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code></p></li>
+<li><p>Dataclasses</p></li>
+<li><p>Decorators</p></li>
+<li><p>Utilities from the standard library</p></li>
+</ul>
+<section id="dict-comprehension">
+<h2>Dict-comprehension<a class="headerlink" href="#dict-comprehension" title="Link to this heading">#</a></h2>
+<p>We previously introduced <code class="docutils literal notranslate"><span class="pre">list</span></code>-comprehension:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mylist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">mysquares</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mylist</span><span class="p">]</span>
+<span class="n">mysquares</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[4, 1, 9, 16, 25]
+</pre></div>
+</div>
+</div>
+</div>
+<p>There is also <code class="docutils literal notranslate"><span class="pre">dict</span></code>-comprehension, with various flavors:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mydict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+
+<span class="c1"># Iterate over dict items</span>
+<span class="n">mysquaresdict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">mydict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="c1"># Iterate over dict items and modify keys</span>
+<span class="n">mydictwithnewkeys</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">value</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">mydict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="c1"># Iterate over a list or other iterable</span>
+<span class="n">mydictfromlist</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mylist</span><span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">mysquaresdict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mydictwithnewkeys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mydictfromlist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 9}
+{&#39;A&#39;: 1, &#39;B&#39;: 4, &#39;C&#39;: 9}
+{2: 4, 1: 1, 3: 9, 4: 16, 5: 25}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lambda-functions">
+<h2>Lambda functions<a class="headerlink" href="#lambda-functions" title="Link to this heading">#</a></h2>
+<p>Lambda functions are a way to define functions “inline”, without giving them a name.
+This can be useful when we deal with another function that takes a function as an argument.
+The syntax is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="o">&lt;</span><span class="n">arguments</span><span class="o">&gt;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The expression is evaluated and returned when the function is called.
+Example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">process_list</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+
+
+<span class="n">mylist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">process_list</span><span class="p">(</span><span class="n">mylist</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">process_list</span><span class="p">(</span><span class="n">mylist</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[4, 3, 5, 6, 7]
+[4, 1, 9, 16, 25]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="type-hints">
+<h2>Type hints<a class="headerlink" href="#type-hints" title="Link to this heading">#</a></h2>
+<p>Python is a dynamically typed language, which means that the type of a variable is not known at compile time.
+This is in contrast to statically typed languages like C, where the type of a variable must be declared before it is used.
+As a relatively recent addition to the language, Python now supports type hints.
+These are not enforced by the interpreter, but can be used by external tools to check for type errors.
+Maybe more importantly, they can be used to document the expected types of arguments and return values, improving readability.
+Over the past years, type hints have become increasingly popular, and are now used in many popular libraries, to the point where they are almost expected.</p>
+<p>Example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">format_info</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Type hints for function arguments are written after the argument name, separated by a colon:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is a string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> is an integer</p></li>
+</ul>
+</li>
+<li><p>The return type is written after an arrow <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code>:</p>
+<ul>
+<li><p>The function returns a string</p></li>
+</ul>
+</li>
+</ul>
+<p>Note that the type hints are literally <em>hints</em> and are not enforced by the interpreter, so the following code will run without errors:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">format_info</span><span class="p">(</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="mf">25.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;John is 25.5 years old&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">format_info</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;11 is [1, 2, 3] years old&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Apart from single types like <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, etc., we can also use combinations of types.
+Note that the <code class="docutils literal notranslate"><span class="pre">|</span></code> operator means ‘OR’, i.e. that the type can be one or the other.</p>
+<p>Example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mysqrt</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a list of integers or floats and return a list of their square roots&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="keyword-arguments">
+<h2>Keyword arguments<a class="headerlink" href="#keyword-arguments" title="Link to this heading">#</a></h2>
+<p>When calling a function, we can specify the arguments by position or by name.
+The latter is called <em>keyword arguments</em>.
+Keyword arguments can be used to make the code more readable, and to specify default values for arguments.
+Using keyword arguments for all arguments is a good practice (apart from cases such as function with a single arguments), as it makes the code more robust to changes in the function signature and improves readability:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">format_info</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old&quot;</span>
+
+
+<span class="n">format_info</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;John is 25 years old&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="args-and-kwargs">
+<h2>*args and **kwargs<a class="headerlink" href="#args-and-kwargs" title="Link to this heading">#</a></h2>
+<p>Sometimes we want to write a function that takes an arbitrary number of arguments.
+This can be done using <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.
+The names <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> are not special, but are commonly used.
+Example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">average_age</span><span class="p">(</span><span class="o">*</span><span class="n">ages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ages</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ages</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">format_family_info</span><span class="p">(</span><span class="o">**</span><span class="n">ages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old&quot;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span> <span class="ow">in</span> <span class="n">ages</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="n">info</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;. Their average age is </span><span class="si">{</span><span class="n">average_age</span><span class="p">(</span><span class="o">*</span><span class="n">ages</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
+
+
+<span class="n">format_family_info</span><span class="p">(</span><span class="n">John</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">Jane</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">Jack</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;John is 25 years old, Jane is 24 years old, Jack is 17 years old. Their average age is 22.0.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also use <code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">**</span></code> when calling a function, to unpack a list or dictionary into arguments:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">family</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Jack&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span> <span class="s2">&quot;Jill&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age: </span><span class="si">{</span><span class="n">average_age</span><span class="p">(</span><span class="o">*</span><span class="n">family</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">format_family_info</span><span class="p">(</span><span class="o">**</span><span class="n">family</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average age: 16.0
+Jack is 17 years old, Jill is 15 years old. Their average age is 16.0.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dataclasses">
+<h2>Dataclasses<a class="headerlink" href="#dataclasses" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://docs.python.org/3/library/dataclasses.html">Dataclasses</a> are a convenient way to create classes that are mostly used to store data.
+Even if you are not familiar with classes in Python, you can probably understand the following example.
+For more details, see, for example, this video introduction: <a class="reference external" href="https://www.youtube.com/watch?v=vRVVyl9uaZc">If you’re not using Python DATA CLASSES yet, you should</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Experiment</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">date</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">pressure</span><span class="p">:</span> <span class="nb">float</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">&#64;dataclass</span></code> is a so-called decorator that adds convenient functionality to the class.
+We can use our class <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp1</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my first experiment&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">pressure</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="p">)</span>
+<span class="n">exp2</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my second experiment&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s2">&quot;2020-01-02&quot;</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">21.0</span><span class="p">,</span> <span class="n">pressure</span><span class="o">=</span><span class="mf">1.1</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exp1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exp2</span><span class="p">)</span>
+<span class="c1"># Access fields</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exp1</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Experiment(name=&#39;my first experiment&#39;, date=&#39;2020-01-01&#39;, temperature=20.0, pressure=1.0)
+Experiment(name=&#39;my second experiment&#39;, date=&#39;2020-01-02&#39;, temperature=21.0, pressure=1.1)
+2020-01-01
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dataclasses can also have default arguments.
+For mutable default argument such as a list, we need to use <code class="docutils literal notranslate"><span class="pre">field(default_factory=list)</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Experiment</span><span class="p">:</span>
+    <span class="n">date</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ESS&quot;</span>
+    <span class="n">comments</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+
+<span class="c1"># Default location and comments</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Experiment</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">))</span>
+<span class="c1"># Override default location, keep default comments</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Experiment</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;ILL&quot;</span><span class="p">))</span>
+<span class="c1"># Default location, override default comments</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Experiment</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;test1&quot;</span><span class="p">,</span> <span class="s2">&quot;test2&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Experiment(date=&#39;2020-01-01&#39;, location=&#39;ESS&#39;, comments=[])
+Experiment(date=&#39;2020-01-01&#39;, location=&#39;ILL&#39;, comments=[])
+Experiment(date=&#39;2020-01-01&#39;, location=&#39;ESS&#39;, comments=[&#39;test1&#39;, &#39;test2&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="decorators">
+<h2>Decorators<a class="headerlink" href="#decorators" title="Link to this heading">#</a></h2>
+<p>Decorators are a way to modify the behavior of a function.
+They are written as functions that take a function as an argument, and return a new function.
+The syntax is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mydecorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Do something before calling the function</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Your function </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is about to be called with arguments </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># Call the function</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># Do something after calling the function</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Your function </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> was called&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+
+<span class="nd">@mydecorator</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">myfunction</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@mydecorator</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">myfunction2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">myfunction</span><span class="p">()</span>
+<span class="n">myfunction2</span><span class="p">(</span><span class="s2">&quot;John&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your function myfunction is about to be called with arguments () and {}
+Hello world
+Your function myfunction was called
+Your function myfunction2 is about to be called with arguments (&#39;John&#39;,) and {}
+Hello John
+Your function myfunction2 was called
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="utilities-from-the-standard-library">
+<h2>Utilities from the standard library<a class="headerlink" href="#utilities-from-the-standard-library" title="Link to this heading">#</a></h2>
+<p>When you are writing Python code, you should always check if there is a utility in the standard library that does what you want.
+More often than not, there is.
+Here are some examples:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functions.html">Built-in functions</a> such as <code class="docutils literal notranslate"><span class="pre">map</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, <code class="docutils literal notranslate"><span class="pre">enumerate</span></code>, <code class="docutils literal notranslate"><span class="pre">zip</span></code>, and <code class="docutils literal notranslate"><span class="pre">reduce</span></code>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/itertools.html">itertools</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/functools.html">functools</a>, in particular <a class="reference external" href="https://docs.python.org/3/library/functools.html#functools.partial">functools.partial</a>.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./1-python/python_basics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="working-with-functions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Working with functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../using_external_libraries.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Using external libraries</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dict-comprehension">Dict-comprehension</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lambda-functions">Lambda functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#type-hints">Type hints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keyword-arguments">Keyword arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#args-and-kwargs">*args and **kwargs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataclasses">Dataclasses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decorators">Decorators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities-from-the-standard-library">Utilities from the standard library</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

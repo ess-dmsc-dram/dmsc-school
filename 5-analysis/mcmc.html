@@ -1,0 +1,771 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Markov chain Monte Carlo &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '5-analysis/mcmc';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bayesian Model Selection" href="nested_sampling.html" />
+    <link rel="prev" title="Fitting SANS data" href="analysis-sans.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F5-analysis/mcmc.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/5-analysis/mcmc.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Markov chain Monte Carlo</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="markov-chain-monte-carlo">
+<h1>Markov chain Monte Carlo<a class="headerlink" href="#markov-chain-monte-carlo" title="Link to this heading">#</a></h1>
+<p>A popular tool in Bayesian modelling is Markov chain Monte Carlo (MCMC).
+This is a sampling technique that makes use of a <a class="reference external" href="https://en.wikipedia.org/wiki/Markov_chain">Markov chain</a> to sample a given probability distribution.
+In the context of Bayesian modelling, the probability distribution that is sampled is the posterior distribution, <span class="math notranslate nohighlight">\(P(A|B)\)</span>, which is given by Bayes’ theorem:</p>
+<div class="math notranslate nohighlight" id="equation-bayes">
+<span class="eqno">(6)<a class="headerlink" href="#equation-bayes" title="Link to this equation">#</a></span>\[
+P(A|B) = \frac{P(B|A)P(A)}{P(B)} \propto P(B|A)P(A),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(P(B|A)\)</span> is the likelihood that we met previously, <span class="math notranslate nohighlight">\(P(A)\)</span> is the probability distribution that describes our prior knowledge, and <span class="math notranslate nohighlight">\(P(B)\)</span> is the evidence term, which in the context of MCMC is ignored as the data is not variable with the parameters <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">easyscience</span></code> can be combined with the MCMC library <code class="docutils literal notranslate"><span class="pre">emcee</span></code> to perform MCMC sampling.
+Before starting to sample, it is necessary to have a good estimate of the maximum likelihood (or maximum a posteriori) for the parameters, to be used as a starting point for the analysis.
+Below, the fitting analysis from earlier is shown for the quadratic function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">easyscience.Objects.variable</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">easyscience.Objects.ObjectClasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseObj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">easyscience.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fitter</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="n">a_true</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.9594</span>
+<span class="n">b_true</span> <span class="o">=</span> <span class="mf">7.294</span>
+<span class="n">c_true</span> <span class="o">=</span> <span class="mf">3.102</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">yerr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">a_true</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">b_true</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c_true</span>
+<span class="n">y</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">a_true</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">5.0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">b_true</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">c_true</span><span class="p">,</span> <span class="n">fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">20</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">math_model</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mathematical model for a quadratic. </span>
+<span class="sd">    </span>
+<span class="sd">    :x: values to calculate the model over. </span>
+<span class="sd">    </span>
+<span class="sd">    :return: model values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="n">value</span>
+
+<span class="n">quad</span> <span class="o">=</span> <span class="n">BaseObj</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">math_model</span><span class="p">)</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">yerr</span><span class="p">)</span>
+
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Parameter &#39;a&#39;: -0.9455 ± 0.0379, bounds=[-5.0:0.5]&gt;,
+ &lt;Parameter &#39;b&#39;: 7.3277 ± 0.3800, bounds=[0.0:10.0]&gt;,
+ &lt;Parameter &#39;c&#39;: 2.0301 ± 0.8187, bounds=[-20.0:50.0]&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To allow the calculation of the likelihood, a multidimensional normal distribution (MVN) that describes the data is constructed, where the mean is the <em>y</em> values and the covariance matrix is a matrix where the diagonal is the variances.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">multivariate_normal</span>
+
+<span class="n">mv</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">yerr</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This MVN is then used to define a function for the log-likelihood (the logarithm is often used for numerical stability).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The log-likelihood function for the data given a model. </span>
+
+<span class="sd">    :theta: the model parameters.</span>
+<span class="sd">    :x: the value over which the model is computed.</span>
+
+<span class="sd">    :return: log-likelihood for the given parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">logl</span> <span class="o">=</span> <span class="n">mv</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logl</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The distribution that describes our prior knowledge is the prior probability, which <a class="reference internal" href="bayes.html"><span class="std std-doc">as discussed previously</span></a> consists of uniform distributions.
+The log-prior probability is defined with the following function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">uniform</span>
+
+<span class="n">priors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">fit_object</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">():</span>
+    <span class="n">priors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">min</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">log_prior</span><span class="p">(</span><span class="n">theta</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The log-prior function for the parameters.</span>
+<span class="sd">    </span>
+<span class="sd">    :theta: the model parameters.</span>
+
+<span class="sd">    :return: log-prior for the given parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">priors</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The two functions then come together to give the log-posterior function, which is the object that will be sampled.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">log_posterior</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">log_prior</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">emcee</span></code> package can then be used to perform the MCMC sampling.
+Below, we perform 32 individual walks that each sample the distribution 500 times.
+Note that we set progress to <code class="docutils literal notranslate"><span class="pre">False</span></code> for the benefit of the web rendering, it might be valuable to have this as <code class="docutils literal notranslate"><span class="pre">True</span></code> in your Notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">emcee</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="mf">1e-4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">nsamples</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">emcee</span><span class="o">.</span><span class="n">EnsembleSampler</span><span class="p">(</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">log_posterior</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+<span class="n">sampler</span><span class="o">.</span><span class="n">run_mcmc</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The Markov chains that were investigated by the walkers in the sampling processed can be visualised as shown below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">get_chain</span><span class="p">()</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndim</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;step number&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c9cd24a16d1be9a8794a717fb6aecc311ab497e60cd93cbd8ad8db44cdb93fea.png" src="../_images/c9cd24a16d1be9a8794a717fb6aecc311ab497e60cd93cbd8ad8db44cdb93fea.png" />
+</div>
+</div>
+<p>It is clear from the above plot that there is a lag period before the sampling is being carried out evenly.
+This means that the samples before the first (approximately) 100 steps should be ignored as they are not yet sampling evenly.
+We can get flat, i.e., all the walkers combined, sets of samples with the first 100 steps removed using the method below.
+Additionally, we perform thinning so that only every 10th sample is used (this is to remove any correlation between samples).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flat_samples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">get_chain</span><span class="p">(</span><span class="n">discard</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the flat samples, we can now plot these as histograms, using the <code class="docutils literal notranslate"><span class="pre">corner</span></code> library.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">corner</span>
+
+<span class="n">corner</span><span class="o">.</span><span class="n">corner</span><span class="p">(</span><span class="n">flat_samples</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/022fa1ee83044a321dd9f444d759bf067b79a03d9bf5f66b6b43c1715b3bd9d3.png" src="../_images/022fa1ee83044a321dd9f444d759bf067b79a03d9bf5f66b6b43c1715b3bd9d3.png" />
+</div>
+</div>
+<p>Using this plot, we can visually inspect the marginal posterior distributions for our parameters and get a handle on the parameter uncertainties.
+Additionally, we can begin to investigate the correlations present between different parameters, e.g., above we can see that <code class="docutils literal notranslate"><span class="pre">a</span></code> is negatively correlated with <code class="docutils literal notranslate"><span class="pre">b</span></code> but positively correlated with <code class="docutils literal notranslate"><span class="pre">c</span></code>.</p>
+<p>We can also produce a plot showing the posterior distribution of models on the data with a range of credible intervals, shown here with the blue-shaded areas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">credible_intervals</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">84</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">99.85</span><span class="p">]]</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+<span class="n">distribution</span> <span class="o">=</span> <span class="n">flat_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">flat_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="n">flat_samples</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yerr</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ci</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">credible_intervals</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                     <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">ci</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                     <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                     <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#0173B2&#39;</span><span class="p">,</span>
+                     <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5be5cc78f951126d85bd0baeb6474f354bbcfde61232e56059ad4bc2cf31bc73.png" src="../_images/5be5cc78f951126d85bd0baeb6474f354bbcfde61232e56059ad4bc2cf31bc73.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./5-analysis"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="analysis-sans.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Fitting SANS data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nested_sampling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bayesian Model Selection</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

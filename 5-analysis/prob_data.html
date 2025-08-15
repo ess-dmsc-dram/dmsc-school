@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Thinking about data probabilistically &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '5-analysis/prob_data';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The EasyScience framework" href="easy_intro.html" />
+    <link rel="prev" title="Model-dependent analysis" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F5-analysis/prob_data.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/5-analysis/prob_data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Thinking about data probabilistically</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="thinking-about-data-probabilistically">
+<h1>Thinking about data probabilistically<a class="headerlink" href="#thinking-about-data-probabilistically" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Every measurement has some uncertainty associated with it – no measurement is perfect.
+What causes this uncertainty is not under consideration now, but rather what <em>uncertainty</em> means and how we can think about it in our analysis.
+Typically, a value with an uncertainty is written as <span class="math notranslate nohighlight">\(\mu \pm \sigma\)</span>, where <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are the measurement and uncertainty, respectively.
+While there is (unfortunately) no standard for what this nomenclature means, a common interpretation is that this is describing a normal distribution, which is centred at <span class="math notranslate nohighlight">\(\mu\)</span> with a standard deviation of <span class="math notranslate nohighlight">\(\sigma\)</span> (<a class="reference internal" href="#normal"><span class="std std-numref">Fig. 1</span></a>).</p>
+<figure class="align-default" id="normal">
+<a class="reference internal image-reference" href="../_images/normal_fig.png"><img alt="../_images/normal_fig.png" src="../_images/normal_fig.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">A normal distribution (blue line), centred on 10.4 with a standard deviation of 1.6.</span><a class="headerlink" href="#normal" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Consider the mathematical model <span class="math notranslate nohighlight">\(x=a^2\)</span>, that provides a model dataset (of a single data point), where <span class="math notranslate nohighlight">\(a\)</span> is the optimisation parameter<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
+Assume further that we experimentally measured <span class="math notranslate nohighlight">\(x\)</span> to be <span class="math notranslate nohighlight">\(x = \mu \pm \sigma = 10.4 \pm 1.6\)</span> as shown in <a class="reference internal" href="#normal"><span class="std std-numref">Fig. 1</span></a>.
+The aim of model-dependent analysis is to find the value of <span class="math notranslate nohighlight">\(a\)</span> that leads to the best agreement between our mathematical model and the experimental dataset.
+Since we assume the measured value to be normally distributed, its probability distribution is</p>
+<div class="math notranslate nohighlight" id="equation-normal">
+<span class="eqno">(1)<a class="headerlink" href="#equation-normal" title="Link to this equation">#</a></span>\[
+p(x) = \frac{1}{\sigma\sqrt{2\pi}}\exp{\bigg[-\frac{1}{2}\Big(\frac{x-\mu}{\sigma}\Big)^2\bigg]}.
+\]</div>
+<p><span class="math notranslate nohighlight">\(p\)</span> is called the likelihood of the observation <span class="math notranslate nohighlight">\(\mu \pm \sigma\)</span> given the parameter <span class="math notranslate nohighlight">\(a\)</span>.
+To get the best agreement between the model and the experiment, we need to maximise (or, more commonly, minimise the negative) likelihood.
+Before passing this task to an optimisation algorithm, we need to have a function that calculates <span class="math notranslate nohighlight">\(-p(x)\)</span> from <span class="math notranslate nohighlight">\(a\)</span>, for Eqn. <a class="reference internal" href="#equation-normal">(1)</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">10.4</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.6</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">nl</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the negative likelihood for a normal distribution.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: </span>
+<span class="sd">        The optimisation parameter, a.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :</span>
+<span class="sd">        The negative likelihood.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">likelihood</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The above function calculates the negative likelihood of a given <span class="math notranslate nohighlight">\(a\)</span> for the data shown in <a class="reference internal" href="#normal"><span class="std std-numref">Fig. 1</span></a>.
+We can then use the <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code> optimisation algorithm to minimise this, other minimization libraries are available in Python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  message: Optimization terminated successfully.
+  success: True
+   status: 0
+      fun: -0.2493389252508348
+        x: [ 3.225e+00]
+      nit: 1
+      jac: [-6.706e-07]
+ hess_inv: [[1]]
+     nfev: 24
+     njev: 12
+</pre></div>
+</div>
+</div>
+</div>
+<p>The optimisation was successful.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">success</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3.22490293])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The optimised value of <span class="math notranslate nohighlight">\(a\)</span> was found to be 3.225.</p>
+<div class="alert alert-info">
+<p><strong>Note</strong></p>
+<p>This result shouldn’t be surprising as <span class="math notranslate nohighlight">\(\sqrt{10.4} \approx 3.225\)</span>.</p>
+</div><p>This result is plotted on top of the data in <a class="reference internal" href="#normal-fit"><span class="std std-numref">Fig. 2</span></a>:</p>
+<figure class="align-default" id="normal-fit">
+<a class="reference internal image-reference" href="../_images/normal_fit_fig.png"><img alt="../_images/normal_fit_fig.png" src="../_images/normal_fit_fig.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">A normal distribution (blue line), centred on 10.4 with a standard deviation of 1.6 with the maximum likelihood value (red circle).</span><a class="headerlink" href="#normal-fit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Consider extending this beyond datasets with just a single data point, where each data point is itself a normal distribution.
+This is visualised in <a class="reference internal" href="#multid"><span class="std std-numref">Fig. 3</span></a> for five data points; the plot on the left-hand-side presents the data in (hopefully) a familiar way, while the right-hand-side shows the view as though one is sat on the plane of the computer screen, looking along the <em>x</em>-axis.</p>
+<figure class="align-default" id="multid">
+<a class="reference internal image-reference" href="../_images/multid_fig.png"><img alt="../_images/multid_fig.png" src="../_images/multid_fig.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Plots with more data points; the standard way to plot data with some uncertainty (e.g., points with error bars) (LHS) and the view of the five likelihood functions for each data point (note that here the uncertainty in each data point is taken to be the same, i.e., it is homoscedastic) (RHS).</span><a class="headerlink" href="#multid" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The data in <a class="reference internal" href="#multid"><span class="std std-numref">Fig. 3</span></a> appears linear, therefore a “straight line fit” can be performed – this is where a gradient and intercept for a straight line (the mathematical model) is found.
+This results in a model that maximises the product of the likelihoods for each data point, as best as possible given the constraint that the model must hold.
+It is clear in <a class="reference internal" href="#multid-fit"><span class="std std-numref">Fig. 4</span></a> that the green model cannot maximise any of the individual distributions, but overall, this is the best possible agreement for the distributions.</p>
+<figure class="align-default" id="multid-fit">
+<a class="reference internal image-reference" href="../_images/multid_fit_fig.png"><img alt="../_images/multid_fit_fig.png" src="../_images/multid_fit_fig.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text"><a class="reference internal" href="#multid"><span class="std std-numref">Fig. 3</span></a> with a fitted linear model (green).</span><a class="headerlink" href="#multid-fit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This way of thinking about experimental data can be carried through to the use of model-dependent analysis.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>This model has no real physical rationality, but is only a representative example.</p>
+</aside>
+</aside>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./5-analysis"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Model-dependent analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="easy_intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
