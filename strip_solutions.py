@@ -93,6 +93,7 @@ if __name__ == "__main__":
         dirs_exist_ok=True,
     )
     notebooks_with_figures = ("matplotlib", "3-mcstas", "4-reduction", "5-analysis")
+    exclude_from_figures = ("5-analysis/analysis-powder-diffraction.ipynb",)
     for path in Path(".").rglob("*.ipynb"):
         print(path)
         if "ipynb_checkpoints" not in str(path):
@@ -101,5 +102,6 @@ if __name__ == "__main__":
                 destination=args.destination,
                 add_mpl_widget_cell=any(
                     string in str(path) for string in notebooks_with_figures
-                ),
+                )
+                and not any(string in str(path) for string in exclude_from_figures),
             )
