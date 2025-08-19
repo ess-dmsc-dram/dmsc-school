@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
+from pathlib import Path
 
 
 def fetch_data(name: str) -> str:
@@ -8,7 +9,6 @@ def fetch_data(name: str) -> str:
     containing the extracted files.
     """
     import pooch
-    from pathlib import Path
 
     file_path = pooch.retrieve(
         url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
@@ -16,5 +16,8 @@ def fetch_data(name: str) -> str:
         processor=pooch.Unzip(),
     )
 
-    path = Path(file_path[0])
-    return str(path.parent.absolute())
+    if len(file_path) > 1:
+        path = Path(file_path[0])
+        return str(path.parent.absolute())
+    else:
+        return file_path[0]

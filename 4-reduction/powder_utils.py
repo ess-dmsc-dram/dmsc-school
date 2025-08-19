@@ -2,7 +2,6 @@
 # Copyright (c) 2025 Scipp contributors (https://github.com/scipp)
 
 import numpy as np
-import mcstastox
 import scipp as sc
 
 import matplotlib.pyplot as plt
@@ -22,6 +21,8 @@ def load_powder(
     path:
         Path to the directory containing the simulation results.
     """
+    import mcstastox
+
     with mcstastox.Read(path) as file:
         events = file.export_scipp_simple(source_name, sample_name)
 
