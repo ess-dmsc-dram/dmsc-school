@@ -27,6 +27,10 @@ def fetch_data(name: str, quiet=True) -> str:
         processor=pooch.Unzip(),
     )
 
+    # With the Unzip processor, `retrieve` returns a list of files that were in the zip
+    # archive.
+    # If len=1, then there was only a single file, and we return the path to that file.
+    # If there were more than one file, we return the path to the parent folder.
     if len(file_path) > 1:
         path = Path(file_path[0])
         return str(path.parent.absolute())
