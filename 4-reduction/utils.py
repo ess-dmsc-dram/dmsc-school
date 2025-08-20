@@ -19,7 +19,7 @@ def fetch_data(name: str, quiet=True) -> str:
     import pooch
 
     logger = pooch.get_logger()
-    logger.setLevel("CRITICAL" if quiet else "INFO")
+    logger.setLevel("ERROR" if quiet else "INFO")
 
     file_path = pooch.retrieve(
         url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
