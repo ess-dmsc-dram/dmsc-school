@@ -539,7 +539,7 @@ def make(
             for params in item
         )
 
-    radius = instrument.add_parameter("sample_radius", value=0.005, 
+    radius = instrument.add_parameter("sample_radius", value=0.005,
                                       comment="Radius of simulated sample [m]")
     height = instrument.add_parameter("sample_height", value=0.02,
                                       comment="Height of simulated sample [m]")
