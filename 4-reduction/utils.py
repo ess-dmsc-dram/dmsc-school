@@ -3,12 +3,23 @@
 from pathlib import Path
 
 
-def fetch_data(name: str) -> str:
+def fetch_data(name: str, quiet=True) -> str:
     """
     Fetch pre-prepared data from a remote source and return the path to the folder
     containing the extracted files.
+
+    Parameters
+    ----------
+    name:
+        Name of the dataset to fetch. This corresponds to the name of the zip file
+        without the ".zip" extension.
+    quiet:
+        If True, suppresses logging output. Defaults to True.
     """
     import pooch
+
+    logger = pooch.get_logger()
+    logger.setLevel("CRITICAL" if quiet else "INFO")
 
     file_path = pooch.retrieve(
         url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
