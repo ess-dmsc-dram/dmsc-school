@@ -66,7 +66,7 @@ def add_guide(instrument, source):
     n_segments = 12
     segment_length = curved_length / n_segments
     segment_rotation = total_rotation / n_segments
-    instrument.add_parameter("guide_curve_deg", value=1.0, comment="total curvate of guide in [deg]")
+    instrument.add_parameter("guide_curve_deg", value=1.0, comment="total curvature of guide [deg]")
 
     previous_component = expanding
     previous_length = expanding.l
