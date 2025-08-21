@@ -52,7 +52,7 @@ jobs:
           environment-name: dmsc-school-env
           create-args: >-
             python=3.11.*
-            mcstas
+            mcstas>=3.5.35
 
       - name: Install pip dependencies
         run: |
