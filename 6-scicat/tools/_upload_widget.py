@@ -357,7 +357,7 @@ class _TechniqueDropDown(widgets.Box):
                 name="Small Angle Scattering",
                 pid="http://purl.org/pan-science/PaNET/PaNET01124",
             ),
-            "QUENS": Technique(
+            "QENS": Technique(
                 name="Quasi Elastic Neutron Scattering",
                 pid="http://purl.org/pan-science/PaNET/PaNET01035",
             ),
