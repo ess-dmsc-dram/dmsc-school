@@ -66,7 +66,7 @@ def add_guide(instrument, source):
     n_segments = 12
     segment_length = curved_length / n_segments
     segment_rotation = total_rotation / n_segments
-    instrument.add_parameter("guide_curve_deg", value=1.0)
+    instrument.add_parameter("guide_curve_deg", value=1.0, comment="total curvature of guide [deg]")
 
     previous_component = expanding
     previous_length = expanding.l
@@ -357,7 +357,8 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
     fixed_source = instrument.add_component("fixed_source", "Arm")
     fixed_source.set_AT(-160.6, RELATIVE=sample_position)
 
-    instrument.add_parameter("detector_height", value=2.5)
+    instrument.add_parameter("detector_height", value=2.5,
+                             comment="Height of detector banks [m]")
 
     if detectors == "classic":
         instrument.add_component("init", "Union_init")
@@ -538,8 +539,10 @@ def make(
             for params in item
         )
 
-    radius = instrument.add_parameter("sample_radius", value=0.005)
-    height = instrument.add_parameter("sample_height", value=0.02)
+    radius = instrument.add_parameter("sample_radius", value=0.005,
+                                      comment="Radius of simulated sample [m]")
+    height = instrument.add_parameter("sample_height", value=0.02,
+                                      comment="Height of simulated sample [m]")
 
     options = list(sample_library.keys())
 
@@ -548,6 +551,7 @@ def make(
         "sample_choice",
         value='"no_sample"',
         options=[f'"{opt}"' for opt in options] + ['"no_sample"'],
+        comment="Choice of sample, given as string"
     )
 
     for option in options:
