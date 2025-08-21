@@ -9,7 +9,7 @@ from collections.abc import Callable, Mapping
 
 from ipywidgets import widgets, Layout
 from scitacean import Dataset, DatasetType, RemotePath
-from scitacean.model import Relationship
+from scitacean.model import Relationship, Technique
 
 from _core_widgets import (
     confirm_choice,
@@ -347,9 +347,44 @@ def _replace_field(
     )
 
 
+class _TechniqueDropDown(widgets.Box):
+    def __init__(self, **kwargs):
+        self._NO_SELECTION_LABEL = ""
+        field_style = {"description_width": "120px"}
+        # Ref: https://expands-eu.github.io/ExPaNDS-experimental-techniques-ontology/index-en.html
+        self.option_map = {
+            "SANS": Technique(
+                name="Small Angle Scattering",
+                pid="http://purl.org/pan-science/PaNET/PaNET01124",
+            ),
+            "QUENS": Technique(
+                name="Quasi Elastic Neutron Scattering",
+                pid="http://purl.org/pan-science/PaNET/PaNET01035",
+            ),
+            "Powder Diffraction": Technique(
+                name="Powder Diffraction",
+                pid="http://purl.org/pan-science/PaNET/PaNET01100",
+            ),
+        }
+        self.selection = widgets.Dropdown(
+            description="technique",
+            options=[self._NO_SELECTION_LABEL] + list(self.option_map.keys()),
+            style=field_style,
+            layout=Layout(width="100%", margin="0px"),
+        )
+        box_layout = Layout(width="100%", overflow="auto", margin="5px")
+        super().__init__(children=[self.selection], layout=box_layout, **kwargs)
+
+    @property
+    def value(self) -> list[Technique]:
+        if self.selection.value == self._NO_SELECTION_LABEL:
+            return []
+        return [self.option_map[self.selection.value]]
+
+
 _FieldWidgetFactoryRegistry: MappingProxyType[
     str, Callable[[Field], widgets.ValueWidget]
-] = MappingProxyType({})
+] = MappingProxyType({"techniques": lambda _: _TechniqueDropDown()})
 _SkippedFields: tuple[str, ...] = (
     "access_groups",
     "api_version",
@@ -546,7 +581,6 @@ class DatasetFieldWidget(widgets.VBox):
         access_groups = [owner_group]
         investigator = field_values.get("owner", "")
         contact_email = field_values.get("owner_email", "")
-        techniques = field_values.get("techniques", [])
 
         if parent_pid := self.parent_dataset_pid.value.strip():
             # TODO: It does not appear in the Related Dataset in the Client.
@@ -554,9 +588,6 @@ class DatasetFieldWidget(widgets.VBox):
             relationships = [relation]
         else:
             relationships = []
-
-        if len(techniques) != 0:
-            raise NotImplementedError("PID for techniques is not implemented yet.")
 
         return Dataset(
             **field_values,
