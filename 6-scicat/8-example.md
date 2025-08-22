@@ -11,9 +11,9 @@ Please review the [SciCat page](./scicat) if you need more details on where to f
 We use the [Scitacean Python library](./python_libraries) to interact with SciCat from Python.
 
 In addition to the code snippets contained in this page, we have prepared three jupyter notebooks ready for use which you can adapt to your needs in order to download and upload dataset(s).
-- [access individual dataset](./notebooks/access_individual_dataset.ipynb)
-- [access multiple datasets](./notebooks/access_multiple_datasets.ipynb)
-- [upload and create dataset](./notebooks/create_single_dataset.ipynb)
+- [scitacean upload dataset](./workbooks/scicat_exercise_upload.ipynb)
+- [scitacean download dataset](./workbooks/scicat_exercise_download.ipynb)
+- [scicat widget](./workbooks/scicat_exercise_widget.ipynb)
 
 ## Use case
 
