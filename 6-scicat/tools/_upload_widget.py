@@ -820,7 +820,7 @@ class MetadataWidget(widgets.VBox):
             self.value_preview = widgets.Text(
                 "",
                 description="Value",
-                disabled=True,
+                disabled=False,
                 layout=_METADATA_INPUT_LAYOUT,
                 style=_METADATA_INPUT_STYLE,
             )
@@ -877,11 +877,15 @@ class MetadataWidget(widgets.VBox):
         def value(self) -> _ScalarMetadata:
             """Return the selected metadata as a _ScalarMetadata instance."""
             selected_key = self.dropdown_menu.value
-            metadata_value = self._original_metadata_registry[selected_key]
             return _ScalarMetadata(
                 key=selected_key,
-                value=metadata_value.value,
+                value=self.value_preview.value.strip(),  # Value may be overwritten by a user.
                 unit=self.unit_preview.value.strip(),  # Unit may be overwritten by a user.
+                # We decided to allow overwriting values of `value` and `unit` field
+                # because users might want to just slightly change the values
+                # i.e. McStas metadata parameters can have a value like: b'sample_SI',
+                # which looks like a string representation of a bytes object.
+                # Then we want users to be able to remove unnecessary b'' part.
             )
 
     class ArbitraryInputWidget(widgets.HBox):
