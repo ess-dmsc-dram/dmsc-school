@@ -1,0 +1,1577 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Unit testing &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1-python/using_external_libraries/unit_testing';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Simulation" href="../../3-mcstas/Simulation.html" />
+    <link rel="prev" title="Data analysis with Pandas" href="pandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../using_external_libraries.html">Using external libraries</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../3-mcstas/mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../5-analysis/sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F1-python/using_external_libraries/unit_testing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/1-python/using_external_libraries/unit_testing.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Unit testing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Unit testing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#magnetic-quantum-numbers">Magnetic Quantum Numbers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-modes">Error Modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-exceptions">Aside: Exceptions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zeeman-splitting">Zeeman Splitting</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fibonacci">Fibonacci</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leap-years">Leap Years</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramming">Histogramming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chi-squared">Chi Squared</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares-fit">Least Squares Fit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-transfer">Energy Transfer</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="unit-testing">
+<h1>Unit testing<a class="headerlink" href="#unit-testing" title="Link to this heading">#</a></h1>
+<p>This notebook introduces the basic concepts of testing programs.
+It focuses on simplicity and presents some basic techniques guides through important aspects to consider when writing tests.</p>
+<p>Please note that automatic tests are usually not placed in notebooks but in separate modules.
+This makes them easier to organise and run.</p>
+<p>We will use <a class="reference external" href="https://docs.pytest.org/en/stable/index.html">pytest</a>, an easy to use 3rd party tool for writing and running tests in Python.
+In addition, we will use some functionality from the <a class="reference external" href="https://numpy.org/doc/stable/reference/routines.testing.html">testing</a> module of Numpy.
+There are many alternatives to those tools, most notably the <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a> package that comes with the Python standard library.</p>
+<section id="magnetic-quantum-numbers">
+<h2>Magnetic Quantum Numbers<a class="headerlink" href="#magnetic-quantum-numbers" title="Link to this heading">#</a></h2>
+<p>We begin with a simple example.</p>
+<p>We want to implement a function which computes the allowed magnetic quantum numbers <span class="math notranslate nohighlight">\(m\)</span> for any given angular momentum <span class="math notranslate nohighlight">\(j\)</span>.
+Remember that <span class="math notranslate nohighlight">\(m = -j, -j+1, \ldots , j-1, j\)</span>. This function is implemented below.</p>
+<div class="alert alert-info">
+<p><strong>Note:</strong></p>
+<p>The code samples are not always written in a clean way but are sometimes overly convoluted in order to garnish them with hidden bugs.
+If you are looking for advice on how to write good Python, look elsewhere!</p>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a list of all magnetic quantum numbers for a given angular momentum j.</span>
+<span class="sd">    The results are sorted in ascending order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;j must be greater equal 0&quot;</span><span class="p">)</span>
+    <span class="n">negative</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">positive</span> <span class="o">=</span> <span class="o">-</span><span class="n">negative</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">negative</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">positive</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In order to test this function, we can compare its output to what we would expect. For example:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(j = 0 \rightarrow m = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(j = 1 \rightarrow m = 0, \pm1\)</span></p></li>
+</ul>
+<p>According to its docstring, <code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code> promises to return a list of numbers sorted in ascending order. This implies that for <span class="math notranslate nohighlight">\(j=0,1\)</span>, we expect to get <code class="docutils literal notranslate"><span class="pre">[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">0,</span> <span class="pre">1]</span></code>, respectively.</p>
+<p>We can encode tests for these by using assertions. The <code class="docutils literal notranslate"><span class="pre">assert</span></code> keyword in Python takes a condition and, if that condition is false, raises an <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>No output was produced, which means that both assertions passed. Our tests were successful!</p>
+<p>If this is not clear enough for you, feel free to add a print statement at the end of a cell to notify you that the tests passed, see below.</p>
+<p>Those tests are great and all, but two tests are hardly enough. In particular, we have only used integer values for <span class="math notranslate nohighlight">\(j\)</span>. Let’s try a half-integer now:</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">assert</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
+
+<span class="ne">AssertionError</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is not so great anymore. What you can see above (if you executed the cell) is one of the aforementioned <code class="docutils literal notranslate"><span class="pre">AssertionErrors</span></code>.</p>
+<p>Unfortunately, it does not provide any useful information other than letting us know that the test failed.</p>
+<p>We will later introduce methods for getting better outputs for failed tests. For now, just look at the result of our function manually:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[np.float64(-0.5), np.float64(0.0), np.float64(0.5)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>There is an extra 0 in the list. This was fine for integer <span class="math notranslate nohighlight">\(j\)</span>, but it should not be there for half-integers.
+We will fix <code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code> later, but for now we leave it as it is.</p>
+<section id="error-modes">
+<h3>Error Modes<a class="headerlink" href="#error-modes" title="Link to this heading">#</a></h3>
+<p>Until now, we have only looked at the ‘happy path’ of our function, meaning that all inputs are valid and the computation goes through to the end, albeit sometimes incorrectly.</p>
+<p>But it is equally important to test the error paths.
+If a function does not detect failures or invalid inputs, it might silently produce garbage results that can be very hard to notice.</p>
+</section>
+<hr class="docutils" />
+<section id="aside-exceptions">
+<h3>Aside: Exceptions<a class="headerlink" href="#aside-exceptions" title="Link to this heading">#</a></h3>
+<p>In Python, errors are almost always reported in the form of exceptions. Here, you do not need to understand exactly how they work. Put simply, in order to signal (‘raise’) an error, we write</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can pass any message we want to describe the error. There are multiple predefined error types in Python. <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> is a general error that we can use in most situations. When a function argument is invalid, one usually raises a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+<hr class="docutils" />
+<p><code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code> has two conditions for its input:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(j \geq 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(j\)</span> is an integer or half integer</p></li>
+</ul>
+<p>We thus expect our function to raise a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if either condition is violated.
+In order to test for that we use the external package <strong><a class="reference external" href="https://docs.pytest.org/en/stable/index.html">pytest</a></strong> which provides many utilities for writing tests. Here, we need the context manager <code class="docutils literal notranslate"><span class="pre">pytest.raises</span></code>. Again, there is no need to understand what a context manager is. For our purposes, simply read</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>as ‘check that the indented code below it raises a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>’.</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Failed</span><span class="g g-Whitespace">                                    </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">hidden</span> <span class="mi">1</span> <span class="n">frame</span><span class="p">]</span>
+
+<span class="nn">File ~/micromamba/envs/dmsc-school-env/lib/python3.11/site-packages/_pytest/outcomes.py:177,</span> in <span class="ni">fail</span><span class="nt">(reason, pytrace)</span>
+<span class="g g-Whitespace">    </span><span class="mi">164</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Explicitly fail an executing test with the given message.</span>
+<span class="g g-Whitespace">    </span><span class="mi">165</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">166</span><span class="sd"> :param reason:</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span><span class="sd">     The exception that is raised.</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span> <span class="n">__tracebackhide__</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="ne">--&gt; </span><span class="mi">177</span> <span class="k">raise</span> <span class="n">Failed</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">reason</span><span class="p">,</span> <span class="n">pytrace</span><span class="o">=</span><span class="n">pytrace</span><span class="p">)</span>
+
+<span class="ne">Failed</span>: DID NOT RAISE &lt;class &#39;ValueError&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another failure! But look at the error message. Only the second test failed by not raising a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>. The first one succeeded.</p>
+<p>Looking at the implementation of <code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code> above shows that there is indeed a check for <span class="math notranslate nohighlight">\(j &lt; 0\)</span> but none for the integer condition.</p>
+<p>Below, you can find a complete implementation which passes all of our tests. Feel free to try it out and write more tests.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;j must be greater equal 0&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">j</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">j</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;j must be an integer or half integer&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="zeeman-splitting">
+<h2>Zeeman Splitting<a class="headerlink" href="#zeeman-splitting" title="Link to this heading">#</a></h2>
+<p>We can now use our function to compute physical observables.
+As an example, we are going to look at the Zeeman effect.
+Let us start by reminding ourselves of the formula.</p>
+<p>The coupling of the spin and orbital angular momentum of an electron to an external magnetic field <span class="math notranslate nohighlight">\(B\)</span> shifts the energy level of that electron by</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta E = \mu_B g_j m_j B ,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu_B\)</span> is the Bohr Magneton, <span class="math notranslate nohighlight">\(g_j\)</span> the Landé factor, and <span class="math notranslate nohighlight">\(m_j\)</span> the magnetic quantum number that we computed above. For simplicity, we only look at energy shifts relative to the magnetic field and omit <span class="math notranslate nohighlight">\(B\)</span> in the following.</p>
+<p>First, we define a function which computes all energy shifts for a given set of angular momenta:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">lande</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">l</span> <span class="o">*</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">magneton</span> <span class="o">=</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr magneton in eV/T&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">magn</span> <span class="o">=</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">magneton</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">lande</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">magn</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We are now faced with a difficult problem.
+We have a piece of Python code which implements a mathematical equation.
+But how can we test whether those two match?
+Before, we had a simple rule for what the output should be.
+This made it easy to write some tests which compare the actual to the expected output.
+However now, it seems as though we need the output of our function in order to know what result it should produce in the first place.</p>
+<p>Luckily though, people have performed many calculations based on the Zeeman effect already.
+So we can pick one or more of those results and compare out implementation with them.</p>
+<p>Let us choose the Lyman-α line, meaning the transition of an electron from an <span class="math notranslate nohighlight">\(n = 2\)</span> orbital to <span class="math notranslate nohighlight">\(n=1\)</span> in hydrogen.
+The impact of the Zeeman effect on this transition depends on the angular momentum, of course.
+For a transition from <span class="math notranslate nohighlight">\(|n, l, j, m_j\rangle = |2, 1, \frac{1}{2}, +\frac{1}{2}\rangle\)</span> to <span class="math notranslate nohighlight">\(|1, 0, \frac{1}{2}, +\frac{1}{2}\rangle\)</span>, the Zeeman effect induced energy difference is <span class="math notranslate nohighlight">\(\Delta E = - \frac{2}{3} \mu_B\)</span>.
+So let us use that as a test: (We have electrons, so <span class="math notranslate nohighlight">\(s = \frac{1}{2}\)</span> is fixed.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">physical_constants</span>
+
+<span class="c1"># The `[0]` in physical_constants[&#39;name&#39;][0] extracts the actual value.</span>
+<span class="n">bohr_magneton</span> <span class="o">=</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr magneton in eV/T&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">before</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">after</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">before</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">after</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">bohr_magneton</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The test passes! Note that we are using <code class="docutils literal notranslate"><span class="pre">before[1]</span></code> and <code class="docutils literal notranslate"><span class="pre">after[1]</span></code>, which extract the <span class="math notranslate nohighlight">\(m_j = +\frac{1}{2}\)</span> elements according to</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[np.float64(-0.5), np.float64(0.5)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>As a nice bonus, we are loading the Bohr magneton from SciPy with a specific unit.
+This lets us check if our function uses the units we expect.</p>
+<p>There are a lot more transitions we can use.
+For instance, <span class="math notranslate nohighlight">\(|2, 1, \frac{3}{2}, +\frac{1}{2}\rangle\)</span> to <span class="math notranslate nohighlight">\(|1, 0, \frac{1}{2}, -\frac{1}{2}\rangle\)</span> has an energy of <span class="math notranslate nohighlight">\(\frac{5}{3} \mu_B\)</span>:</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">before</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">after</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">before</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">after</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">bohr_magneton</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>What happened this time? Again, the failure message does not give us a lot of information. So let’s output the results ourselves:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">before</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">after</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">bohr_magneton</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.647302997e-05
+9.647302997e-05
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pretty close but not an exact match!
+The problem here is that we are performing calculations with floating point numbers.
+Those have limited precision, and we cannot expect two equivalent calculations to produce exactly the same results unless they do  <em>exactly</em> the same operations in <em>exactly</em> the same order.</p>
+<p>This means that we should not use the equality operator (<code class="docutils literal notranslate"><span class="pre">==</span></code>) as above but rather test for approximate equality.
+A useful tool for this is the <a class="reference external" href="https://numpy.org/doc/stable/reference/routines.testing.html"><code class="docutils literal notranslate"><span class="pre">testing</span></code> module of numpy</a>.
+It provides <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_almost_equal.html#numpy.testing.assert_almost_equal"><code class="docutils literal notranslate"><span class="pre">assert_almost_equal</span></code></a> which does what we need:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">before</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">after</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">5</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">bohr_magneton</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now there is no output meaning that the test passes.</p>
+<p>We could keep going and add more tests, and you should do this in practice. But these kinds of tests are often of limited use because we generally do not have known outputs that we can easily compare to.</p>
+<p>A different approach (potentially supplementing the above) is searching for simple cases where we know the correct result. One such case would be a particle without spin. Here, the interaction with the magnetic field depends only on the orbital angular momentum and should thus give an energy shift of <span class="math notranslate nohighlight">\(m_j \mu_B\)</span>. And indeed, our implementation satisfies this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># l = j here</span>
+<span class="n">magn</span> <span class="o">=</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="n">delta_E</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">magn</span><span class="p">)):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
+        <span class="n">delta_E</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">magn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr magneton in eV/T&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Yet another testing ansatz is searching for properties of the expected results that we can test without knowing the actual numerical values.
+An example is the length of the output.
+We know that <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code> has to produce a list with the same number of elements as <code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code>.
+This gives us an opportunity for testing with a broad range of different inputs.</p>
+<p>Write tests comparing the lengths below.
+You can use the simple <code class="docutils literal notranslate"><span class="pre">assert</span></code> here because lengths are integers and can compare exactly equal.
+You can simply list a bunch of possible inputs <code class="docutils literal notranslate"><span class="pre">j</span></code>, <code class="docutils literal notranslate"><span class="pre">l</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code> or, for extra points, write a loop / loops to iterate through several different values.
+Note that not all combinations are physically allowed: <span class="math notranslate nohighlight">\(j = l+s, l+s-1, \ldots , |l-s|\)</span></p>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_momenta</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">test_momenta</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Another property is that <span class="math notranslate nohighlight">\(\Delta E\)</span> is proportional to <span class="math notranslate nohighlight">\(m_j\)</span>. This is a simple relationship that we can exploit! We can do so in two ways:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(m_j\)</span> always appears in pairs with opposite sign except for <span class="math notranslate nohighlight">\(m_j=0\)</span>. The Zeeman shifts thus appear in pairs as well. We can write tests that match the corresponding elements. Mind the order of results produced by <code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code>.</p></li>
+<li><p>Alternatively, we divide out <span class="math notranslate nohighlight">\(m_j\)</span> which should give us the same value for every list element returned by <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code>. There is one exception that needs to be handled differently: <span class="math notranslate nohighlight">\(m_j = 0\)</span>.</p></li>
+</ul>
+<p>As an exercise, implement one or both of these tests. While the second approach is more thorough, the first one can still be a good exercise. It might help to convert the list returned by <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code> to a numpy array first.</p>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># point 1</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">test_momenta</span><span class="p">:</span>
+    <span class="n">delta_E</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta_E</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta_E</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta_E</span><span class="p">))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">delta_E</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">-</span><span class="n">delta_E</span><span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># point 2</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">test_momenta</span><span class="p">:</span>
+    <span class="n">delta_E</span> <span class="o">=</span> <span class="n">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">m_j</span> <span class="o">=</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">delta_E</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">m_j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta_E</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">m_j</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">delta_E</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">delta_E</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">m_j</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">reference</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 2 3
+2 1 3
+1 3 4
+2 2 4
+3 1 4
+1 3 4
+2 2 4
+3 1 4
+1 1 2
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>A last test before we are done with the Zeeman effect.
+Earlier, we talked about how important it is to also test the error modes of our code.
+So let’s do this! <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code> has the same conditions on <code class="docutils literal notranslate"><span class="pre">j</span></code> as <code class="docutils literal notranslate"><span class="pre">magnetic_quantum_numbers</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="n">zeeman_shifts</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="nn">Cell In[8], line 2,</span> in <span class="ni">zeeman_shifts</span><span class="nt">(j, l, s)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span><span class="w"> </span><span class="nf">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="n">lande</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">l</span> <span class="o">*</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">magneton</span> <span class="o">=</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr magneton in eV/T&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">magn</span> <span class="o">=</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+<span class="ne">ZeroDivisionError</span>: division by zero
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code> inherited the check for values of <span class="math notranslate nohighlight">\(j\)</span> that are not integers or half-integers.
+But passing in <span class="math notranslate nohighlight">\(j=-1\)</span> triggers a different error which tells us something about the implementation of our function but is not very informative to a user. (Try out <span class="math notranslate nohighlight">\(j=-2\)</span>, too!)
+We can remedy the situation by adding a corresponding check to the beginning of <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code>. Feel free to do this as an exercise.</p>
+<p>But there are more potential errors.
+As already mentioned, there are physical restrictions on the allowed function arguments: <span class="math notranslate nohighlight">\(j = l+s, l+s-1, \ldots , |l-s|\)</span>
+It is evident from the source code of <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code> that those are not verified.
+As an exercise, you can implement such a check in <code class="docutils literal notranslate"><span class="pre">zeeman_shifts</span></code> and add a corresponding test here:</p>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">zeeman_shifts</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">+</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Angular momenta out of range: j=</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">, l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">, s=</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orbital angular momentum is not an integer: </span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Spin is integer but total angular momentum is not: s=</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">, j=</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">s</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Spin is half integer but total angular momentum is integer: s=</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">, j=</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="n">lande</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">l</span> <span class="o">*</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">magneton</span> <span class="o">=</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr magneton in eV/T&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">magn</span> <span class="o">=</span> <span class="n">magnetic_quantum_numbers</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">magneton</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">lande</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">magn</span><span class="p">]</span>
+
+
+<span class="c1"># out of range</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># orbital integer check</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1"># j is incorrect category</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">zeeman_shifts</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="exercises">
+<h1>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h1>
+<p>You can do the exercises in this section in any order you like.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#Fibonacci"><span class="xref myst">Fibonacci</span></a></p></li>
+<li><p><a class="reference internal" href="#Leap-Years"><span class="xref myst">Leap Years</span></a></p></li>
+<li><p><a class="reference internal" href="#Histogramming"><span class="xref myst">Histogramming</span></a></p></li>
+<li><p><a class="reference internal" href="#Chi-Squared"><span class="xref myst">Chi squared</span></a></p></li>
+<li><p><a class="reference internal" href="#Least-Squares-Fit"><span class="xref myst">Least Squares Fit</span></a></p></li>
+<li><p><a class="reference internal" href="#Energy-Transfer"><span class="xref myst">Energy Transfer</span></a></p></li>
+</ul>
+<p>As mentioned in the beginning, tests are usually not written in separate modules instead of notebooks.
+All exercises are available in this notebook as well as <code class="docutils literal notranslate"><span class="pre">test_exercises.py</span></code>.
+The latter shows how you can organise tests in a module using pytest.
+Note, however, that the descriptions in this notebook are more thorough and contain nicely formatted equations.</p>
+<p>If you stick with the notebook, you might want to use an alternative to the <code class="docutils literal notranslate"><span class="pre">assert</span></code> keyword that provides more information on failure.
+You can just replace</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>with</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="alert alert-warning">
+<p><strong>Hint:</strong></p>
+<p>It is generally a good idea to perform ‘black box testing’, that is, writing tests without modifying or, where possible, even looking at the code that we test.
+The examples in this notebook contain an implementation of the functions that we want to test.
+Avoid reading those if possible and focus on the descriptions given in text or function docstrings.</p>
+</div><section id="fibonacci">
+<h2>Fibonacci<a class="headerlink" href="#fibonacci" title="Link to this heading">#</a></h2>
+<p>The Fibonacci sequence is a common example for a recursive function. Here we indeed have a recursive implementation that we want to test.
+This can, of course, be done with a number of examples that you can pick manually.</p>
+<p>However, there is a different approach. We can also compute the Fibonacci numbers using</p>
+<div class="math notranslate nohighlight">
+\[
+x_n = \frac{\varphi^n - {(1 - \varphi)}^n}{\sqrt{5}}
+\]</div>
+<p>and compare that with the recursive implementation.
+<span class="math notranslate nohighlight">\(\varphi \approx 1.61803399\)</span> is the golden ratio.
+You can get a high-precision approximation of it from scipy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">golden</span>
+</pre></div>
+</div>
+<p>Make sure to convert the result of the above equation to an integer or use an approximate comparison when comparing the two implementations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the nth Fibonacci number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the nth Fibonacci number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input must be a positive integer.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">golden</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fib_golden</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">golden</span><span class="o">**</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">golden</span><span class="p">)</span> <span class="o">**</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">fib_golden</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">fibonacci</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="leap-years">
+<h2>Leap Years<a class="headerlink" href="#leap-years" title="Link to this heading">#</a></h2>
+<p>A leap year is any year that is divisible by 4 unless it is also divisible by 100 and not by 400. The author of the function tried to be clever, but is it actually correct?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_leapyear</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return True if year is a leap year, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">year</span> <span class="o">%</span> <span class="mi">400</span> <span class="o">==</span> <span class="n">year</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">+</span> <span class="n">year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">!=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_raises-exception tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">2020</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">assert</span> <span class="ow">not</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">2020</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">assert</span> <span class="n">is_leapyear</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="ne">AssertionError</span>: 
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="histogramming">
+<h2>Histogramming<a class="headerlink" href="#histogramming" title="Link to this heading">#</a></h2>
+<p>Here, we have a simple function for building histograms. When testing it, remember to think of possible <em>edge</em> cases. Also, are all conditions on the arguments validated? And of course, you can always compute the results for some small cases manually.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bin_edges</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Construct a histogram of one dimensional data.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">      data: 1D array.</span>
+<span class="sd">      bin_edges: (len=nbins+1) 1D array of bin edges.</span>
+<span class="sd">                 Must be monotonically increasing.</span>
+<span class="sd">                 Bin i is in range [bin_edges[i], bin_edges[i+1]].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">bin_edges</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">hist</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">hist</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_raises-exception tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="c1"># empty input</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span><span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">edges</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="c1"># input outside of bins</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span><span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="n">edges</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="c1"># manual examples</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span>
+    <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span> <span class="n">edges</span><span class="p">),</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span>
+    <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])),</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span>
+    <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">edges</span><span class="p">),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="c1"># not monotonically increasing bins</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span> <span class="n">edges</span><span class="p">),</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])),</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">histogram</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">edges</span><span class="p">),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># not monotonically increasing bins</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">hidden</span> <span class="mi">1</span> <span class="n">frame</span><span class="p">]</span>
+
+<span class="nn">File ~/micromamba/envs/dmsc-school-env/lib/python3.11/site-packages/numpy/testing/_private/utils.py:926,</span> in <span class="ni">assert_array_compare</span><span class="nt">(comparison, x, y, err_msg, verbose, header, precision, equal_nan, equal_inf, strict, names)</span>
+<span class="g g-Whitespace">    </span><span class="mi">921</span>         <span class="n">err_msg</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">remarks</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">922</span>         <span class="n">msg</span> <span class="o">=</span> <span class="n">build_err_msg</span><span class="p">([</span><span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">],</span> <span class="n">err_msg</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">923</span>                             <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">924</span>                             <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">925</span>                             <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">926</span>         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">927</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">928</span>     <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+
+<span class="ne">AssertionError</span>: 
+<span class="n">Arrays</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">equal</span>
+
+<span class="n">Mismatched</span> <span class="n">elements</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span> <span class="p">(</span><span class="mf">33.3</span><span class="o">%</span><span class="p">)</span>
+<span class="n">Max</span> <span class="n">absolute</span> <span class="n">difference</span> <span class="n">among</span> <span class="n">violations</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Max</span> <span class="n">relative</span> <span class="n">difference</span> <span class="n">among</span> <span class="n">violations</span><span class="p">:</span> <span class="mf">0.5</span>
+ <span class="n">ACTUAL</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+ <span class="n">DESIRED</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="chi-squared">
+<h2>Chi Squared<a class="headerlink" href="#chi-squared" title="Link to this heading">#</a></h2>
+<p>The goodness of a fit is often measured using <span class="math notranslate nohighlight">\(\chi^2\)</span>.
+It is defined as the sum of square differences of model and measurement data:
+$<span class="math notranslate nohighlight">\(
+\chi^2 = \sum_{i=1}^{N}\, \frac{{(y_{\text{model},\,i} - y_{\text{meas},\,i})}^2}{\sigma^{2}_{i}}
+\)</span>$
+Things to consider: Does the function reproduce small examples? Are there specific inputs that make for very simple outputs? Are there any symmetries that you can test? Are there invalid arguments?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(((</span><span class="n">model</span> <span class="o">-</span> <span class="n">meas</span><span class="p">)</span> <span class="o">/</span> <span class="n">errors</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">meas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="c1"># special cases</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">errors</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
+    <span class="n">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">model</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># symmetry in model and meas</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
+    <span class="n">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">),</span> <span class="n">chi_squared</span><span class="p">(</span><span class="n">meas</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># manually computed result</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># length mismatches</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">errors</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">chi_squared</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">chi_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="least-squares-fit">
+<h2>Least Squares Fit<a class="headerlink" href="#least-squares-fit" title="Link to this heading">#</a></h2>
+<div class="alert alert-info">
+<p><strong>Note:</strong></p>
+<p>This is a potentially longer and more complicated exercise, feel free to skip it.</p>
+</div>
+<p>In this exercise, we are looking at fitting a parabola using the method of least squares. There is a fundamental difference to the other exercises. Here, we generally cannot sensibly construct an expected output because the fit has to deal with randomness. We can still test a number of special cases, though.
+Additionally, in cases like this one, it can make sense to do some (at least partially) manual tests. For example, we can perform a fit and plot the result to see if it makes sense.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fit_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform a least squares fit of a parabola.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">      x: Independent variable.</span>
+<span class="sd">      y_meas: measured values of the dependent variable.</span>
+<span class="sd">      errors: Uncertainties of the measured values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Best fit results for the parameters of the parabola.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">errors</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">V</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">V</span> <span class="o">@</span> <span class="n">y_meas</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eval_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+
+<span class="c1"># clean parabola</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">true_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.4</span><span class="p">])</span>
+<span class="n">y_meas</span> <span class="o">=</span> <span class="n">eval_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">true_params</span><span class="p">)</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_meas</span><span class="p">),</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">best_fit</span> <span class="o">=</span> <span class="n">fit_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">true_params</span><span class="p">,</span> <span class="n">best_fit</span><span class="p">)</span>
+
+<span class="c1"># mismatch in argument sizes</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">fit_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">fit_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">errors</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">fit_parabola</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+
+<span class="c1"># noisy data</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">true_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">])</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">y_meas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">eval_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">true_params</span><span class="p">),</span> <span class="n">errors</span><span class="p">)</span>
+<span class="n">best_fit</span> <span class="o">=</span> <span class="n">fit_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+<span class="c1"># does not work!</span>
+<span class="c1"># np.testing.assert_almost_equal(true_params, best_fit)</span>
+
+<span class="c1"># plot the result to eyeball it</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_meas</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">eval_parabola</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">best_fit</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f68fc4cb610&gt;]
+</pre></div>
+</div>
+<img alt="../../_images/b1ec4e3f924f7cc9bd2ff42dd2278c51f4b4680417b19731020b90239e91a1e1.png" src="../../_images/b1ec4e3f924f7cc9bd2ff42dd2278c51f4b4680417b19731020b90239e91a1e1.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="energy-transfer">
+<h2>Energy Transfer<a class="headerlink" href="#energy-transfer" title="Link to this heading">#</a></h2>
+<p>The energy transfer in inelastic scattering of neutrons is</p>
+<ul class="simple">
+<li><p><strong>Direct</strong>:
+$<span class="math notranslate nohighlight">\(
+\Delta E_{\text{direct}} = E_i - \frac{m_{\text{n}} L_2^2}{2 (t - t_0)}\, , \quad t_0 = \sqrt{\frac{L_1^2 m_\text{n}}{E_i}}
+\)</span>$</p></li>
+<li><p><strong>Indirect</strong>:
+$<span class="math notranslate nohighlight">\(
+\Delta E_{\text{indirect}} = \frac{m_{\text{n}} L_1^2}{2 (t - t_0)} - E_f\, , \quad t_0 = \sqrt{\frac{L_2^2 m_\text{n}}{E_f}}
+\)</span>$</p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(E_i\)</span>, <span class="math notranslate nohighlight">\(E_f\)</span> are the initial and final energy, respectively. <span class="math notranslate nohighlight">\(t\)</span> is the time-of-flight, <span class="math notranslate nohighlight">\(m_{\text{n}}\)</span> is the neutron mass, and <span class="math notranslate nohighlight">\(L_1\)</span> and <span class="math notranslate nohighlight">\(L_2\)</span> are the lengths of the primary and secondary flight paths.</p>
+<p>As usual, try to find special cases where the equations become simpler and you can easily predict the output. Also, write tests with incorrect / nonsense input to check if the function reports errors properly.
+Mind the units given in the docstring.
+It is important to pick inputs with a good order of magnitude.
+Otherwise, we will have problems with floating point precision.
+You might need to increase the required precision of the assertions.
+This can be done like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>see <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_almost_equal.html#numpy.testing.assert_almost_equal">https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_almost_equal.html#numpy.testing.assert_almost_equal</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">neutron_mass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">energy_transfer</span><span class="p">(</span><span class="n">ei_or_ef</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="n">L1</span><span class="p">,</span> <span class="n">L2</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the energy transfer for inelastic neutron scattering.</span>
+
+<span class="sd">    Units in square brackets.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">      ei_or_ef: [J] In direct scattering: the initial energy.</span>
+<span class="sd">                    In indirect scattering: the final energy.</span>
+<span class="sd">      tof: [s] Time-of-flight.</span>
+<span class="sd">      L1: [m] Primary flight path.</span>
+<span class="sd">      L2: [m] Secondary flight path.</span>
+<span class="sd">      mode: Either &#39;direct&#39; or &#39;indirect&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;direct&quot;</span><span class="p">:</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">L1</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">neutron_mass</span> <span class="o">/</span> <span class="n">ei_or_ef</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;indirect&quot;</span><span class="p">:</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">L2</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">neutron_mass</span> <span class="o">/</span> <span class="n">ei_or_ef</span><span class="p">)</span>
+    <span class="n">delta_t</span> <span class="o">=</span> <span class="n">tof</span> <span class="o">-</span> <span class="n">t0</span>
+    <span class="k">return</span> <span class="n">ei_or_ef</span> <span class="o">-</span> <span class="n">neutron_mass</span> <span class="o">*</span> <span class="n">L2</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">delta_t</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_raises-exception tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">physical_constants</span>
+
+<span class="n">ei</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;electron volt&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># J</span>
+<span class="n">tof</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># s</span>
+<span class="n">mn</span> <span class="o">=</span> <span class="n">neutron_mass</span>  <span class="c1"># kg</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">energy_transfer</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;direct&quot;</span><span class="p">),</span> <span class="n">ei</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">energy_transfer</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;direct&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ei</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
+    <span class="n">energy_transfer</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;direct&quot;</span><span class="p">),</span> <span class="n">ei</span> <span class="o">-</span> <span class="n">neutron_mass</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="p">)</span>
+
+<span class="n">ef</span> <span class="o">=</span> <span class="mi">23</span> <span class="o">*</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;electron volt&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># J</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">energy_transfer</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;indirect&quot;</span><span class="p">),</span> <span class="n">ef</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
+    <span class="n">energy_transfer</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;indirect&quot;</span><span class="p">),</span> <span class="n">neutron_mass</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">ef</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">20</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="n">energy_transfer</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;invalid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">32</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">ef</span> <span class="o">=</span> <span class="mi">23</span> <span class="o">*</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;electron volt&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># J</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">energy_transfer</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;indirect&quot;</span><span class="p">),</span> <span class="n">ef</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">energy_transfer</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;indirect&quot;</span><span class="p">),</span> <span class="n">neutron_mass</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">ef</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="mi">20</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">energy_transfer</span><span class="p">(</span><span class="n">ei</span><span class="p">,</span> <span class="n">tof</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;invalid&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~/micromamba/envs/dmsc-school-env/lib/python3.11/site-packages/numpy/testing/_private/utils.py:635,</span> in <span class="ni">assert_almost_equal</span><span class="nt">(actual, desired, decimal, err_msg, verbose)</span>
+<span class="g g-Whitespace">    </span><span class="mi">633</span>     <span class="k">pass</span>
+<span class="g g-Whitespace">    </span><span class="mi">634</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">desired</span> <span class="o">-</span> <span class="n">actual</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="mf">10.0</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">decimal</span><span class="p">)):</span>
+<span class="ne">--&gt; </span><span class="mi">635</span>     <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">_build_err_msg</span><span class="p">())</span>
+
+<span class="ne">AssertionError</span>: 
+<span class="n">Arrays</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">almost</span> <span class="n">equal</span> <span class="n">to</span> <span class="mi">20</span> <span class="n">decimals</span>
+ <span class="n">ACTUAL</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">3.6850062582e-18</span><span class="p">)</span>
+ <span class="n">DESIRED</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.685006257362536e-18</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./1-python/using_external_libraries"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pandas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data analysis with Pandas</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../3-mcstas/Simulation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Simulation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Unit testing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#magnetic-quantum-numbers">Magnetic Quantum Numbers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-modes">Error Modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-exceptions">Aside: Exceptions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zeeman-splitting">Zeeman Splitting</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fibonacci">Fibonacci</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leap-years">Leap Years</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramming">Histogramming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chi-squared">Chi Squared</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares-fit">Least Squares Fit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-transfer">Energy Transfer</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

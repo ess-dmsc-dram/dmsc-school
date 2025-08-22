@@ -1,0 +1,1091 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simulation &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-mcstas/Simulation';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Powder diffraction exercise" href="mcstas-powder-diffraction.html" />
+    <link rel="prev" title="Unit testing" href="../1-python/using_external_libraries/unit_testing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-qens.html">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4-reduction/reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F3-mcstas/Simulation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-mcstas/Simulation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Simulation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-ray-tracing">Monte Carlo Ray-tracing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo">Monte Carlo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ray-tracing">Ray-tracing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Monte Carlo ray-tracing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mcstas">McStas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#programming-language">Programming language</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coordinate-system">Coordinate system</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#units">Units</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-tutorial">Quick tutorial</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-package">Import the package</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simulation">
+<h1>Simulation<a class="headerlink" href="#simulation" title="Link to this heading">#</a></h1>
+<p>At the ESS we have used simulations extensively to design and optimize the facility.</p>
+<section id="monte-carlo-ray-tracing">
+<h2>Monte Carlo Ray-tracing<a class="headerlink" href="#monte-carlo-ray-tracing" title="Link to this heading">#</a></h2>
+<p>For simulation of neutron scattering the most popular technique is Monte Carlo ray-tracing. Lets look at the two separately and then merge them.</p>
+<section id="monte-carlo">
+<h3>Monte Carlo<a class="headerlink" href="#monte-carlo" title="Link to this heading">#</a></h3>
+<p>The Monte Carlo technique relies on using random numbers to estimate values that would otherwise be difficult to calculate. It is a computationally expensive technique, but is very versatile and often work when other more efficient techniques fail. For example one could estimate the value of <span class="math notranslate nohighlight">\(\pi\)</span> by using random sampling to find the ratio of the areas of a circle and a square as shown below. The ratio of their area’s can simply be estimated by the number of random points falling outside and inside the circle, from which an estimate of <span class="math notranslate nohighlight">\(\pi\)</span> can be calculated. The more random points we use, the better an estimate of <span class="math notranslate nohighlight">\(\pi\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">monte_carlo</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/549421463d730038c22eb3279ac0c68456d93ba6b29937c3e0fef5db553ec00a.png" src="../_images/549421463d730038c22eb3279ac0c68456d93ba6b29937c3e0fef5db553ec00a.png" />
+</div>
+</div>
+</section>
+<section id="ray-tracing">
+<h3>Ray-tracing<a class="headerlink" href="#ray-tracing" title="Link to this heading">#</a></h3>
+<p>The ray-tracing part of the simulation deals with the paths of the neutrons through space. Thus the geometric effects in the optics can be understood, as the path of the neutrons are traced through the known guide system.</p>
+</section>
+</section>
+<section id="id1">
+<h2>Monte Carlo ray-tracing<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>Combining these techniques one can start the rays with random velocities drawn from a distribution that resembles the real source, trace the path of the neutrons through the instrument, and at each interaction, random numbers will be used to sample the behavior using the known probability distributions. Repeating this with many rays allow us to estimate for example the flux at the detector, or even the distribution of flux on the detector.</p>
+</section>
+<section id="mcstas">
+<h2>McStas<a class="headerlink" href="#mcstas" title="Link to this heading">#</a></h2>
+<p>The McStas software package is a framework for fast Monte Carlo ray-tracing simulations of neutron scattering instruments. The main feature of the code is that it effectively connects a number of smaller pieces of codes called <em>components</em> that each describe a spatially separated part of the instrument. Examples of such components could be guide pieces, choppers, samples, monitors and so forth. Instruments are then built from a sequence of such components. When someone has an idea for something new they would like to simulate, it’s often easier to create that thing as a McStas component than it would be to write a specialized software package for the purpose. Because of this, the package grows with community contributed components.</p>
+<section id="programming-language">
+<h3>Programming language<a class="headerlink" href="#programming-language" title="Link to this heading">#</a></h3>
+<p>The McStas core and components are all written using the C programming language, though the user interface for assembling the instrument is a meta-language built upon C. This means C code is allowed in parts the file, but it also has a section for adding these components with their parameters and physical positions / rotations with a simple syntax. There also exists a McStas python API called McStasScript, this is what will be used during this course.</p>
+</section>
+<section id="coordinate-system">
+<h3>Coordinate system<a class="headerlink" href="#coordinate-system" title="Link to this heading">#</a></h3>
+<p>To use McStas effectively it is important to understand the coordinate system. The beam direction is generally along the z direction, y points upwards against gravity and x to the left when looking in the beam direction. Furthermore each component will have its own coordinate system, and components can be placed relative to one another. The McStas core handles this complexity so each component can work in a simple local coordinate system.</p>
+</section>
+<section id="units">
+<h3>Units<a class="headerlink" href="#units" title="Link to this heading">#</a></h3>
+<p>McStas generally uses SI units with the exception of Å and meV and in few cases <span class="math notranslate nohighlight">\(\mu\)</span>s. Physical distances when placing components are given in meters and rotations in degrees. The contributed nature of components however means that their parameters could in principle have any unit, so look in their documentation to be sure, it is typically in the top of the component file.</p>
+</section>
+<section id="id2">
+<h3>Simulation<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Often the simulation will run to estimate a intensity, meaning neutrons per second, and will give this result with an error. This error can be reduced by using more rays for the simulation, corresponding to more Monte Carlo samples. To get the expected count from an experiment, one would have to multiply the intensity with the experiment time. It is also important to understand that the error reported by McStas has nothing to do with the expected error in an experiment, that would be calculated from the square root of the number of counts, the McStas error instead measures the quality of the intensity estimate.</p>
+</section>
+</section>
+<section id="quick-tutorial">
+<h2>Quick tutorial<a class="headerlink" href="#quick-tutorial" title="Link to this heading">#</a></h2>
+<p>Thorough Python McStas tutorials can be found with the documentation for McStasScript <a class="reference external" href="https://mads-bertelsen.github.io">here</a>, and for examples in the C syntax one can look in the McStas package or on the package <a class="reference external" href="https://www.mcstas.org">website</a>.</p>
+<section id="import-the-package">
+<h3>Import the package<a class="headerlink" href="#import-the-package" title="Link to this heading">#</a></h3>
+<p>First the package needs to be installed, then it can be imported. McStasScript also needs to be configured to access the local McStas installation, this is covered in the documentation. It is common to define a shorter name when importing to save some keystrokes, here ms is chosen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mcstasscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ms</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The main class is called McStas_instr, which makes an instrument object. It just needs a name, which will correspond to the name of the instrument file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">McStas_instr</span><span class="p">(</span><span class="s2">&quot;python_tutorial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we learned the instrument is composed of components. The instrument object already knows what components are available, so we can ask it to share that information:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">available_components</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Here are the available component categories:
+ contrib
+ misc
+ monitors
+ obsolete
+ optics
+ samples
+ sources
+ union
+Call available_components(category_name) to display
+</pre></div>
+</div>
+</div>
+</div>
+<p>These are categories, lets see what sources are available.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">available_components</span><span class="p">(</span><span class="s2">&quot;sources&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Here are all components in the sources category.
+ Adapt_check     Monitor_Optimizer   Source_adapt       Source_simple
+ ESS_butterfly   Source_4PI          Source_div         
+ ESS_moderator   Source_Maxwell_3    Source_div_quasi   
+ Moderator       Source_Optimizer    Source_gen         
+</pre></div>
+</div>
+</div>
+</div>
+<p>We start our instrument with a <em>Source_div</em> component, lets get some help on that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">component_help</span><span class="p">(</span><span class="s2">&quot;Source_div&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ___ Help Source_div ________________________________________________________________
+|<span class=" -Color -Color-Bold">optional parameter</span>|<span class=" -Color -Color-Bold">required parameter</span>|<span class=" -Color -Color-Bold">default value</span>|<span class=" -Color -Color-Bold">user specified value</span>|
+<span class=" -Color -Color-Bold">xwidth</span> [m] // Width of source
+<span class=" -Color -Color-Bold">yheight</span> [m] // Height of source
+<span class=" -Color -Color-Bold">focus_aw</span> [deg] // FWHM (Gaussian) or maximal (uniform) horz. width divergence
+<span class=" -Color -Color-Bold">focus_ah</span> [deg] // FWHM (Gaussian) or maximal (uniform) vert. height divergence
+<span class=" -Color -Color-Bold">E0</span> = <span class=" -Color -Color-Bold">0.0</span> [meV] // Mean energy of neutrons.
+<span class=" -Color -Color-Bold">dE</span> = <span class=" -Color -Color-Bold">0.0</span> [meV] // Energy half spread of neutrons.
+<span class=" -Color -Color-Bold">lambda0</span> = <span class=" -Color -Color-Bold">0.0</span> [Ang] // Mean wavelength of neutrons (only relevant for E0=0)
+<span class=" -Color -Color-Bold">dlambda</span> = <span class=" -Color -Color-Bold">0.0</span> [Ang] // Wavelength half spread of neutrons.
+<span class=" -Color -Color-Bold">gauss</span> = <span class=" -Color -Color-Bold">0.0</span> [0|1] // Criterion
+<span class=" -Color -Color-Bold">flux</span> = <span class=" -Color -Color-Bold">1.0</span> [1/(s cm 2 st energy_unit)] // flux per energy unit, Angs or meV
+-------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we are ready to add this to our instrument. We use <em>add_component</em> to add the new component to our instrument, and <em>show_components</em> to see the current state of the instrument component sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;Source_div&quot;</span><span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">show_components</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>source Source_div AT (0, 0, 0) ABSOLUTE
+</pre></div>
+</div>
+</div>
+</div>
+<p>We saved a reference to the component in the python variable <code class="docutils literal notranslate"><span class="pre">src</span></code>, we can print that to see more.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>COMPONENT source = Source_div(
+  <span class=" -Color -Color-Bold">xwidth</span> : Required parameter not yet specified
+  <span class=" -Color -Color-Bold">yheight</span> : Required parameter not yet specified
+  <span class=" -Color -Color-Bold">focus_aw</span> : Required parameter not yet specified
+  <span class=" -Color -Color-Bold">focus_ah</span> : Required parameter not yet specified
+)
+AT (0, 0, 0) ABSOLUTE
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are some required parameters for this component, lets set these to reasonable values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">xwidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">yheight</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                   <span class="n">focus_aw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">focus_ah</span><span class="o">=</span><span class="mf">2.3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>COMPONENT source = Source_div(
+  <span class=" -Color -Color-Bold">xwidth</span> = <span class=" -Color -Color-Bold">0.1</span>, // [m]
+  <span class=" -Color -Color-Bold">yheight</span> = <span class=" -Color -Color-Bold">0.05</span>, // [m]
+  <span class=" -Color -Color-Bold">focus_aw</span> = <span class=" -Color -Color-Bold">1.2</span>, // [deg]
+  <span class=" -Color -Color-Bold">focus_ah</span> = <span class=" -Color -Color-Bold">2.3</span> // [deg]
+)
+AT (0, 0, 0) ABSOLUTE
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are more optional parameters, to see them all including short explanations, one can call <em>show_parameters</em> on an instrument object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">.</span><span class="n">show_parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ___ Help Source_div ________________________________________________________________
+|<span class=" -Color -Color-Bold">optional parameter</span>|<span class=" -Color -Color-Bold">required parameter</span>|<span class=" -Color -Color-Bold">default value</span>|<span class=" -Color -Color-Bold">user specified value</span>|
+<span class=" -Color -Color-Bold">xwidth</span> = <span class=" -Color -Color-Bold">0.1</span> [m] // Width of source
+<span class=" -Color -Color-Bold">yheight</span> = <span class=" -Color -Color-Bold">0.05</span> [m] // Height of source
+<span class=" -Color -Color-Bold">focus_aw</span> = <span class=" -Color -Color-Bold">1.2</span> [deg] // FWHM (Gaussian) or maximal (uniform) horz. width 
+                        divergence 
+<span class=" -Color -Color-Bold">focus_ah</span> = <span class=" -Color -Color-Bold">2.3</span> [deg] // FWHM (Gaussian) or maximal (uniform) vert. height 
+                        divergence 
+<span class=" -Color -Color-Bold">E0</span> = <span class=" -Color -Color-Bold">0.0</span> [meV] // Mean energy of neutrons.
+<span class=" -Color -Color-Bold">dE</span> = <span class=" -Color -Color-Bold">0.0</span> [meV] // Energy half spread of neutrons.
+<span class=" -Color -Color-Bold">lambda0</span> = <span class=" -Color -Color-Bold">0.0</span> [Ang] // Mean wavelength of neutrons (only relevant for E0=0)
+<span class=" -Color -Color-Bold">dlambda</span> = <span class=" -Color -Color-Bold">0.0</span> [Ang] // Wavelength half spread of neutrons.
+<span class=" -Color -Color-Bold">gauss</span> = <span class=" -Color -Color-Bold">0.0</span> [0|1] // Criterion
+<span class=" -Color -Color-Bold">flux</span> = <span class=" -Color -Color-Bold">1.0</span> [1/(s cm 2 st energy_unit)] // flux per energy unit, Angs or meV
+-------------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p>It seems there are two ways to define the energy range of the emitted neutrons, through energy and wavelength. Here lets use wavelength, and lets allow the wavelength to be user specified by defining a couple of <em>instrument parameters</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wavelength_par</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;wavelength&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+                                      <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Wavelength in [Ang]&quot;</span><span class="p">)</span>
+
+<span class="n">wavelength_spread_par</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;wavelength_spread&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                                      <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Wavelength spread in [Ang]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can assign these to component parameters in two ways as shown below. Either using the parameter object, or by providing the parameter name as a string.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">lambda0</span><span class="o">=</span><span class="n">wavelength_par</span><span class="p">,</span> <span class="n">dlambda</span><span class="o">=</span><span class="s2">&quot;wavelength_spread&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>COMPONENT source = Source_div(
+  <span class=" -Color -Color-Bold">xwidth</span> = <span class=" -Color -Color-Bold">0.1</span>, // [m]
+  <span class=" -Color -Color-Bold">yheight</span> = <span class=" -Color -Color-Bold">0.05</span>, // [m]
+  <span class=" -Color -Color-Bold">focus_aw</span> = <span class=" -Color -Color-Bold">1.2</span>, // [deg]
+  <span class=" -Color -Color-Bold">focus_ah</span> = <span class=" -Color -Color-Bold">2.3</span>, // [deg]
+  <span class=" -Color -Color-Bold">lambda0</span> = <span class=" -Color -Color-Bold">wavelength</span>, // [Ang]
+  <span class=" -Color -Color-Bold">dlambda</span> = <span class=" -Color -Color-Bold">wavelength_spread</span> // [Ang]
+)
+AT (0, 0, 0) ABSOLUTE
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the next component we want to add is a piece of guide. We will use the component <code class="docutils literal notranslate"><span class="pre">Guide_gravity</span></code>, and place it in space using the <code class="docutils literal notranslate"><span class="pre">set_AT</span></code> method. This takes the relative position, and then a name of the coordinate system to use, which correspond to a previous component, here the source. In McStas the convention is that guide components have their opening in the center of the specified location, while for example samples are centered on that location.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">guide_A</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;guide_A&quot;</span><span class="p">,</span> <span class="s2">&quot;Guide_gravity&quot;</span><span class="p">)</span>
+<span class="n">guide_A</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">w1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">h1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">guide_A</span><span class="o">.</span><span class="n">set_AT</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">RELATIVE</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can add an additional piece of guide. Notice how we use the length of <em>guide_A</em> to place the start of the next guide. We can also use the component object to set the reference instead of a string.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">guide_B</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;guide_B&quot;</span><span class="p">,</span> <span class="s2">&quot;Guide_gravity&quot;</span><span class="p">)</span>
+<span class="n">guide_B</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">w1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">h1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">guide_B</span><span class="o">.</span><span class="n">set_AT</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">guide_A</span><span class="o">.</span><span class="n">l</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">RELATIVE</span><span class="o">=</span><span class="n">guide_A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After the guide we will place a monitor which record the spatial distribution of the beam. Notice that specifying a literal string requires double use quotation marks in McStasScript, otherwise it would be interpreted as a variable. For C it is also important that the string in the file has the “ character, so that has to be the innermost one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mon</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;monitor&quot;</span><span class="p">,</span> <span class="s2">&quot;PSD_monitor&quot;</span><span class="p">)</span>
+<span class="n">mon</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">nx</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;&quot;PSD.dat&quot;&#39;</span><span class="p">,</span>
+                   <span class="n">xwidth</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">yheight</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">restore_neutron</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mon</span><span class="o">.</span><span class="n">set_AT</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">guide_B</span><span class="o">.</span><span class="n">l</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">RELATIVE</span><span class="o">=</span><span class="n">guide_B</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lets see the status of the components in our instrument object now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_components</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>source  Source_div    AT (0, 0, 0)   ABSOLUTE        
+guide_A Guide_gravity AT (0, 0, 2)   RELATIVE source 
+guide_B Guide_gravity AT (0, 0, 5.2) RELATIVE guide_A
+monitor PSD_monitor   AT (0, 0, 5.5) RELATIVE guide_B
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we wanted to add a monitor between <em>guide_A</em> and <em>guide_B</em>, we could place it between them in the code and rerun our notebook. This is not always possible, for example when you get a instrument object from a function call, so it’s also possible to give a keyword argument to the <em>add_component</em> call to place a component some other place in the sequence. Below we place a monitor <em>after</em> guide_A.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mon</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="s2">&quot;monitor_in_guide&quot;</span><span class="p">,</span> <span class="s2">&quot;PSD_monitor&quot;</span><span class="p">,</span> <span class="n">after</span><span class="o">=</span><span class="s2">&quot;guide_A&quot;</span><span class="p">)</span>
+<span class="n">mon</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">nx</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;&quot;PSD_in_guide.dat&quot;&#39;</span><span class="p">,</span>
+                   <span class="n">xwidth</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">yheight</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">restore_neutron</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mon</span><span class="o">.</span><span class="n">set_AT</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">guide_A</span><span class="o">.</span><span class="n">l</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">RELATIVE</span><span class="o">=</span><span class="n">guide_A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are two tools to show the component sequence, the other is reached with the <em>show_diagram</em> method as below. It also shows what coordinate system each component is using, here we see both the middle monitor and guide_B are in the guide_A coordinate system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_diagram</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bf8df646ff9a8f20ef7aa65b6d5e69b48555b563faa512364f28b166d3f5d750.png" src="../_images/bf8df646ff9a8f20ef7aa65b6d5e69b48555b563faa512364f28b166d3f5d750.png" />
+<img alt="../_images/8761237af6c70183caf7e4156630a3899e504b95c73aea84db726a3986ae103e.png" src="../_images/8761237af6c70183caf7e4156630a3899e504b95c73aea84db726a3986ae103e.png" />
+</div>
+</div>
+<p>Now we would like to execute the simulation, though lets first take a look at the included parameters of the instrument, this is done with <em>show_parameters</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> wavelength         = 5.0  // Wavelength in [Ang]
+ wavelength_spread  = 1.2  // Wavelength spread in [Ang]
+</pre></div>
+</div>
+</div>
+</div>
+<p>These can be modified with <em>set_parameters</em> on the instrument object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="mf">2.8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we an see how that modified the value by calling <em>show_parameters</em> again</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">show_parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> wavelength         = 2.8  // Wavelength in [Ang]
+ wavelength_spread  = 1.2  // Wavelength spread in [Ang]
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are also some computational settings that can be adjusted with the <em>settings</em> method, here we set the number of rays and the name of the folder for the generated data. The current settings can be seen with  <em>show_settings</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">settings</span><span class="p">(</span><span class="n">ncount</span><span class="o">=</span><span class="mf">5E6</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;mcstas_data_set&quot;</span><span class="p">)</span>
+<span class="n">instrument</span><span class="o">.</span><span class="n">show_settings</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Instrument settings:
+  ncount:           5.00e+06
+  output_path:      mcstas_data_set
+  run_path:         .
+  package_path:     /home/runner/micromamba/envs/dmsc-school-env/share/mcstas/resources
+  executable_path:  /home/runner/micromamba/envs/dmsc-school-env/bin
+  executable:       mcrun
+  force_compile:    True
+  NeXus:            False
+  save_comp_pars:   False
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we are ready to execute the simulation, this is done with the <em>backengine</em> method. It will return a data object, so store that in a python variable, here with the name <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO: Using directory: &quot;/home/runner/work/dmsc-school/dmsc-school/3-mcstas/mcstas_data_set&quot;
+INFO: Regenerating c-file: python_tutorial.c
+CFLAGS=
+
+-----------------------------------------------------------
+
+Generating single GPU kernel or single CPU section layout: 
+
+-----------------------------------------------------------
+
+Generating GPU/CPU -DFUNNEL layout:
+
+-----------------------------------------------------------
+INFO: Recompiling: ./python_tutorial.out
+INFO: ===
+*** TRACE end *** 
+Detector: monitor_in_guide_I=0.0197426 monitor_in_guide_ERR=1.92178e-05 monitor_in_guide_N=1.35819e+06 &quot;PSD_in_guide.dat&quot;
+Detector: monitor_I=0.016177 monitor_ERR=1.71136e-05 monitor_N=1.16608e+06 &quot;PSD.dat&quot;
+INFO: Placing instr file copy python_tutorial.instr in dataset /home/runner/work/dmsc-school/dmsc-school/3-mcstas/mcstas_data_set
+INFO: Placing generated c-code copy python_tutorial.c in dataset /home/runner/work/dmsc-school/dmsc-school/3-mcstas/mcstas_data_set
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>McStasScript includes functions for plotting the data, for example <em>make_sub_plot</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">make_sub_plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1f0a405480deb82daa7f5abc4d9834f733352d966589c85af5d6677804e51a49.png" src="../_images/1f0a405480deb82daa7f5abc4d9834f733352d966589c85af5d6677804e51a49.png" />
+</div>
+</div>
+<p>We see that there is little difference between the beam in the middle of this straight guide and after, though of course the intensities are slightly lower at the end. We can rerun the simulation at a different wavelength. Shorter wavelengths are more challenging for the guide system, so we will try that.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instrument</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">wavelength_spread</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">instrument</span><span class="o">.</span><span class="n">backengine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO: Using directory: &quot;/home/runner/work/dmsc-school/dmsc-school/3-mcstas/mcstas_data_set_0&quot;
+INFO: Regenerating c-file: python_tutorial.c
+CFLAGS=
+
+-----------------------------------------------------------
+
+Generating single GPU kernel or single CPU section layout: 
+
+-----------------------------------------------------------
+
+Generating GPU/CPU -DFUNNEL layout:
+
+-----------------------------------------------------------
+INFO: Recompiling: ./python_tutorial.out
+INFO: ===
+*** TRACE end *** 
+Detector: monitor_in_guide_I=0.000445351 monitor_in_guide_ERR=8.53354e-07 monitor_in_guide_N=375587 &quot;PSD_in_guide.dat&quot;
+Detector: monitor_I=0.000213841 monitor_ERR=5.75878e-07 monitor_N=284908 &quot;PSD.dat&quot;
+INFO: Placing instr file copy python_tutorial.instr in dataset /home/runner/work/dmsc-school/dmsc-school/3-mcstas/mcstas_data_set_0
+INFO: Placing generated c-code copy python_tutorial.c in dataset /home/runner/work/dmsc-school/dmsc-school/3-mcstas/mcstas_data_set_0
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span><span class="o">.</span><span class="n">make_sub_plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bf37d316ab3d4229a36e9838c2d24bed39413589d36dcfe1789b8a2564b1851c.png" src="../_images/bf37d316ab3d4229a36e9838c2d24bed39413589d36dcfe1789b8a2564b1851c.png" />
+</div>
+</div>
+<p>Here we see a significant difference as the early reflections can be seen only in the corners. This is because the middle monitor is so close to the start of the guide that rays that would end in the center through a reflection has too steep an angle of incidence on the mirrors, and are thus not reflected.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-mcstas"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../1-python/using_external_libraries/unit_testing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Unit testing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mcstas-powder-diffraction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Powder diffraction exercise</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-ray-tracing">Monte Carlo Ray-tracing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo">Monte Carlo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ray-tracing">Ray-tracing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Monte Carlo ray-tracing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mcstas">McStas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#programming-language">Programming language</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coordinate-system">Coordinate system</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#units">Units</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-tutorial">Quick tutorial</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-package">Import the package</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

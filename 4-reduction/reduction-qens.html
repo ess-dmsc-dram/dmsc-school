@@ -1,0 +1,1154 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>QENS data reduction &#8212; ESS Data Management and Software Centre Summer School</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '4-reduction/reduction-qens';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SANS data reduction" href="reduction-sans.html" />
+    <link rel="prev" title="Powder diffraction data reduction" href="reduction-powder-diffraction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ESS Data Management and Software Centre Summer School</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jupyterlab.readthedocs.io/en/stable/user/interface.html">Introduction to JupyterLab</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/python_basics.html">Python basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/basic_language_principles.html">Basic language principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/sequence-data-types.html">Sequence data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/control_structures.html">Control Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/working-with-functions.html">Working with functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/python_basics/intermediate_topics.html">Intermediate topics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-python/using_external_libraries.html">Using external libraries</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/numpy.html">Arrays with Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/matplotlib.html">Plotting with Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/ipywidgets.html">Interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/pandas.html">Data analysis with Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-python/using_external_libraries/unit_testing.html">Unit testing</a></li>
+
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Proposals, DMPs and FAIR</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf">The ESS Viewpoint</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">McStas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/Simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-powder-diffraction.html">Powder diffraction exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-qens.html">QENS exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3-mcstas/mcstas-sans.html">SANS exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reduction with scipp</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="scipp-introduction.html">Introduction to Scipp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coord-transforms.html">Coordinate transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduction-powder-diffraction.html">Powder diffraction data reduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">QENS data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduction-sans.html">SANS data reduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis with EasyScience</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/intro.html">Model-dependent analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/prob_data.html">Thinking about data probabilistically</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/easy_intro.html">The <code class="docutils literal notranslate"><span class="pre">EasyScience</span></code> framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/fitting.html">Fitting data with <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/bayes.html">Uniform priors in <code class="docutils literal notranslate"><span class="pre">easyscience</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-powder-diffraction.html">Fitting Powder Diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-qens.html">Fitting QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/analysis-sans.html">Fitting SANS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/mcmc.html">Markov chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/nested_sampling.html">Bayesian Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/powder_ns.html">Bayesian analysis of powder diffraction data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/qens_ns.html">Bayesian analysis of QENS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../5-analysis/sans_ns.html">Bayesian analysis of SANS data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scicat</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/1-dataset.html">Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/2-data_curation.html">Data Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/3-fair_data.html">FAIR Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/4-data_metadata.html">Data and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/5-data_catalog.html">Data Catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/6-scicat.html">SciCat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/7-python_libraries.html">Python Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/8-example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6-scicat/9-exercise.html">Data Curation Exercise</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">DMSC School Lecture Materials</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ess-dmsc-dram/dmsc-school/issues/new?title=Issue%20on%20page%20%2F4-reduction/reduction-qens.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/4-reduction/reduction-qens.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>QENS data reduction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-the-elastic-sample-data">Process the elastic sample data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-raw-data">Load raw data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-raw-data">Visualize the raw data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-mask-bad-region">Exercise 1: mask bad region</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-to-energy-transfer">Transform to energy transfer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-compute-energy-transfer">Exercise 2: Compute energy transfer</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1-finish-the-graph">Exercise 2.1: Finish the graph</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-compute-energy-transfer-with-the-masked-data">Exercise 2.2: Compute energy transfer with the masked data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3-compute-energy-transfer-for-unmasked-data">Exercise 2.3: Compute energy transfer for unmasked data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compute-energy-transfer-for-all-samples">Exercise 3: Compute energy transfer for all samples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-result-to-disk">Save result to disk</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-exercise">Bonus exercise</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="qens-data-reduction">
+<h1>QENS data reduction<a class="headerlink" href="#qens-data-reduction" title="Link to this heading">#</a></h1>
+<p>This notebook will guide you through the data reduction for the QENS experiment that you simulated with McStas yesterday.</p>
+<p>The following is a basic outline of what this notebook will cover:</p>
+<ul class="simple">
+<li><p>Loading the NeXus files that contain the data</p></li>
+<li><p>Inspect/visualize the data contents</p></li>
+<li><p>How to convert the raw <code class="docutils literal notranslate"><span class="pre">time-of-flight</span></code> coordinate to something more useful (<span class="math notranslate nohighlight">\(\Delta E\)</span>)</p></li>
+<li><p>Write the results to file</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plopp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scippneutron</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">scn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qens_utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">utils</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="process-the-elastic-sample-data">
+<h2>Process the elastic sample data<a class="headerlink" href="#process-the-elastic-sample-data" title="Link to this heading">#</a></h2>
+<section id="load-raw-data">
+<h3>Load raw data<a class="headerlink" href="#load-raw-data" title="Link to this heading">#</a></h3>
+<p>Begin by loading and investigating the data obtained from the elastic sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;../3-mcstas/QENS_elastic_many_neutrons&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first way to inspect the data is to view the HTML representation of the loaded object.</p>
+<p>Try to explore what is inside the data, and familiarize yourself with the different sections (<code class="docutils literal notranslate"><span class="pre">Dimensions</span></code>, <code class="docutils literal notranslate"><span class="pre">Coordinates</span></code>, <code class="docutils literal notranslate"><span class="pre">Data</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><!-- Original source from -->
+<!-- https://github.com/jsignell/xarray/blob/1d960933ab252e0f79f7e050e6c9261d55568057/xarray/static/html/icons-svg-inline.html -->
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<title>Show/Hide data repr</title>
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<title>Show/Hide attributes</title>
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg><style id="scipp-style-sheet">.sc-root{--sc-background-color0:var(--jp-layout-color0,#fff);--sc-background-color1:var(--jp-layout-color1,#fcfcfc);--sc-background-color2:var(--jp-layout-color2,#efefef);--sc-inverse-background-color0:var(--jp-inverse-layout-color4,#111);--sc-font-color0:var(--jp-content-font-color0,#000);--sc-font-color1:var(--jp-content-font-color1,#555);--sc-font-color2:var(--jp-content-font-color2,#888);--sc-font-color3:var(--jp-content-font-color3,#ccc);}body.vscode-dark .sc-root{--sc-font-color0:rgba(255,255,255,1);--sc-font-color1:rgba(255,255,255,0.70);--sc-font-color2:rgba(255,255,255,0.54);--sc-font-color3:rgba(255,255,255,0.38);--sc-border-color:#1F1F1F;--sc-disabled-color:#515151;--sc-background-color0:#111111;--sc-background-color1:#111111;--sc-background-color2:#313131;}.sc-wrap{font-size:14px;min-width:300px;max-width:800px;}.sc-var-attrs .sc-wrap{padding-left:3em;}.sc-header{padding-top:6px;padding-bottom:6px;margin-bottom:4px;border-bottom:solid 1px #ddd;}.sc-header > div,.sc-header > ul{display:inline;margin-top:0;margin-bottom:0;}.sc-obj-type,.sc-array-name{margin-left:2px;margin-right:10px;}.sc-obj-type{color:var(--sc-font-color1);}.sc-underlying-size{color:var(--sc-font-color2);}.sc-sections,.reveal .sc-sections{padding-left:0 !important;display:grid;grid-template-columns:150px auto auto auto 1fr 20px 20px;}.sc-section-item{display:contents;}.sc-section-item input{display:none;}.sc-section-item input:enabled + label{cursor:pointer;color:var(--sc-font-color1);}.sc-section-item input:enabled + label:hover{color:var(--sc-font-color0);}.sc-section-summary{grid-column:1;font-weight:500;}.sc-section-summary > span{display:inline-block;padding-left:0.5em;}.sc-section-summary-in:disabled + label{color:var(--sc-font-color1);}.sc-section-summary-in + label:before{display:inline-block;content:'►';font-size:11px;width:15px;text-align:center;}.sc-section-summary-in:disabled + label:before{color:var(--sc-font-color3);}.sc-section-summary-in:checked + label:before{content:'▼';}.sc-section-summary-in:checked + label > span{display:none;}.sc-section-summary,.sc-section-inline-details{padding-top:4px;padding-bottom:4px;}.sc-section-inline-details{grid-column:2 / 6;}.sc-section-details{display:none;grid-column:1 / -1;margin-bottom:5px;}.sc-section-summary-in:checked ~ .sc-section-details{display:contents;}.sc-array-wrap{grid-column:1 / -1;display:grid;grid-template-columns:20px auto;}.sc-array-wrap > label{grid-column:1;vertical-align:top;}.sc-preview{color:var(--sc-font-color2);}.sc-array-preview,.sc-array-data{padding:0 5px !important;grid-column:2;}.sc-array-data,.sc-array-in:checked ~ .sc-array-preview{display:none;}.sc-array-in:checked ~ .sc-array-data,.sc-array-preview{display:inline-block;}.sc-dim-list{display:inline-block !important;list-style:none;padding:0 !important;margin:0;}.sc-dim-list li{display:inline-block;padding:0;margin:0!important;}.sc-dim-list:before{content:'(';}.sc-dim-list:after{content:')';}.sc-dim-list li:not(:last-child):after{content:',';padding-right:5px;}.sc-dim-list li span,.sc-standalone-var-name > span span,.sc-var-name > span span{padding:0 !important;}.sc-aligned{font-weight:bold;}.sc-var-list,.sc-var-item,.reveal .sc-var-list,.reveal .sc-var-item{display:contents;}.sc-var-item > div,.sc-var-item label,.sc-var-item > .sc-var-name span{background-color:var(--sc-background-color1);margin-bottom:0;}.sc-var-item > .sc-var-name:hover span{padding-right:5px;}.sc-var-list > li:nth-child(odd) > div,.sc-var-list > li:nth-child(odd) > label,.sc-var-list > li:nth-child(odd) > .sc-var-name span{background-color:var(--sc-background-color2);}.sc-var-name{grid-column:1;}.sc-var-dims{grid-column:2;}.sc-var-dtype{grid-column:3;text-align:right;color:var(--sc-font-color2);}.sc-var-unit{grid-column:4;text-align:left;color:var(--sc-font-color1);max-width:50pt;text-overflow:ellipsis;}.sc-value-preview{grid-column:5;}.sc-var-preview-variances{text-align:right;}.sc-sections .sc-section-item .sc-section-summary,.sc-sections .sc-section-item .sc-section-inline-details,.sc-section-item .sc-var-list .sc-var-item > div,.sc-section-item .sc-var-list .sc-var-item > label,.sc-section-details .sc-var-list .sc-var-item > div,.sc-section-details .sc-var-list .sc-var-item > label{margin-top:0;margin-bottom:0;}.sc-var-name,.sc-var-dims,.sc-var-dtype,.sc-var-unit,.sc-preview,.sc-attrs dt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px;}.sc-var-name:hover,.sc-var-dims:hover,.sc-var-dtype:hover,.sc-var-unit:hover,.sc-attrs dt:hover{overflow:visible;width:auto;z-index:1;}.sc-var-attrs{display:block;}.sc-var-data,.reveal .sc-var-data{display:none;}.sc-var-attrs,.sc-var-data{background-color:var(--sc-background-color0) !important;padding-bottom:5px !important;}.sc-var-attrs-in:checked ~ .sc-var-attrs{display:none;}.sc-var-data-in:checked ~ .sc-var-data{display:block;}.sc-var-data > table{float:right;}.sc-var-name span,.sc-var-data{padding-left:25px !important;}.sc-var-attrs,.sc-var-data{grid-column:1 / -1;}dl.sc-attrs{padding:0;margin:0;display:grid;grid-template-columns:125px auto;}.sc-attrs dt,dd{padding:0;margin:0;float:left;padding-right:10px;width:auto;}.sc-attrs dt{font-weight:normal;grid-column:1;}.sc-attrs dt:hover span{display:inline-block;padding-right:10px;}.sc-attrs dd{grid-column:2;white-space:pre-wrap;word-break:break-all;}.sc-icon-database,.sc-icon-file-text2{display:inline-block;vertical-align:middle;width:1em;height:1.5em !important;stroke-width:0;stroke:currentColor;fill:currentColor;}label.sc-hide-icon svg{opacity:0;}.sc-standalone-var-name{grid-column:1/3;}.sc-standalone-var-name span{padding-left:25px;padding-right:10px;}.sc-title{font-weight:bold;font-size:1.5em;}.sc-subtitle{font-weight:normal;font-style:italic;text-align:left;font-size:1.2em;padding:1px;}.sc-label{fill:var(--sc-font-color0,#444444);text-anchor:middle;}.sc-name{fill:var(--sc-font-color0,#111111);}.sc-inset-line{stroke:var(--sc-font-color1);stroke-width:0.05;stroke-dasharray:0.2,0.2;}.sc-log-wrap{height:25ex;resize:vertical;overflow-y:scroll;display:flex;flex-direction:column-reverse;border:1px solid;border-color:var(--jp-border-color2);background-color:var(--sc-background-color1);}div.sc-log{line-height:2.5ex;}table.sc-log{table-layout:auto;border-collapse:collapse;}tr.sc-log:nth-child(even){background-color:var(--sc-background-color0);}tr.sc-log > td{vertical-align:top;padding-bottom:0.5ex;}.sc-log-time-stamp{min-width:22ch;font-family:var(--jp-code-font-family);color:var(--sc-font-color2);}.sc-log-level{min-width:10ch;}tr.sc-log-debug td.sc-log-level{color:var(--jp-accent-color1);}tr.sc-log-info td.sc-log-level{color:var(--jp-info-color1);}tr.sc-log-warning td.sc-log-level{color:var(--jp-warn-color1);}tr.sc-log-error td.sc-log-level{font-weight:bold;color:var(--jp-error-color2);}tr.sc-log-critical td.sc-log-level{font-weight:bold;color:var(--sc-background-color0);background-color:var(--jp-error-color1);}.sc-log-message{white-space:pre-wrap;width:100%;}.sc-log-html-payload{white-space:normal;}.sc-log-name{padding-right:0.5em;text-align:right;white-space:pre-wrap;color:var(--sc-font-color3);}</style><div class='sc-wrap sc-root'><div class='sc-header'><div class='sc-obj-type'>scipp.DataArray (86.17 MB)</div></div><ul class='sc-sections'><li class='sc-section-item'><input id='section-56208de4-dab3-4247-9a9f-b4500f984e1f' class='sc-section-summary-in' type='checkbox' disabled ><label for='section-56208de4-dab3-4247-9a9f-b4500f984e1f' class='sc-section-summary' >Dimensions:</label><div class='sc-section-inline-details'><ul class='sc-dim-list'><li><span>event</span>: 1129399</li></ul></div><div class='sc-section-details'></div></li><li class='sc-section-item'><input id='section-044fa4dc-022e-4e0e-824c-d82f7ce518f9' class='sc-section-summary-in' type='checkbox'  checked><label for='section-044fa4dc-022e-4e0e-824c-d82f7ce518f9' class='sc-section-summary'  title='Expand/collapse section'>Coordinates: <span>(11)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>analyzer_angle</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>rad</div><div class='sc-value-preview sc-preview'><span><div>0.04157061594422062</div></span></div><input id='attrs-209d3498-45e7-4338-9305-25e40a97619a' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-209d3498-45e7-4338-9305-25e40a97619a' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3e36b4eb-93aa-4088-b80d-2a5b0b482f78' class='sc-var-data-in' type='checkbox'><label for='data-3e36b4eb-93aa-4088-b80d-2a5b0b482f78' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(0.04157062)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>analyzer_dspacing</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>Å</div><div class='sc-value-preview sc-preview'><span><div>3.135</div></span></div><input id='attrs-4d4d7086-3dff-4857-9331-230fcf19e6d8' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-4d4d7086-3dff-4857-9331-230fcf19e6d8' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-738ed0ad-b9c4-462b-b74d-73f46412ee33' class='sc-var-data-in' type='checkbox'><label for='data-738ed0ad-b9c4-462b-b74d-73f46412ee33' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(3.135)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>analyzer_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[1.5        0.         2.59807621]</div></span></div><input id='attrs-060cfea1-cce4-40ed-95ea-88fbae0830b6' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-060cfea1-cce4-40ed-95ea-88fbae0830b6' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a469e000-5c0a-4bed-9637-61b01355ccb2' class='sc-var-data-in' type='checkbox'><label for='data-a469e000-5c0a-4bed-9637-61b01355ccb2' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([1.5       , 0.        , 2.59807621])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>id</span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'></div><div class='sc-value-preview sc-preview'><span><div>1.906e+09, 1.906e+09, ..., 5.682e+08, 5.682e+08</div></span></div><input id='attrs-7e6e26e2-b0e2-4576-af6b-0a4f14674d8d' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-7e6e26e2-b0e2-4576-af6b-0a4f14674d8d' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eb7e5ece-0ef9-467b-9bc5-69a14b7afaab' class='sc-var-data-in' type='checkbox'><label for='data-eb7e5ece-0ef9-467b-9bc5-69a14b7afaab' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([1.90588652e+09, 1.90588636e+09, 1.90588621e+09, ...,
+       5.68189900e+08, 5.68189900e+08, 5.68190290e+08], shape=(1129399,))</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>n</span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'></div><div class='sc-value-preview sc-preview'><span><div>4.598e+18, 4.598e+18, ..., 1.407e+14, 4.598e+18</div></span></div><input id='attrs-d9d969de-d0c0-47d4-8585-cdc7fcb52a1e' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-d9d969de-d0c0-47d4-8585-cdc7fcb52a1e' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ba90a921-c746-48df-995d-c1de2334fb3a' class='sc-var-data-in' type='checkbox'><label for='data-ba90a921-c746-48df-995d-c1de2334fb3a' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([4.59777715e+18, 4.59777300e+18, 4.59777606e+18, ...,
+       4.59777511e+18, 1.40725511e+14, 4.59777606e+18], shape=(1129399,))</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>position</span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[0.         0.28103332 0.        ], [0.         0.25980825 0.        ], ..., [0.         0.23296875 0.        ], [0.         0.28513853 0.        ]</div></span></div><input id='attrs-20b1c66c-7acf-40b5-baee-fc3985ac7674' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-20b1c66c-7acf-40b5-baee-fc3985ac7674' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-134b27ca-caa0-4b0f-b7e2-d33ffda03b37' class='sc-var-data-in' type='checkbox'><label for='data-134b27ca-caa0-4b0f-b7e2-d33ffda03b37' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([[0.        , 0.28103332, 0.        ],
+       [0.        , 0.25980825, 0.        ],
+       [0.        , 0.24061812, 0.        ],
+       ...,
+       [0.        , 0.23292339, 0.        ],
+       [0.        , 0.23296875, 0.        ],
+       [0.        , 0.28513853, 0.        ]], shape=(1129399, 3))</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>sample_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[0. 0. 0.]</div></span></div><input id='attrs-ae41186b-6a0e-49fe-b084-27e69bc1a7de' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-ae41186b-6a0e-49fe-b084-27e69bc1a7de' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e7bec0ce-e3cb-49cc-8136-8e0336c86e0a' class='sc-var-data-in' type='checkbox'><label for='data-e7bec0ce-e3cb-49cc-8136-8e0336c86e0a' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0., 0., 0.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>source_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[   0.    0. -150.]</div></span></div><input id='attrs-6bc65b3e-cbe1-4cbe-97da-266f6c78d1e7' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-6bc65b3e-cbe1-4cbe-97da-266f6c78d1e7' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8ae2c0b4-1cfd-46e7-b6f3-7335d451ef53' class='sc-var-data-in' type='checkbox'><label for='data-8ae2c0b4-1cfd-46e7-b6f3-7335d451ef53' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([   0.,    0., -150.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>tof</span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>ms</div><div class='sc-value-preview sc-preview'><span><div>246.980, 246.897, ..., 246.949, 246.950</div></span></div><input id='attrs-d1e18f19-4191-46ae-8fdd-91e4f379eec2' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-d1e18f19-4191-46ae-8fdd-91e4f379eec2' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ffb736f2-228d-4a51-a036-64562de557db' class='sc-var-data-in' type='checkbox'><label for='data-ffb736f2-228d-4a51-a036-64562de557db' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([246.98004081, 246.89731884, 246.96117427, ..., 246.94701977,
+       246.94924862, 246.94977004], shape=(1129399,))</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>x</span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>0.0, 0.0, ..., 0.0, 0.0</div></span></div><input id='attrs-f0a42008-219a-43e5-8953-2120201b3aa1' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-f0a42008-219a-43e5-8953-2120201b3aa1' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f14a59f1-9c61-4327-b321-4caf7d2c232a' class='sc-var-data-in' type='checkbox'><label for='data-f14a59f1-9c61-4327-b321-4caf7d2c232a' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0., 0., 0., ..., 0., 0., 0.], shape=(1129399,))</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>y</span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>0.281, 0.260, ..., 0.233, 0.285</div></span></div><input id='attrs-284bfd12-917e-462a-9c0f-7129d247534a' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-284bfd12-917e-462a-9c0f-7129d247534a' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7c0c1ec4-b785-4e7f-acce-33a345cf9472' class='sc-var-data-in' type='checkbox'><label for='data-7c0c1ec4-b785-4e7f-acce-33a345cf9472' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0.28103332, 0.25980825, 0.24061812, ..., 0.23292339, 0.23296875,
+       0.28513853], shape=(1129399,))</pre></span></li></ul></div></li><li class='sc-section-item'><input id='section-3cdf59d5-0978-4034-85c4-b48335ed56e4' class='sc-section-summary-in' type='checkbox'  checked><label for='section-3cdf59d5-0978-4034-85c4-b48335ed56e4' class='sc-section-summary'  title='Expand/collapse section'>Data: <span>(1)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span></span></div><div class='sc-var-dims'>(event)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>counts</div><div class='sc-value-preview sc-preview'><span><div>6.221e-09, 8.165e-09, ..., 8.005e-06, 0.013</div></span><span><div>σ = 6.221e-09, 8.165e-09, ..., 8.005e-06, 0.013</div></span></div><input id='attrs-336ab3b9-4cd8-4f68-bf17-6c32ddcfeb1d' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-336ab3b9-4cd8-4f68-bf17-6c32ddcfeb1d' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-371335ce-98f9-4067-bc5c-515c2f7cf5e2' class='sc-var-data-in' type='checkbox'><label for='data-371335ce-98f9-4067-bc5c-515c2f7cf5e2' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([6.22108741e-09, 8.16479583e-09, 6.26892319e-09, ...,
+       1.87172230e-02, 8.00518808e-06, 1.32118692e-02], shape=(1129399,))<br><br>Variances (σ²):<br>array([3.87019286e-17, 6.66638910e-17, 3.92993979e-17, ...,
+       3.50334438e-04, 6.40830362e-11, 1.74553487e-04], shape=(1129399,))</pre></li></ul></div></li></ul></div></div></div></div>
+</div>
+</section>
+<section id="visualize-the-raw-data">
+<h3>Visualize the raw data<a class="headerlink" href="#visualize-the-raw-data" title="Link to this heading">#</a></h3>
+<p>Here is a histogram of the raw data in <code class="docutils literal notranslate"><span class="pre">tof</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/75e8cdfddf5bee1081196a5d2fff46b5c62ac1ba797b40c8c8571cc0a55bc10b.svg" src="../_images/75e8cdfddf5bee1081196a5d2fff46b5c62ac1ba797b40c8c8571cc0a55bc10b.svg" />
+</div>
+</div>
+<p>It is more enlightening to look at a 2D histogram in <code class="docutils literal notranslate"><span class="pre">tof</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> as this shows a defect of the detector for a certain y-range:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/05fc7b5b6b8c5cacfd9c39aff7a5e2a4120bdbffb43c64090db0e84d4fde0c99.svg" src="../_images/05fc7b5b6b8c5cacfd9c39aff7a5e2a4120bdbffb43c64090db0e84d4fde0c99.svg" />
+</div>
+</div>
+</section>
+<section id="exercise-1-mask-bad-region">
+<h3>Exercise 1: mask bad region<a class="headerlink" href="#exercise-1-mask-bad-region" title="Link to this heading">#</a></h3>
+<p>We need to handle the events that are affected by the detector defect.
+The simplest way of doing so it to mask the affected region in y.
+We will do so by binning in y and applying a y-dependent mask to the data array.</p>
+<p><strong>Steps</strong>:</p>
+<ol class="arabic simple">
+<li><p>Define bin-edges in the y-dimension that cover the entire range of the data.
+There should be three bins which cover the y-range below the broken region, the broken region, and the the range above the broken region, respectively.
+So you should end up with a length-4 array of bin-edges.</p></li>
+<li><p>Define another array for the mask which should have the values <code class="docutils literal notranslate"><span class="pre">[False,</span> <span class="pre">True,</span> <span class="pre">False]</span></code>.
+So it masks the middle bin but not the others.</p></li>
+<li><p>Apply the mask by binning the events using the edges you defined and inserting the mask into the binned array’s masks.</p></li>
+</ol>
+<p><strong>Hints</strong>:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">sc.array</span></code> to create arrays for the bin-edges and the mask.</p></li>
+<li><p>Bin the data using <code class="docutils literal notranslate"><span class="pre">binned_for_mask</span> <span class="pre">=</span> <span class="pre">events.bin(...)</span></code>,</p></li>
+<li><p>Apply the mask by inserting it into <code class="docutils literal notranslate"><span class="pre">binned_for_mask.masks</span></code> which behaves like a <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+<span class="n">mask_regions</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mf">0.21</span><span class="p">,</span> <span class="mf">0.26</span><span class="p">,</span> <span class="mf">0.27</span><span class="p">,</span> <span class="mf">0.29</span><span class="p">],</span>
+    <span class="n">unit</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">binned_for_mask</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mask_regions</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="n">binned_for_mask</span><span class="o">.</span><span class="n">masks</span><span class="p">[</span><span class="s2">&quot;bad_timing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span>
+<span class="n">binned_for_mask</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><!-- Original source from -->
+<!-- https://github.com/jsignell/xarray/blob/1d960933ab252e0f79f7e050e6c9261d55568057/xarray/static/html/icons-svg-inline.html -->
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<title>Show/Hide data repr</title>
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<title>Show/Hide attributes</title>
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg><style id="scipp-style-sheet">.sc-root{--sc-background-color0:var(--jp-layout-color0,#fff);--sc-background-color1:var(--jp-layout-color1,#fcfcfc);--sc-background-color2:var(--jp-layout-color2,#efefef);--sc-inverse-background-color0:var(--jp-inverse-layout-color4,#111);--sc-font-color0:var(--jp-content-font-color0,#000);--sc-font-color1:var(--jp-content-font-color1,#555);--sc-font-color2:var(--jp-content-font-color2,#888);--sc-font-color3:var(--jp-content-font-color3,#ccc);}body.vscode-dark .sc-root{--sc-font-color0:rgba(255,255,255,1);--sc-font-color1:rgba(255,255,255,0.70);--sc-font-color2:rgba(255,255,255,0.54);--sc-font-color3:rgba(255,255,255,0.38);--sc-border-color:#1F1F1F;--sc-disabled-color:#515151;--sc-background-color0:#111111;--sc-background-color1:#111111;--sc-background-color2:#313131;}.sc-wrap{font-size:14px;min-width:300px;max-width:800px;}.sc-var-attrs .sc-wrap{padding-left:3em;}.sc-header{padding-top:6px;padding-bottom:6px;margin-bottom:4px;border-bottom:solid 1px #ddd;}.sc-header > div,.sc-header > ul{display:inline;margin-top:0;margin-bottom:0;}.sc-obj-type,.sc-array-name{margin-left:2px;margin-right:10px;}.sc-obj-type{color:var(--sc-font-color1);}.sc-underlying-size{color:var(--sc-font-color2);}.sc-sections,.reveal .sc-sections{padding-left:0 !important;display:grid;grid-template-columns:150px auto auto auto 1fr 20px 20px;}.sc-section-item{display:contents;}.sc-section-item input{display:none;}.sc-section-item input:enabled + label{cursor:pointer;color:var(--sc-font-color1);}.sc-section-item input:enabled + label:hover{color:var(--sc-font-color0);}.sc-section-summary{grid-column:1;font-weight:500;}.sc-section-summary > span{display:inline-block;padding-left:0.5em;}.sc-section-summary-in:disabled + label{color:var(--sc-font-color1);}.sc-section-summary-in + label:before{display:inline-block;content:'►';font-size:11px;width:15px;text-align:center;}.sc-section-summary-in:disabled + label:before{color:var(--sc-font-color3);}.sc-section-summary-in:checked + label:before{content:'▼';}.sc-section-summary-in:checked + label > span{display:none;}.sc-section-summary,.sc-section-inline-details{padding-top:4px;padding-bottom:4px;}.sc-section-inline-details{grid-column:2 / 6;}.sc-section-details{display:none;grid-column:1 / -1;margin-bottom:5px;}.sc-section-summary-in:checked ~ .sc-section-details{display:contents;}.sc-array-wrap{grid-column:1 / -1;display:grid;grid-template-columns:20px auto;}.sc-array-wrap > label{grid-column:1;vertical-align:top;}.sc-preview{color:var(--sc-font-color2);}.sc-array-preview,.sc-array-data{padding:0 5px !important;grid-column:2;}.sc-array-data,.sc-array-in:checked ~ .sc-array-preview{display:none;}.sc-array-in:checked ~ .sc-array-data,.sc-array-preview{display:inline-block;}.sc-dim-list{display:inline-block !important;list-style:none;padding:0 !important;margin:0;}.sc-dim-list li{display:inline-block;padding:0;margin:0!important;}.sc-dim-list:before{content:'(';}.sc-dim-list:after{content:')';}.sc-dim-list li:not(:last-child):after{content:',';padding-right:5px;}.sc-dim-list li span,.sc-standalone-var-name > span span,.sc-var-name > span span{padding:0 !important;}.sc-aligned{font-weight:bold;}.sc-var-list,.sc-var-item,.reveal .sc-var-list,.reveal .sc-var-item{display:contents;}.sc-var-item > div,.sc-var-item label,.sc-var-item > .sc-var-name span{background-color:var(--sc-background-color1);margin-bottom:0;}.sc-var-item > .sc-var-name:hover span{padding-right:5px;}.sc-var-list > li:nth-child(odd) > div,.sc-var-list > li:nth-child(odd) > label,.sc-var-list > li:nth-child(odd) > .sc-var-name span{background-color:var(--sc-background-color2);}.sc-var-name{grid-column:1;}.sc-var-dims{grid-column:2;}.sc-var-dtype{grid-column:3;text-align:right;color:var(--sc-font-color2);}.sc-var-unit{grid-column:4;text-align:left;color:var(--sc-font-color1);max-width:50pt;text-overflow:ellipsis;}.sc-value-preview{grid-column:5;}.sc-var-preview-variances{text-align:right;}.sc-sections .sc-section-item .sc-section-summary,.sc-sections .sc-section-item .sc-section-inline-details,.sc-section-item .sc-var-list .sc-var-item > div,.sc-section-item .sc-var-list .sc-var-item > label,.sc-section-details .sc-var-list .sc-var-item > div,.sc-section-details .sc-var-list .sc-var-item > label{margin-top:0;margin-bottom:0;}.sc-var-name,.sc-var-dims,.sc-var-dtype,.sc-var-unit,.sc-preview,.sc-attrs dt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px;}.sc-var-name:hover,.sc-var-dims:hover,.sc-var-dtype:hover,.sc-var-unit:hover,.sc-attrs dt:hover{overflow:visible;width:auto;z-index:1;}.sc-var-attrs{display:block;}.sc-var-data,.reveal .sc-var-data{display:none;}.sc-var-attrs,.sc-var-data{background-color:var(--sc-background-color0) !important;padding-bottom:5px !important;}.sc-var-attrs-in:checked ~ .sc-var-attrs{display:none;}.sc-var-data-in:checked ~ .sc-var-data{display:block;}.sc-var-data > table{float:right;}.sc-var-name span,.sc-var-data{padding-left:25px !important;}.sc-var-attrs,.sc-var-data{grid-column:1 / -1;}dl.sc-attrs{padding:0;margin:0;display:grid;grid-template-columns:125px auto;}.sc-attrs dt,dd{padding:0;margin:0;float:left;padding-right:10px;width:auto;}.sc-attrs dt{font-weight:normal;grid-column:1;}.sc-attrs dt:hover span{display:inline-block;padding-right:10px;}.sc-attrs dd{grid-column:2;white-space:pre-wrap;word-break:break-all;}.sc-icon-database,.sc-icon-file-text2{display:inline-block;vertical-align:middle;width:1em;height:1.5em !important;stroke-width:0;stroke:currentColor;fill:currentColor;}label.sc-hide-icon svg{opacity:0;}.sc-standalone-var-name{grid-column:1/3;}.sc-standalone-var-name span{padding-left:25px;padding-right:10px;}.sc-title{font-weight:bold;font-size:1.5em;}.sc-subtitle{font-weight:normal;font-style:italic;text-align:left;font-size:1.2em;padding:1px;}.sc-label{fill:var(--sc-font-color0,#444444);text-anchor:middle;}.sc-name{fill:var(--sc-font-color0,#111111);}.sc-inset-line{stroke:var(--sc-font-color1);stroke-width:0.05;stroke-dasharray:0.2,0.2;}.sc-log-wrap{height:25ex;resize:vertical;overflow-y:scroll;display:flex;flex-direction:column-reverse;border:1px solid;border-color:var(--jp-border-color2);background-color:var(--sc-background-color1);}div.sc-log{line-height:2.5ex;}table.sc-log{table-layout:auto;border-collapse:collapse;}tr.sc-log:nth-child(even){background-color:var(--sc-background-color0);}tr.sc-log > td{vertical-align:top;padding-bottom:0.5ex;}.sc-log-time-stamp{min-width:22ch;font-family:var(--jp-code-font-family);color:var(--sc-font-color2);}.sc-log-level{min-width:10ch;}tr.sc-log-debug td.sc-log-level{color:var(--jp-accent-color1);}tr.sc-log-info td.sc-log-level{color:var(--jp-info-color1);}tr.sc-log-warning td.sc-log-level{color:var(--jp-warn-color1);}tr.sc-log-error td.sc-log-level{font-weight:bold;color:var(--jp-error-color2);}tr.sc-log-critical td.sc-log-level{font-weight:bold;color:var(--sc-background-color0);background-color:var(--jp-error-color1);}.sc-log-message{white-space:pre-wrap;width:100%;}.sc-log-html-payload{white-space:normal;}.sc-log-name{padding-right:0.5em;text-align:right;white-space:pre-wrap;color:var(--sc-font-color3);}</style><div class='sc-wrap sc-root'><div class='sc-header'><div class='sc-obj-type'>scipp.DataArray (86.17 MB)</div></div><ul class='sc-sections'><li class='sc-section-item'><input id='section-c8f1414b-244e-46aa-b216-600dd952fac0' class='sc-section-summary-in' type='checkbox' disabled ><label for='section-c8f1414b-244e-46aa-b216-600dd952fac0' class='sc-section-summary' >Dimensions:</label><div class='sc-section-inline-details'><ul class='sc-dim-list'><li><span class='sc-has-index'>y</span>: 3</li></ul></div><div class='sc-section-details'></div></li><li class='sc-section-item'><input id='section-63188670-9f93-4d55-939d-ee3de9d1050c' class='sc-section-summary-in' type='checkbox'  checked><label for='section-63188670-9f93-4d55-939d-ee3de9d1050c' class='sc-section-summary'  title='Expand/collapse section'>Coordinates: <span>(6)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>analyzer_angle</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>rad</div><div class='sc-value-preview sc-preview'><span><div>0.04157061594422062</div></span></div><input id='attrs-50f26ef5-6cb5-4422-bc12-870590dc6d20' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-50f26ef5-6cb5-4422-bc12-870590dc6d20' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-458d01d1-5d50-4b45-aaab-cfcae64c7440' class='sc-var-data-in' type='checkbox'><label for='data-458d01d1-5d50-4b45-aaab-cfcae64c7440' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(0.04157062)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>analyzer_dspacing</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>Å</div><div class='sc-value-preview sc-preview'><span><div>3.135</div></span></div><input id='attrs-afe49478-d317-46a6-94b8-fec3a1837a41' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-afe49478-d317-46a6-94b8-fec3a1837a41' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6a9488e7-9a1a-4483-a952-68d8b037ad28' class='sc-var-data-in' type='checkbox'><label for='data-6a9488e7-9a1a-4483-a952-68d8b037ad28' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(3.135)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>analyzer_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[1.5        0.         2.59807621]</div></span></div><input id='attrs-a9f73c75-1d8d-4d06-abb8-dfbf334f465b' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-a9f73c75-1d8d-4d06-abb8-dfbf334f465b' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e43eed8f-bbc1-4d3c-87ce-ba0e0afb0382' class='sc-var-data-in' type='checkbox'><label for='data-e43eed8f-bbc1-4d3c-87ce-ba0e0afb0382' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([1.5       , 0.        , 2.59807621])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>sample_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[0. 0. 0.]</div></span></div><input id='attrs-4d354938-48a2-4d80-b255-054562898861' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-4d354938-48a2-4d80-b255-054562898861' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-55fe8e26-37a0-4d7b-84be-3f1b19f488ee' class='sc-var-data-in' type='checkbox'><label for='data-55fe8e26-37a0-4d7b-84be-3f1b19f488ee' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0., 0., 0.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>source_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[   0.    0. -150.]</div></span></div><input id='attrs-dd81ecfd-ea58-47dc-8925-ea060de32c51' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-dd81ecfd-ea58-47dc-8925-ea060de32c51' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0a71ddef-b56a-4101-bb13-ecd41ee6c39c' class='sc-var-data-in' type='checkbox'><label for='data-0a71ddef-b56a-4101-bb13-ecd41ee6c39c' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([   0.,    0., -150.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>y</span></div><div class='sc-var-dims'>(y [bin-edge])</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>0.21, 0.26, 0.27, 0.29</div></span></div><input id='attrs-02725b27-7e41-4f08-9552-7e90b68c0131' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-02725b27-7e41-4f08-9552-7e90b68c0131' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c9074e19-bc99-4dca-a3d6-6e4c34be4a46' class='sc-var-data-in' type='checkbox'><label for='data-c9074e19-bc99-4dca-a3d6-6e4c34be4a46' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0.21, 0.26, 0.27, 0.29])</pre></span></li></ul></div></li><li class='sc-section-item'><input id='section-1fc3997e-5e07-45da-a3c2-e5a891178987' class='sc-section-summary-in' type='checkbox'  checked><label for='section-1fc3997e-5e07-45da-a3c2-e5a891178987' class='sc-section-summary'  title='Expand/collapse section'>Data: <span>(1)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span></span></div><div class='sc-var-dims'>(y)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>counts</div><div class='sc-value-preview sc-preview'><span><div>binned data [len=737593, len=173184, len=218622]</div></span></div><input id='attrs-0c430b51-054c-4e6c-a28a-bf385ff9c579' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-0c430b51-054c-4e6c-a28a-bf385ff9c579' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4e0f2475-d5dc-4d17-90b3-d076598bec4d' class='sc-var-data-in' type='checkbox'><label for='data-4e0f2475-d5dc-4d17-90b3-d076598bec4d' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>dim=&#x27;event&#x27;,
+content=DataArray(
+          dims=(event: 1129399),
+          data=float64[counts],
+          coords={&#x27;x&#x27;:float64[m], &#x27;y&#x27;:float64[m], &#x27;n&#x27;:float64, &#x27;id&#x27;:float64,
+                  &#x27;position&#x27;:vector3[m], &#x27;tof&#x27;:float64[ms]})</pre></li></ul></div></li><li class='sc-section-item'><input id='section-aee2623d-bd87-4629-bd5c-3c5a2087c8b7' class='sc-section-summary-in' type='checkbox'  checked><label for='section-aee2623d-bd87-4629-bd5c-3c5a2087c8b7' class='sc-section-summary'  title='Expand/collapse section'>Masks: <span>(1)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span>bad_timing</span></div><div class='sc-var-dims'>(y)</div><div class='sc-var-dtype'>bool</div><div class='sc-var-unit'></div><div class='sc-value-preview sc-preview'><span><div>False, True, False</div></span></div><input id='attrs-7524e2d1-5389-49db-b473-e27e3cf910ba' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-7524e2d1-5389-49db-b473-e27e3cf910ba' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-261584bc-47cd-4e7d-83bb-776308386cd5' class='sc-var-data-in' type='checkbox'><label for='data-261584bc-47cd-4e7d-83bb-776308386cd5' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([False,  True, False])</pre></span></li></ul></div></li></ul></div></div></div></div>
+</details>
+</div>
+<p>We plot the data array with the mask below.
+The black band in the middle bin indicates the mask:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binned_for_mask</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c127224169ce41d3b6cd9951e6b458e5e855176eede778a10a7504b2797a370d.svg" src="../_images/c127224169ce41d3b6cd9951e6b458e5e855176eede778a10a7504b2797a370d.svg" />
+</div>
+</div>
+<p>When making the same 2D histogram as before, the masked events will be dropped and the result is a histogram with a gap:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binned_for_mask</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tof</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/59229edbf3ef2a4824b9d0b47d052d57407a002b2c3c7a9bec77878ed58e73fa.svg" src="../_images/59229edbf3ef2a4824b9d0b47d052d57407a002b2c3c7a9bec77878ed58e73fa.svg" />
+</div>
+</div>
+</section>
+<section id="transform-to-energy-transfer">
+<h3>Transform to energy transfer<a class="headerlink" href="#transform-to-energy-transfer" title="Link to this heading">#</a></h3>
+<p>The next step is to compute the measured energy transfer in the sample from time-of-flight and the other coordinates of our data.
+We use <a class="reference external" href="https://scipp.github.io/generated/functions/scipp.transform_coords.html">scipp.transform_coords</a> for this purpose.</p>
+<p>Scippneutron provides some pre-defined functions for coordinate transformations, see the <a class="reference external" href="https://scipp.github.io/scippneutron/user-guide/coordinate-transformations.html">documentation</a> for a list.
+In particular, it provides <a class="reference external" href="https://scipp.github.io/scippneutron/generated/modules/scippneutron.conversion.tof.energy_transfer_indirect_from_tof.html">scippneutron.conversion.tof.energy_transfer_indirect_from_tof</a> which computes the energy transfer for an indirect-geometry spectrometer:</p>
+<div class="math notranslate nohighlight">
+\[\Delta E = \frac{m_n L_1^2}{2 {(t-t_0)}^2} - \mathsf{final\_energy}\,, \qquad t_0 = \sqrt{\frac{L_2^2 m_n}{2 \mathsf{final\_energy}}}\,,\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_n\)</span> is the neutron mass, <span class="math notranslate nohighlight">\(L_1\)</span> is the primary flight path length (from source to sample), and <span class="math notranslate nohighlight">\(L_2\)</span> is the secondary flight path length (from sample to detector).
+The intermediate variable <span class="math notranslate nohighlight">\(t_0\)</span> is the the time of flight for the secondary path such that <span class="math notranslate nohighlight">\((t - t_0)\)</span> is the arrival time at the sample.</p>
+<p>While Scippneutron provides most of what we need, we have to define some custom components for our specific instrument.
+We require functions to compute</p>
+<ul class="simple">
+<li><p><strong>L2</strong>, the path length of the scattered neutron. The default function in Scippneutron assumes a straight path but here, we need to take the reflection from the analyzer crystal into account: <span class="math notranslate nohighlight">\(L_2 = |\overline{\mathsf{sample},\mathsf{analyzer}}| + |\overline{\mathsf{analyser},\mathsf{detector}}|\)</span></p></li>
+<li><p><strong>final_wavelength</strong>, the neutron wavelength that the analyzer selects for. We compute it from the known <span class="math notranslate nohighlight">\(d\)</span>-spacing of the analyzer <span class="math notranslate nohighlight">\(d_a\)</span> and the scattering angle off the analyzer <span class="math notranslate nohighlight">\(\theta_a\)</span>: <span class="math notranslate nohighlight">\(\mathsf{final\_wavelength} = 2 d_a \sin{\theta_a}\)</span></p></li>
+<li><p><strong>final_energy</strong>, the energy of the neutrons that hit the detector (more below): <span class="math notranslate nohighlight">\(\mathsf{final\_energy} = \displaystyle\frac{m_n}{2} v_f^2\)</span></p></li>
+</ul>
+<p>The first two are implemented below.
+They use the positions and analyzer parameters in the input data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">backscattered_l2</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">sample_position</span><span class="p">,</span> <span class="n">analyzer_position</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the length of the secondary flight path for backscattering off an analyzer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">position</span> <span class="o">-</span> <span class="n">analyzer_position</span><span class="p">)</span> <span class="o">+</span> <span class="n">sc</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+        <span class="n">analyzer_position</span> <span class="o">-</span> <span class="n">sample_position</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wavelength_from_analyzer</span><span class="p">(</span><span class="n">analyzer_dspacing</span><span class="p">,</span> <span class="n">analyzer_angle</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the neutron wavelength after scattering from the analyzer&#39;s d-spacing.</span>
+
+<span class="sd">    Assuming Bragg scattering in the analyzer, the wavelength is</span>
+<span class="sd">        wavelength = 2 * d * sin(theta)</span>
+
+<span class="sd">    Where</span>
+<span class="sd">        d is the analyzer&#39;s d-spacing,</span>
+<span class="sd">        theta is the scattering angle or equivalently, the tilt of the analyzer</span>
+<span class="sd">              w.r.t. to the sample-analyzer axis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 2*theta is the angle between transmitted and scattered beam.</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">analyzer_dspacing</span>
+        <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;rad&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">analyzer_angle</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s2">&quot;rad&quot;</span><span class="p">))</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can start assembling the graph to compute the energy transfer:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scippneutron.conversion.graph.beamline</span><span class="w"> </span><span class="kn">import</span> <span class="n">beamline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scippneutron.conversion.tof</span><span class="w"> </span><span class="kn">import</span> <span class="n">energy_transfer_indirect_from_tof</span>
+
+<span class="n">graph</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">**</span><span class="n">beamline</span><span class="p">(</span><span class="n">scatter</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;energy_transfer&quot;</span><span class="p">:</span> <span class="n">energy_transfer_indirect_from_tof</span><span class="p">,</span>
+    <span class="c1"># Replace L2 with our own implementation.</span>
+    <span class="s2">&quot;L2&quot;</span><span class="p">:</span> <span class="n">backscattered_l2</span><span class="p">,</span>
+    <span class="c1"># Insert a new function for the wavelength.</span>
+    <span class="s2">&quot;final_wavelength&quot;</span><span class="p">:</span> <span class="n">wavelength_from_analyzer</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="c1"># Optional: remove unused functions in order to clean up the image below.</span>
+<span class="k">del</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;two_theta&quot;</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;scattered_beam&quot;</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;Ltotal&quot;</span><span class="p">]</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">simplified</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2d8ca7bb685a69ca0e6b94561811fe650b1493d95f7192a0a20f26e0eb910315.svg" src="../_images/2d8ca7bb685a69ca0e6b94561811fe650b1493d95f7192a0a20f26e0eb910315.svg" />
+</div>
+</div>
+</section>
+<section id="exercise-2-compute-energy-transfer">
+<h3>Exercise 2: Compute energy transfer<a class="headerlink" href="#exercise-2-compute-energy-transfer" title="Link to this heading">#</a></h3>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">final_energy</span></code> is not yet linked to <code class="docutils literal notranslate"><span class="pre">final_wavelength</span></code> in the graph.
+Your task is to implement a function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">final_energy(final_wavelength)</span></code> to fill in the gap.</p>
+<p>The energy is given by</p>
+<div class="math notranslate nohighlight">
+\[\mathsf{final\_energy} = \frac{m_n}{2} v_f^2, \qquad v_f = \frac{2\pi\hbar}{m_n \mathsf{final\_wavelength}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(v_f\)</span> is the speed of the scattered neutron and <span class="math notranslate nohighlight">\(m_n\)</span> is the neutron mass.</p>
+<section id="exercise-2-1-finish-the-graph">
+<h4>Exercise 2.1: Finish the graph<a class="headerlink" href="#exercise-2-1-finish-the-graph" title="Link to this heading">#</a></h4>
+<p><strong>Steps</strong>:</p>
+<ul class="simple">
+<li><p>Define a new function that computes the final energy given the equations above.</p>
+<ul>
+<li><p>Tip: Ensure that the result has unit <code class="docutils literal notranslate"><span class="pre">meV</span></code>.</p></li>
+<li><p>Tip: Use <a class="reference external" href="https://scipp.github.io/generated/modules/scipp.constants.html">sc.constants</a> to get values for <span class="math notranslate nohighlight">\(\hbar\)</span> (or <span class="math notranslate nohighlight">\(h\)</span>) and <span class="math notranslate nohighlight">\(m_n\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Insert the new function into the graph.</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">final_energy</span><span class="p">(</span><span class="n">final_wavelength</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the neutron energy after scattering.</span>
+
+<span class="sd">    Uses</span>
+<span class="sd">        final_energy = mn / 2 * final_speed**2</span>
+<span class="sd">        final_speed = 2 * pi * hbar / mn / final_wavelength</span>
+
+<span class="sd">    Where</span>
+<span class="sd">        mn is the neutron mass,</span>
+<span class="sd">        final_wavelength is the wavelength after scattering,</span>
+<span class="sd">        final_speed is the speed after scattering.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_unit</span><span class="p">(</span>
+        <span class="n">sc</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sc</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">neutron_mass</span> <span class="o">/</span> <span class="p">(</span><span class="n">final_wavelength</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;meV&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="n">graph</span><span class="p">[</span><span class="s2">&quot;final_energy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_energy</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">show_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">simplified</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9f6ec40b921e4b80a138322bcd0149d321546a5d01f6134a7bdbcf24049eaf62.svg" src="../_images/9f6ec40b921e4b80a138322bcd0149d321546a5d01f6134a7bdbcf24049eaf62.svg" />
+</div>
+</details>
+</div>
+</section>
+<section id="exercise-2-2-compute-energy-transfer-with-the-masked-data">
+<h4>Exercise 2.2: Compute energy transfer with the masked data<a class="headerlink" href="#exercise-2-2-compute-energy-transfer-with-the-masked-data" title="Link to this heading">#</a></h4>
+<p>Use <code class="docutils literal notranslate"><span class="pre">binned_for_mask.transform_coords</span></code> (or what ever name you used for the masked array) to compute <code class="docutils literal notranslate"><span class="pre">&quot;energy_transfer&quot;</span></code>.</p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_energy_transfer</span> <span class="o">=</span> <span class="n">binned_for_mask</span><span class="o">.</span><span class="n">transform_coords</span><span class="p">(</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span>
+<span class="n">in_energy_transfer</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><!-- Original source from -->
+<!-- https://github.com/jsignell/xarray/blob/1d960933ab252e0f79f7e050e6c9261d55568057/xarray/static/html/icons-svg-inline.html -->
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<title>Show/Hide data repr</title>
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<title>Show/Hide attributes</title>
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg><style id="scipp-style-sheet">.sc-root{--sc-background-color0:var(--jp-layout-color0,#fff);--sc-background-color1:var(--jp-layout-color1,#fcfcfc);--sc-background-color2:var(--jp-layout-color2,#efefef);--sc-inverse-background-color0:var(--jp-inverse-layout-color4,#111);--sc-font-color0:var(--jp-content-font-color0,#000);--sc-font-color1:var(--jp-content-font-color1,#555);--sc-font-color2:var(--jp-content-font-color2,#888);--sc-font-color3:var(--jp-content-font-color3,#ccc);}body.vscode-dark .sc-root{--sc-font-color0:rgba(255,255,255,1);--sc-font-color1:rgba(255,255,255,0.70);--sc-font-color2:rgba(255,255,255,0.54);--sc-font-color3:rgba(255,255,255,0.38);--sc-border-color:#1F1F1F;--sc-disabled-color:#515151;--sc-background-color0:#111111;--sc-background-color1:#111111;--sc-background-color2:#313131;}.sc-wrap{font-size:14px;min-width:300px;max-width:800px;}.sc-var-attrs .sc-wrap{padding-left:3em;}.sc-header{padding-top:6px;padding-bottom:6px;margin-bottom:4px;border-bottom:solid 1px #ddd;}.sc-header > div,.sc-header > ul{display:inline;margin-top:0;margin-bottom:0;}.sc-obj-type,.sc-array-name{margin-left:2px;margin-right:10px;}.sc-obj-type{color:var(--sc-font-color1);}.sc-underlying-size{color:var(--sc-font-color2);}.sc-sections,.reveal .sc-sections{padding-left:0 !important;display:grid;grid-template-columns:150px auto auto auto 1fr 20px 20px;}.sc-section-item{display:contents;}.sc-section-item input{display:none;}.sc-section-item input:enabled + label{cursor:pointer;color:var(--sc-font-color1);}.sc-section-item input:enabled + label:hover{color:var(--sc-font-color0);}.sc-section-summary{grid-column:1;font-weight:500;}.sc-section-summary > span{display:inline-block;padding-left:0.5em;}.sc-section-summary-in:disabled + label{color:var(--sc-font-color1);}.sc-section-summary-in + label:before{display:inline-block;content:'►';font-size:11px;width:15px;text-align:center;}.sc-section-summary-in:disabled + label:before{color:var(--sc-font-color3);}.sc-section-summary-in:checked + label:before{content:'▼';}.sc-section-summary-in:checked + label > span{display:none;}.sc-section-summary,.sc-section-inline-details{padding-top:4px;padding-bottom:4px;}.sc-section-inline-details{grid-column:2 / 6;}.sc-section-details{display:none;grid-column:1 / -1;margin-bottom:5px;}.sc-section-summary-in:checked ~ .sc-section-details{display:contents;}.sc-array-wrap{grid-column:1 / -1;display:grid;grid-template-columns:20px auto;}.sc-array-wrap > label{grid-column:1;vertical-align:top;}.sc-preview{color:var(--sc-font-color2);}.sc-array-preview,.sc-array-data{padding:0 5px !important;grid-column:2;}.sc-array-data,.sc-array-in:checked ~ .sc-array-preview{display:none;}.sc-array-in:checked ~ .sc-array-data,.sc-array-preview{display:inline-block;}.sc-dim-list{display:inline-block !important;list-style:none;padding:0 !important;margin:0;}.sc-dim-list li{display:inline-block;padding:0;margin:0!important;}.sc-dim-list:before{content:'(';}.sc-dim-list:after{content:')';}.sc-dim-list li:not(:last-child):after{content:',';padding-right:5px;}.sc-dim-list li span,.sc-standalone-var-name > span span,.sc-var-name > span span{padding:0 !important;}.sc-aligned{font-weight:bold;}.sc-var-list,.sc-var-item,.reveal .sc-var-list,.reveal .sc-var-item{display:contents;}.sc-var-item > div,.sc-var-item label,.sc-var-item > .sc-var-name span{background-color:var(--sc-background-color1);margin-bottom:0;}.sc-var-item > .sc-var-name:hover span{padding-right:5px;}.sc-var-list > li:nth-child(odd) > div,.sc-var-list > li:nth-child(odd) > label,.sc-var-list > li:nth-child(odd) > .sc-var-name span{background-color:var(--sc-background-color2);}.sc-var-name{grid-column:1;}.sc-var-dims{grid-column:2;}.sc-var-dtype{grid-column:3;text-align:right;color:var(--sc-font-color2);}.sc-var-unit{grid-column:4;text-align:left;color:var(--sc-font-color1);max-width:50pt;text-overflow:ellipsis;}.sc-value-preview{grid-column:5;}.sc-var-preview-variances{text-align:right;}.sc-sections .sc-section-item .sc-section-summary,.sc-sections .sc-section-item .sc-section-inline-details,.sc-section-item .sc-var-list .sc-var-item > div,.sc-section-item .sc-var-list .sc-var-item > label,.sc-section-details .sc-var-list .sc-var-item > div,.sc-section-details .sc-var-list .sc-var-item > label{margin-top:0;margin-bottom:0;}.sc-var-name,.sc-var-dims,.sc-var-dtype,.sc-var-unit,.sc-preview,.sc-attrs dt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px;}.sc-var-name:hover,.sc-var-dims:hover,.sc-var-dtype:hover,.sc-var-unit:hover,.sc-attrs dt:hover{overflow:visible;width:auto;z-index:1;}.sc-var-attrs{display:block;}.sc-var-data,.reveal .sc-var-data{display:none;}.sc-var-attrs,.sc-var-data{background-color:var(--sc-background-color0) !important;padding-bottom:5px !important;}.sc-var-attrs-in:checked ~ .sc-var-attrs{display:none;}.sc-var-data-in:checked ~ .sc-var-data{display:block;}.sc-var-data > table{float:right;}.sc-var-name span,.sc-var-data{padding-left:25px !important;}.sc-var-attrs,.sc-var-data{grid-column:1 / -1;}dl.sc-attrs{padding:0;margin:0;display:grid;grid-template-columns:125px auto;}.sc-attrs dt,dd{padding:0;margin:0;float:left;padding-right:10px;width:auto;}.sc-attrs dt{font-weight:normal;grid-column:1;}.sc-attrs dt:hover span{display:inline-block;padding-right:10px;}.sc-attrs dd{grid-column:2;white-space:pre-wrap;word-break:break-all;}.sc-icon-database,.sc-icon-file-text2{display:inline-block;vertical-align:middle;width:1em;height:1.5em !important;stroke-width:0;stroke:currentColor;fill:currentColor;}label.sc-hide-icon svg{opacity:0;}.sc-standalone-var-name{grid-column:1/3;}.sc-standalone-var-name span{padding-left:25px;padding-right:10px;}.sc-title{font-weight:bold;font-size:1.5em;}.sc-subtitle{font-weight:normal;font-style:italic;text-align:left;font-size:1.2em;padding:1px;}.sc-label{fill:var(--sc-font-color0,#444444);text-anchor:middle;}.sc-name{fill:var(--sc-font-color0,#111111);}.sc-inset-line{stroke:var(--sc-font-color1);stroke-width:0.05;stroke-dasharray:0.2,0.2;}.sc-log-wrap{height:25ex;resize:vertical;overflow-y:scroll;display:flex;flex-direction:column-reverse;border:1px solid;border-color:var(--jp-border-color2);background-color:var(--sc-background-color1);}div.sc-log{line-height:2.5ex;}table.sc-log{table-layout:auto;border-collapse:collapse;}tr.sc-log:nth-child(even){background-color:var(--sc-background-color0);}tr.sc-log > td{vertical-align:top;padding-bottom:0.5ex;}.sc-log-time-stamp{min-width:22ch;font-family:var(--jp-code-font-family);color:var(--sc-font-color2);}.sc-log-level{min-width:10ch;}tr.sc-log-debug td.sc-log-level{color:var(--jp-accent-color1);}tr.sc-log-info td.sc-log-level{color:var(--jp-info-color1);}tr.sc-log-warning td.sc-log-level{color:var(--jp-warn-color1);}tr.sc-log-error td.sc-log-level{font-weight:bold;color:var(--jp-error-color2);}tr.sc-log-critical td.sc-log-level{font-weight:bold;color:var(--sc-background-color0);background-color:var(--jp-error-color1);}.sc-log-message{white-space:pre-wrap;width:100%;}.sc-log-html-payload{white-space:normal;}.sc-log-name{padding-right:0.5em;text-align:right;white-space:pre-wrap;color:var(--sc-font-color3);}</style><div class='sc-wrap sc-root'><div class='sc-header'><div class='sc-obj-type'>scipp.DataArray (103.41 MB)</div></div><ul class='sc-sections'><li class='sc-section-item'><input id='section-f7ba6b8c-073a-44d1-b160-5624622b2fe8' class='sc-section-summary-in' type='checkbox' disabled ><label for='section-f7ba6b8c-073a-44d1-b160-5624622b2fe8' class='sc-section-summary' >Dimensions:</label><div class='sc-section-inline-details'><ul class='sc-dim-list'><li><span class='sc-has-index'>y</span>: 3</li></ul></div><div class='sc-section-details'></div></li><li class='sc-section-item'><input id='section-5608606f-2578-4faa-bdfe-750eec7dc555' class='sc-section-summary-in' type='checkbox'  checked><label for='section-5608606f-2578-4faa-bdfe-750eec7dc555' class='sc-section-summary'  title='Expand/collapse section'>Coordinates: <span>(10)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span>L1</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>150.0</div></span></div><input id='attrs-fa4820fd-5939-4894-be23-27ffe1ca0db1' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-fa4820fd-5939-4894-be23-27ffe1ca0db1' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e4f888dd-978f-4e36-bb53-2e7463bc05b7' class='sc-var-data-in' type='checkbox'><label for='data-e4f888dd-978f-4e36-bb53-2e7463bc05b7' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(150.)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>analyzer_angle</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>rad</div><div class='sc-value-preview sc-preview'><span><div>0.04157061594422062</div></span></div><input id='attrs-543c68ad-dfd2-465a-95ce-c798909547fd' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-543c68ad-dfd2-465a-95ce-c798909547fd' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-50bcd0ef-607d-433e-a345-8515fbb0e1ed' class='sc-var-data-in' type='checkbox'><label for='data-50bcd0ef-607d-433e-a345-8515fbb0e1ed' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(0.04157062)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>analyzer_dspacing</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>Å</div><div class='sc-value-preview sc-preview'><span><div>3.135</div></span></div><input id='attrs-fae37914-4ac9-4bea-8048-4ac40184f274' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-fae37914-4ac9-4bea-8048-4ac40184f274' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2f8e08ae-e462-4f31-81e1-a9edcf9e8c58' class='sc-var-data-in' type='checkbox'><label for='data-2f8e08ae-e462-4f31-81e1-a9edcf9e8c58' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(3.135)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>analyzer_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[1.5        0.         2.59807621]</div></span></div><input id='attrs-b5af990a-3548-4f2f-b3ed-b1f6a4b53ba6' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-b5af990a-3548-4f2f-b3ed-b1f6a4b53ba6' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c15686dc-b7f6-413a-b646-1b0573e102e3' class='sc-var-data-in' type='checkbox'><label for='data-c15686dc-b7f6-413a-b646-1b0573e102e3' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([1.5       , 0.        , 2.59807621])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>final_energy</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>meV</div><div class='sc-value-preview sc-preview'><span><div>2.08444913589009</div></span></div><input id='attrs-f9b651a4-dda3-42bf-bb71-fe9b0ee75722' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-f9b651a4-dda3-42bf-bb71-fe9b0ee75722' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cf099c96-6186-4444-a559-5e8f268864bb' class='sc-var-data-in' type='checkbox'><label for='data-cf099c96-6186-4444-a559-5e8f268864bb' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(2.08444914)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>final_wavelength</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>Å</div><div class='sc-value-preview sc-preview'><span><div>6.264583136143423</div></span></div><input id='attrs-6eb5ddcb-aab0-417d-b9eb-11c51ebbb93b' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-6eb5ddcb-aab0-417d-b9eb-11c51ebbb93b' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2935a7c9-c4a2-4312-9dfa-2cb0f89e50c7' class='sc-var-data-in' type='checkbox'><label for='data-2935a7c9-c4a2-4312-9dfa-2cb0f89e50c7' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array(6.26458314)</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>incident_beam</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[  0.   0. 150.]</div></span></div><input id='attrs-af3867f0-c947-4597-820a-c2c5472917bd' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-af3867f0-c947-4597-820a-c2c5472917bd' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c67b1fa2-402b-40aa-bdd4-49f12bec1ba0' class='sc-var-data-in' type='checkbox'><label for='data-c67b1fa2-402b-40aa-bdd4-49f12bec1ba0' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([  0.,   0., 150.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>sample_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[0. 0. 0.]</div></span></div><input id='attrs-98c70e9f-29c1-4e2d-9266-e413d026c7fc' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-98c70e9f-29c1-4e2d-9266-e413d026c7fc' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-12d45207-f4ba-4192-aa3f-b4fe3c2da661' class='sc-var-data-in' type='checkbox'><label for='data-12d45207-f4ba-4192-aa3f-b4fe3c2da661' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0., 0., 0.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span>source_position</span></div><div class='sc-var-dims'>()</div><div class='sc-var-dtype'>vector3</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>[   0.    0. -150.]</div></span></div><input id='attrs-3d974993-240d-493a-b28c-b891b30bc9e6' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-3d974993-240d-493a-b28c-b891b30bc9e6' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dbe91d08-f0a4-416c-be0b-53b489d33cb0' class='sc-var-data-in' type='checkbox'><label for='data-dbe91d08-f0a4-416c-be0b-53b489d33cb0' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([   0.,    0., -150.])</pre></span></li><li class='sc-var-item'><div class='sc-var-name'><span class='sc-aligned'>y</span></div><div class='sc-var-dims'>(y [bin-edge])</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>m</div><div class='sc-value-preview sc-preview'><span><div>0.21, 0.26, 0.27, 0.29</div></span></div><input id='attrs-92ffe176-57b8-424a-99ba-e5bdd114a2f8' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-92ffe176-57b8-424a-99ba-e5bdd114a2f8' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-67fd887a-8c09-4140-9888-6a12ded50fe0' class='sc-var-data-in' type='checkbox'><label for='data-67fd887a-8c09-4140-9888-6a12ded50fe0' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([0.21, 0.26, 0.27, 0.29])</pre></span></li></ul></div></li><li class='sc-section-item'><input id='section-5be9ce1a-5afc-4618-9521-f68aebc28d49' class='sc-section-summary-in' type='checkbox'  checked><label for='section-5be9ce1a-5afc-4618-9521-f68aebc28d49' class='sc-section-summary'  title='Expand/collapse section'>Data: <span>(1)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span></span></div><div class='sc-var-dims'>(y)</div><div class='sc-var-dtype'>float64</div><div class='sc-var-unit'>counts</div><div class='sc-value-preview sc-preview'><span><div>binned data [len=737593, len=173184, len=218622]</div></span></div><input id='attrs-04b35376-7127-4188-a39b-91b38172fd9d' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-04b35376-7127-4188-a39b-91b38172fd9d' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-89eec1fd-e38c-4d70-bf4e-f42cdfb83266' class='sc-var-data-in' type='checkbox'><label for='data-89eec1fd-e38c-4d70-bf4e-f42cdfb83266' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>dim=&#x27;event&#x27;,
+content=DataArray(
+          dims=(event: 1129399),
+          data=float64[counts],
+          coords={&#x27;x&#x27;:float64[m], &#x27;y&#x27;:float64[m], &#x27;n&#x27;:float64, &#x27;id&#x27;:float64,
+                  &#x27;position&#x27;:vector3[m], &#x27;tof&#x27;:float64[ms], &#x27;L2&#x27;:float64[m],
+                  &#x27;energy_transfer&#x27;:float64[meV]})</pre></li></ul></div></li><li class='sc-section-item'><input id='section-02621bb3-e07d-4b2a-b00f-cb2c7599b572' class='sc-section-summary-in' type='checkbox'  checked><label for='section-02621bb3-e07d-4b2a-b00f-cb2c7599b572' class='sc-section-summary'  title='Expand/collapse section'>Masks: <span>(1)</span></label><div class='sc-section-inline-details'></div><div class='sc-section-details'><ul class='sc-var-list'><li class='sc-var-item'><div class='sc-var-name'><span>bad_timing</span></div><div class='sc-var-dims'>(y)</div><div class='sc-var-dtype'>bool</div><div class='sc-var-unit'></div><div class='sc-value-preview sc-preview'><span><div>False, True, False</div></span></div><input id='attrs-fc053d59-1eae-4ca6-a8da-99b50087aa7f' class='sc-var-attrs-in' type='checkbox' disabled><label for='attrs-fc053d59-1eae-4ca6-a8da-99b50087aa7f' class='sc-hide-icon' title='Show/Hide attributes'><svg class='icon sc-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b69a6225-8c76-4a9a-b0e9-b9ec63a90b05' class='sc-var-data-in' type='checkbox'><label for='data-b69a6225-8c76-4a9a-b0e9-b9ec63a90b05' title='Show/Hide data repr'><svg class='icon sc-icon-database'><use xlink:href='#icon-database'></use></svg></label><pre class='sc-var-data'>Values:<br>array([False,  True, False])</pre></span></li></ul></div></li></ul></div></div></div></div>
+</details>
+</div>
+</section>
+<section id="exercise-2-3-compute-energy-transfer-for-unmasked-data">
+<h4>Exercise 2.3: Compute energy transfer for unmasked data<a class="headerlink" href="#exercise-2-3-compute-energy-transfer-for-unmasked-data" title="Link to this heading">#</a></h4>
+<p>For comparison, also compute energy transfer with the original data without a mask.</p>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_energy_transfer_unmasked</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">transform_coords</span><span class="p">(</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Now we can plot the masked and unmasked data to compare them.
+As always, we first need to histogram them.
+(We use <code class="docutils literal notranslate"><span class="pre">in_energy_transfer.bins.concat()</span></code> to undo the binning from exercise 1.
+Without it, we would get a 2D histogram in <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">energy_transfer</span></code>.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">masked_hist</span> <span class="o">=</span> <span class="n">in_energy_transfer</span><span class="o">.</span><span class="n">bins</span><span class="o">.</span><span class="n">concat</span><span class="p">()</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">energy_transfer</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">unmasked_hist</span> <span class="o">=</span> <span class="n">in_energy_transfer_unmasked</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">energy_transfer</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And finally, we can plot the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;unmasked&quot;</span><span class="p">:</span> <span class="n">unmasked_hist</span><span class="p">,</span>
+        <span class="s2">&quot;masked&quot;</span><span class="p">:</span> <span class="n">masked_hist</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cc465687b950fa7dd16b3a597352028cb53136f042719762d9c9a69e72f4038b.svg" src="../_images/cc465687b950fa7dd16b3a597352028cb53136f042719762d9c9a69e72f4038b.svg" />
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-compute-energy-transfer-for-all-samples">
+<h3>Exercise 3: Compute energy transfer for all samples<a class="headerlink" href="#exercise-3-compute-energy-transfer-for-all-samples" title="Link to this heading">#</a></h3>
+<p>We have only looked at one of our three samples so far.
+Now, we repeat the same procedure for the remaining two.</p>
+<p>Your task is to load the other samples, mask the broken detector region, and compute energy_transfer.
+(You don’t need to repeat the calculation for the unmasked data.</p>
+<p><strong>Hints</strong>:</p>
+<ul class="simple">
+<li><p>Write a function that encapsulates the whole procedure.</p></li>
+<li><p>You can reuse the mask bin-edges and the mask itself.</p></li>
+<li><p>Store the results for all samples in a <code class="docutils literal notranslate"><span class="pre">dict</span></code>. This way, you can easily plot it using <code class="docutils literal notranslate"><span class="pre">pp.plot</span></code>.</p></li>
+<li><p>Use a scalar variable with a unit, e.g. <code class="docutils literal notranslate"><span class="pre">sc.scalar(0.01,</span> <span class="pre">unit='meV')</span></code>, for the histogramming to get a constant bin width.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folders</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;../3-mcstas/QENS_elastic_many_neutrons&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;../3-mcstas/QENS_known_quasi_elastic_many_neutrons&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;../3-mcstas/QENS_unknown_quasi_elastic_many_neutrons&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-cell tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">process_sample</span><span class="p">(</span><span class="n">raw_events</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mf">0.001</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;meV&#39;</span><span class="p">)):</span>
+    <span class="n">binned_for_mask</span> <span class="o">=</span> <span class="n">raw_events</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">mask_regions</span><span class="p">)</span>
+    <span class="n">binned_for_mask</span><span class="o">.</span><span class="n">masks</span><span class="p">[</span><span class="s2">&quot;bad_timing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span>
+
+    <span class="n">in_energy_transfer</span> <span class="o">=</span> <span class="n">binned_for_mask</span><span class="o">.</span><span class="n">transform_coords</span><span class="p">(</span>
+        <span class="s2">&quot;energy_transfer&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">graph</span>
+    <span class="p">)</span>
+
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">in_energy_transfer</span><span class="o">.</span><span class="n">bins</span><span class="o">.</span><span class="n">concat</span><span class="p">()</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">energy_transfer</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hist</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+    <span class="c1"># Remove the file path prefix from the folder name</span>
+    <span class="n">data_name</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">data_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">process_sample</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ec162115c5d58814b50a6dc89a5c7955116e76e9c6ee01abbf1f146dd08db34c.svg" src="../_images/ec162115c5d58814b50a6dc89a5c7955116e76e9c6ee01abbf1f146dd08db34c.svg" />
+</div>
+</details>
+</div>
+</section>
+<section id="save-result-to-disk">
+<h3>Save result to disk<a class="headerlink" href="#save-result-to-disk" title="Link to this heading">#</a></h3>
+<p>Finally, we need to save our results to disk so that the reduced data can be forwarded to the next step in the pipeline (data analysis).
+We will use a simple text file for this.</p>
+<p>This code assumes that you stored your histograms in a <code class="docutils literal notranslate"><span class="pre">dict</span></code> called <code class="docutils literal notranslate"><span class="pre">results</span></code>.
+If this is not the case, you need to modify the code below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scippneutron.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_xye</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># The simple file format does not support bin-edge coordinates.</span>
+    <span class="c1"># So we convert to bin-centers first.</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">midpoints</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;energy_transfer&quot;</span><span class="p">])</span>
+
+    <span class="n">save_xye</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;energy_transfer_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.dat&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bonus-exercise">
+<h2>Bonus exercise<a class="headerlink" href="#bonus-exercise" title="Link to this heading">#</a></h2>
+<p>Re-run the reduction using the results from the simulations with less neutrons,
+and compare the results.</p>
+<p><strong>Solution:</strong></p>
+<div class="cell tag_hide-input tag_solution docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bin_widths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0001</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;meV&#39;</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="mf">0.001</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;meV&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">2</span>
+
+<span class="n">figures</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bin_width</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bin_widths</span><span class="p">,</span> <span class="n">folders</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="p">[</span><span class="n">case</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_many_neutrons&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">case</span><span class="p">]:</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_qens</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+        <span class="n">data_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">data_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">process_sample</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
+
+    <span class="n">figures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">case</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;../3-mcstas/QENS_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_many_neutrons&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)))</span>
+
+<span class="n">figures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">figures</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">figures</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/298d6dc48c61e981893773314534fe88374f7aac9e807908d5e8042800f6c66f.svg" src="../_images/298d6dc48c61e981893773314534fe88374f7aac9e807908d5e8042800f6c66f.svg" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./4-reduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reduction-powder-diffraction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Powder diffraction data reduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reduction-sans.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SANS data reduction</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-the-elastic-sample-data">Process the elastic sample data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-raw-data">Load raw data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-raw-data">Visualize the raw data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-mask-bad-region">Exercise 1: mask bad region</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-to-energy-transfer">Transform to energy transfer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-compute-energy-transfer">Exercise 2: Compute energy transfer</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1-finish-the-graph">Exercise 2.1: Finish the graph</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-compute-energy-transfer-with-the-masked-data">Exercise 2.2: Compute energy transfer with the masked data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3-compute-energy-transfer-for-unmasked-data">Exercise 2.3: Compute energy transfer for unmasked data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compute-energy-transfer-for-all-samples">Exercise 3: Compute energy transfer for all samples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-result-to-disk">Save result to disk</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-exercise">Bonus exercise</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Management and Software Centre
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
