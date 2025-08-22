@@ -94,9 +94,16 @@ def get_current_proposal() -> str:
 
 def get_default_source_folder_parent() -> pathlib.Path:
     proposal_id = get_current_proposal()
-    return pathlib.Path(
+    default_source_folder = pathlib.Path(
         _get_default_proposal_mount() / proposal_id / "upload"
-    ).resolve()
+    )
+    if not default_source_folder.exists():
+        import os
+
+        return pathlib.Path(
+            os.getcwd()
+        ).resolve()  # Fallback to current working directory if the path does not exist
+    return default_source_folder.resolve()
 
 
 def get_default_download_pid() -> str:
