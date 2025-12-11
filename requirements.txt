@@ -4,70 +4,76 @@
 #
 #    pip-compile requirements.in
 #
-accessible-pygments==0.0.5
-    # via pydata-sphinx-theme
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.12.15
+aiohttp==3.13.2
     # via bumps
 aiosignal==1.4.0
     # via aiohttp
-alabaster==0.7.16
+alabaster==1.0.0
     # via sphinx
 annotated-types==0.7.0
     # via pydantic
-anyio==4.10.0
-    # via httpx
+anyio==4.12.0
+    # via
+    #   httpx
+    #   jupyter-server
+argon2-cffi==25.1.0
+    # via jupyter-server
+argon2-cffi-bindings==25.1.0
+    # via argon2-cffi
+arrow==1.4.0
+    # via isoduration
 asciichartpy==1.5.25
     # via easydiffraction
-asteval==1.0.6
+asteval==1.0.7
     # via
     #   easydiffraction
     #   easyscience
     #   lmfit
-asttokens==3.0.0
+asttokens==3.0.1
     # via stack-data
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   aiohttp
     #   jsonschema
-    #   jupyter-cache
     #   referencing
 babel==2.17.0
-    # via
-    #   pydata-sphinx-theme
-    #   sphinx
-bcrypt==4.3.0
+    # via sphinx
+bcrypt==5.0.0
     # via paramiko
-beautifulsoup4==4.13.4
-    # via pydata-sphinx-theme
+beautifulsoup4==4.14.3
+    # via nbconvert
 bidict==0.23.1
     # via python-socketio
+bleach[css]==6.3.0
+    # via nbconvert
 blinker==1.9.0
     # via bumps
 build==1.3.0
     # via pip-tools
-bumps==1.0.2
+bumps==1.0.3
     # via
     #   easydiffraction
     #   easyscience
-certifi==2025.8.3
+certifi==2025.11.12
     # via
     #   httpcore
     #   httpx
     #   requests
-cffi==1.17.1
+cffi==2.0.0
     # via
+    #   argon2-cffi-bindings
     #   cryptography
     #   pynacl
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via requests
-click==8.2.1
+click==8.3.1
     # via
-    #   jupyter-book
-    #   jupyter-cache
     #   pip-tools
-    #   sphinx-external-toc
+    #   typer
+cloudpickle==3.1.2
+    # via bumps
 colorama==0.4.6
     # via easydiffraction
 comm==0.2.3
@@ -78,9 +84,9 @@ contourpy==1.3.3
     # via matplotlib
 corner==2.2.3
     # via -r requirements.in
-cryptography==45.0.6
+cryptography==46.0.3
     # via paramiko
-cryspy==0.7.8
+cryspy==0.9.2
     # via easydiffraction
 cyclebane==24.10.0
     # via sciline
@@ -88,15 +94,17 @@ cycler==0.12.1
     # via matplotlib
 darkdetect==0.8.0
     # via easydiffraction
-debugpy==1.8.16
+debugpy==1.8.18
     # via ipykernel
 decorator==5.2.1
     # via ipython
-dfo-ls==1.5.4
+defusedxml==0.7.1
+    # via nbconvert
+dfo-ls==1.6
     # via
     #   easydiffraction
     #   easyscience
-diffpy-pdffit2==1.5.1
+diffpy-pdffit2==1.5.2
     # via easydiffraction
 diffpy-structure==3.3.1
     # via diffpy-pdffit2
@@ -107,29 +115,23 @@ dill==0.3.5.1
     #   bumps
     #   libpyvinyl
     #   lmfit
-dnspython==2.7.0
+dnspython==2.8.0
     # via email-validator
-docutils==0.21.2
-    # via
-    #   myst-parser
-    #   pybtex-docutils
-    #   pydata-sphinx-theme
-    #   sphinx
-    #   sphinx-togglebutton
-    #   sphinxcontrib-bibtex
-dynesty==2.1.5
+docutils==0.22.3
+    # via sphinx
+dynesty==3.0.0
     # via -r requirements.in
-easydiffraction[visualization]==0.6.0
+easydiffraction[visualization]==0.7.3
     # via -r requirements.in
-easyscience==1.3.0
+easyscience==2.1.0
     # via -r requirements.in
-email-validator==2.2.0
+email-validator==2.3.0
     # via
     #   scippneutron
     #   scitacean
 emcee==3.1.6
     # via -r requirements.in
-executing==2.2.0
+executing==2.2.1
     # via
     #   stack-data
     #   varname
@@ -139,23 +141,25 @@ flexcache==0.3
     # via pint
 flexparser==0.4
     # via pint
-fonttools==4.59.1
+fonttools==4.61.0
     # via matplotlib
-frozenlist==1.7.0
+fqdn==1.5.1
+    # via jsonschema
+frozenlist==1.8.0
     # via
     #   aiohttp
     #   aiosignal
-gemmi==0.7.3
+gemmi==0.7.4
     # via easydiffraction
 graphviz==0.21
     # via -r requirements.in
-greenlet==3.2.4
+greenlet==3.3.0
     # via sqlalchemy
 h11==0.16.0
     # via
     #   httpcore
     #   wsproto
-h5py==3.14.0
+h5py==3.15.1
     # via
     #   -r requirements.in
     #   bumps
@@ -167,28 +171,25 @@ httpcore==1.0.9
     # via httpx
 httpx==0.28.1
     # via scitacean
-idna==3.10
+idna==3.11
     # via
     #   anyio
     #   email-validator
     #   httpx
+    #   jsonschema
     #   requests
     #   yarl
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==8.7.0
-    # via
-    #   jupyter-cache
-    #   myst-nb
-iniconfig==2.1.0
+iniconfig==2.3.0
     # via pytest
-invoke==2.2.0
+invoke==2.2.1
     # via paramiko
 ipydatawidgets==4.3.5
     # via pythreejs
-ipykernel==6.30.1
-    # via myst-nb
-ipympl==0.9.7
+ipykernel==7.1.0
+    # via jupyter-book
+ipympl==0.9.8
     # via -r requirements.in
 ipython==8.37.0
     # via
@@ -196,129 +197,139 @@ ipython==8.37.0
     #   ipykernel
     #   ipympl
     #   ipywidgets
-    #   myst-nb
-ipywidgets==8.1.7
+ipywidgets==8.1.8
     # via
     #   -r requirements.in
     #   ipydatawidgets
     #   ipympl
     #   mcstasscript
     #   pythreejs
+isoduration==20.11.0
+    # via jsonschema
 jedi==0.19.2
     # via ipython
 jinja2==3.1.6
     # via
-    #   jupyter-book
+    #   jupyter-server
     #   mpld3
-    #   myst-parser
+    #   nbconvert
     #   sphinx
 json-tricks==3.17.3
     # via libpyvinyl
+jsonpointer==3.0.0
+    # via jsonschema
 jsons==1.6.3
     # via libpyvinyl
-jsonschema==4.25.1
+jsonschema[format-nongpl]==4.25.1
     # via
-    #   jupyter-book
+    #   jupyter-events
     #   nbformat
-jsonschema-specifications==2025.4.1
+jsonschema-specifications==2025.9.1
     # via jsonschema
-jupyter-book==1.0.4.post1
+jupyter-book==2.1.0
     # via -r requirements.in
-jupyter-cache==1.0.1
-    # via myst-nb
-jupyter-client==8.6.3
+jupyter-client==8.7.0
     # via
     #   ipykernel
+    #   jupyter-server
     #   nbclient
-jupyter-core==5.8.1
+jupyter-core==5.9.1
     # via
     #   ipykernel
+    #   jupyter-book
     #   jupyter-client
+    #   jupyter-server
     #   nbclient
+    #   nbconvert
     #   nbformat
-jupyterlab-widgets==3.0.15
+jupyter-events==0.12.0
+    # via jupyter-server
+jupyter-server==2.17.0
+    # via jupyter-book
+jupyter-server-terminals==0.5.3
+    # via jupyter-server
+jupyterlab-pygments==0.3.0
+    # via nbconvert
+jupyterlab-widgets==3.0.16
     # via ipywidgets
 jupyterquiz==2.9.6.2
     # via -r requirements.in
 kiwisolver==1.4.9
     # via matplotlib
-latexcodec==3.0.1
-    # via pybtex
+lark==1.3.1
+    # via rfc3987-syntax
 lazy-loader==0.4
     # via
     #   plopp
     #   scippneutron
 libpyvinyl==1.3.0
     # via mcstasscript
-linkify-it-py==2.0.3
-    # via jupyter-book
 lmfit==1.3.4
     # via
     #   easydiffraction
     #   easyscience
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
+    # via rich
+markupsafe==3.0.3
     # via
-    #   mdit-py-plugins
-    #   myst-parser
-markupsafe==3.0.2
-    # via jinja2
-matplotlib==3.10.5
+    #   jinja2
+    #   nbconvert
+matplotlib==3.10.8
     # via
     #   -r requirements.in
     #   bumps
     #   corner
     #   cryspy
+    #   dynesty
     #   ipympl
     #   mcstasscript
     #   mpld3
     #   mpltoolbox
     #   plopp
-matplotlib-inline==0.1.7
+matplotlib-inline==0.2.1
     # via
     #   ipykernel
     #   ipython
-mcstasscript==0.0.75
+mcstasscript==0.0.77
     # via -r requirements.in
 mcstastox==0.0.11
     # via -r requirements.in
-mdit-py-plugins==0.5.0
-    # via myst-parser
 mdurl==0.1.2
     # via markdown-it-py
-mpld3==0.5.11
+mistune==3.1.4
+    # via nbconvert
+mpld3==0.5.12
     # via bumps
-mpltoolbox==25.5.0
+mpltoolbox==25.10.0
     # via
     #   -r requirements.in
     #   scippneutron
 mpmath==1.3.0
     # via sympy
-multidict==6.6.4
+msgpack==1.1.2
+    # via bumps
+multidict==6.7.0
     # via
     #   aiohttp
     #   yarl
-myst-nb==1.3.0
-    # via jupyter-book
-myst-parser==3.0.1
-    # via
-    #   jupyter-book
-    #   myst-nb
-narwhals==2.1.2
+narwhals==2.13.0
     # via plotly
 nbclient==0.10.2
-    # via
-    #   jupyter-cache
-    #   myst-nb
+    # via nbconvert
+nbconvert==7.16.6
+    # via jupyter-server
 nbformat==5.10.4
     # via
-    #   jupyter-cache
-    #   myst-nb
+    #   jupyter-server
     #   nbclient
+    #   nbconvert
 nest-asyncio==1.6.0
     # via ipykernel
-networkx==3.5
+networkx==3.6.1
     # via cyclebane
-numpy==2.3.2
+nodeenv==1.9.1
+    # via jupyter-book
+numpy==2.3.5
     # via
     #   -r requirements.in
     #   bumps
@@ -327,6 +338,7 @@ numpy==2.3.2
     #   dfo-ls
     #   diffpy-structure
     #   diffpy-utils
+    #   dynesty
     #   easyscience
     #   emcee
     #   h5py
@@ -343,54 +355,53 @@ numpy==2.3.2
     #   scipp
     #   scippneutron
     #   scipy
-    #   xarray
     #   xraydb
 packaging==25.0
     # via
     #   build
     #   ipykernel
+    #   jupyter-events
+    #   jupyter-server
     #   lazy-loader
     #   matplotlib
+    #   nbconvert
     #   plotly
     #   pooch
-    #   pydata-sphinx-theme
     #   pytest
     #   sphinx
-    #   sphinx-jupyterbook-latex
-    #   xarray
-pandas==2.3.2
+pandas==2.3.3
     # via
     #   -r requirements.in
     #   dfo-ls
     #   easydiffraction
-    #   xarray
+pandocfilters==1.5.1
+    # via nbconvert
 paramiko==4.0.0
     # via scitacean
-parso==0.8.4
+parso==0.8.5
     # via jedi
 pexpect==4.9.0
     # via ipython
-pillow==11.3.0
+pillow==12.0.0
     # via
     #   ipympl
     #   matplotlib
-pint==0.25
-    # via
-    #   easyscience
-    #   libpyvinyl
-pip-tools==7.5.0
+pint==0.25.2
+    # via libpyvinyl
+pip-tools==7.5.2
     # via -r requirements.in
-platformdirs==4.3.8
+platformdirs==4.5.1
     # via
+    #   jupyter-book
     #   jupyter-core
     #   pint
     #   pooch
     #   xraydb
-plopp==25.7.1
+plopp==25.11.0
     # via
     #   -r requirements.in
     #   scippneutron
-plotly==6.0.1
+plotly==6.5.0
     # via
     #   bumps
     #   easydiffraction
@@ -404,122 +415,134 @@ pooch==1.8.2
     # via
     #   -r requirements.in
     #   easydiffraction
-prettytable==3.16.0
+prettytable==3.17.0
     # via pycifrw
-prompt-toolkit==3.0.51
+prometheus-client==0.23.1
+    # via jupyter-server
+prompt-toolkit==3.0.52
     # via ipython
-propcache==0.3.2
+propcache==0.4.1
     # via
     #   aiohttp
     #   yarl
-psutil==7.0.0
+psutil==7.1.3
     # via ipykernel
 ptyprocess==0.7.0
-    # via pexpect
+    # via
+    #   pexpect
+    #   terminado
 pure-eval==0.2.3
     # via stack-data
-py3dmol==2.5.2
+py3dmol==2.5.3
     # via easydiffraction
-pybtex==0.25.1
-    # via
-    #   pybtex-docutils
-    #   sphinxcontrib-bibtex
-pybtex-docutils==1.0.3
-    # via sphinxcontrib-bibtex
 pycifrw==5.0.1
     # via diffpy-structure
 pycifstar==0.3.0
     # via cryspy
-pycparser==2.22
+pycparser==2.23
     # via cffi
-pydantic==2.11.7
+pydantic==2.12.5
     # via
     #   scippneutron
     #   scitacean
-pydantic-core==2.33.2
+pydantic-core==2.41.5
     # via pydantic
-pydata-sphinx-theme==0.15.4
-    # via sphinx-book-theme
 pygments==2.19.2
     # via
-    #   accessible-pygments
     #   ipython
-    #   pydata-sphinx-theme
+    #   nbconvert
     #   pytest
+    #   rich
     #   sphinx
-pynacl==1.5.0
+pynacl==1.6.1
     # via paramiko
-pyparsing==3.2.3
+pyparsing==3.2.5
     # via matplotlib
 pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytest==8.4.1
+pytest==9.0.2
     # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via
+    #   arrow
     #   jupyter-client
     #   matplotlib
     #   pandas
     #   scippneutron
-    #   scippnexus
     #   scitacean
-python-engineio==4.12.2
+python-engineio==4.12.3
     # via python-socketio
-python-socketio==5.13.0
+python-json-logger==4.0.0
+    # via jupyter-events
+python-socketio==5.15.0
     # via bumps
 pythreejs==2.4.2
     # via -r requirements.in
 pytz==2025.2
     # via pandas
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
-    #   jupyter-book
-    #   jupyter-cache
+    #   jupyter-events
     #   mcstasscript
-    #   myst-nb
-    #   myst-parser
-    #   pybtex
-    #   sphinx-external-toc
     #   sphinxcontrib-mermaid
-pyzmq==27.0.2
+pyzmq==27.1.0
     # via
     #   ipykernel
     #   jupyter-client
-referencing==0.36.2
+    #   jupyter-server
+referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
+    #   jupyter-events
 requests==2.32.5
     # via
     #   pooch
     #   sphinx
-rpds-py==0.27.0
+rfc3339-validator==0.1.4
+    # via
+    #   jsonschema
+    #   jupyter-events
+rfc3986-validator==0.1.1
+    # via
+    #   jsonschema
+    #   jupyter-events
+rfc3987-syntax==1.1.0
+    # via jsonschema
+rich==14.2.0
+    # via
+    #   easydiffraction
+    #   typer
+roman-numerals==3.1.0
+    # via sphinx
+rpds-py==0.30.0
     # via
     #   jsonschema
     #   referencing
 sciline==25.11.1
     # via -r requirements.in
-scipp==25.5.1
+scipp==25.11.0
     # via
     #   -r requirements.in
     #   easyscience
     #   scippneutron
     #   scippnexus
-scippneutron==25.7.0
+scippneutron==25.11.2
     # via -r requirements.in
-scippnexus==25.6.0
+scippnexus==25.11.0
     # via
     #   -r requirements.in
     #   scippneutron
-scipy==1.16.1
+scipy==1.16.3
     # via
     #   -r requirements.in
     #   bumps
     #   cryspy
     #   dfo-ls
     #   diffpy-utils
+    #   dynesty
     #   easydiffraction
     #   libpyvinyl
     #   lmfit
@@ -528,85 +551,58 @@ scipy==1.16.1
     #   xraydb
 scitacean[sftp]==25.8.0
     # via -r requirements.in
+send2trash==1.8.3
+    # via jupyter-server
+shellingham==1.5.4
+    # via typer
 simple-websocket==1.1.0
     # via python-engineio
 six==1.17.0
-    # via python-dateutil
-sniffio==1.3.1
-    # via anyio
+    # via
+    #   python-dateutil
+    #   rfc3339-validator
 snowballstemmer==3.0.1
     # via sphinx
-soupsieve==2.7
+soupsieve==2.8
     # via beautifulsoup4
-sphinx==7.4.7
-    # via
-    #   jupyter-book
-    #   myst-nb
-    #   myst-parser
-    #   pydata-sphinx-theme
-    #   sphinx-book-theme
-    #   sphinx-comments
-    #   sphinx-copybutton
-    #   sphinx-design
-    #   sphinx-external-toc
-    #   sphinx-jupyterbook-latex
-    #   sphinx-multitoc-numbering
-    #   sphinx-thebe
-    #   sphinx-togglebutton
-    #   sphinxcontrib-bibtex
-    #   sphinxcontrib-mermaid
-sphinx-book-theme==1.1.4
-    # via jupyter-book
-sphinx-comments==0.0.3
-    # via jupyter-book
-sphinx-copybutton==0.5.2
-    # via jupyter-book
-sphinx-design==0.6.1
-    # via jupyter-book
-sphinx-external-toc==1.0.1
-    # via jupyter-book
-sphinx-jupyterbook-latex==1.0.0
-    # via jupyter-book
-sphinx-multitoc-numbering==0.1.3
-    # via jupyter-book
-sphinx-thebe==0.3.1
-    # via jupyter-book
-sphinx-togglebutton==0.3.2
-    # via jupyter-book
+sphinx==9.0.4
+    # via sphinxcontrib-mermaid
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
-sphinxcontrib-bibtex==2.6.5
-    # via jupyter-book
 sphinxcontrib-devhelp==2.0.0
     # via sphinx
 sphinxcontrib-htmlhelp==2.1.0
     # via sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
-sphinxcontrib-mermaid==1.0.0
+sphinxcontrib-mermaid==1.2.3
     # via -r requirements.in
 sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-sqlalchemy==2.0.43
-    # via
-    #   jupyter-cache
-    #   xraydb
+sqlalchemy==2.0.45
+    # via xraydb
 stack-data==0.6.3
     # via ipython
 sympy==1.14.0
     # via easydiffraction
 tabulate==0.9.0
+    # via easydiffraction
+terminado==0.18.1
     # via
-    #   easydiffraction
-    #   jupyter-cache
-tomli==2.2.1
+    #   jupyter-server
+    #   jupyter-server-terminals
+tinycss2==1.4.0
+    # via bleach
+tomli==2.3.0
     # via scitacean
-tornado==6.5.2
+tornado==6.5.3
     # via
     #   ipykernel
     #   jupyter-client
+    #   jupyter-server
+    #   terminado
 traitlets==5.14.3
     # via
     #   ipykernel
@@ -615,64 +611,72 @@ traitlets==5.14.3
     #   ipywidgets
     #   jupyter-client
     #   jupyter-core
+    #   jupyter-events
+    #   jupyter-server
     #   matplotlib-inline
     #   nbclient
+    #   nbconvert
     #   nbformat
     #   pythreejs
     #   traittypes
-traittypes==0.2.1
+traittypes==0.2.3
     # via ipydatawidgets
-typing-extensions==4.14.1
+typer==0.20.0
+    # via easydiffraction
+typing-extensions==4.15.0
     # via
     #   aiosignal
     #   anyio
     #   beautifulsoup4
     #   flexcache
     #   flexparser
-    #   myst-nb
     #   pint
     #   pydantic
     #   pydantic-core
-    #   pydata-sphinx-theme
     #   referencing
     #   sqlalchemy
+    #   typer
     #   typing-inspection
-typing-inspection==0.4.1
+typing-inspection==0.4.2
     # via pydantic
 typish==1.9.3
     # via jsons
 tzdata==2025.2
-    # via pandas
-uc-micro-py==1.0.3
-    # via linkify-it-py
+    # via
+    #   arrow
+    #   pandas
 uncertainties==3.2.3
     # via
     #   easyscience
     #   lmfit
-urllib3==2.5.0
+uri-template==1.3.0
+    # via jsonschema
+urllib3==2.6.1
     # via requests
-varname==0.15.0
+varname==0.15.1
     # via easydiffraction
-wcwidth==0.2.13
+wcwidth==0.2.14
     # via
     #   prettytable
     #   prompt-toolkit
-wheel==0.45.1
+webcolors==25.10.0
+    # via jsonschema
+webencodings==0.5.1
     # via
-    #   pip-tools
-    #   sphinx-togglebutton
-widgetsnbextension==4.0.14
+    #   bleach
+    #   tinycss2
+websocket-client==1.9.0
+    # via jupyter-server
+wheel==0.45.1
+    # via pip-tools
+widgetsnbextension==4.0.15
     # via ipywidgets
-wsproto==1.2.0
+wsproto==1.3.2
     # via simple-websocket
-xarray==2025.8.0
-    # via easyscience
 xraydb==4.5.8
     # via diffpy-utils
-yarl==1.20.1
+yarl==1.22.0
     # via aiohttp
-zipp==3.23.0
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
