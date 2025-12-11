@@ -25,6 +25,7 @@ def fetch_data(name: str, quiet=True) -> str:
         url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
         known_hash=None,
         processor=pooch.Unzip(),
+        retry_if_failed=3,
     )
 
     # With the Unzip processor, `retrieve` returns a list of files that were in the zip

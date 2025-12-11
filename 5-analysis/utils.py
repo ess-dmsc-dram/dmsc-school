@@ -25,6 +25,7 @@ def fetch_data(name: str) -> str:
     return pooch.retrieve(
         url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}",
         known_hash=None,
+        retry_if_failed=3,
     )
 
 def save_fit_params(filename: str, params: Iterable[Parameter]) -> None:
