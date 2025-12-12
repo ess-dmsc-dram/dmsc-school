@@ -22,14 +22,14 @@ def fetch_data(name: str, quiet=True) -> str:
     logger.setLevel("ERROR" if quiet else "INFO")
 
     registry = pooch.create(
-        path=pooch.os_create('dmsc_school'),
+        path=pooch.os_cache('dmsc_school'),
         retry_if_failed=3,
         base_url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
         registry={
             f"{name}.zip": None,
         },
     )
-    file_path = registry.etch(f"{name}.zip", processor=pooch.Unzip())
+    file_path = registry.fetch(f"{name}.zip", processor=pooch.Unzip())
 
     # With the Unzip processor, `retrieve` returns a list of files that were in the zip
     # archive.

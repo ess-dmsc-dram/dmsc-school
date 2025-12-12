@@ -23,14 +23,14 @@ def fetch_data(name: str) -> str:
     import pooch
 
     registry = pooch.create(
-        path=pooch.os_create('dmsc_school'),
+        path=pooch.os_cache('dmsc_school'),
         retry_if_failed=3,
         base_url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
         registry={
             name: None,
         },
     )
-    return registry.etch(name)
+    return registry.fetch(name)
 
 
 def save_fit_params(filename: str, params: Iterable[Parameter]) -> None:
