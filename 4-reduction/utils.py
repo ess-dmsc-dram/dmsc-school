@@ -21,11 +21,15 @@ def fetch_data(name: str, quiet=True) -> str:
     logger = pooch.get_logger()
     logger.setLevel("ERROR" if quiet else "INFO")
 
-    file_path = pooch.retrieve(
-        url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}.zip",
-        known_hash=None,
-        processor=pooch.Unzip(),
+    registry = pooch.create(
+        path=pooch.os_cache('dmsc_school'),
+        retry_if_failed=3,
+        base_url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
+        registry={
+            f"{name}.zip": None,
+        },
     )
+    file_path = registry.fetch(f"{name}.zip", processor=pooch.Unzip())
 
     # With the Unzip processor, `retrieve` returns a list of files that were in the zip
     # archive.

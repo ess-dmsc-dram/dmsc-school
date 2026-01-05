@@ -15,7 +15,7 @@ Each course has its own directory for collecting materials in this repository.
 
 ## Prerequisites
 
-Create an environment with Python 3.11 and the dependencies from `requirements.txt`.
+Create an environment with Python 3.12 and the dependencies from `requirements.txt`.
 Warning: the dependencies are pinned, so do not install them into your global environment or you risk breaking it!
 
 ## Jupyter notebooks
@@ -66,9 +66,9 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 
 ## How to update the student notebooks
 
-We keep student notebooks (without solutions) in https://github.com/ess-dmsc-dram/dmsc-school-notebooks.
+We keep student notebooks (without solutions) in https://github.com/ess-dmsc-dram/winter-school-notebooks.
 
-To update these, navigate to the [Update notebooks](https://github.com/ess-dmsc-dram/dmsc-school-notebooks/actions/workflows/update-notebooks.yml)
+To update these, navigate to the [Update notebooks](https://github.com/ess-dmsc-dram/winter-school-notebooks/actions/workflows/update-notebooks.yml)
 section in the Actions tab in that repository and simply run the workflow.
 
 This will create a PR in the notebooks repository with updates to all notebooks.

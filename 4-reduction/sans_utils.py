@@ -2,7 +2,10 @@
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
 import os
+from typing import NewType, TypeVar
+import sciline as sl
 import scipp as sc
+
 
 from load import load_ascii, load_nexus
 from utils import fetch_data  # noqa: F401
@@ -53,3 +56,56 @@ def load_sans(
     for c in ["n", "id"]:
         del da.coords[c]
     return da
+
+
+RunType = TypeVar("RunType")
+
+SampleRun = NewType("SampleRun", int)
+"""Sample run; a run with a sample in the beam."""
+
+FlatFieldRun = NewType("FlatFieldRun", int)
+"""Flat-field run; a run with no sample in the beam, to measure the beam profile."""
+
+CoordTransformGraph = NewType("CoordTransformGraph", dict)
+"""Graph describing coordinate transformations."""
+
+
+class Foldername(sl.Scope[RunType, str], str):
+    """Folder name for a specific run."""
+
+
+class RawData(sl.Scope[RunType, sc.DataArray], sc.DataArray):
+    """Raw loaded data."""
+
+
+class WavelengthData(sl.Scope[RunType, sc.DataArray], sc.DataArray):
+    """Data with wavelength coordinate."""
+
+
+class QData(sl.Scope[RunType, sc.DataArray], sc.DataArray):
+    """Data with Q coordinate."""
+
+
+QBins = NewType("QBins", sc.Variable)
+
+
+class QHistogram(sl.Scope[RunType, sc.DataArray], sc.DataArray):
+    """Data histogrammed in Q bins."""
+
+
+NormalizedQ = NewType("NormalizedQ", sc.DataArray)
+"""I(Q): Sample run normalized by flat-field run"""
+
+__all__ = [
+    "RunType",
+    "SampleRun",
+    "FlatFieldRun",
+    "CoordTransformGraph",
+    "Foldername",
+    "RawData",
+    "WavelengthData",
+    "QData",
+    "QBins",
+    "QHistogram",
+    "NormalizedQ",
+]

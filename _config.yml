@@ -1,8 +1,8 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: ESS Data Management and Software Centre Summer School
-author: Data Management and Software Centre
+title: ESS Data Management and Scientific Computing Summer School
+author: Data Management and Scientific Computing centre
 # logo: logo.png
 copyright: "2025"
 
@@ -43,7 +43,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/ess-dmsc-dram/dmsc-school  # Online location of your book
+  url: https://github.com/ess-dmsc-dram/winter-school  # Online location of your book
   path_to_book: docs  # Optional path to your book, relative to the repository root
   branch: main  # Which branch of the repository should be used when creating links (optional)
 

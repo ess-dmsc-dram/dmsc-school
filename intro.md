@@ -1,6 +1,6 @@
 ![](./images/logo.png)
 
-The purpose of this online book is as a companion to the workshop materials form the ESS Data Management and Software Centre Summer School.
+The purpose of this online book is as a companion to the workshop materials form the ESS Data Management and Scientific Computing centre Summer School.
 This material can be treated in a self-guided fashion.
 
 # Welcome
