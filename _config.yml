@@ -60,6 +60,7 @@ sphinx:
   config:
     nb_execution_show_tb: True
     suppress_warnings: ["myst.xref_missing", "myst.lexing"]
+    linkcheck_anchors: False
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
