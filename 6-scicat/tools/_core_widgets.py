@@ -77,7 +77,7 @@ def _get_default_proposal_mount() -> pathlib.Path:
     elif (symlink_path := pathlib.Path.home() / "myProposals").exists():
         return symlink_path.resolve()
     else:
-        hardcoded_path = pathlib.Path("/ess/data/workshop/2026/")
+        hardcoded_path = pathlib.Path("/ess/data/workshop/")
         return hardcoded_path.resolve()
 
 
