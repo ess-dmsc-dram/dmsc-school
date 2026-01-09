@@ -284,7 +284,7 @@ def _make_default_dataset(
         access_groups=[proposal_id],
         instrument_id=None,
         techniques=[],
-        keywords=["DMSC Summer School 2025"],
+        keywords=["DMSC Winter School 2026"],
         license="unknown",
         proposal_id=proposal_id,
         source_folder=source_folder.resolve().as_posix(),
