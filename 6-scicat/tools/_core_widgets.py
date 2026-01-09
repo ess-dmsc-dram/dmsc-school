@@ -77,7 +77,7 @@ def _get_default_proposal_mount() -> pathlib.Path:
     elif (symlink_path := pathlib.Path.home() / "myProposals").exists():
         return symlink_path.resolve()
     else:
-        hardcoded_path = pathlib.Path("/ess/data/workshop/2025/")
+        hardcoded_path = pathlib.Path("/ess/data/workshop/")
         return hardcoded_path.resolve()
 
 
@@ -88,8 +88,8 @@ def get_current_proposal() -> str:
     if is_debugging():
         # If debugging, use the proposal ID from the debugging file
         config = _get_debug_config()
-        return config.get("proposal_id", "213256")
-    return "213256"
+        return config.get("proposal_id", "909047")
+    return "909047"
 
 
 def get_default_source_folder_parent() -> pathlib.Path:

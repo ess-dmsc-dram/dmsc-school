@@ -2,6 +2,7 @@
 # Copyright (c) 2023 Scipp contributors (https://github.com/scipp)
 
 import os
+from typing import NewType
 import scipp as sc
 
 from load import load_ascii, load_nexus
@@ -89,3 +90,46 @@ def load_qens(path: str) -> sc.DataArray:
     da.coords.update(analyzer_info(meta))
 
     return da
+
+
+CoordTransformGraph = NewType("CoordTransformGraph", dict)
+"""Graph describing coordinate transformations."""
+
+
+Foldername = NewType("Foldername", str)
+"""Folder name from which to load data."""
+
+
+RawData = NewType("RawData", sc.DataArray)
+"""Raw loaded data."""
+
+
+MaskedRange = NewType("MaskedRange", tuple[float, float])
+"""A range of values to mask, given as a (min, max) tuple."""
+
+
+MaskedData = NewType("MaskedData", sc.DataArray)
+"""Data with masked regions."""
+
+
+EnergyTransferData = NewType("EnergyTransferData", sc.DataArray)
+"""Data with energy transfer coordinate."""
+
+
+BinWidth = NewType("BinWidth", sc.Variable)
+"""Width of energy transfer bins."""
+
+
+EnergyTransferHistogram = NewType("EnergyTransferHistogram", sc.DataArray)
+"""Data histogrammed in energy transfer bins."""
+
+__all__ = [
+    "CoordTransformGraph",
+    "Foldername",
+    "RawData",
+    "MaskedRange",
+    "MaskedData",
+    "EnergyTransferData",
+    "BinWidth",
+    "EnergyTransferHistogram",
+]

@@ -4,7 +4,7 @@ easyscience
 emcee
 graphviz
 h5py
-jupyter-book
+jupyter-book ==1.*
 jupyterquiz
 ipympl
 ipython<9
@@ -21,6 +21,7 @@ ply
 pooch
 pytest
 pythreejs
+sciline
 scipp
 scippneutron
 scippnexus
