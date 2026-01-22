@@ -22,10 +22,16 @@ def fetch_data(name: str) -> str:
     """
     import pooch
 
-    return pooch.retrieve(
-        url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025/{name}",
-        known_hash=None,
+    registry = pooch.create(
+        path=pooch.os_cache('dmsc_school'),
+        retry_if_failed=3,
+        base_url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
+        registry={
+            name: None,
+        },
     )
+    return registry.fetch(name)
+
 
 def save_fit_params(filename: str, params: Iterable[Parameter]) -> None:
     fit_params = pd.DataFrame([param.encode_data() for param in params])
