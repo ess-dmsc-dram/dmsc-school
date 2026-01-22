@@ -17,6 +17,12 @@ EMPTY_CELL["source"] = ["# Insert your solution:\n"]
 WIDGET_CELL = BASE_CELL.copy()
 WIDGET_CELL["source"] = ["%matplotlib widget"]
 
+ESS_KERNEL = {
+    "display_name": "ESS",
+    "language": "python",
+    "name": "conda-env-ESS-py",
+}
+
 parser = argparse.ArgumentParser(description="Remove solution cells from all notebooks")
 parser.add_argument(
     "destination", type=str, help="Destination folder for collecting outputs."
@@ -55,6 +61,7 @@ def clean(filepath, destination, add_mpl_widget_cell=False):
         else:
             out.append(cell)
     obj["cells"] = out
+    obj["metadata"]["kernelspec"] = ESS_KERNEL
 
     outfile = os.path.join(destination, filepath)
     with open(outfile, "w", encoding="utf-8") as f:
