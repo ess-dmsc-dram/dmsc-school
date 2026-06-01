@@ -338,7 +338,9 @@ def make(**kwargs):
             detector.time_max = "t_max"
             detector.time_bins = 250
             detector.filename = f'"detector_signal_2D_{index}.dat"'
-        
+
+            """
+            # Skipped as the multiple pulses exercise is not done
             detector = instrument.add_component(
                 f"signal_tof_all_{index}", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
             )
@@ -349,6 +351,7 @@ def make(**kwargs):
             detector.time_max = "t_max_pulses"
             detector.time_bins = 350
             detector.filename = f'"detector_signal_2D_all_{index}.dat"'
+            """
     
         detector_event = instrument.add_component(
             f"signal_tof_event_{index}", "Union_abs_logger_1D_space_event", RELATIVE=He3_gas
