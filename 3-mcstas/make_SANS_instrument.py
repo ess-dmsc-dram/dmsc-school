@@ -72,8 +72,8 @@ def make(**kwargs):
     sample_conventional = instrument.add_component(
         "sample", "SANS_spheres2"
     )
-    sample_conventional.xwidth = 0.02
-    sample_conventional.yheight = 0.02
+    sample_conventional.xwidth = 0.015
+    sample_conventional.yheight = 0.015
     sample_conventional.zthick = 0.0015
     sample_conventional.sc_aim = 0.95
     sample_conventional.sans_aim = 0.95
@@ -84,6 +84,23 @@ def make(**kwargs):
     sample_conventional.R = 90
     sample_conventional.set_WHEN("enable_sample == 1")
     sample_conventional.set_AT(0, RELATIVE="sample_position")
+
+    mirror = instrument.add_component("holder1", "Mirror")
+    mirror.set_parameters(xwidth=0.02, yheight=0.005, center=1, R0=0.002)
+    mirror.set_AT([0,
+                   -0.5*sample_conventional.yheight*1.015,
+                   -0.5*(sample_conventional.zthick + mirror.yheight)], 
+                  RELATIVE=sample_position)
+    mirror.set_ROTATED([89.1,0,0], RELATIVE=sample_position)
+
+    mirror = instrument.add_component("holder2", "Mirror", before=sample_conventional)
+    mirror.set_parameters(xwidth=0.02, yheight=0.005, center=1, R0=0.002)
+    mirror.set_AT([0,
+                   -0.5*sample_conventional.yheight*0.985,
+                   0.5*(sample_conventional.zthick + mirror.yheight)], 
+                  RELATIVE=sample_position)
+    mirror.set_ROTATED([89.13,0,0], RELATIVE=sample_position)
+
 
     dist = instrument.add_parameter(
         "double", "detector_distance", value=2.0, comment="[m] Sample_detector_distance"
@@ -186,13 +203,13 @@ def make(**kwargs):
         yheight=0.47, radius=casing.radius - 4e-3, material_string='"He3"', priority=310
     )
 
+    """
     buble = instrument.add_component("gas_buble1", "Union_sphere")
     buble.set_parameters(
         radius=0.99 * He3_gas.radius, material_string='"Vacuum"', priority=500
     )
     buble.set_AT([0, -0.347 * He3_gas.yheight, 0], RELATIVE=He3_gas)
 
-    """
     buble_1 = instrument.add_component("gas_buble1", "Union_sphere")
     buble_1.set_parameters(radius=0.85*He3_gas.radius,
                            material_string='"Vacuum"', priority=400)
