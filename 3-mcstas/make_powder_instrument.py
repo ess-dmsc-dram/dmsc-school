@@ -17,22 +17,23 @@ def add_guide(instrument, source):
 
     feeder = instrument.add_component("feeder", "Elliptic_guide_gravity")
     feeder.set_parameters(
-        xwidth=0.08,
-        yheight=0.06,
+        xwidth=0.06,
+        yheight=0.04,
         dimensionsAt='"entrance"',
         l=4.3,
-        m=3,
+        m=6,
         alpha=3.2,
-        linxw=4.5,
+        linxw=2.5,
         linyh=2.05,
-        loutxw=0.4,
-        loutyh=0.3,
+        loutxw=0.7,
+        loutyh=0.7,
     )
     feeder.set_AT(source_to_feeder, RELATIVE=source)
 
     # Update the source focus parameters to match the first guide element
     source.set_parameters(
         dist=source_to_feeder, focus_xw=feeder.xwidth, focus_yh=1.2 * feeder.yheight
+        #dist=source_to_psc + 0.05, focus_xw=0.03, focus_yh=0.04
     )  # larger focus_yh due to gravity
 
     # Position of pulse shaping chopper, placed in the choppers.py file
@@ -63,7 +64,7 @@ def add_guide(instrument, source):
     # Curved section
     curved_length = 160 - 6.55 - 10 - 10  # full length - chopper
     total_rotation = 1  # total rotation in [deg]
-    n_segments = 12
+    n_segments = 9
     segment_length = curved_length / n_segments
     segment_rotation = total_rotation / n_segments
     instrument.add_parameter("guide_curve_deg", value=1.0, comment="total curvature of guide [deg]")
@@ -364,7 +365,7 @@ def add_backend(instrument, detectors="classic", include_event_monitors=True):
         instrument.add_component("init", "Union_init")
         instrument.add_component("start_union_geometries", "Arm")
         union_master = instrument.add_component("master", "Union_master")
-        union_master.set_SPLIT(100)
+        union_master.set_SPLIT(150)
         instrument.add_component("stop", "Union_stop")
 
         add_backend_classic(instrument, include_event_monitors=include_event_monitors)
@@ -396,9 +397,9 @@ def make(
     Source = instrument.add_component("Source", "ESS_butterfly")
     Source.set_parameters(
         sector='"W"',
-        beamline=2,
+        beamline=1,
         yheight=0.03,
-        cold_frac=0.5,
+        cold_frac=0.3,
         c_performance=1,
         t_performance=1,
         Lmin=l_min,
