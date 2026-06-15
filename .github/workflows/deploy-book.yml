@@ -42,25 +42,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install graphviz
-        run: sudo apt install --yes graphviz graphviz-dev
-
-      - name: Setup python and install McStas
-        uses: mamba-org/setup-micromamba@v2
+      - name: Setup python
+        uses: prefix-dev/setup-pixi@v0.9.4
         with:
-          micromamba-version: 2.0.4-0
-          environment-name: dmsc-school-env
-          create-args: >-
-            python=3.11.*
-            mcstas=3.5.35
-
-      - name: Install pip dependencies
-        run: |
-          python -m pip install -r requirements.txt
+          pixi-version: v0.68.0
+          frozen: true
 
       - name: Build the book
         run: |
-          jupyter-book build -W --keep-going .
+          pixi run build
 
       - uses: actions/upload-artifact@v4
         with:
@@ -70,7 +60,7 @@ jobs:
       - name: Check links
         if: github.event_name != 'workflow_dispatch' || inputs.linkcheck
         run: |
-          jupyter-book build -W --keep-going --builder linkcheck .
+          pixi run linkcheck
 
   deploy-book:
     needs: [build-book, formatting]
