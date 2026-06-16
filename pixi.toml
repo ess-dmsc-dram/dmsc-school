@@ -40,9 +40,6 @@ sphinxcontrib-mermaid = "=1.0"
 # Scipp does not support older OSX versions.
 macos = "14.0"
 
-[environments]
-# default = { features = ["lint", "test"], solve-group = "default" }
-
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."
 description = "Build the book"
