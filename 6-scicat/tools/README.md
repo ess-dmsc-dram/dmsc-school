@@ -106,7 +106,7 @@ Currently a lot of handlers are created by the constructors.
 
 ## Logging
 
-For now we use custom handler but we can later maybe just use rich handelr.
+For now we use custom handler but we can later maybe just use rich handler.
 I have used it for debugging but now it's removed.
 
 ```python
