@@ -59,7 +59,7 @@ sphinx:
     - sphinxcontrib.mermaid
   config:
     nb_execution_show_tb: True
-    suppress_warnings: ["myst.xref_missing"]
+    suppress_warnings: ["mystnb.unknown_mime_type", "myst.xref_missing"]
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
