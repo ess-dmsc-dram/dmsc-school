@@ -59,10 +59,21 @@ sphinx:
     - sphinxcontrib.mermaid
   config:
     nb_execution_show_tb: True
-    suppress_warnings: ["myst.xref_missing"]
+    suppress_warnings:
+      # From linkcheck. Mimetypes shouldn't affect link checking
+      - "mystnb.mime_priority"
+      # From plotly. The output looks fine, so this seems safe to ignore.
+      - "mystnb.unknown_mime_type"
+      - "myst.xref_missing"
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
+    linkcheck_anchors_ignore_for_url:
+      # These are redirected to a URL with a concrete version,
+      # linkcheck cannot resolve anchors with this redirect.
+      # This means that we have to manually check the anchors!
+      - 'https?://docs\.easydiffraction\.org/lib/latest'
+      - 'https?://easyscience\.github\.io/diffraction-lib/latest'
 
 exclude_patterns:
   - 'article/article.md'
