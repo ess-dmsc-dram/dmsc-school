@@ -25,7 +25,11 @@ Here are some tips and tools for writing jupyter notebooks for courses.
 ### Clearing output
 Command to clear outputs of all jupyter notebooks in the current directory.
 ```bash
-tree -ifF -P *.ipynb | grep .ipynb | xargs -n1 jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
+pre-commit run nbstripout -a
+```
+or
+```bash
+prek run nbstripout -a
 ```
 
 ### Building the book
