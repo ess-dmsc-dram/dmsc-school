@@ -1,9 +1,27 @@
 version: 7
 platforms:
 - name: linux-64
-- name: osx-64
-- name: osx-arm64
+  virtual-packages:
+  - __unix=0=0
+  - __linux=4.18
+  - __glibc=2.28
+  - __archspec=0=x86_64
+- name: p1
+  subdir: osx-64
+  virtual-packages:
+  - __osx=14.0
+  - __unix=0=0
+  - __archspec=0=x86_64
+- name: p2
+  subdir: osx-arm64
+  virtual-packages:
+  - __osx=14.0
+  - __unix=0=0
+  - __archspec=0=m1
 - name: win-64
+  virtual-packages:
+  - __win=10.0
+  - __archspec=0=x86_64
 environments:
   default:
     channels:
@@ -380,7 +398,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-core-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-python-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstas-data-3.5.35-h1a96a4e_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.83-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.84-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstastox-0.0.12-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdit-py-plugins-0.6.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
@@ -516,7 +534,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/xarray-einstats-0.9.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/xraydb-4.5.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-4.1.0-pyhcf101f3_0.conda
-      osx-64:
+      p1:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/accessible-pygments-0.0.5-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/adwaita-icon-theme-49.0-unix_0.conda
@@ -640,7 +658,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-core-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-python-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstas-data-3.5.35-h1a96a4e_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.83-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.84-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstastox-0.0.12-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdit-py-plugins-0.6.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
@@ -973,7 +991,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.2-hbb4bfdb_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-ng-2.3.3-h8bce59a_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.7-h3eecb57_6.conda
-      osx-arm64:
+      p2:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/accessible-pygments-0.0.5-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/adwaita-icon-theme-49.0-unix_0.conda
@@ -1097,7 +1115,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-core-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-python-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstas-data-3.5.35-h1a96a4e_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.83-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.84-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstastox-0.0.12-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdit-py-plugins-0.6.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
@@ -1566,7 +1584,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-core-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcpl-python-2.2.8-pyh8af1aa0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstas-data-3.5.35-h1a96a4e_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.83-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.84-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mcstastox-0.0.12-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdit-py-plugins-0.6.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
@@ -7784,9 +7802,9 @@ packages:
   run_exports: {}
   size: 37309377
   timestamp: 1755011393830
-- conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.83-pyhd8ed1ab_0.conda
-  sha256: 05fb5ebddcc4e4e3c3b70f8f215dcfb47fc45873d2fbadd1a6c7a3cb110fc624
-  md5: cc0b2663c35f1813ca44d117d460c487
+- conda: https://conda.anaconda.org/conda-forge/noarch/mcstasscript-0.0.84-pyhd8ed1ab_0.conda
+  sha256: 2bdb9bfed61e1d9abf362588b7776e600456950147040419878fe09e11249da2
+  md5: ea70351345ae129e37e5eca927d12d58
   depends:
   - h5py
   - ipympl
@@ -7799,8 +7817,8 @@ packages:
   license: BSD-3-Clause
   license_family: BSD
   run_exports: {}
-  size: 3878507
-  timestamp: 1781778883804
+  size: 3899613
+  timestamp: 1782233798947
 - conda: https://conda.anaconda.org/conda-forge/noarch/mcstastox-0.0.12-pyhcf101f3_0.conda
   sha256: 4118074da3f6346a6b123718e66641a898e4f97ed353ff96ab76c5b2f65fd58f
   md5: d7be0de0fc5358c6f1d3bb7389bda87b
