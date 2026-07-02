@@ -15,8 +15,11 @@ Each course has its own directory for collecting materials in this repository.
 
 ## Prerequisites
 
-Create an environment with Python 3.11 and the dependencies from `requirements.txt`.
-Warning: the dependencies are pinned, so do not install them into your global environment or you risk breaking it!
+- Install [pixi](https://pixi.prefix.dev/latest/).
+- Install [pre-commit](https://pre-commit.com/) or [prek](https://prek.j178.dev/)
+  - Install hooks:
+    - Either `pre-commit install`
+    - Or `prek install`
 
 ## Jupyter notebooks
 Many of materials are written in notebooks and are published online by `jupyter-book`.
@@ -34,10 +37,8 @@ prek run nbstripout -a
 
 ### Building the book
 
-From the root folder:
-
 ```bash
-jupyter-book build -W --keep-going .
+pixi run build
 ```
 
 ### Tags
@@ -79,8 +80,4 @@ This will create a PR in the notebooks repository with updates to all notebooks.
 
 ## Managing dependencies
 
-To add, remove, restrict dependencies, modify `requirements.in` and run
-```bash
-pip-compile requirements.in
-```
-to update the dependency pins in `requirements.txt`.
+To add, remove, restrict dependencies, modify `pixi.toml`, run `pixi lock` and commit both `pixi.toml` and `pixi.lock`.
