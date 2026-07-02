@@ -47,6 +47,6 @@ description = "Build the book"
 cwd = "./"
 
 [tasks.linkcheck]
-cmd = "jupyter-book build -W --keep-going --builder linkcheck -D nbsphinx_execute=never ."
+cmd = "jupyter-book build -W --keep-going --builder linkcheck ."
 description = "Check links in the book"
 cwd = "./"
