@@ -42,7 +42,7 @@ jobs:
       - name: Setup python
         uses: prefix-dev/setup-pixi@v0.9.4
         with:
-          pixi-version: v0.70.2
+          pixi-version: v0.72.0
           frozen: true
 
       - name: Build the book

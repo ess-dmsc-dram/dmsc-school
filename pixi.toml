@@ -1,7 +1,14 @@
 [workspace]
 name = "dmsc-school"
 channels = ["conda-forge"]
-platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+requires-pixi = ">=0.71.2"
+platforms = [
+  { platform = "linux-64" },
+  { platform = "win-64" },
+  # Scipp does not support older OSX versions.
+  { platform = "osx-64", macos = "14.0" },
+  { platform = "osx-arm64", macos = "14.0" },
+]
 
 [dependencies]
 python = "3.12.*"
@@ -36,10 +43,6 @@ scippnexus = ">=26.1.1"
 scipy = ">=1.17.1"
 scitacean = ">=26.2"
 sphinxcontrib-mermaid = ">=1.0"
-
-[system-requirements]
-# Scipp does not support older OSX versions.
-macos = "14.0"
 
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."
