@@ -1,31 +1,41 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2026 Scipp contributors (https://github.com/scipp)
-import os
-import re
 from collections.abc import Generator
 
+import mcstastox
 import scipp as sc
-import scippnexus as sx
-from load import load_nexus_many, open_nexus_file
+from load import load_nexus_many
 from utils import fetch_data  # noqa: F401
 
-DETECTOR_OFFSET = 0.25 * sc.units.m
 
+def _load_analyzer_info(
+    folder: str,
+    analyzer_number: int,
+    detector_position: sc.Variable,
+    mcstas_sample_position: sc.Variable,
+) -> dict[str, sc.Variable]:
+    from scippneutron.conversion.beamline import two_theta
 
-def _analyzer_info(folder: str, sample_position: sc.Variable) -> dict[str, sc.Variable]:
-    analyzer_position = _load_analyzer_positions(folder, sample_position)
+    analyzer_position = _load_position(
+        folder, f"analyzer_{analyzer_number}", mcstas_sample_position
+    )
 
+    # Because the position is relative to the sample:
+    sample_analyzer_vec = analyzer_position
+    analyzer_detector_vec = detector_position - analyzer_position
     # The analyzer is tilted by this angle such that neutron are
     # reflected by `2*analyzer_angle` to the detector.
-    analyzer_distance = sc.norm(analyzer_position)
-    analyzer_angle = sc.atan2(y=DETECTOR_OFFSET, x=analyzer_distance) / 2
+    # The minus is needed to get the smaller angle between the vectors.
+    analyzer_angle = (
+        two_theta(
+            incident_beam=-sample_analyzer_vec,
+            scattered_beam=analyzer_detector_vec,
+        )
+        / 2
+    )
 
     # Si (111) as Miracles: Q = 2*pi/3.135
-    analyzer_dspacing = sc.array(
-        dims=["detector_number"],
-        values=[3.135] * len(analyzer_position),
-        unit="angstrom",
-    )
+    analyzer_dspacing = sc.scalar(3.135, unit="angstrom")
 
     return {
         "analyzer_dspacing": analyzer_dspacing,
@@ -34,31 +44,12 @@ def _analyzer_info(folder: str, sample_position: sc.Variable) -> dict[str, sc.Va
     }
 
 
-ANALYZER_POSITION_PATTERN = re.compile(r"\d+_analyzer_(\d)_pos")
-
-
-def _load_analyzer_positions(folder: str, sample_position: sc.Variable) -> sc.Variable:
-    fname = os.path.join(folder, "mccode.h5")
-    with open_nexus_file(fname) as f:
-        components = f["entry1"]["instrument"]["components"]
-        mcstas_positions = sorted(
-            (
-                (int(i), sc.vector(pos_group["Position"][()].values, unit="m"))
-                for i, pos_group in _analyzer_pos_components(components)
-            ),
-            key=lambda t: t[0],
-        )
-        positions = [pos - sample_position for _, pos in mcstas_positions]
-
-    return sc.concat(positions, dim="detector_number")
-
-
-def _analyzer_pos_components(
-    group: sx.Group,
-) -> Generator[tuple[int, sx.Group], None, None]:
-    for name in group.keys():
-        if (match := ANALYZER_POSITION_PATTERN.match(name)) is not None:
-            yield int(match[1]), group[name]
+def _load_position(
+    folder: str, component_name: str, sample_position: sc.Variable
+) -> sc.Variable:
+    with mcstastox.Read(folder) as file:
+        mcstas_positions = file.get_component_placement(component_name)[0]
+    return sc.vector(mcstas_positions, unit="m") - sample_position
 
 
 def correct_tof(tof):
@@ -84,6 +75,10 @@ def load_qens(path: str) -> sc.DataArray:
     data = []
 
     for num, events in enumerate(all_events):
+        detector_position = _load_position(
+            path, f"signal_tof_event_{num}", mcstas_sample_position
+        )
+
         weights = events.pop("p")
         weights.unit = "counts"
         weights *= float(meta["integration_time"])
@@ -94,15 +89,18 @@ def load_qens(path: str) -> sc.DataArray:
         # section 2.2.1)
         da.variances = da.values**2
 
-        da.coords["y"].unit = "m"
         # The event positions are in the detector coordinate system.
         # Translate by the detector offset to get the lab system.
-        da.coords["y"] += DETECTOR_OFFSET
-        da.coords["x"].unit = "m"
-        z = sc.zeros_like(da.coords["y"])
-        da.coords["position"] = sc.spatial.as_vectors(
-            da.coords["x"].to(dtype=float), da.coords["y"], z
-        )
+        event_x = da.coords["x"].to(dtype=float)
+        event_x.unit = "m"
+        event_y = da.coords["y"].to(dtype=float)
+        event_y.unit = "m"
+        event_z = sc.zeros_like(event_y)
+        event_pos = sc.spatial.as_vectors(event_x, event_y, event_z)
+        pos = event_pos + detector_position
+        da.coords["position"] = pos
+        da.coords["y"] = pos.fields.y.copy()
+
         da.coords["tof"] = da.coords.pop("t")
         da.coords["tof"].unit = "s"
         da.coords["tof"] = correct_tof(da.coords["tof"].to(unit="ms"))
@@ -114,10 +112,12 @@ def load_qens(path: str) -> sc.DataArray:
             dims=["event"], shape=[len(da)]
         )
 
+        da.coords.update(
+            {name: var.broadcast(                dims=["event"], shape=[len(da)]            )
+                for name, var in
+                _load_analyzer_info(path, num, detector_position, mcstas_sample_position).items()
+            })
+
         data.append(da)
 
-    return (
-        sc.concat(data, dim="event")
-        .group("detector_number")
-        .assign_coords(_analyzer_info(path, mcstas_sample_position))
-    )
+    return sc.concat(data, dim="event").group("detector_number")
