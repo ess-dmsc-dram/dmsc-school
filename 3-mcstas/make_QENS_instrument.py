@@ -3,6 +3,10 @@ import mcstasscript as ms
 
 
 def make(**kwargs):
+
+    analyzer_directions = [20, 50, 80, 110, 140]
+    plot_indices = [1, 3] # index 1 has glitch
+
     instrument = ms.McStas_instr("QENS", **kwargs)
 
     # Value used when reading data to multiply all weights in order to units from intensity to counts, set this to the time span of the experiment.
@@ -19,7 +23,7 @@ def make(**kwargs):
     )
     analyzer_angle = instrument.add_declare_var("double", "analyzer_angle")
     instrument.append_initialize(
-        "analyzer_angle = RAD2DEG*0.5*atan(detector_offset/analyzer_distance);"
+        "analyzer_angle = RAD2DEG*0.5*atan(detector_offset/sample_analyzer_distance);"
     )
     instrument.append_initialize('printf("Analyzer_angle: %lf \\n", analyzer_angle);')
 
@@ -101,6 +105,16 @@ def make(**kwargs):
 
     instrument.add_component("init", "Union_init")
 
+
+    sample_analyzer_dist = instrument.add_parameter(
+        "double", "sample_analyzer_distance", value=3.0, comment="[m] Sample analyzer distance"
+    )
+
+    analyzer_detector_dist = instrument.add_parameter(
+        "double", "analyzer_detector_distance", value=2.8, comment="[m] Sample analyzer distance"
+    )
+
+
     sample_choice = instrument.add_parameter(
         "string", "sample_choice", value='"Elastic"', comment="Choice of sample type"
     )
@@ -108,39 +122,10 @@ def make(**kwargs):
     sample_choice.add_option('"Known_quasi-elastic"', options_are_legal=True)
     sample_choice.add_option('"Unknown_quasi-elastic"', options_are_legal=True)
 
-    instrument.add_declare_var("double", "enable_elastic")
-    instrument.add_declare_var("double", "enable_known_quasi")
-    instrument.add_declare_var("double", "enable_unknown_quasi")
 
-    instrument.append_initialize(
-        """
-    if (strcmp(sample_choice, "Elastic") == 0) {
-        enable_elastic = 1;
-        enable_known_quasi = 0;
-        enable_unknown_quasi = 0;
-    } else if (strcmp(sample_choice, "Known_quasi-elastic") == 0) {
-        enable_elastic = 0;
-        enable_known_quasi = 1;
-        enable_unknown_quasi = 0;
-    } else if (strcmp(sample_choice, "Unknown_quasi-elastic") == 0) {
-        enable_elastic = 0;
-        enable_known_quasi = 0;
-        enable_unknown_quasi = 1;
-    } else {
-        printf("sample_choice parameter did not match any sample choice! \\n");
-        exit(1);
-    }
-    """
-    )
+    # set up samples with direction code
+    instrument.add_user_var("int", "channel_index")
 
-    # Elastic
-    incoherent = instrument.add_component("incoherent", "Incoherent_process")
-    incoherent.set_parameters(sigma=3.08, unit_cell_volume=20.0)
-
-    material = instrument.add_component("elastic_material", "Union_make_material")
-    material.set_parameters(my_absorption=0.57, process_string='"incoherent"')
-
-    # Known quasi
     instrument.add_parameter(
         "double",
         "gamma_ueV",
@@ -149,115 +134,11 @@ def make(**kwargs):
     )
     gamma = instrument.add_declare_var("double", "gamma_meV")
     instrument.append_initialize("gamma_meV = 1E-3*gamma_ueV;")
-    quasi1 = instrument.add_component("quasi_incoherent", "Incoherent_process")
-    quasi1.set_parameters(sigma=3.08, gamma=gamma, unit_cell_volume=20.0, f_QE=0.99)
 
-    material = instrument.add_component(
-        "known_quasi_elastic_material", "Union_make_material"
-    )
-    material.set_parameters(my_absorption=0.57, process_string='"quasi_incoherent"')
-
-    # Unknown quasi
-    quasi1 = instrument.add_component("quasi_incoherent_1", "Incoherent_process")
-    quasi1.set_parameters(sigma=3.17, gamma=0.0076, unit_cell_volume=20.0, f_QE=0.99)
-
-    material = instrument.add_component(
-        "unknown_quasi_elastic_material", "Union_make_material"
-    )
-    material.set_parameters(my_absorption=0.92, process_string='"quasi_incoherent_1"')
-
-    analyzer_direction = instrument.add_declare_var(
-        "double", "analyzer_direction", value=30
-    )
-    dist = instrument.add_parameter(
-        "double", "analyzer_distance", value=3.0, comment="[m] Sample analyzer distance"
-    )
-
-    all_samples = dict(
-        radius=0.01,
-        yheight=0.03,
-        p_interact=0.4,
-        target_z=dist,
-        focus_xw=0.01,
-        focus_xh=0.01,
-    )
-
-    cylinder = instrument.add_component("elastic_sample", "Union_cylinder")
-    cylinder.set_parameters(
-        **all_samples,
-        material_string='"elastic_material"',
-        priority=10,
-        number_of_activations="enable_elastic",
-        visualize="enable_elastic",
-    )
-    cylinder.set_AT(0, RELATIVE=sample_position)
-    cylinder.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
-
-    cylinder = instrument.add_component("known_quasi_elastic_sample", "Union_cylinder")
-    cylinder.set_parameters(
-        **all_samples,
-        material_string='"known_quasi_elastic_material"',
-        priority=11,
-        number_of_activations="enable_known_quasi",
-        visualize="enable_known_quasi",
-    )
-    cylinder.set_AT(0, RELATIVE=sample_position)
-    cylinder.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
-
-    cylinder = instrument.add_component(
-        "unknown_quasi_elastic_sample", "Union_cylinder"
-    )
-    cylinder.set_parameters(
-        **all_samples,
-        material_string='"unknown_quasi_elastic_material"',
-        priority=12,
-        number_of_activations="enable_unknown_quasi",
-        visualize="enable_unknown_quasi",
-    )
-    cylinder.set_AT(0, RELATIVE=sample_position)
-    cylinder.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
-
-    master = instrument.add_component("sample_master", "Union_master")
-
-    analyzer_dir = instrument.add_component("analyzer_dir", "Arm")
-    analyzer_dir.set_AT(0, sample_position)
-    analyzer_dir.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
-
-
-    analyzer_pos = instrument.add_component("analyzer_pos", "Arm")
-    analyzer_pos.set_AT([0, 0, dist], RELATIVE=analyzer_dir)
-
-    analyzer_orientation = instrument.add_component("analyzer_orientation", "Arm")
-    analyzer_orientation.set_AT(0, RELATIVE=analyzer_pos)
-    analyzer_orientation.set_ROTATED([0, 90, 0], RELATIVE=analyzer_pos)
-
-    # Si (111) as Miracles: Q = 2*pi/3.135
-    analyzer_d = instrument.add_declare_var("double", "analyzer_d", value=3.135)
-    analyzer_q = instrument.add_declare_var(
-        "double", "analyzer_q", value=2 * np.pi / 3.135
-    )
-
-    analyzer = instrument.add_component("analyzer", "Monochromator_flat")
-    analyzer.set_parameters(
-        zwidth=0.05, yheight=0.05, r0=0.7, Q=analyzer_q, mosaich=30, mosaicv=30
-    )
-    analyzer.set_AT(0, RELATIVE=analyzer_orientation)
-    analyzer.set_ROTATED([0, 0, "analyzer_angle"], RELATIVE=analyzer_orientation)
-
-    return_orientation = instrument.add_component("return_orientation", "Arm")
-    return_orientation.set_AT(0, RELATIVE=analyzer_pos)
-    return_orientation.set_ROTATED([0, 180, 0], RELATIVE=analyzer_pos)
-
-    return_dir = instrument.add_component("return_dir", "Arm")
-    return_dir.set_AT(0, return_orientation)
-    return_dir.set_ROTATED(["-2.0*analyzer_angle", 0, 0], RELATIVE=return_orientation)
-
-    slit = instrument.add_component("detector_slit", "Slit")
-    slit.set_parameters(xwidth=0.06, yheight=0.1)
-    slit.set_AT([0, 0, "analyzer_distance - 0.1"], RELATIVE=return_dir)
-    slit.append_EXTEND(f"// Simulate detector glitch with timing")
-    slit.append_EXTEND(f"if (y > 0.14*0.08 && y < 0.24*0.08 && rand01() > 0.23)")
-    slit.append_EXTEND(f"t += 0.00034;")
+    selector = instrument.add_component("channel_selector", "Arm")
+    selector.append_EXTEND(f"""
+    channel_index = floor({len(analyzer_directions)}*rand01());
+    """)
 
     # Set up Al material with incoherent and powder
     Al_incoherent = instrument.add_component("Al_incoherent", "Incoherent_process")
@@ -293,31 +174,18 @@ def make(**kwargs):
         5333, bars=He3_pressure_bars, temperature_C=He3_temperature_C
     )
 
-    # Create detector casing with gas volume inside
-    casing = instrument.add_component("Al_container", "Union_cylinder")
-    casing.set_parameters(
-        yheight=0.1, radius=0.03, p_interact=0.25, material_string='"Al"', priority=300
-    )
-    casing.set_AT([0, 0, dist], return_dir)
-
-    He3_gas = instrument.add_component("He3_gas", "Union_cylinder")
-    He3_gas.set_AT_RELATIVE(casing)
-    He3_gas.set_parameters(
-        yheight=casing.yheight - 0.02,
-        radius=casing.radius - 4e-3,
-        material_string='"He3"',
-        priority=310,
-        p_interact=0.2,
-    )
-
     instrument.add_declare_var("double", "t_min")
     instrument.add_declare_var("double", "t_max")
     instrument.add_declare_var("double", "t_max_pulses")
+    instrument.add_declare_var("double", "total_sample_detector_distance")
     instrument.append_initialize(
-        "t_min = (backscattering_wavelength)*(sample_distance - 0.7 + 2.0*analyzer_distance)/(K2V*2*PI);"
+        "total_sample_detector_distance = sample_analyzer_distance + analyzer_detector_distance;"
     )
     instrument.append_initialize(
-        "t_max = (backscattering_wavelength)*(sample_distance + 1.0 + 2.0*analyzer_distance)/(K2V*2*PI);"
+        "t_min = (backscattering_wavelength)*(sample_distance - 0.7 + total_sample_detector_distance)/(K2V*2*PI);"
+    )
+    instrument.append_initialize(
+        "t_max = (backscattering_wavelength)*(sample_distance + 1.0 + total_sample_detector_distance)/(K2V*2*PI);"
     )
     instrument.append_initialize(
         "t_max = t_max + 4.0E-3; // Account for ESS pulse structure"
@@ -326,52 +194,172 @@ def make(**kwargs):
         "t_max_pulses = t_max + (n_pulses-1.0)*1.0/14.0; // Account for n_pulses"
     )
 
-    detector = instrument.add_component(
-        "signal_space", "Union_abs_logger_1D_space", RELATIVE=He3_gas
+    # Si (111) as Miracles: Q = 2*pi/3.135
+    analyzer_d = instrument.add_declare_var("double", "analyzer_d", value=3.135)
+    analyzer_q = instrument.add_declare_var(
+        "double", "analyzer_q", value=2 * np.pi / 3.135
     )
-    detector.target_geometry = '"He3_gas"'
-    detector.yheight = He3_gas.yheight
-    detector.n = 50
-    detector.filename = '"detector_signal_space.dat"'
 
-    detector = instrument.add_component(
-        "signal_time", "Union_abs_logger_1D_time", RELATIVE=He3_gas
-    )
-    detector.target_geometry = '"He3_gas"'
-    detector.time_min = "t_min"
-    detector.time_max = "t_max"
-    detector.n = 100
-    detector.filename = '"detector_signal_time.dat"'
+    # Calculations for q dependent quasi-elastic width
+    instrument.add_declare_var("double", "hbar")
+    instrument.append_initialize("hbar = 6.582119569E-16;")
 
-    detector = instrument.add_component(
-        "signal_tof", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
-    )
-    detector.target_geometry = '"He3_gas"'
-    detector.yheight = He3_gas.yheight
-    detector.n = 50
-    detector.time_min = "t_min"
-    detector.time_max = "t_max"
-    detector.time_bins = 250
-    detector.filename = '"detector_signal_2D.dat"'
+    instrument.add_declare_var("double", "sample_D")
+    instrument.add_declare_var("double", "sample_tau")
+    instrument.add_declare_var("double", "use_inelastic")
 
-    detector = instrument.add_component(
-        "signal_tof_all", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
-    )
-    detector.target_geometry = '"He3_gas"'
-    detector.yheight = He3_gas.yheight
-    detector.n = 50
-    detector.time_min = "t_min"
-    detector.time_max = "t_max_pulses"
-    detector.time_bins = 350
-    detector.filename = '"detector_signal_2D_all.dat"'
+    instrument.append_initialize("""
+        if (strcmp(sample_choice, "Elastic") == 0) {
+            use_inelastic = 0.0;
+            sample_D = 2.4E-9; // defaults
+            sample_tau = 1E-12;
+        } else if (strcmp(sample_choice, "Known_quasi-elastic") == 0) {
+            use_inelastic = 1.0;
+            sample_D = 1.1E-11;
+            sample_tau = 0.6E-14;
+        } else if (strcmp(sample_choice, "Unknown_quasi-elastic") == 0) {
+            use_inelastic = 1.0;
+            sample_D = 1.9E-11;
+            sample_tau = 1.2E-14;
+        } else {
+            printf("sample_choice parameter did not match any sample choice! \\n");
+            exit(1);
+        }
 
-    detector_event = instrument.add_component(
-        "signal_tof_event", "Union_abs_logger_1D_space_event", RELATIVE=He3_gas
-    )
-    detector_event.target_geometry = '"He3_gas"'
-    detector_event.yheight = He3_gas.yheight
-    detector_event.n = 200
-    detector_event.filename = '"detector_signal_event.dat"'
+    """)
+
+    # typical values
+    #D = 2.4E-9 # s
+    #tau = 1E-12 # m^2/s
+
+    for index, analyzer_direction in enumerate(analyzer_directions):
+        analyzer_dir = instrument.add_component(f"analyzer_{index}_dir", "Arm")
+        analyzer_dir.set_AT(0, sample_position)
+        analyzer_dir.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
+
+        instrument.add_declare_var("double", f"Q_{index}")
+        instrument.append_initialize(f"Q_{index}=1E10*4.0*PI/backscattering_wavelength*sin(DEG2RAD*{analyzer_direction}/2.0);")
+
+        c_gamma = f"use_inelastic*1E3*hbar*sample_D*Q_{index}*Q_{index}/(1.0+sample_D*sample_tau*Q_{index}*Q_{index})"
+
+        instrument.append_initialize(f'printf("gamma_value {index} = %lf", {c_gamma});')
+
+        WHEN_expression = f"channel_index=={index}"
+
+        inc = instrument.add_component(f"Incoherent_sample_{index}", "Incoherent")
+        inc.set_RELATIVE(analyzer_dir)
+        inc.set_WHEN(WHEN_expression)
+
+        inc.set_parameters(radius=0.01, yheight=0.03, target_z=sample_analyzer_dist,
+                           focus_xw=0.03, focus_yh=0.03, gamma=c_gamma,
+                           f_QE=0.99, sigma_abs=2.0)
+
+        analyzer_pos = instrument.add_component(f"analyzer_{index}_pos", "Arm")
+        analyzer_pos.set_AT([0, 0, sample_analyzer_dist], RELATIVE=analyzer_dir)
+
+        analyzer_orientation = instrument.add_component(f"analyzer_{index}_orientation", "Arm")
+        analyzer_orientation.set_AT(0, RELATIVE=analyzer_pos)
+        analyzer_orientation.set_ROTATED([0, 90, 0], RELATIVE=analyzer_pos)
+
+        return_orientation = instrument.add_component(f"return_orientation_{index}", "Arm")
+        return_orientation.set_AT(0, RELATIVE=analyzer_pos)
+        return_orientation.set_ROTATED([0, 180, 0], RELATIVE=analyzer_pos)
+
+        return_dir = instrument.add_component(f"return_dir_{index}", "Arm")
+        return_dir.set_AT(0, return_orientation)
+        return_dir.set_ROTATED(["-2.0*analyzer_angle", 0, 0], RELATIVE=return_orientation)
+
+        analyzer = instrument.add_component(f"analyzer_{index}", "Monochromator_flat")
+        analyzer.set_parameters(
+            zwidth=0.15, yheight=0.05, r0=0.7, Q=analyzer_q, mosaich=30, mosaicv=30
+        )
+        analyzer.set_AT(0, RELATIVE=analyzer_orientation)
+        analyzer.set_ROTATED([0, 0, "analyzer_angle"], RELATIVE=analyzer_orientation)
+
+
+        # Add a slit before each casing
+        slit = instrument.add_component(f"Slit_{index}", "Slit")
+        slit.set_parameters(xwidth=0.06, yheight=0.1)
+        slit.set_AT([0,0,f"{analyzer_detector_dist.name} - 0.05"], RELATIVE=return_dir)
+
+        if index == 1:
+            # Only apply glitch in one channel
+            slit.append_EXTEND(f"// Simulate detector glitch with timing")
+            slit.append_EXTEND(f"if (y > 0.14*0.08 && y < 0.24*0.08 && rand01() > 0.23)")
+            slit.append_EXTEND(f"t += 0.00034;")
+
+        slit.set_WHEN(WHEN_expression)
+        analyzer.set_WHEN(WHEN_expression)
+
+        # Create detector casing with gas volume inside
+        casing = instrument.add_component(f"Al_container_{index}", "Union_cylinder")
+        casing.set_parameters(
+            yheight=0.1, radius=0.03, p_interact=0.25, material_string='"Al"', priority=300 + 2*index
+        )
+        casing.set_AT([0, 0, analyzer_detector_dist], return_dir)
+
+        He3_gas = instrument.add_component(f"He3_gas_{index}", "Union_cylinder")
+        He3_gas.set_AT_RELATIVE(casing)
+        He3_gas.set_parameters(
+            yheight=casing.yheight - 0.02,
+            radius=casing.radius - 4e-3,
+            material_string='"He3"',
+            priority=301 + 2*index,
+            p_interact=0.2,
+        )
+
+
+
+        if index in plot_indices:
+            detector = instrument.add_component(
+                f"signal_space_{index}", "Union_abs_logger_1D_space", RELATIVE=He3_gas
+            )
+            detector.target_geometry = f'"He3_gas_{index}"'
+            detector.yheight = He3_gas.yheight
+            detector.n = 50
+            detector.filename = f'"detector_signal_space_{index}.dat"'
+
+            detector = instrument.add_component(
+                f"signal_time_{index}", "Union_abs_logger_1D_time", RELATIVE=He3_gas
+            )
+            detector.target_geometry = f'"He3_gas_{index}"'
+            detector.time_min = "t_min"
+            detector.time_max = "t_max"
+            detector.n = 100
+            detector.filename = f'"detector_signal_time_{index}.dat"'
+
+            detector = instrument.add_component(
+                f"signal_tof_{index}", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
+            )
+            detector.target_geometry = f'"He3_gas_{index}"'
+            detector.yheight = He3_gas.yheight
+            detector.n = 50
+            detector.time_min = "t_min"
+            detector.time_max = "t_max"
+            detector.time_bins = 250
+            detector.filename = f'"detector_signal_2D_{index}.dat"'
+
+            """
+            # Skipped as the multiple pulses exercise is not done
+            detector = instrument.add_component(
+                f"signal_tof_all_{index}", "Union_abs_logger_1D_space_tof", RELATIVE=He3_gas
+            )
+            detector.target_geometry = f'"He3_gas_{index}"'
+            detector.yheight = He3_gas.yheight
+            detector.n = 50
+            detector.time_min = "t_min"
+            detector.time_max = "t_max_pulses"
+            detector.time_bins = 350
+            detector.filename = f'"detector_signal_2D_all_{index}.dat"'
+            """
+
+        detector_event = instrument.add_component(
+            f"signal_tof_event_{index}", "Union_abs_logger_1D_space_event", RELATIVE=He3_gas
+        )
+        detector_event.target_geometry = f'"He3_gas_{index}"'
+        detector_event.yheight = He3_gas.yheight
+        detector_event.n = 200
+        detector_event.filename = f'"detector_signal_event_{index}.dat"'
 
     master = instrument.add_component("detector_master", "Union_master")
     stop = instrument.add_component("stop", "Union_stop")
