@@ -47,8 +47,9 @@ jobs:
           frozen: true
 
       - name: Build the book
+        # Filter ipykernel warnings about encryption
         run: |
-          pixi run build
+          pixi run build 2> >(grep -Fv "Kernel is running over TCP without encryption" >&2)
 
       - uses: actions/upload-artifact@v7
         with:
