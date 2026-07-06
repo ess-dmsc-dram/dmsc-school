@@ -68,6 +68,7 @@ sphinx:
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
+      - 'https://people.sc.fsu.edu/~jburkardt/data/csv/csv.html'
     linkcheck_anchors_ignore_for_url:
       # These are redirected to a URL with a concrete version,
       # linkcheck cannot resolve anchors with this redirect.
