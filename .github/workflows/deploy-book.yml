@@ -31,6 +31,7 @@ jobs:
           msg: Apply automatic formatting
 
   build-book:
+    needs: formatting
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -60,7 +61,7 @@ jobs:
           pixi run linkcheck
 
   deploy-book:
-    needs: [build-book, formatting]
+    needs: [build-book]
     runs-on: ubuntu-latest
     if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.deploy
 
