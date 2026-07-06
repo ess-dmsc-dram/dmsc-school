@@ -31,6 +31,7 @@ jobs:
           msg: Apply automatic formatting
 
   build-book:
+    needs: formatting
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -46,8 +47,9 @@ jobs:
           frozen: true
 
       - name: Build the book
+        # Filter ipykernel warnings about encryption
         run: |
-          pixi run build
+          pixi run build 2> >(grep -Fv "Kernel is running over TCP without encryption" >&2)
 
       - uses: actions/upload-artifact@v7
         with:
@@ -60,7 +62,7 @@ jobs:
           pixi run linkcheck
 
   deploy-book:
-    needs: [build-book, formatting]
+    needs: [build-book]
     runs-on: ubuntu-latest
     if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.deploy
 
