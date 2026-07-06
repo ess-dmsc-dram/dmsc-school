@@ -73,10 +73,7 @@ sphinx:
       # This means that we have to manually check the anchors!
       - 'https?://docs\.easydiffraction\.org/lib/latest'
       - 'https?://easyscience\.github\.io/diffraction-lib/latest'
-    nb_ipython_hold_on: true
-    nb_ipython_init_code: |
-      import logging
-      logging.getLogger('IPKernelApp').setLevel(logging.ERROR)
+
 exclude_patterns:
   - 'article/article.md'
   - '.pixi/*'
