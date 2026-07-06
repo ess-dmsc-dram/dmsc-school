@@ -64,8 +64,6 @@ sphinx:
       # From plotly. The output looks fine, so this seems safe to ignore.
       - "mystnb.unknown_mime_type"
       - "myst.xref_missing"
-      # [IPKernelApp] WARNING | Kernel is running over TCP without encryption...
-      - misc.IPKernelApp
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
@@ -75,7 +73,10 @@ sphinx:
       # This means that we have to manually check the anchors!
       - 'https?://docs\.easydiffraction\.org/lib/latest'
       - 'https?://easyscience\.github\.io/diffraction-lib/latest'
-
+    nb_ipython_hold_on: true
+    nb_ipython_init_code: |
+      import logging
+      logging.getLogger('IPKernelApp').setLevel(logging.ERROR)
 exclude_patterns:
   - 'article/article.md'
   - '.pixi/*'
