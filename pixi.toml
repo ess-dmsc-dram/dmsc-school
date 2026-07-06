@@ -45,7 +45,15 @@ scitacean = ">=26.2"
 sphinxcontrib-mermaid = ">=1.0"
 
 [tasks.build]
-cmd = "jupyter-book build -W --keep-going ."
+# Catch the warnings about kernel encryption
+cmd = [
+    "bash",
+    "-c",
+    """
+    jupyter-book build -W --keep-going . \
+      2> >(grep -Fv "Kernel is running over TCP without encryption" >&2)
+    """
+]
 description = "Build the book"
 cwd = "./"
 
