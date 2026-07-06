@@ -28,6 +28,7 @@ execute:
   stderr_output: "error"
   exclude_patterns:
     - '3-mcstas/Talk.ipynb'
+    - '5-analysis/analysis-qens.ipynb'  # TODO: remove once new QENS analysis is ready
     - '6-scicat/9-exercise.ipynb'
     - '6-scicat/workbooks/*'
 
