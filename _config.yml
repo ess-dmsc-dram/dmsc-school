@@ -73,6 +73,9 @@ sphinx:
       # This means that we have to manually check the anchors!
       - 'https?://docs\.easydiffraction\.org/lib/latest'
       - 'https?://easyscience\.github\.io/diffraction-lib/latest'
+    nb_execution_kwargs:
+      extra_arguments:
+        - --IPKernelApp.log_level=ERROR
 
 exclude_patterns:
   - 'article/article.md'

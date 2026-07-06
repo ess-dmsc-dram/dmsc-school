@@ -47,9 +47,9 @@ jobs:
           frozen: true
 
       - name: Build the book
-        env:
-          # Tell Python to ignore unencrypted kernel communication warning strings
-          PYTHONWARNINGS: "ignore:Kernel is running over TCP:UserWarning"
+        # env:
+        #   # Tell Python to ignore unencrypted kernel communication warning strings
+        #   PYTHONWARNINGS: "ignore:Kernel is running over TCP:UserWarning"
         run: |
           pixi run build
 
