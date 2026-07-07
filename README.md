@@ -57,7 +57,9 @@ There are a few tags that are often used. See [this page](https://jupyterbook.or
 - `remove-output`
     `outputs` of the cell will not be included in the published pages.
 - `remove-cell`
-    Not included in the build. Also used by `update_workbook.py` script.
+    Not included in the rendered book. But still executed! Also used by `update_workbook.py` script.
+- `skip-execution`
+    The cell is not executed when building the book.
 
 #### Workbook tags
 - `solution`:
