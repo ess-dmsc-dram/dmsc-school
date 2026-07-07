@@ -79,6 +79,9 @@ def load_qens(path: str) -> sc.DataArray:
             path, f"signal_tof_event_{num}", mcstas_sample_position
         )
 
+        del events['id']
+        del events['n']
+
         weights = events.pop("p")
         weights.unit = "counts"
         weights *= float(meta["integration_time"])
@@ -91,7 +94,7 @@ def load_qens(path: str) -> sc.DataArray:
 
         # The event positions are in the detector coordinate system.
         # Translate by the detector offset to get the lab system.
-        event_x = da.coords["x"].to(dtype=float)
+        event_x = da.coords.pop("x").to(dtype=float)
         event_x.unit = "m"
         event_y = da.coords["y"].to(dtype=float)
         event_y.unit = "m"
@@ -108,16 +111,18 @@ def load_qens(path: str) -> sc.DataArray:
         da.coords["sample_position"] = sc.vector([0.0, 0.0, 0.0], unit="m")
         da.coords["source_position"] = -mcstas_sample_position
 
-        da.coords["detector_number"] = sc.index(num).broadcast(
+        da.coords["bank"] = sc.scalar(num).broadcast(
             dims=["event"], shape=[len(da)]
         )
 
         da.coords.update(
-            {name: var.broadcast(                dims=["event"], shape=[len(da)]            )
+            {
+                name: var.broadcast(dims=["event"], shape=[len(da)])
                 for name, var in
                 _load_analyzer_info(path, num, detector_position, mcstas_sample_position).items()
-            })
+            }
+        )
 
         data.append(da)
 
-    return sc.concat(data, dim="event").group("detector_number")
+    return sc.concat(data, dim="event")
