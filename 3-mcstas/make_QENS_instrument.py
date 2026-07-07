@@ -242,7 +242,7 @@ def make(**kwargs):
 
         c_gamma = f"use_inelastic*1E3*hbar*sample_D*Q_{index}*Q_{index}/(1.0+sample_D*sample_tau*Q_{index}*Q_{index})"
 
-        instrument.append_initialize(f'printf("gamma_value {index} = %lf", {c_gamma});')
+        instrument.append_initialize(f'if (!mcdotrace) printf("gamma_value {index} = %lf", {c_gamma});')
 
         WHEN_expression = f"channel_index=={index}"
 
