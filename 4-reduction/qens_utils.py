@@ -120,4 +120,4 @@ def load_qens(path: str) -> sc.DataArray:
 
         data.append(da)
 
-    return sc.concat(data, dim="event").group("detector_number")
+    return sc.concat(data, dim="event")
