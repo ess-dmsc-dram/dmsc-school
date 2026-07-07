@@ -142,6 +142,8 @@ RawData = NewType("RawData", sc.DataArray)
 MaskedRange = NewType("MaskedRange", tuple[float, float])
 """A range of values to mask, given as a (min, max) tuple."""
 
+MaskedBank = NewType("MaskedBank", int)
+"""Bank number to mask."""
 
 MaskedData = NewType("MaskedData", sc.DataArray)
 """Data with masked regions."""
@@ -162,6 +164,7 @@ __all__ = [
     "CoordTransformGraph",
     "Foldername",
     "RawData",
+    "MaskedBank",
     "MaskedRange",
     "MaskedData",
     "EnergyTransferData",
