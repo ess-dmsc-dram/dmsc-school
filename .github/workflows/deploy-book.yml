@@ -57,9 +57,11 @@ jobs:
           path: ./_build/html
 
       - name: Check links
-        if: github.event_name != 'workflow_dispatch' || inputs.linkcheck
+        # Only run linkcheck on main branch or if requested by workflow_dispatch
+        if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.linkcheck
         run: |
           pixi run linkcheck
+        continue-on-error: true  # We still want to deploy the book even if linkcheck fails
 
   deploy-book:
     needs: [build-book]
