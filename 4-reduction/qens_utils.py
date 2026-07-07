@@ -108,15 +108,17 @@ def load_qens(path: str) -> sc.DataArray:
         da.coords["sample_position"] = sc.vector([0.0, 0.0, 0.0], unit="m")
         da.coords["source_position"] = -mcstas_sample_position
 
-        da.coords["detector_number"] = sc.index(num).broadcast(
+        da.coords["detector_number"] = sc.scalar(num).broadcast(
             dims=["event"], shape=[len(da)]
         )
 
         da.coords.update(
-            {name: var.broadcast(                dims=["event"], shape=[len(da)]            )
+            {
+                name: var.broadcast(dims=["event"], shape=[len(da)])
                 for name, var in
                 _load_analyzer_info(path, num, detector_position, mcstas_sample_position).items()
-            })
+            }
+        )
 
         data.append(da)
 
