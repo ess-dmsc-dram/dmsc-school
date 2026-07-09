@@ -64,15 +64,17 @@ jobs:
         continue-on-error: true  # We still want to deploy the book even if linkcheck fails
 
   deploy-book:
-    needs: [build-book]
-    runs-on: ubuntu-latest
+    needs: build-book
+    runs-on: ubuntu-slim
     if: (github.event_name == 'push' && github.ref_name == 'main') || inputs.deploy
-
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/download-artifact@v8
-      - name: Upload to GH pages
-        uses: peaceiris/actions-gh-pages@v4
+      - uses: actions/deploy-pages@v4
+        id: deployment
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dmsc-school-book
-          force_orphan: true
+          artifact_name: dmsc-school-book
