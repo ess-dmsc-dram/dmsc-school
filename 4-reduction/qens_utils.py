@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2026 Scipp contributors (https://github.com/scipp)
-from collections.abc import Generator
+from typing import NewType
 
 import mcstastox
 import scipp as sc
@@ -111,18 +111,63 @@ def load_qens(path: str) -> sc.DataArray:
         da.coords["sample_position"] = sc.vector([0.0, 0.0, 0.0], unit="m")
         da.coords["source_position"] = -mcstas_sample_position
 
-        da.coords["bank"] = sc.scalar(num).broadcast(
-            dims=["event"], shape=[len(da)]
-        )
+        da.coords["bank"] = sc.scalar(num).broadcast(dims=["event"], shape=[len(da)])
 
         da.coords.update(
             {
                 name: var.broadcast(dims=["event"], shape=[len(da)])
-                for name, var in
-                _load_analyzer_info(path, num, detector_position, mcstas_sample_position).items()
+                for name, var in _load_analyzer_info(
+                    path, num, detector_position, mcstas_sample_position
+                ).items()
             }
         )
 
         data.append(da)
 
     return sc.concat(data, dim="event")
+
+
+CoordTransformGraph = NewType("CoordTransformGraph", dict)
+"""Graph describing coordinate transformations."""
+
+
+Foldername = NewType("Foldername", str)
+"""Folder name from which to load data."""
+
+
+RawData = NewType("RawData", sc.DataArray)
+"""Raw loaded data."""
+
+
+MaskedRange = NewType("MaskedRange", tuple[float, float])
+"""A range of values to mask, given as a (min, max) tuple."""
+
+MaskedBank = NewType("MaskedBank", int)
+"""Bank number to mask."""
+
+MaskedData = NewType("MaskedData", sc.DataArray)
+"""Data with masked regions."""
+
+
+QEData = NewType("QEData", sc.DataArray)
+"""Data with Q and energy transfer coordinates."""
+
+
+BinWidth = NewType("BinWidth", sc.Variable)
+"""Width of energy transfer bins."""
+
+
+QEHistogram = NewType("QEHistogram", sc.DataArray)
+"""Data histogrammed in momentum and energy transfer bins."""
+
+__all__ = [
+    "CoordTransformGraph",
+    "Foldername",
+    "RawData",
+    "MaskedBank",
+    "MaskedRange",
+    "MaskedData",
+    "QEData",
+    "BinWidth",
+    "QEHistogram",
+]
