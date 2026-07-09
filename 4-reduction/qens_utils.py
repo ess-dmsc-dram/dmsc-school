@@ -149,16 +149,16 @@ MaskedData = NewType("MaskedData", sc.DataArray)
 """Data with masked regions."""
 
 
-EnergyTransferData = NewType("EnergyTransferData", sc.DataArray)
-"""Data with energy transfer coordinate."""
+QEData = NewType("QEData", sc.DataArray)
+"""Data with Q and energy transfer coordinates."""
 
 
 BinWidth = NewType("BinWidth", sc.Variable)
 """Width of energy transfer bins."""
 
 
-EnergyTransferHistogram = NewType("EnergyTransferHistogram", sc.DataArray)
-"""Data histogrammed in energy transfer bins."""
+QEHistogram = NewType("QEHistogram", sc.DataArray)
+"""Data histogrammed in momentum and energy transfer bins."""
 
 __all__ = [
     "CoordTransformGraph",
@@ -167,7 +167,7 @@ __all__ = [
     "MaskedBank",
     "MaskedRange",
     "MaskedData",
-    "EnergyTransferData",
+    "QEData",
     "BinWidth",
-    "EnergyTransferHistogram",
+    "QEHistogram",
 ]
