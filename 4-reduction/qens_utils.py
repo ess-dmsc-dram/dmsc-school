@@ -79,6 +79,9 @@ def load_qens(path: str) -> sc.DataArray:
             path, f"signal_tof_event_{num}", mcstas_sample_position
         )
 
+        del events['id']
+        del events['n']
+
         weights = events.pop("p")
         weights.unit = "counts"
         weights *= float(meta["integration_time"])
@@ -91,7 +94,7 @@ def load_qens(path: str) -> sc.DataArray:
 
         # The event positions are in the detector coordinate system.
         # Translate by the detector offset to get the lab system.
-        event_x = da.coords["x"].to(dtype=float)
+        event_x = da.coords.pop("x").to(dtype=float)
         event_x.unit = "m"
         event_y = da.coords["y"].to(dtype=float)
         event_y.unit = "m"
@@ -108,9 +111,7 @@ def load_qens(path: str) -> sc.DataArray:
         da.coords["sample_position"] = sc.vector([0.0, 0.0, 0.0], unit="m")
         da.coords["source_position"] = -mcstas_sample_position
 
-        da.coords["detector_number"] = sc.index(num).broadcast(
-            dims=["event"], shape=[len(da)]
-        )
+        da.coords["bank"] = sc.scalar(num).broadcast(dims=["event"], shape=[len(da)])
 
         da.coords.update(
             {
@@ -123,7 +124,7 @@ def load_qens(path: str) -> sc.DataArray:
 
         data.append(da)
 
-    return sc.concat(data, dim="event").group("detector_number")
+    return sc.concat(data, dim="event")
 
 
 CoordTransformGraph = NewType("CoordTransformGraph", dict)
@@ -141,29 +142,32 @@ RawData = NewType("RawData", sc.DataArray)
 MaskedRange = NewType("MaskedRange", tuple[float, float])
 """A range of values to mask, given as a (min, max) tuple."""
 
+MaskedBank = NewType("MaskedBank", int)
+"""Bank number to mask."""
 
 MaskedData = NewType("MaskedData", sc.DataArray)
 """Data with masked regions."""
 
 
-EnergyTransferData = NewType("EnergyTransferData", sc.DataArray)
-"""Data with energy transfer coordinate."""
+QEData = NewType("QEData", sc.DataArray)
+"""Data with Q and energy transfer coordinates."""
 
 
 BinWidth = NewType("BinWidth", sc.Variable)
 """Width of energy transfer bins."""
 
 
-EnergyTransferHistogram = NewType("EnergyTransferHistogram", sc.DataArray)
-"""Data histogrammed in energy transfer bins."""
+QEHistogram = NewType("QEHistogram", sc.DataArray)
+"""Data histogrammed in momentum and energy transfer bins."""
 
 __all__ = [
     "CoordTransformGraph",
     "Foldername",
     "RawData",
+    "MaskedBank",
     "MaskedRange",
     "MaskedData",
-    "EnergyTransferData",
+    "QEData",
     "BinWidth",
-    "EnergyTransferHistogram",
+    "QEHistogram",
 ]
