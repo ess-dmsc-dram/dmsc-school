@@ -186,11 +186,13 @@ def make(**kwargs):
         yheight=0.47, radius=casing.radius - 4e-3, material_string='"He3"', priority=310
     )
 
-    buble = instrument.add_component("gas_buble1", "Union_sphere")
+    buble = instrument.add_component("gas_buble1", "Union_cylinder")
     buble.set_parameters(
-        radius=0.99 * He3_gas.radius, material_string='"Vacuum"', priority=500
+        radius=0.9 * He3_gas.radius, yheight=0.15 * He3_gas.yheight,
+        material_string='"Vacuum"', priority=500
     )
-    buble.set_AT([0, -0.347 * He3_gas.yheight, 0], RELATIVE=He3_gas)
+    buble.set_AT([0.0, -0.327 * He3_gas.yheight, 0.0], RELATIVE=He3_gas)
+    buble.set_ROTATED([5,0,0], RELATIVE=He3_gas)
 
     """
     buble_1 = instrument.add_component("gas_buble1", "Union_sphere")
