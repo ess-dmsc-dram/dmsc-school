@@ -3,7 +3,7 @@
 from collections.abc import Iterable
 from typing import Tuple
 
-from easyscience.Objects.variable import Parameter
+from easyscience import Parameter
 import numpy as np
 import pandas as pd
 
