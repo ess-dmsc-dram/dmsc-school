@@ -31,9 +31,3 @@ def fetch_data(name: str) -> str:
         },
     )
     return registry.fetch(name)
-
-
-def save_fit_params(filename: str, params: Iterable[Parameter]) -> None:
-    fit_params = pd.DataFrame([param.encode_data() for param in params])
-    with open(filename, 'w') as file:
-        file.write(fit_params.to_csv(index=False))
