@@ -12,6 +12,7 @@ platforms = [
 
 [dependencies]
 python = "3.12.*"
+anywidget = ">=0.9.0"
 corner = ">=2.2"
 dynesty = ">=2.1"
 easydiffraction = ">=0.19.1"
