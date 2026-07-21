@@ -1,8 +1,14 @@
+import os
 import pathlib
 import sys
 
-_cur_dir = pathlib.Path(__file__).resolve().parent
-_scicat_tool_dir = _cur_dir.parent / "6-scicat/tools"
-sys.path.append(_scicat_tool_dir.as_posix())
+widget_module_path = (
+    pathlib.Path(__file__).parent.parent
+    .joinpath("6-scicat", "tools")
+    .resolve()
+)
+sys.path.append(os.fspath(widget_module_path))
 
-from scicat_widgets import upload_widget  # noqa: E402
+from scicat_widgets import upload_widget
+
+__all__ = ["upload_widget"]
