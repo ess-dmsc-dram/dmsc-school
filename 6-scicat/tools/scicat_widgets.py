@@ -8,7 +8,7 @@ from collections.abc import Callable
 
 _SCICAT_PROFILE = "staging.ess"
 
-_SCHOOL_PROPOSAL = "213256"
+_SCHOOL_PROPOSAL = "919936"
 _SCHOOL_INSTRUMENT_ID = "20.500.12269/de2b79b1-ca76-4954-b7f7-3535efaff2e2"
 _SCHOOL_INSTRUMENT_NAME = "WORKSHOP"
 
