@@ -39,7 +39,8 @@ class QENS_Quiz(Quiz):
 
         required_parameters = dict(sample_distance=150, energy_width_ueV=5,
                                    sample_choice='"Elastic"', n_pulses=1,
-                                   analyzer_distance=3.0)
+                                   sample_analyzer_distance=3.0,
+                                   analyzer_detector_distance=2.8)
 
         if not is_instrument_object(answer):
             return
@@ -272,7 +273,7 @@ class QENS_Quiz(Quiz):
         above_msg = "Expected a smaller value. You can ignore the small side peak." \
                     "It should be possible to zoom and get mouse coordinates on the plot."
 
-        self.insert_value(answer, 0.00126,
+        self.insert_value(answer, 0.00034,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
                           tolerance_factor=0.25)
