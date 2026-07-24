@@ -116,24 +116,14 @@ def make(**kwargs):
 
 
     sample_choice = instrument.add_parameter(
-        "string", "sample_choice", value='"Elastic"', comment="Choice of sample type"
+        "string", "sample_choice", value='"Elastic"', comment="Choice of sample type, Elastic or QENS_sample"
     )
     sample_choice.add_option('"Elastic"', options_are_legal=True)
-    sample_choice.add_option('"Known_quasi-elastic"', options_are_legal=True)
-    sample_choice.add_option('"Unknown_quasi-elastic"', options_are_legal=True)
+    sample_choice.add_option('"QENS_sample"', options_are_legal=True)
 
 
     # set up samples with direction code
     instrument.add_user_var("int", "channel_index")
-
-    instrument.add_parameter(
-        "double",
-        "gamma_ueV",
-        value=10,
-        comment="[ueV] Energy width of known quasi-elastic sample",
-    )
-    gamma = instrument.add_declare_var("double", "gamma_meV")
-    instrument.append_initialize("gamma_meV = 1E-3*gamma_ueV;")
 
     selector = instrument.add_component("channel_selector", "Arm")
     selector.append_EXTEND(f"""
@@ -213,14 +203,10 @@ def make(**kwargs):
             use_inelastic = 0.0;
             sample_D = 2.4E-9; // defaults
             sample_tau = 1E-12;
-        } else if (strcmp(sample_choice, "Known_quasi-elastic") == 0) {
+        } else if (strcmp(sample_choice, "QENS_sample") == 0) {
             use_inelastic = 1.0;
             sample_D = 1.1E-11;
             sample_tau = 0.6E-14;
-        } else if (strcmp(sample_choice, "Unknown_quasi-elastic") == 0) {
-            use_inelastic = 1.0;
-            sample_D = 1.9E-11;
-            sample_tau = 1.2E-14;
         } else {
             printf("sample_choice parameter did not match any sample choice! \\n");
             exit(1);
