@@ -4,7 +4,7 @@
 title: ESS Data Management and Software Centre Summer School
 author: Data Management and Software Centre
 # logo: logo.png
-copyright: "2025"
+copyright: "2026"
 
 parse:
   myst_enable_extensions:
@@ -30,6 +30,7 @@ execute:
     - '3-mcstas/Talk.ipynb'
     - '5-analysis/analysis-qens.ipynb'  # TODO: remove once new QENS analysis is ready
     - '6-scicat/9-exercise.ipynb'
+    - '6-scicat/upload.ipynb'
     - '6-scicat/workbooks/*'
 
 # Define the name of the latex output file for PDF builds
