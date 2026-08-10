@@ -33,7 +33,7 @@ parts:
   - file: 3-mcstas/mcstas-powder-diffraction
   - file: 3-mcstas/mcstas-qens
   - file: 3-mcstas/mcstas-sans
-- caption: Reduction with scipp
+- caption: Data reduction
   chapters:
   - file: 4-reduction/scipp-introduction
   - file: 4-reduction/coord-transforms
@@ -41,7 +41,7 @@ parts:
   - file: 4-reduction/reduction-powder-diffraction
   - file: 4-reduction/reduction-qens
   - file: 4-reduction/reduction-sans
-- caption: Analysis #with EasyScience
+- caption: Data analysis
   chapters:
   - file: 5-analysis/intro
   - file: 5-analysis/prob_data
@@ -51,7 +51,6 @@ parts:
   - file: 5-analysis/analysis-powder-diffraction
   - file: 5-analysis/analysis-qens
   - file: 5-analysis/analysis-sans
-  - file: 5-analysis/analysis-sans-2-bayes
   - file: 5-analysis/mcmc
   - file: 5-analysis/nested_sampling
   - file: 5-analysis/powder_ns
