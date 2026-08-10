@@ -30,10 +30,6 @@ def main():
     results = detector(after_sample)
     print(results["message"])
 
-    # print("Number of protons:", len(protons["x"]))
-    # print("Number of neutrons:", len(neutrons["x"]))
-    # print("Detector image:", results["image"].shape)
-
 
 if __name__ == "__main__":
     main()
