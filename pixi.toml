@@ -15,7 +15,7 @@ python = "3.12.*"
 corner = ">=2.2"
 dynesty = ">=2.1"
 easydiffraction = ">=0.19.1"
-easyscience = "=1.3"
+easyscience = ">=2.4"
 emcee = ">=3.1"
 graphviz = ">=13.1.2"
 h5py = ">=3.13"
@@ -30,7 +30,7 @@ mcstas = ">=3.7.5"
 mcstasscript = ">=0.0.84"
 mcstastox = ">=0.0.12"
 mpltoolbox = ">=26.2.0"
-numpy = "*"  # This currently installs v1 because of easyscience, need to update!
+numpy = "*"  
 pandas = ">=3.0.3"
 plopp = ">=26.5"
 pooch = ">=1.9"
@@ -44,6 +44,10 @@ scippnexus = ">=26.1.1"
 scipy = ">=1.17.1"
 scitacean = ">=26.2"
 sphinxcontrib-mermaid = ">=1.0"
+
+[pypi-dependencies]
+# Not available on conda-forge yet.
+easydynamics = ">=0.9.0"
 
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."
