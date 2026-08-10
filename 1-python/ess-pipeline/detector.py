@@ -2,13 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def make_image(neutrons: dict, nx=100, ny=100) -> np.ndarray:
-    """Turn neutron positions into detector pixels."""
+def record_events(neutrons: dict, nx=100, ny=100, bins=50) -> np.ndarray:
+    """Turn neutron positions into detector pixels.
+    Also make a histogram of the neutron energies/wavelengths.
+    """
 
-    detector_width = 10.0  # cm
-    detector_height = 10.0  # cm
+    detector_width = 10.0  # what is the unit?
+    detector_height = 10.0
 
     image = np.zeros((nx, ny))
+    spectrum = np.zeros(bins)
 
     for x, y in zip(neutrons["x"], neutrons["y"]):
         # Convert x/y coordinates into pixel indices.
@@ -19,36 +22,29 @@ def make_image(neutrons: dict, nx=100, ny=100) -> np.ndarray:
         if 0 <= x_pixel < nx and 0 <= y_pixel < ny:
             image[x_pixel, y_pixel] += 1
 
-    return image
+    # TODO 1: Can the performance be improved by using numpy?
+    # TODO 2: Implement the wavelength/energy spectrum calculation.
+    # TODO 3: Can we think about resolution effects?
+
+    return image, spectrum
 
 
-def make_spectrum(neutrons: dict, bins=50) -> tuple[np.ndarray, np.ndarray]:
-    """Make a spectrum (energy, wavelength, etc.)."""
-
-    spectrum, bin_edges = np.histogram(neutrons["energy"], bins=bins)
-
-    return spectrum, bin_edges
-
-
-def plot(
-    image: np.ndarray, spectrum: np.ndarray, energy_bins: np.ndarray
-) -> plt.Figure:
+def plot(image: np.ndarray, spectrum: np.ndarray) -> plt.Figure:
     """Plot the detector image and energy spectrum."""
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-    # Plot the detector image
+    # TODO: Plot the detector image
 
-    # Plot the energy spectrum
+    # TODO: Plot the energy spectrum
 
     return fig
 
 
 def detector(neutrons: dict) -> dict:
 
-    image = make_image(neutrons)
-    spectrum, energy_bins = make_spectrum(neutrons)
-    fig = plot(image, spectrum, energy_bins)
+    image, spectrum = record_events(neutrons)
+    fig = plot(image, spectrum)
 
     results = {
         "image": image,
