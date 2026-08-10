@@ -18,19 +18,17 @@ def make_protons(n_protons: int = 100) -> dict:
         "time": np.zeros(n_protons),
     }
 
+    # TODO: How could we make the initial proton distribution more realistic? (e.g. beam size, divergence, energy spread, etc.)
+
     return protons
 
 
 def accelerate(protons: dict) -> dict:
     """Accelerate the proton beam."""
 
-    # TODO:
-    # Increase the proton energy.
-    #
-    # For the simple version, every proton can have
-    # the same final energy.
-
     protons["energy"] = np.full_like(protons["energy"], fill_value=1000.0)
+
+    # TODO: How could we make the acceleration more realistic? (e.g. time-dependent, energy spread, etc.)
 
     return protons
 
