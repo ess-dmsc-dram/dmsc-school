@@ -43,19 +43,19 @@ parts:
   - file: 4-reduction/reduction-sans
 - caption: Data analysis
   chapters:
-  - file: 5-analysis/intro
-  - file: 5-analysis/prob_data
-  - file: 5-analysis/easy_intro
-  - file: 5-analysis/fitting
-  - file: 5-analysis/bayes
-  - file: 5-analysis/analysis-powder-diffraction
-  - file: 5-analysis/analysis-qens
-  - file: 5-analysis/analysis-sans
-  - file: 5-analysis/mcmc
-  - file: 5-analysis/nested_sampling
-  - file: 5-analysis/powder_ns
-  - file: 5-analysis/qens_ns
-  - file: 5-analysis/sans_ns
+  - file: 5-analysis/1-intro
+  - file: 5-analysis/2-prob_data
+  - file: 5-analysis/3-easy_intro
+  - file: 5-analysis/4-basic_fitting
+  - file: 5-analysis/5-priors_fitting
+  - file: 5-analysis/6a-analysis-sans
+  - file: 5-analysis/6b-analysis-qens
+  - file: 5-analysis/6c-analysis-powder-diffraction
+  - file: 5-analysis/7-bayesian_intro
+  - file: 5-analysis/8-nested_sampling
+  - file: 5-analysis/9a-bayesian_sans
+  - file: 5-analysis/9b-bayesian_qens
+  - file: 5-analysis/9c-bayesian_powder
 - caption: Scicat
   chapters:
   - file: 6-scicat/1-dataset
