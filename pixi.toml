@@ -47,7 +47,7 @@ sphinxcontrib-mermaid = ">=1.0"
 
 [pypi-dependencies]
 # Not available on conda-forge yet.
-easydynamics = ">=0.9.0"
+easydynamics = ">=0.9.2"
 
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."

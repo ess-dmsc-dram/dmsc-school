@@ -33,11 +33,11 @@ class QENS_Quiz(Quiz):
 
     def question_2(self, answer=None):
         """
-        Set the *sample_distance* corresponding to the answer above and set the simulated energy width to 3 $\\mu$eV.
+        Set the *sample_distance* corresponding to the answer above and set the simulated energy width to 20 $\\mu$eV.
         """
         # check instrument object parameters
 
-        required_parameters = dict(sample_distance=150, energy_width_ueV=5,
+        required_parameters = dict(sample_distance=150, energy_width_ueV=20,
                                    sample_choice='"Elastic"', n_pulses=1,
                                    sample_analyzer_distance=3.0,
                                    analyzer_detector_distance=2.8)
@@ -264,16 +264,17 @@ class QENS_Quiz(Quiz):
 
     def question_10(self, answer=None):
         """
-        - Q: What is the time width when using a known sample with 12 ueV broadening?
-        - A: 1.26 ms
+        - Q: What is the time width (FWHM) of the signal in the channel without the
+             detector glitch when running with the QENS_sample?
+        - A: 0.40 ms (channel 3)
         """
         success_msg = "Yes!"
-        below_msg = "Expected a larger value, are you using the full width at half max convention?" \
+        below_msg = "Expected a larger value, are you using the full width at half max convention? " \
                     "It should be possible to zoom and get mouse coordinates on the plot."
-        above_msg = "Expected a smaller value. You can ignore the small side peak." \
+        above_msg = "Expected a smaller value. Did you use the channel without the detector glitch? " \
                     "It should be possible to zoom and get mouse coordinates on the plot."
 
-        self.insert_value(answer, 0.00034,
+        self.insert_value(answer, 0.0004,
                           feedback_correct=success_msg,
                           feedback_below=below_msg, feedback_above=above_msg,
                           tolerance_factor=0.25)
