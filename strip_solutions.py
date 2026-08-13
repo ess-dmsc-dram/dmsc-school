@@ -4,6 +4,8 @@ from pathlib import Path
 import os
 from shutil import copytree, ignore_patterns
 
+KERNELNAME = "DMSC-School"
+
 BASE_CELL = {
     "cell_type": "code",
     "execution_count": None,
@@ -55,6 +57,10 @@ def clean(filepath, destination, add_mpl_widget_cell=False):
         else:
             out.append(cell)
     obj["cells"] = out
+
+    # Update kernelspec name
+    obj["metadata"]["kernelspec"]["display_name"] = KERNELNAME
+    obj["metadata"]["kernelspec"]["name"] = KERNELNAME
 
     outfile = os.path.join(destination, filepath)
     with open(outfile, "w", encoding="utf-8") as f:
