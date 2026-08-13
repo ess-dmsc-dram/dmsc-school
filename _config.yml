@@ -66,6 +66,7 @@ sphinx:
       # From plotly. The output looks fine, so this seems safe to ignore.
       - "mystnb.unknown_mime_type"
       - "myst.xref_missing"
+      - "misc.highlighting_failure"
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
