@@ -95,6 +95,8 @@ if __name__ == "__main__":
             ".python-version",
             "requirements.in",
             "typos.toml",
+            "pixi.toml",
+            "pixi.lock",
         ),
         dirs_exist_ok=True,
     )
