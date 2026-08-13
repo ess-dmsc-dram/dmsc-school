@@ -24,8 +24,6 @@ parts:
     - file: 1-python/using_external_libraries/pandas
     - file: 1-python/using_external_libraries/unit_testing
   - file: 1-python/ess-pipeline
-    sections:
-    - file: 1-python/ess-pipeline/pipeline
 - caption: Proposals, DMPs and FAIR
   chapters:
   - url: https://ess-dmsc-dram.github.io/dmsc-school/_static/proposals.pdf

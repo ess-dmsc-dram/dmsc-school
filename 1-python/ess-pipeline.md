@@ -1,4 +1,0 @@
-# Fake ESS pipeline
-
-```{tableofcontents}
-```
