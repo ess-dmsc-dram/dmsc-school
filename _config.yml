@@ -61,12 +61,10 @@ sphinx:
   config:
     nb_execution_show_tb: True
     suppress_warnings:
-      # From linkcheck. Mimetypes shouldn't affect link checking
-      - "mystnb.mime_priority"
-      # From plotly. The output looks fine, so this seems safe to ignore.
-      - "mystnb.unknown_mime_type"
+      - "mystnb.mime_priority"  # From linkcheck. Mimetypes shouldn't affect link checking
+      - "mystnb.unknown_mime_type"  # From plotly. The output looks fine, so this seems safe to ignore.
       - "myst.xref_missing"
-      - "misc.highlighting_failure"
+      - "misc.highlighting_failure"  # This is needed to suppress warnings from the pygments highlighter associated with sciline "an error at token: '→'. Retrying in relaxed mode."
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
