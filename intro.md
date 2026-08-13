@@ -19,5 +19,5 @@ Finally, all the data will be stored together within the SciCat metadata catalog
 | Contributors |  |  |  |  |
 | - | - | - | - | - |
 | [Mads Bertelsen](https://github.com/mads-bertelsen) | [Simon Heybrock](https://github.com/SimonHeybrock) | [Henrik Jacobsen](https://github.com/henrikjacobsenfys) | [Johannes Kasimir](https://github.com/jokasimr) | [Andrew R. McCluskey](https://mccluskey.scot) |
-| [Massimiliano Novelli](https://github.com/nitrosx) | [Andrew Sazonov](https://github.com/AndrewSazonov) |[Mridul Seth](https://github.com/MridulS) | [Neil Vaytet](https://github.com/nvaytet) | [Christian Vedel](https://github.com/damskii9992) |
-| [Peter Willendrup](https://github.com/willend) | [Jan-Lukas Wynen](https://github.com/jl-wynen) | [Sunyoung Yoo](https://github.com/YooSunYoung) |  |  |
+| [Massimiliano Novelli](https://github.com/nitrosx) | [Piotr Rozyczko](https://github.com/rozyczko) | [Andrew Sazonov](https://github.com/AndrewSazonov) | [Mridul Seth](https://github.com/MridulS) | [Neil Vaytet](https://github.com/nvaytet) |
+| [Christian Vedel](https://github.com/damskii9992) | [Peter Willendrup](https://github.com/willend) | [Jan-Lukas Wynen](https://github.com/jl-wynen) | [Sunyoung Yoo](https://github.com/YooSunYoung) |  |
