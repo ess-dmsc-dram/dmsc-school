@@ -12,6 +12,8 @@ platforms = [
 
 [dependencies]
 python = "3.12.*"
+anywidget = ">=0.9.0"
+bumps = ">=0.9"
 corner = ">=2.2"
 dynesty = ">=2.1"
 easydiffraction = ">=0.19.1"
@@ -30,13 +32,14 @@ mcstas = ">=3.7.5"
 mcstasscript = ">=0.0.84"
 mcstastox = ">=0.0.12"
 mpltoolbox = ">=26.2.0"
-numpy = "*"  
+numpy = "*"
 pandas = ">=3.0.3"
 plopp = ">=26.5"
 pooch = ">=1.9"
 pytest = ">=8.4"
 python-graphviz = ">=0.21"
 pythreejs = ">=2.4"
+scicat_widget = ">=26.7.2"
 sciline = ">=25.11.1"
 scipp = ">=26.3.1"
 scippneutron = ">=26.5"
@@ -44,9 +47,10 @@ scippnexus = ">=26.1.1"
 scipy = ">=1.17.1"
 scitacean = ">=26.2"
 sphinxcontrib-mermaid = ">=1.0"
+python-kaleido = ">=1.2.0"
 
 [pypi-dependencies]
-# Not available on conda-forge yet.
+sans-fitter = ">=0.2.0"
 easydynamics = ">=0.9.2"
 
 [tasks.build]

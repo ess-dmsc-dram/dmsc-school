@@ -1,10 +1,10 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: ESS Data Management and Software Centre Summer School
-author: Data Management and Software Centre
+title: ESS Data Management and Scientific Computing Summer School
+author: Data Management and Scientific Computing
 # logo: logo.png
-copyright: "2025"
+copyright: "2026"
 
 parse:
   myst_enable_extensions:
@@ -28,8 +28,9 @@ execute:
   stderr_output: "error"
   exclude_patterns:
     - '3-mcstas/Talk.ipynb'
-    - '5-analysis/analysis-qens.ipynb'  # TODO: remove once new QENS analysis is ready
+    - '5-analysis/6b-analysis-qens.ipynb'  # TODO: remove once new QENS analysis is ready
     - '6-scicat/9-exercise.ipynb'
+    - '6-scicat/upload.ipynb'
     - '6-scicat/workbooks/*'
 
 # Define the name of the latex output file for PDF builds
@@ -60,11 +61,10 @@ sphinx:
   config:
     nb_execution_show_tb: True
     suppress_warnings:
-      # From linkcheck. Mimetypes shouldn't affect link checking
-      - "mystnb.mime_priority"
-      # From plotly. The output looks fine, so this seems safe to ignore.
-      - "mystnb.unknown_mime_type"
+      - "mystnb.mime_priority"  # From linkcheck. Mimetypes shouldn't affect link checking
+      - "mystnb.unknown_mime_type"  # From plotly. The output looks fine, so this seems safe to ignore.
       - "myst.xref_missing"
+      - "misc.highlighting_failure"  # This is needed to suppress warnings from the pygments highlighter associated with sciline "an error at token: '→'. Retrying in relaxed mode."
     linkcheck_ignore:
       # Seems to be too unreliable
       - 'https?://www\.crystallography\.net/'
