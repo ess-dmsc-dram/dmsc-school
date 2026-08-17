@@ -51,8 +51,7 @@ python-kaleido = ">=1.2.0"
 
 [pypi-dependencies]
 sans-fitter = ">=0.2.0"
-easydynamics = ">=0.9.2"
-
+easydynamics = { git = "https://github.com/easyscience/dynamics-lib.git", branch = "import-style" }
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."
 description = "Build the book"
