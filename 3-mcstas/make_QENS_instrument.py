@@ -97,7 +97,7 @@ def make(**kwargs):
     )
     sample_position = instrument.add_component("sample_position", "Arm")
     sample_position.set_AT([0, 0, "sample_distance"], RELATIVE=src)
-
+    sample_position.set_SPLIT(10)
     instrument.add_declare_var("double", "t_min_sample")
     instrument.add_declare_var("double", "t_max_sample")
     instrument.add_declare_var("double", "t_max_sample_pulses")
