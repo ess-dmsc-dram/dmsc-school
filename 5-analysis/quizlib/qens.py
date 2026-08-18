@@ -3,40 +3,6 @@
 
 q1 = [
     {
-        "question": "Why do we set the variance of the empty (zero-count) bins to 1 before fitting?",
-        "type": "multiple_choice",
-        "answers": [
-            {
-                "answer": "The fit weights each point by 1/variance, so a zero variance gives that bin "
-                "infinite weight and destabilises the fit.",
-                "correct": True,
-                "feedback": "Correct. With zero counts the estimated variance is zero, so the weight 1/variance "
-                "diverges. Assigning a variance of 1 (the smallest meaningful counting error) keeps "
-                "those bins in the fit with a sensible weight.",
-            },
-            {
-                "answer": "The detector cannot measure zero counts, so the data must be corrected.",
-                "correct": False,
-                "feedback": "Zero counts is a perfectly valid measurement — it simply means no neutrons arrived "
-                "in that bin. The problem is the estimated variance, not the count itself.",
-            },
-            {
-                "answer": "It removes those bins from the fit.",
-                "correct": False,
-                "feedback": "On the contrary: setting the variance to 1 keeps the bins in the fit with a finite, "
-                "reasonable weight instead of an infinite one.",
-            },
-            {
-                "answer": "It increases the total number of counts in the histogram.",
-                "correct": False,
-                "feedback": "Only the variances are changed, not the counts themselves. The data values are untouched.",
-            },
-        ],
-    }
-]
-
-q2 = [
-    {
         "question": "Looking at the elastic data: why is the elastic peak not exactly at zero energy transfer?",
         "type": "multiple_choice",
         "answers": [
@@ -69,7 +35,7 @@ q2 = [
     }
 ]
 
-q3 = [
+q2 = [
     {
         "question": "Which function should we use to model the measured resolution peak?",
         "type": "multiple_choice",
@@ -102,7 +68,7 @@ q3 = [
     }
 ]
 
-q4 = [
+q3 = [
     {
         "question": "Looking at the data far away from the elastic peak: how should we model the background?",
         "type": "multiple_choice",
@@ -135,7 +101,7 @@ q4 = [
     }
 ]
 
-q5 = [
+q4 = [
     {
         "question": "The area of the fitted resolution Gaussian varies with Q. "
         "How can we deal with this? (select all that apply)",
@@ -177,7 +143,7 @@ q5 = [
     }
 ]
 
-q6 = [
+q5 = [
     {
         "question": "Looking at the quasi-elastic data: how does the width of the sharp peak compare "
         "to the width of the resolution?",
@@ -212,7 +178,7 @@ q6 = [
     }
 ]
 
-q7 = [
+q6 = [
     {
         "question": "And how does the width of the wider peak compare to the resolution?",
         "type": "multiple_choice",
@@ -245,7 +211,7 @@ q7 = [
     }
 ]
 
-q8 = [
+q7 = [
     {
         "question": "How does the fitted width of the Lorentzian depend on Q?",
         "type": "multiple_choice",
@@ -278,7 +244,7 @@ q8 = [
     }
 ]
 
-q9 = [
+q8 = [
     {
         "question": "Which diffusion model should we use to describe this Q dependence of the width?",
         "type": "multiple_choice",
@@ -317,7 +283,7 @@ q9 = [
     }
 ]
 
-q10 = [
+q9 = [
     {
         "question": "Why does fitting all Q values simultaneously give smaller uncertainties than the "
         "two-step approach?",
@@ -356,7 +322,7 @@ q10 = [
     }
 ]
 
-q11 = [
+q10 = [
     {
         "question": "The fitted values deviate somewhat from the true ones. What is the most promising "
         "way to improve the result?",

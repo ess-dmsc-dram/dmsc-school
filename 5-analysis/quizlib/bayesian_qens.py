@@ -3,80 +3,6 @@
 
 q1 = [
     {
-        "question": "We had to give every free parameter a finite `min` and `max` before sampling. "
-        "What do these bounds do?",
-        "type": "multiple_choice",
-        "answers": [
-            {
-                "answer": "They define a uniform prior: every value inside the bounds is equally likely a "
-                "priori, and everything outside is excluded.",
-                "correct": True,
-                "feedback": "Correct. That is why the sampler refuses to start without them — without a prior "
-                "there is no posterior to sample. It also means the bounds are a real modelling "
-                "choice, not just a technicality.",
-            },
-            {
-                "answer": "They keep the optimiser from wandering off, but have no effect on the result.",
-                "correct": False,
-                "feedback": "That is their role in a least-squares fit, where a bound only matters if the "
-                "minimum lies against it. In the Bayesian analysis they are the prior, so they "
-                "affect the posterior everywhere, not just at the edges.",
-            },
-            {
-                "answer": "They set the range over which the chains are started, after which the chains may "
-                "leave the interval.",
-                "correct": False,
-                "feedback": "The chains are indeed started inside the bounds, but they can never leave them: "
-                "the prior is exactly zero outside.",
-            },
-            {
-                "answer": "They define the credible interval that will be reported.",
-                "correct": False,
-                "feedback": "The credible interval is computed from the posterior samples and is normally far "
-                "narrower than the bounds. If it ever reaches the bounds, that is a warning sign "
-                "that the prior — not the data — is determining your answer.",
-            },
-        ],
-    }
-]
-
-q2 = [
-    {
-        "question": "Why is it more dangerous to make the bounds too narrow than too wide?",
-        "type": "multiple_choice",
-        "answers": [
-            {
-                "answer": "Narrow bounds cut off part of the posterior, so the credible interval comes out "
-                "too small and the result looks more precise than the data justify.",
-                "correct": True,
-                "feedback": "Correct. A truncated posterior silently understates the uncertainty, and nothing "
-                "in the output tells you it happened — you have to notice that the posterior runs "
-                "into its bounds. Too-wide bounds only cost you computer time.",
-            },
-            {
-                "answer": "Narrow bounds make the sampler crash.",
-                "correct": False,
-                "feedback": "It runs perfectly happily. That is exactly the problem: you get a plausible-looking "
-                "answer with no error message.",
-            },
-            {
-                "answer": "Wide bounds are never a problem at all.",
-                "correct": False,
-                "feedback": "They are much safer, but not free: the chains need longer to find and explore the "
-                "bulk of the posterior, so you need a longer burn-in and more samples.",
-            },
-            {
-                "answer": "Narrow bounds bias the median but not the credible interval.",
-                "correct": False,
-                "feedback": "Both are affected. Chopping off one tail moves the median as well as shrinking the "
-                "interval.",
-            },
-        ],
-    }
-]
-
-q3 = [
-    {
         "question": "`suggest_bounds()` proposes a range many orders of magnitude wider than the fitted "
         "value of a parameter. What is the most likely explanation?",
         "type": "multiple_choice",
@@ -112,7 +38,7 @@ q3 = [
     }
 ]
 
-q4 = [
+q2 = [
     {
         "question": "What are you looking for in the trace plot?",
         "type": "multiple_choice",
@@ -147,7 +73,7 @@ q4 = [
     }
 ]
 
-q5 = [
+q3 = [
     {
         "question": "The summary reports a median and a 68% credible interval instead of a single "
         "symmetric error bar. What does that buy us?",
@@ -189,7 +115,7 @@ q5 = [
     }
 ]
 
-q6 = [
+q4 = [
     {
         "question": "The resolution fit at this Q has three free parameters: the area and the width of "
         "the Gaussian, and the energy offset. Which pairs do you expect to be correlated?",
@@ -230,7 +156,7 @@ q6 = [
     }
 ]
 
-q7 = [
+q5 = [
     {
         "question": "The 68% credible band is so narrow that it is barely visible — much thinner than "
         "the error bars on the individual data points. Is something wrong?",
@@ -269,7 +195,7 @@ q7 = [
     }
 ]
 
-q8 = [
+q6 = [
     {
         "question": "The quasi-elastic model at each Q has a delta function area, a Lorentzian area, a "
         "Lorentzian width and an energy offset. Which correlations do you expect now?",
@@ -279,7 +205,7 @@ q8 = [
                 "answer": "The two areas and the Lorentzian width are all correlated with one another, "
                 "while the energy offset stays independent.",
                 "correct": True,
-                "feedback": "Correct — the corner plot shows clear tilted ridges between the three intensity "
+                "feedback": "Correct: the corner plot shows clear tilted ridges between the three intensity "
                 "and shape parameters. Both components put intensity near zero energy transfer, so "
                 "the two areas trade against each other (raise one, lower the other, and the "
                 "spectrum barely changes). The delta area is tied to the Lorentzian *width* the "
@@ -303,7 +229,7 @@ q8 = [
                 "spectrum sideways is something no combination of areas and widths can imitate.",
             },
             {
-                "answer": "The same as for the resolution fit — round blobs everywhere.",
+                "answer": "The same as for the resolution fit: round blobs everywhere.",
                 "correct": False,
                 "feedback": "The resolution fit had a single peak, so nothing could trade against anything. Here "
                 "two components describe overlapping intensity in the same energy range, which is "
@@ -313,7 +239,7 @@ q8 = [
     }
 ]
 
-q9 = [
+q7 = [
     {
         "question": "In the exercise above we freed the background coefficient, which we had kept fixed "
         "at zero. What happens to the posterior?",
@@ -327,8 +253,7 @@ q9 = [
                 "flat, so background and Lorentzian tail are partly interchangeable: a little more "
                 "background can be traded for a slightly narrower Lorentzian. The background even "
                 "comes out slightly *negative*, which is unphysical and is your clue that the data "
-                "cannot cleanly separate the two. Fixing a parameter you do not actually know hides "
-                "that ambiguity rather than resolving it.",
+                "cannot cleanly separate the two.",
             },
             {
                 "answer": "Nothing: the background really is zero in this simulated data, so adding a "
@@ -356,7 +281,7 @@ q9 = [
     }
 ]
 
-q10 = [
+q8 = [
     {
         "question": "In the jump-diffusion model Γ(Q) = ħDQ²/(1 + DτQ²), fitted to the widths and areas. "
         "Do you expect D and τ to be correlated?",
@@ -397,7 +322,7 @@ q10 = [
     }
 ]
 
-q11 = [
+q9 = [
     {
         "question": "Why is sampling the global (simultaneous) fit so much slower than sampling one Q at "
         "a time?",
