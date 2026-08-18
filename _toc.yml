@@ -58,7 +58,7 @@ parts:
   - file: 5-analysis/8-nested_sampling
   - file: 5-analysis/9a-bayesian_sans
   - file: 5-analysis/9b-bayesian_qens
-  - file: 5-analysis/9c-bayesian_powder
+  - file: 5-analysis/9c-bayesian-powder-diffraction
 - caption: Scicat
   chapters:
   - file: 6-scicat/1-dataset
