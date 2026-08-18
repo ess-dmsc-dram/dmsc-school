@@ -1,11 +1,16 @@
-import numpy as np
 import mcstasscript as ms
+import numpy as np
 
 
 def make(**kwargs):
 
-    analyzer_directions = [20, 50, 80, 110, 140]
-    plot_indices = [1, 3] # index 1 has glitch
+    # The detectors sit on a circle of radius
+    #   sample_analyzer_distance - analyzer_detector_distance*cos(2*analyzer_angle) = 0.21 m
+    # around the sample, so neighbouring casings (radius 0.03 m) only clear each other when
+    # 2*0.21*sin(spacing/2) > 0.06 m, i.e. a spacing above 16.5 deg. 20 deg leaves 13 mm.
+    # analyzer_directions = [20, 50, 80, 110, 140]
+    analyzer_directions = [20, 40, 60, 80, 100, 120, 140, 160]
+    plot_indices = [1, 3]  # index 1 has glitch
 
     instrument = ms.McStas_instr("QENS", **kwargs)
 
@@ -44,7 +49,10 @@ def make(**kwargs):
     )
 
     instrument.add_parameter(
-        "double", "energy_width_ueV", value=3, comment="Simulated energy range in micro eV"
+        "double",
+        "energy_width_ueV",
+        value=3,
+        comment="Simulated energy range in micro eV",
     )
     instrument.add_declare_var("double", "energy_width_meV")
     instrument.append_initialize("energy_width_meV = 1E-3*energy_width_ueV;")
@@ -89,7 +97,7 @@ def make(**kwargs):
     )
     sample_position = instrument.add_component("sample_position", "Arm")
     sample_position.set_AT([0, 0, "sample_distance"], RELATIVE=src)
-
+    sample_position.set_SPLIT(10)
     instrument.add_declare_var("double", "t_min_sample")
     instrument.add_declare_var("double", "t_max_sample")
     instrument.add_declare_var("double", "t_max_sample_pulses")
@@ -105,35 +113,31 @@ def make(**kwargs):
 
     instrument.add_component("init", "Union_init")
 
-
     sample_analyzer_dist = instrument.add_parameter(
-        "double", "sample_analyzer_distance", value=3.0, comment="[m] Sample analyzer distance"
+        "double",
+        "sample_analyzer_distance",
+        value=3.0,
+        comment="[m] Sample analyzer distance",
     )
 
     analyzer_detector_dist = instrument.add_parameter(
-        "double", "analyzer_detector_distance", value=2.8, comment="[m] Sample analyzer distance"
+        "double",
+        "analyzer_detector_distance",
+        value=2.8,
+        comment="[m] Sample analyzer distance",
     )
-
 
     sample_choice = instrument.add_parameter(
-        "string", "sample_choice", value='"Elastic"', comment="Choice of sample type"
+        "string",
+        "sample_choice",
+        value='"Elastic"',
+        comment="Choice of sample type, Elastic or QENS_sample",
     )
     sample_choice.add_option('"Elastic"', options_are_legal=True)
-    sample_choice.add_option('"Known_quasi-elastic"', options_are_legal=True)
-    sample_choice.add_option('"Unknown_quasi-elastic"', options_are_legal=True)
-
+    sample_choice.add_option('"QENS_sample"', options_are_legal=True)
 
     # set up samples with direction code
     instrument.add_user_var("int", "channel_index")
-
-    instrument.add_parameter(
-        "double",
-        "gamma_ueV",
-        value=10,
-        comment="[ueV] Energy width of known quasi-elastic sample",
-    )
-    gamma = instrument.add_declare_var("double", "gamma_meV")
-    instrument.append_initialize("gamma_meV = 1E-3*gamma_ueV;")
 
     selector = instrument.add_component("channel_selector", "Arm")
     selector.append_EXTEND(f"""
@@ -213,14 +217,10 @@ def make(**kwargs):
             use_inelastic = 0.0;
             sample_D = 2.4E-9; // defaults
             sample_tau = 1E-12;
-        } else if (strcmp(sample_choice, "Known_quasi-elastic") == 0) {
+        } else if (strcmp(sample_choice, "QENS_sample") == 0) {
             use_inelastic = 1.0;
-            sample_D = 1.1E-11;
-            sample_tau = 0.6E-14;
-        } else if (strcmp(sample_choice, "Unknown_quasi-elastic") == 0) {
-            use_inelastic = 1.0;
-            sample_D = 1.9E-11;
-            sample_tau = 1.2E-14;
+            sample_D = 4.6E-10;
+            sample_tau = 2.2E-11;
         } else {
             printf("sample_choice parameter did not match any sample choice! \\n");
             exit(1);
@@ -229,8 +229,8 @@ def make(**kwargs):
     """)
 
     # typical values
-    #D = 2.4E-9 # s
-    #tau = 1E-12 # m^2/s
+    # D = 2.4E-9 # s
+    # tau = 1E-12 # m^2/s
 
     for index, analyzer_direction in enumerate(analyzer_directions):
         analyzer_dir = instrument.add_component(f"analyzer_{index}_dir", "Arm")
@@ -238,11 +238,15 @@ def make(**kwargs):
         analyzer_dir.set_ROTATED([0, analyzer_direction, 0], RELATIVE=sample_position)
 
         instrument.add_declare_var("double", f"Q_{index}")
-        instrument.append_initialize(f"Q_{index}=1E10*4.0*PI/backscattering_wavelength*sin(DEG2RAD*{analyzer_direction}/2.0);")
+        instrument.append_initialize(
+            f"Q_{index}=1E10*4.0*PI/backscattering_wavelength*sin(DEG2RAD*{analyzer_direction}/2.0);"
+        )
 
         c_gamma = f"use_inelastic*1E3*hbar*sample_D*Q_{index}*Q_{index}/(1.0+sample_D*sample_tau*Q_{index}*Q_{index})"
 
-        instrument.append_initialize(f'if (!mcdotrace) printf("gamma_value {index} = %lf", {c_gamma});')
+        instrument.append_initialize(
+            f'if (!mcdotrace) printf("gamma_value {index} = %lf", {c_gamma});'
+        )
 
         WHEN_expression = f"channel_index=={index}"
 
@@ -250,24 +254,37 @@ def make(**kwargs):
         inc.set_RELATIVE(analyzer_dir)
         inc.set_WHEN(WHEN_expression)
 
-        inc.set_parameters(radius=0.01, yheight=0.03, target_z=sample_analyzer_dist,
-                           focus_xw=0.03, focus_yh=0.03, gamma=c_gamma,
-                           f_QE=0.99, sigma_abs=2.0)
+        inc.set_parameters(
+            radius=0.01,
+            yheight=0.03,
+            target_z=sample_analyzer_dist,
+            focus_xw=0.03,
+            focus_yh=0.03,
+            gamma=c_gamma,
+            f_QE=0.92,
+            sigma_abs=2.0,
+        )
 
         analyzer_pos = instrument.add_component(f"analyzer_{index}_pos", "Arm")
         analyzer_pos.set_AT([0, 0, sample_analyzer_dist], RELATIVE=analyzer_dir)
 
-        analyzer_orientation = instrument.add_component(f"analyzer_{index}_orientation", "Arm")
+        analyzer_orientation = instrument.add_component(
+            f"analyzer_{index}_orientation", "Arm"
+        )
         analyzer_orientation.set_AT(0, RELATIVE=analyzer_pos)
         analyzer_orientation.set_ROTATED([0, 90, 0], RELATIVE=analyzer_pos)
 
-        return_orientation = instrument.add_component(f"return_orientation_{index}", "Arm")
+        return_orientation = instrument.add_component(
+            f"return_orientation_{index}", "Arm"
+        )
         return_orientation.set_AT(0, RELATIVE=analyzer_pos)
         return_orientation.set_ROTATED([0, 180, 0], RELATIVE=analyzer_pos)
 
         return_dir = instrument.add_component(f"return_dir_{index}", "Arm")
         return_dir.set_AT(0, return_orientation)
-        return_dir.set_ROTATED(["-2.0*analyzer_angle", 0, 0], RELATIVE=return_orientation)
+        return_dir.set_ROTATED(
+            ["-2.0*analyzer_angle", 0, 0], RELATIVE=return_orientation
+        )
 
         analyzer = instrument.add_component(f"analyzer_{index}", "Monochromator_flat")
         analyzer.set_parameters(
@@ -276,17 +293,18 @@ def make(**kwargs):
         analyzer.set_AT(0, RELATIVE=analyzer_orientation)
         analyzer.set_ROTATED([0, 0, "analyzer_angle"], RELATIVE=analyzer_orientation)
 
-
         # Add a slit before each casing
         slit = instrument.add_component(f"Slit_{index}", "Slit")
         slit.set_parameters(xwidth=0.06, yheight=0.1)
-        slit.set_AT([0,0,f"{analyzer_detector_dist.name} - 0.05"], RELATIVE=return_dir)
+        slit.set_AT(
+            [0, 0, f"{analyzer_detector_dist.name} - 0.05"], RELATIVE=return_dir
+        )
 
         if index == 1:
             # Only apply glitch in one channel
-            slit.append_EXTEND(f"// Simulate detector glitch with timing")
-            slit.append_EXTEND(f"if (y > 0.14*0.08 && y < 0.24*0.08 && rand01() > 0.23)")
-            slit.append_EXTEND(f"t += 0.00034;")
+            slit.append_EXTEND("// Simulate detector glitch with timing")
+            slit.append_EXTEND("if (y > 0.14*0.08 && y < 0.24*0.08 && rand01() > 0.23)")
+            slit.append_EXTEND("t += 0.00034;")
 
         slit.set_WHEN(WHEN_expression)
         analyzer.set_WHEN(WHEN_expression)
@@ -294,7 +312,11 @@ def make(**kwargs):
         # Create detector casing with gas volume inside
         casing = instrument.add_component(f"Al_container_{index}", "Union_cylinder")
         casing.set_parameters(
-            yheight=0.1, radius=0.03, p_interact=0.25, material_string='"Al"', priority=300 + 2*index
+            yheight=0.1,
+            radius=0.03,
+            p_interact=0.25,
+            material_string='"Al"',
+            priority=300 + 2 * index,
         )
         casing.set_AT([0, 0, analyzer_detector_dist], return_dir)
 
@@ -304,11 +326,9 @@ def make(**kwargs):
             yheight=casing.yheight - 0.02,
             radius=casing.radius - 4e-3,
             material_string='"He3"',
-            priority=301 + 2*index,
+            priority=301 + 2 * index,
             p_interact=0.2,
         )
-
-
 
         if index in plot_indices:
             detector = instrument.add_component(
@@ -354,7 +374,9 @@ def make(**kwargs):
             """
 
         detector_event = instrument.add_component(
-            f"signal_tof_event_{index}", "Union_abs_logger_1D_space_event", RELATIVE=He3_gas
+            f"signal_tof_event_{index}",
+            "Union_abs_logger_1D_space_event",
+            RELATIVE=He3_gas,
         )
         detector_event.target_geometry = f'"He3_gas_{index}"'
         detector_event.yheight = He3_gas.yheight

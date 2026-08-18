@@ -1,10 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2026 Scipp contributors (https://github.com/scipp)
+import os
+import re
 from typing import NewType
 
 import mcstastox
 import scipp as sc
-from load import load_nexus_many
+from load import load_nexus_many, open_nexus_file
 from utils import fetch_data  # noqa: F401
 
 
@@ -58,6 +60,19 @@ def correct_tof(tof):
     return tof - sc.scalar(0.5 * 2.86, unit="ms")
 
 
+def _find_bank_numbers(path: str) -> list[int]:
+    """
+    Find the detector banks stored in a McStas NeXus file.
+
+    The number of banks is set by the instrument, so it is discovered from the
+    file rather than assumed.
+    """
+    pattern = re.compile(r"^detector_signal_event_(\d+)_dat$")
+    with open_nexus_file(os.path.join(path, "mccode.h5")) as f:
+        names = f["entry1"]["data"].keys()
+    return sorted(int(m.group(1)) for name in names if (m := pattern.match(name)))
+
+
 def load_qens(path: str) -> sc.DataArray:
     """
     Load a QENS nexus file for the summer school QENS experiment.
@@ -67,14 +82,15 @@ def load_qens(path: str) -> sc.DataArray:
     path
         Path to the directory containing the simulation results.
     """
+    bank_numbers = _find_bank_numbers(path)
     all_events, meta = load_nexus_many(
-        path, [f"detector_signal_event_{i}_dat" for i in range(5)]
+        path, [f"detector_signal_event_{i}_dat" for i in bank_numbers]
     )
     mcstas_sample_position = sc.vector([0, 0, float(meta["sample_distance"])], unit="m")
 
     data = []
 
-    for num, events in enumerate(all_events):
+    for num, events in zip(bank_numbers, all_events):
         detector_position = _load_position(
             path, f"signal_tof_event_{num}", mcstas_sample_position
         )

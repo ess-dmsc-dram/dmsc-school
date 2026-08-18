@@ -17,7 +17,7 @@ bumps = ">=0.9"
 corner = ">=2.2"
 dynesty = ">=2.1"
 easydiffraction = ">=0.19.1"
-easyscience = "<3.0"
+easyscience = ">=2.4"
 emcee = ">=3.1"
 graphviz = ">=13.1.2"
 h5py = ">=3.13"
@@ -51,7 +51,7 @@ python-kaleido = ">=1.2.0"
 
 [pypi-dependencies]
 sans-fitter = ">=0.2.0"
-
+easydynamics = ">=0.10.0"
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."
 description = "Build the book"
