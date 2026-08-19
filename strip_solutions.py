@@ -101,7 +101,10 @@ if __name__ == "__main__":
         dirs_exist_ok=True,
     )
     notebooks_with_figures = ("matplotlib", "3-mcstas", "4-reduction", "5-analysis")
-    exclude_from_figures = ("5-analysis/analysis-powder-diffraction.ipynb",)
+    exclude_from_figures = (
+        "5-analysis/6c-analysis-npd.ipynb",
+        "5-analysis/9c-bayesian-npd.ipynb",
+    )
     for path in Path(".").rglob("*.ipynb"):
         print(path)
         if "ipynb_checkpoints" not in str(path):
