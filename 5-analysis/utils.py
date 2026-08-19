@@ -1,11 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
-from collections.abc import Iterable
 from typing import Tuple
 
-from easyscience import Parameter
 import numpy as np
-import pandas as pd
+from plopp.widgets import HBar, VBar
+
 
 def load(filename: str) -> Tuple[np.ndarray, ...]:
     """
@@ -25,9 +24,47 @@ def fetch_data(name: str) -> str:
     registry = pooch.create(
         path=pooch.os_cache('dmsc_school'),
         retry_if_failed=3,
-        base_url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
+        base_url="https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
         registry={
             name: None,
         },
     )
     return registry.fetch(name)
+
+
+def show_as_static_plot(fig) -> VBar:
+    """
+    Render an interactive Plopp figure statically.
+
+    This is useful for showing interactive figures in the book.
+    Interactive figures require the ``widgets`` backend for matplotlib.
+    But this breaks the figures in the built book.
+
+    With this function, you can render, e.g., a slicer plot using this sequence of cells:
+
+    .. code-block:: python
+
+        # %%  (remove-cell)
+        %matplotlib widget
+
+        # %%  (remove-output)
+        fig = pp.slicer(...)
+        fig
+
+        # %%  (remove-input, dmsc-school-remove)
+        from utils import show_as_static_plot
+        show_as_static_plot(fig)
+
+        # %%  (remove-cell)
+        %matplotlib inline
+
+    Here, ``# %% (tags)`` indicates the start of a notebook cell and the tags
+    used in that cell.
+    """
+    return VBar(
+        [
+            fig.top_bar,
+            HBar([fig.left_bar, fig.view.canvas.to_image(), fig.right_bar]),
+            fig.bottom_bar,
+        ]
+    )
