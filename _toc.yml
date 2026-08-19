@@ -53,12 +53,12 @@ parts:
   - file: 5-analysis/5-priors_fitting
   - file: 5-analysis/6a-analysis-sans
   - file: 5-analysis/6b-analysis-qens
-  - file: 5-analysis/6c-analysis-powder-diffraction
+  - file: 5-analysis/6c-analysis-npd
   - file: 5-analysis/7-bayesian_intro
   - file: 5-analysis/8-nested_sampling
   - file: 5-analysis/9a-bayesian-sans
   - file: 5-analysis/9b-bayesian-qens
-  - file: 5-analysis/9c-bayesian-powder-diffraction
+  - file: 5-analysis/9c-bayesian-npd
 - caption: Scicat
   chapters:
   - file: 6-scicat/1-dataset
