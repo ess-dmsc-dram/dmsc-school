@@ -22,9 +22,9 @@ def fetch_data(name: str) -> str:
     import pooch
 
     registry = pooch.create(
-        path=pooch.os_cache('dmsc_school'),
+        path=pooch.os_cache("dmsc_school"),
         retry_if_failed=3,
-        base_url="https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
+        base_url="https://public.esss.dk/groups/scipp/dmsc-summer-school/2026",
         registry={
             name: None,
         },
