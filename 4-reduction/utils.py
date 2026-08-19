@@ -2,7 +2,6 @@
 # Copyright (c) 2026 Scipp contributors (https://github.com/scipp)
 from pathlib import Path
 
-from plopp.backends.matplotlib.figure import InteractiveFigure
 from plopp.widgets import HBar, VBar
 
 
@@ -25,9 +24,9 @@ def fetch_data(name: str, quiet=True) -> str:
     logger.setLevel("ERROR" if quiet else "INFO")
 
     registry = pooch.create(
-        path=pooch.os_cache('dmsc_school'),
+        path=pooch.os_cache("dmsc_school"),
         retry_if_failed=3,
-        base_url=f"https://public.esss.dk/groups/scipp/dmsc-summer-school/2025",
+        base_url="https://public.esss.dk/groups/scipp/dmsc-summer-school/2026",
         registry={
             f"{name}.zip": None,
         },
@@ -45,7 +44,7 @@ def fetch_data(name: str, quiet=True) -> str:
         return file_path[0]
 
 
-def show_as_static_plot(fig: InteractiveFigure) -> VBar:
+def show_as_static_plot(fig) -> VBar:
     """
     Render an interactive Plopp figure statically.
 
@@ -74,8 +73,10 @@ def show_as_static_plot(fig: InteractiveFigure) -> VBar:
     Here, ``# %% (tags)`` indicates the start of a notebook cell and the tags
     used in that cell.
     """
-    return VBar([
-        fig.top_bar,
-        HBar([fig.left_bar, fig.view.canvas.to_image(), fig.right_bar]),
-        fig.bottom_bar,
-    ])
+    return VBar(
+        [
+            fig.top_bar,
+            HBar([fig.left_bar, fig.view.canvas.to_image(), fig.right_bar]),
+            fig.bottom_bar,
+        ]
+    )
