@@ -32,7 +32,7 @@ def fetch_data(name: str) -> str:
     return registry.fetch(name)
 
 
-def show_as_static_plot(fig) -> VBar:
+def show_as_static_plot(fig, residuals=False) -> VBar:
     """
     Render an interactive Plopp figure statically.
 
@@ -61,10 +61,22 @@ def show_as_static_plot(fig) -> VBar:
     Here, ``# %% (tags)`` indicates the start of a notebook cell and the tags
     used in that cell.
     """
+    if residuals:
+        res = fig.bottom_bar[0][0]
+
+        bottom = VBar(
+            [
+                HBar([res.left_bar, res.view.canvas.to_image(), res.right_bar]),
+                fig.bottom_bar[0][1],
+            ]
+        )
+    else:
+        bottom = fig.bottom_bar
+
     return VBar(
         [
             fig.top_bar,
             HBar([fig.left_bar, fig.view.canvas.to_image(), fig.right_bar]),
-            fig.bottom_bar,
+            bottom,
         ]
     )
