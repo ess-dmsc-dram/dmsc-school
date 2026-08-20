@@ -23,7 +23,7 @@ parse:
 # See https://jupyterbook.org/content/execute.html
 execute:
   timeout: -1
-  execute_notebooks: cache
+  execute_notebooks: auto
   allow_errors: false
   stderr_output: "error"
   exclude_patterns:
