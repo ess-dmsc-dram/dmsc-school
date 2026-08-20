@@ -1,4 +1,4 @@
-# Cleanup python script to remove all siimulation and reduction outupts to start fresh.
+# Cleanup python script to remove all siimulation and reduction outputs to start fresh.
 import os
 import glob
 import shutil
