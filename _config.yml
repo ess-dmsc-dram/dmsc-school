@@ -22,7 +22,7 @@ parse:
 
 # See https://jupyterbook.org/content/execute.html
 execute:
-  timeout: -1
+  timeout: 200  # Timeout per cell: this is to avoid builds that hang forever at the end of some notebooks. The built book should still be ok in the end.
   execute_notebooks: auto
   allow_errors: false
   stderr_output: "error"
