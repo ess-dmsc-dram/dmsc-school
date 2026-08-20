@@ -22,7 +22,7 @@ parse:
 
 # See https://jupyterbook.org/content/execute.html
 execute:
-  timeout: -1
+  timeout: 200
   execute_notebooks: cache
   allow_errors: false
   stderr_output: "error"
