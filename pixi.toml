@@ -52,6 +52,7 @@ python-kaleido = ">=1.2.0"
 [pypi-dependencies]
 sans-fitter = ">=0.2.0"
 easydynamics = ">=0.10.0"
+
 [tasks.build]
 cmd = "jupyter-book build -W --keep-going ."
 description = "Build the book"
@@ -60,4 +61,9 @@ cwd = "./"
 [tasks.linkcheck]
 cmd = "jupyter-book build -W --keep-going --builder linkcheck ."
 description = "Check links in the book"
+cwd = "./"
+
+[tasks.cleanup]
+cmd = "python cleanup.py"
+description = "Remove all simulation and reduction outputs"
 cwd = "./"
