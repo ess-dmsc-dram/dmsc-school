@@ -101,8 +101,8 @@ if __name__ == "__main__":
     )
     notebooks_with_figures = ("matplotlib", "3-mcstas", "4-reduction", "5-analysis")
     exclude_from_figures = (
-        "5-analysis/6c-analysis-npd.ipynb",
-        "5-analysis/9c-bayesian-npd.ipynb",
+        "5-analysis/3c-analysis-npd.ipynb",
+        "5-analysis/5c-bayesian-npd.ipynb",
     )
     for path in Path(".").rglob("*.ipynb"):
         print(path)
