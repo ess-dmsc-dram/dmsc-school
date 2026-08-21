@@ -31,7 +31,7 @@ class Assignments(pydantic.BaseModel):
     guide: str = ""
     sample: str = ""
     detector: str = ""
-    
+
 
 class Team(pydantic.BaseModel):
     name: str = ""
