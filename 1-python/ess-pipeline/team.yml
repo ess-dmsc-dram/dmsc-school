@@ -1,0 +1,10 @@
+name: "" # Name of the team.
+assignments:  # User name for each pipeline component.
+ # Leave it empty or use your own username to skip copying over.
+ source: ""
+ target: ""
+ guide: ""
+ sample: ""
+ detector: ""
+other-members:  # Members who are not using their workspace.
+ - ""
