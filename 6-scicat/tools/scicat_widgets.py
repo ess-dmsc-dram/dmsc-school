@@ -1,5 +1,8 @@
 """A Jupyter widget for uploading datasets to SciCat."""
 
+import os
+import uuid
+
 from ipywidgets import widgets, Layout
 import IPython.display
 from scicat_widget import DatasetUploadWidget
@@ -34,6 +37,7 @@ def upload_widget(client: Client | None = None) -> DatasetUploadWidget | widgets
 
 
 def _make_initial() -> Dataset:
+    user = os.getlogin()
     return Dataset(
         contact_email="",
         keywords=["DMSC Summer School 2026"],
@@ -41,7 +45,7 @@ def _make_initial() -> Dataset:
         owner_group=_SCHOOL_PROPOSAL,
         principal_investigators=[],
         proposal_ids=[_SCHOOL_PROPOSAL],
-        source_folder=f"/ess/data/{_SCHOOL_PROPOSAL}/{_SCHOOL_INSTRUMENT_NAME.lower()}/upload",
+        source_folder=f"/ess/data/{_SCHOOL_PROPOSAL}/{_SCHOOL_INSTRUMENT_NAME.lower()}/upload/{user}/{uuid.uuid4()}",
         type="derived",
     )
 
