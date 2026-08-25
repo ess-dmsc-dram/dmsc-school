@@ -1,6 +1,6 @@
 """A Jupyter widget for uploading datasets to SciCat."""
 
-import os
+import getpass
 import uuid
 
 from ipywidgets import widgets, Layout
@@ -37,7 +37,7 @@ def upload_widget(client: Client | None = None) -> DatasetUploadWidget | widgets
 
 
 def _make_initial() -> Dataset:
-    user = os.getlogin()
+    user = getpass.getuser()
     return Dataset(
         contact_email="",
         keywords=["DMSC Summer School 2026"],
