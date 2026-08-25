@@ -45,7 +45,7 @@ def _make_initial() -> Dataset:
         owner_group=_SCHOOL_PROPOSAL,
         principal_investigators=[],
         proposal_ids=[_SCHOOL_PROPOSAL],
-        source_folder=f"/ess/data/{_SCHOOL_PROPOSAL}/{_SCHOOL_INSTRUMENT_NAME.lower()}/upload/{user}/{uuid.uuid4()}",
+        source_folder=f"/ess/data/{_SCHOOL_INSTRUMENT_NAME.lower()}/{_SCHOOL_PROPOSAL}/upload/{user}/{uuid.uuid4()}",
         type="derived",
     )
 
