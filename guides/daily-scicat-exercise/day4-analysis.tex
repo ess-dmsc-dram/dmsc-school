@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref} % Required for hyper links
+\usepackage[a4paper, margin=2.5cm]{geometry} % For easier layout setting
+\usepackage{fancyhdr} % For fancy header
+\usepackage{lastpage} % To find last page
+\usepackage{amsmath}
+
+% The instruction is written in A4 vertical page so that
+% instructor can show this on the side while showing what to do in the browser at the class.
+% and students can do that as well since they have to work on their laptop without extra monitor.
+
+\pagestyle{fancy}
+\graphicspath{ {../images/} }
+
+\fancyhead[L]{Daily Data Cataloging Exercise - Data Analysis}
+\fancyhead[C]{}
+\fancyhead[R]{Thu. 27 August 2026}
+
+% Use header and skip making title.
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\def\_{{\tt \char`\_ }} % underscore is not defined as a plain character.
+
+\begin{document}
+\sffamily  % Change font
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{-\totalheight}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+
+\section{Scicat Exercise: Create Dataset with Analysis Result}
+
+If you have done the previous exercises, you should be able to do the same thing for data analysis.
+\\
+If you haven't run the previous days' exercises, please do them first. You can find the instructions in the indico page.
+
+\subsection{TODO: Repeat Previous Days' TODOs}
+Mandatory Metadata, Scientific Metadata, Files, Attachments, Specify Input Datasets
+
+\section{Daily Report: Fill Data Analysis and Conclusion sections in the README.}
+
+Again, don't worry if you couldn't use the dataset you uploaded yesterday for data analysis exercise and just add notes in the markdown.
+\\
+Today, you can finish the report(README.md)! After filling the data analysis section, you can write a few lines to summarize what you have done during the summer school. It could be e.g. about the methodology, detectors or the sample you simulated. And at the end, you will have a short paper to bring home.
+
+\appendix
+\section{Useful Links}
+
+Useful links to documentation or web services for the daily scicat exercises.
+
+\subsection{\href{https://staging.scicat.ess.eu/}{Scicat Web UI (staging)}}
+
+https://staging.scicat.ess.eu/ : Dataset catalouging system.
+
+\subsection{Links to the previous exercise instructions.}
+
+\href{https://indico.ess.eu/event/3961/sessions/8737/attachments/18051/36088/2026DMSCSS-DailyScicat-Day2Simulation.pdf}{2026DMSCSS-DailyScicat-Day2Simulation.pdf}
+\\
+\href{https://indico.ess.eu/event/3961/sessions/8737/attachments/18051/36089/2026DMSCSS-DailyScicat-Day3DataReduction.pdf}{2026DMSCSS-DailyScicat-Day3DataReduction.pdf}
+
+\subsection{\href{https://www.scicatproject.org/scitacean/}{Scitacean Documentation}}
+
+https://www.scicatproject.org/scitacean/ : Scitacean is the core python API that scicat widget uses to handle scicat dataset and communicate with the scicat backend in python. Students will not have to see this upstream package, but feel free to check out the documentation page if you are interested in writing your own python scripts to upload/download scicat datasets using this package.
+\\
+\\
+\\
+\includegraphics[width=6cm]{daily-scicat-exercise/images/thankyou.png}
+
+\end{document}

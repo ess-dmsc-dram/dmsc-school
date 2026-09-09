@@ -1,0 +1,97 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref} % Required for hyper links
+\usepackage[a4paper, margin=2.5cm]{geometry} % For easier layout setting
+\usepackage{fancyhdr} % For fancy header
+\usepackage{lastpage} % To find last page
+\usepackage{amsmath}
+
+% The instruction is written in A4 vertical page so that
+% instructor can show this on the side while showing what to do in the browser at the class.
+% and students can do that as well since they have to work on their laptop without extra monitor.
+
+\pagestyle{fancy}
+\graphicspath{ {../images/} }
+
+\fancyhead[L]{Daily Data Catalouging Exercise - Data Reduction}
+\fancyhead[C]{}
+\fancyhead[R]{Wed. 26 August 2026}
+
+% Use header and skip making title.
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\def\_{{\tt \char`\_ }} % underscore is not defined as a plain character.
+
+\begin{document}
+\sffamily  % Change font
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{-\totalheight}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+
+\section{Scicat Exercise: Create Dataset with Data Reduction Result}
+
+If you have done the previous exercise, you should be able to do the same thing for data reduction.
+\\
+If you haven't run the previous day's exercise, please do that one first. You can find the instruction in the indico page.
+
+\subsection{TODO: Repeat Previous Day's TODOs}
+Mandatory Metadata, Scientific Metadata, Files, Attachments
+
+\subsubsection{Saving Figure}
+%TODO
+
+\subsection{TODO: Specify Input Datasets}
+
+Sometimes scientists need intermediate results as well as raw dataset and final analysis results. Then you want to keep the family tree of datasets. Scicat upload widget has a field called "input datasets". There you can enter parent datasets' persistent ID.
+\\
+You can skip this if you could not use the uploaded dataset for today's exercise or you can try uploading the actual input files you used as a new dataset.
+
+\includegraphics[width=0.4\textwidth]{daily-scicat-exercise/images/input-dataset.png}
+\includegraphics[width=0.5\textwidth]{daily-scicat-exercise/images/persistent-id.png}
+
+\section{Daily Report: Fill Data Reduction section in the README.}
+
+Today there is an extra subsection to explain the input dataset. Don't worry if you couldn't use the dataset you uploaded yesterday for data reduction exercise and just add notes in the markdown.
+
+\subsection{Markdown Code Block}
+
+Sometimes you need to share code snippet, instead of the entire notebooks or python scripts. In markdown, you can explicitly write code snippet using back ticks.
+\\
+
+With a single back tick, you can insert an inline code block.
+
+\includegraphics[width=0.5\linewidth]{daily-scicat-exercise/images/inline.png}
+
+With three back ticks, you can insert a code block.
+
+\includegraphics[width=0.5\linewidth]{daily-scicat-exercise/images/block.png}
+
+\appendix
+\section{Useful Links}
+
+Useful links to documentation or web services for the daily scicat exercises.
+
+\subsection{\href{https://staging.scicat.ess.eu/}{Scicat Web UI (staging)}}
+
+https://staging.scicat.ess.eu/ : Dataset catalouging system.
+
+\subsection{\href{https://indico.ess.eu/event/3961/sessions/8737/attachments/18051/36088/2026DMSCSS-DailyScicat-Day2Simulation.pdf}{Link to the previous exercise instruction.}}
+
+\href{https://indico.ess.eu/event/3961/sessions/8737/attachments/18051/36088/2026DMSCSS-DailyScicat-Day2Simulation.pdf}{2026DMSCSS-DailyScicat-Day2Simulation.pdf}
+
+\subsection{\href{https://www.scicatproject.org/scitacean/}{Scitacean Documentation}}
+
+https://www.scicatproject.org/scitacean/ : Scitacean is the core python API that scicat widget uses to handle scicat dataset and communicate with the scicat backend in python. Students will not have to see this upstream package, but feel free to check out the documentation page if you are interested in writing your own python scripts to upload/download scicat datasets using this package.
+
+
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{0pt}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+\end{document}
