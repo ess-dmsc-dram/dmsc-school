@@ -83,3 +83,17 @@ This will create a PR in the notebooks repository with updates to all notebooks.
 ## Managing dependencies
 
 To add, remove, restrict dependencies, modify `pixi.toml`, run `pixi lock` and commit both `pixi.toml` and `pixi.lock`.
+
+## Update Guides
+
+There are guides/instructions written in latex under `guides/` folder.
+Remember to update the guides each year to hand it to the participants.
+
+The `day1-student-guide` is for the first day to set up the participants virtual environments,
+i.e. download the workbooks and make a symlink to the home directory in VISA.
+`daily-scicat-exercise` is for data catalouging exercises at the end of each `McStas simulation`, `data reduction` and `data analysis` course.
+
+**Checklist for next time**
+- [ ] Update the year in the guide.
+- [ ] Update the screenshots/instructions if interface has changed.
+- [ ] Upload it to the accessible location for participants and teachers.
