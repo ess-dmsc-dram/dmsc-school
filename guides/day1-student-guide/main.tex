@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref} % Required for hyper links
+\usepackage[a4paper, margin=2.5cm]{geometry} % For easier layout setting
+\usepackage{fancyhdr} % For fancy header
+\usepackage{lastpage} % To find last page
+\usepackage{amsmath}
+
+% The instruction is written in A4 vertical page so that
+% instructor can show this on the side while showing what to do in the browser at the class.
+% and students can do that as well since they have to work on their laptop without extra monitor.
+
+\pagestyle{fancy}
+\graphicspath{ {./images/} }
+\graphicspath{ {../images/} }
+
+\title{2026 DMSC Summer School Exercise Student Guide}
+\author{ESS DMSC Staff}
+\date{24 August 2026}
+
+\fancyhead[L]{2026 DMSC Summer School Exercise Student Guide}
+\fancyhead[C]{}
+\fancyhead[R]{24 August 2026}
+
+% Use header and skip making title.
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\def\_{{\tt \char`\_ }} % underscore is not defined as a plain character.
+
+\begin{document}
+\sffamily  % Change font
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{-\totalheight}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+
+Before we start, make sure you have joined our discord channel.
+
+The link should be in the welcome email.
+
+\section{Sign in at ESS VISA/ Create an instance}
+
+\subsection{ESS Account}
+
+\begin{description}
+
+    \item[If you don’t have one yet:] see the 'How to make an ESS account' guide we shared in the welcome email.
+    \item[If you just created the ESS account:] it will not work up to an hour, so wait until your ESS account is properly set up in our system or go to the \nameref{sec:local-env} section instead.
+    \item[ORCID ID] is required to sign in at VISA. E-mail does not work for logging in at VISA.
+
+\end{description}
+
+\subsection{Sign in at VISA}
+\begin{description}
+    \item[Go to \href{https://visa.ess.eu}{https://visa.ess.eu}] and sign in with the ORCID ID.
+\end{description}
+
+\subsection{Create a new instance}
+\begin{description}
+
+    \item[Search for experiments]
+    \item[Select a proposal] under 'DMSC Summer School 2026' - Proposal: 919936
+
+    \includegraphics[width=7cm]{visa-1.png}
+
+    \item[Check] the 'Terms and conditions'
+    \item[Create] the instance and wait until jupyter lab button shows up. It may take up to a few minutes.
+
+    \includegraphics[width=8cm]{visa-1-2.png}
+
+\end{description}
+
+\section{Download Workbook}
+
+\subsection{Open Jupyter Lab of the VISA Instance}
+\includegraphics{visa-2.png}
+
+\subsection{Open a terminal}
+\includegraphics{visa-3.png}
+
+\subsection{Download summer school workbook}
+
+The following command will clone the repo and make a symlink to your home folder.
+
+\begin{description}
+
+    \item[Command:] source /ess/data/workshop/919936/derived/tools/initialize\_visa.sh
+    \item[Link to the workbook:] \href{https://github.com/ess-dmsc-dram/dmsc-school-notebooks}{github.com/ess-dmsc-dram/dmsc-school-notebooks}
+    \item[Feel free to fork] the repo and add your own remote repo to the local git configuration! *Note that git command only works in a notebook as a magic command or in a terminal.
+    \item[After these steps,] you should be able to see the workbook folder in your home like the following pictures. \includegraphics{visa-4.png} \includegraphics{visa-5.png}
+
+\end{description}
+
+\section{Warning!}
+\subsection{Non-continuous Autosaving of Notebooks}
+Unfortunately, the notebook status will not be stored in your browser if you escape the VISA jupyter page.
+Changing tabs are okay, but closing tab or going to home in the VISA page will remove the progress.
+However, kernels will still be alive, keeping the memory alive. Make sure you save the notebook regularly to avoid such confusing state. Auto-save is enabled but the interval is 120s by default.
+
+\subsection{Regular Log-out from VISA}
+VISA platform logs users out regularly for security reasons, but it may not refresh the page automatically.
+Therefore, if the jupyter lab is not responding expectedly, try refreshing the VISA page or re-login.
+
+\appendix
+\section{Useful Links}
+
+Useful links to documentation or web services for the school exercises.
+
+\subsection{\href{https://ess-dmsc-dram.github.io/dmsc-school/intro.html}{DMSC Summer School Textbook}}
+
+https://ess-dmsc-dram.github.io/dmsc-school/intro.html : There are hints in the textbook webpage. Bookmark it and feel free to see the hints anytime you feel stuck.
+
+\subsection{\href{https://visa.ess.eu/}{VISA}}
+
+https://visa.ess.eu/ : Virtual computing platform for ESS.
+
+\subsection{\href{https://indico.ess.eu/event/3961/overview}{Indico page}}
+
+https://indico.ess.eu/event/3961/overview: Indico page to the summer school.
+
+\subsection{\href{https://staging.scicat.ess.eu/}{Scicat Web UI (staging)}}
+
+https://staging.scicat.ess.eu/ : Dataset catalouging system.
+
+\subsection{\href{https://scipp.github.io/}{Scipp Documentation}}
+
+https://scipp.github.io/: Data reduction python API documentation page.
+
+
+\section{Create local environment}
+
+\label{sec:local-env}
+If you don't have the ESS account yet, you may need to create a local environment.
+
+\subsection{Using Pixi}
+\begin{description}
+
+    \item[Install Pixi:] https://pixi.prefix.dev/latest/installation/
+    \item[Clone the Workbook:] git clone https://github.com/ess-dmsc-dram/dmsc-school-notebooks.git
+    \item[Change Working Directory:] cd dmsc-school-notebooks
+    \item[Install Virtual Environment:] pixi install \text{-}\text{-}frozen
+    \item[Start Jupyter Lab Locally:] pixi run \text{-}\text{-}frozen jupyter lab .
+
+\end{description}
+
+\subsection{Using Conda}
+
+\begin{description}
+
+    \item[Clone the Workbook:] git clone https://github.com/ess-dmsc-dram/dmsc-school-notebooks.git
+    \item[Download Lock File:] https://git.esss.dk/dram/code-shelf/code-shelf/-/packages/343
+    \item[Create Conda Environment:] conda env create -n dmsc-ss \text{-}\text{-}file path-to-the-downloaded-lock-file.yml
+    \item[Activate Conda Environment:] conda activate dmsc-ss
+    \item[Start Jupyter Lab Locally:] jupyter lab path-to-the-cloned-workbook
+
+\end{description}
+
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{0pt}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+\end{document}

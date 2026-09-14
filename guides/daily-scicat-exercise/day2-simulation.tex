@@ -1,0 +1,148 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref} % Required for hyper links
+\usepackage[a4paper, margin=2.5cm]{geometry} % For easier layout setting
+\usepackage{fancyhdr} % For fancy header
+\usepackage{lastpage} % To find last page
+\usepackage{amsmath}
+
+% The instruction is written in A4 vertical page so that
+% instructor can show this on the side while showing what to do in the browser at the class.
+% and students can do that as well since they have to work on their laptop without extra monitor.
+
+\pagestyle{fancy}
+\graphicspath{ {../images/} }
+
+\fancyhead[L]{Daily Data Catalouging Exercise - Simulation}
+\fancyhead[C]{}
+\fancyhead[R]{Tue. 25 August 2026}
+
+% Use header and skip making title.
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\def\_{{\tt \char`\_ }} % underscore is not defined as a plain character.
+
+\begin{document}
+\sffamily  % Change font
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{-\totalheight}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+
+\section{Download patch}
+
+We need to download patch for our scicat helper module. In terminal please run this command:
+\\
+\\
+source /ess/data/workshop/919936/derived/tools/fetch-update.sh
+\\
+\\
+It should pull the git repo for you and you should see the update logs from the git like this:
+
+\includegraphics[width=0.6\textwidth]{daily-scicat-exercise/images/fetch-update.png}
+
+\section{Scicat Exercise: How to use the scicat upload widget}
+At the end of the notebook for each track, there is scicat upload widget helper cell. You can login into your profile and copy token to sign in with the widget.
+
+\subsection{Login}
+\includegraphics[width=5cm]{daily-scicat-exercise/images/scicat-screenshot.png}
+\includegraphics[width=10cm]{daily-scicat-exercise/images/scicatwidget-screenshot.png}
+
+https://staging.scicat.ess.eu: you can sign-in at our scicat instance using your ESS account.
+
+*Note that the token expires every hour.
+
+\subsection{Create Dataset}
+
+\subsubsection{TODO: Fill in Dataset name, Description, PI(principle investigator), techniques, scientific metadata and more.}
+
+\includegraphics[width=\textwidth]{daily-scicat-exercise/images/upload-widget.png}
+
+Once you sign in, you should fill in the dataset fields to create one.
+There are three tabs in the widget: Dataset(metadata), files and attachments.
+Mandatory fields are marked with red star(*) and some fields such as owner group and DMSC Summer School 2026 keyword is already set by default.
+
+\subsubsection{TODO: Select Files}
+**Remote Path to the file MUST be unique in the same dataset.**
+
+\includegraphics[width=\textwidth]{daily-scicat-exercise/images/upload-widget-files.png}
+
+Files can be specified using file browser. You can decide which files should be uploaded as a dataset.
+
+\subsubsection{TODO: Select Attachments}
+\includegraphics[width=\textwidth]{daily-scicat-exercise/images/upload-widget-attachments.png}
+
+Attachments are auxiliary files that helps to understand the dataset, such as plots or pictures. Please add plots so that you can see them in the scicat later.
+
+\subsubsection{Check the Dataset in Scicat}
+You can click the upload dataset button on the top-right corner to finish uploading.
+
+\includegraphics[width=\textwidth]{daily-scicat-exercise/images/upload-widget-success.png}
+
+If the upload is successful, you will see this prompt in your browser, which has a final link to the dataset in our scicat.
+You will need the ID (PID) of the dataset for the README exercise too.
+
+\section{Daily Report: Fill README up to Simulation section.}
+
+\subsection{README file location and how to edit them.}
+
+\includegraphics[width=4cm]{daily-scicat-exercise/images/readme-location.png}
+\includegraphics[width=8cm]{daily-scicat-exercise/images/readme-edit.png}
+
+The readme file should be in your workbook folder and you can double click it in the file browser to edit it.
+You can right-click to preview the markdown rendering.
+
+\subsection{Markdown Title, Quote and Table - Fill in the first section.}
+At the beginning of the README, there is a title place holder, instruction(quote) and brief metadata of the report(table).
+
+\includegraphics[width=8cm]{daily-scicat-exercise/images/readme-syntax.png}
+
+Title should start with \# symbol, more \# signs create a subsection. Quote starts with $>$.
+The table needs header row, which is empty in this example, and header separator, the second row. You can add more rows with the same number of column separator, $|$.
+
+\subsubsection{TODO: Fill in the report summary.}
+There is a place holder in the Course Track, Author name and Author ORCID in the table. Try filling in your own information.
+
+\subsection{Markdown Link - Table of Contents}
+Table of contents are already filled but feel free to add more sections if you feel like to.
+Markdown links look like this: [](), square bracket[] for label and parenthesis() for link. You can link to the title names in the same markdown file using \# symbol like the example.
+
+\subsection{Fill in Simulation Section}
+
+There is a placeholder in the README for simulation day. Write down important metadata and what you have done/learned briefly in the simulation section.
+
+\includegraphics[width=8cm]{daily-scicat-exercise/images/simulation.png}
+
+\subsubsection{TODO: Write down the Scicat Dataset PID in the table}
+\subsubsection{TODO: Add plot in the report.}
+
+Inserting image is similar to inserting link in markdown. Image link starts with an exclamation mark, !. Replace the placeholder label and path to the image. You can save image from your notebook like this:
+
+
+\includegraphics[width=\textwidth]{daily-scicat-exercise/images/how-to-save-plot.png}
+
+
+\appendix
+\section{Useful Links}
+
+Useful links to documentation or web services for the daily scicat exercises.
+
+\subsection{\href{https://staging.scicat.ess.eu/}{Scicat Web UI (staging)}}
+
+https://staging.scicat.ess.eu/ : Dataset catalouging system.
+
+\subsection{\href{https://www.scicatproject.org/scitacean/}{Scitacean Documentation}}
+
+https://www.scicatproject.org/scitacean/ : Scitacean is the core python API that scicat widget uses to handle scicat dataset and communicate with the scicat backend in python. Students will not have to see this upstream package, but feel free to check out the documentation page if you are interested in writing your own python scripts to upload/download scicat datasets using this package.
+
+
+\begin{center} % Insert ESS logo
+\makebox{
+  \raisebox{0pt}[0pt][0pt]{
+    \includegraphics[width=6cm]{ess-logo-opacity-10}
+  }
+}
+\end{center}
+\end{document}
